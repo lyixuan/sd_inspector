@@ -110,18 +110,23 @@ class Quality extends React.Component {
                     {qoqPersonCount === 0 ||
                       (qoqPersonCount && (
                         <Popover content={title1}>
-                          <span className={style.qualityGreen}>
+                          <span
+                            className={
+                              WorkbenchQualityData.class.qoqPersonCount < 0
+                                ? style.qualityGreen
+                                : style.qualityRed
+                            }
+                          >
                             {qoqPersonCount}
                             <i>%</i>
                           </span>
                         </Popover>
                       ))}
                     {qoqPersonCount === null && <span className={style.qualityGreen}>N/A</span>}
-                    {Number(qoqPersonCount) > 0 && qoqPersonCount !== null ? (
-                      <img src={fu1} />
-                    ) : (
-                      <img src={zheng1} />
-                    )}
+                    {Number(qoqPersonCount) > 0 && qoqPersonCount !== null && <img src={fu1} />}
+                    {Number(qoqPersonCount) !== 0 &&
+                      Number(qoqPersonCount) < 0 &&
+                      qoqPersonCount !== null && <img src={zheng1} />}
                   </p>
                   <p className={style.qualityWords}>违规总人数</p>
                 </div>
