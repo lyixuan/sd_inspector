@@ -209,7 +209,7 @@ class ClassQuality extends React.Component {
       <BILoading isLoading={isLoading} style={{height: 'auto'}}>
         <div className={styles.classQuality}>
           {/* 左侧功能条 */}
-          <div className={styles.functionBar} style={{ left: globalCollapsed ? 100 : 236 }}>
+          <div className={styles.functionBar}>
             <Tooltip title="手册目录" placement="right">
               <span onClick={() => this.handleFun(1)}><img src={funTypeSelected === 1 ? rulesImg1 : rulesImg} alt=""/></span>
             </Tooltip>
