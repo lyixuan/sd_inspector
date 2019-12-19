@@ -6,12 +6,12 @@ export function getAppealLeftOption(data) {
       {
         value: data.appealCount,
         itemStyle: colorArr[0],
-        name:'审核中',
+        name: '审核中',
       },
       {
         value: data.failCount,
         itemStyle: colorArr[1],
-        name:'申诉失败',
+        name: '申诉失败',
       }
     );
   }
@@ -37,20 +37,11 @@ export function getAppealLeftOption(data) {
           color: '#282828',
         },
         subtextStyle: {
-          fontSize: 17,
+          fontSize: 12,
           color: '#282828',
         },
       },
     ],
-    // tooltip: {
-    //   trigger: 'item',
-    //   triggerOn: 'mousemove',
-    //   formatter: function(param) {
-    //     const { data } = param;
-    //     const { name = undefined } = data;
-    //     return `<div style='font-size: 12px;background: #fff;color: #414D55;width: 100%'>${name}</div>`;
-    //   },
-    // },
     tooltip: {
       show: true,
       backgroundColor: '#fff',
@@ -75,47 +66,47 @@ export function getAppealLeftOption(data) {
         return str;
       },
     },
-    legend: {
-      itemWidth: 4,
-      icon: 'circle',
-      orient: 'horizontal',
-      top: 'bottom',
-      textStyle: {
-        fontSize: '12',
-        width: 120,
-        color: '#8C8C8C',
-      },
-      width: 204,
-      //   height: 175,
-    },
     series: [
       {
-        name: '申诉',
+        name: '学分申诉',
+        hoverAnimation: false,
         type: 'pie',
-        center: ['50%', '50%'],
-        radius: ['40%', '65%'],
-        clockwise: false, //饼图的扇区是否是顺时针排布
-        avoidLabelOverlap: false,
+        radius: ['50%', '60%'],
+        // center: ['50%', '40%'],
+        startAngle: '135',
         label: {
           normal: {
-            position: 'inside',
-            formatter: function(params) {
-              return params.data.value;
-            },
+            show: false,
           },
         },
-        textStyle: {
-          fontSize: '12',
-          textAlign: 'center',
-        },
-        labelLine: {
-          normal: {
-            length: 5,
-            length2: 3,
-            smooth: true,
-          },
-        },
+
         data: newData,
+        // name: '申诉',
+        // type: 'pie',
+        // center: ['50%', '50%'],
+        // radius: ['40%', '65%'],
+        // clockwise: false, //饼图的扇区是否是顺时针排布
+        // avoidLabelOverlap: false,
+        // label: {
+        //   normal: {
+        //     // position: 'inside',
+        //     // formatter: function(params) {
+        //     //   return params.data.value;
+        //     // },
+        //   },
+        // },
+        // textStyle: {
+        //   fontSize: '12',
+        //   textAlign: 'center',
+        // },
+        // labelLine: {
+        //   normal: {
+        //     length: 5,
+        //     length2: 3,
+        //     smooth: true,
+        //   },
+        // },
+        // data: newData,
       },
     ],
   };
