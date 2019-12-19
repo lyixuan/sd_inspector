@@ -19,9 +19,6 @@ export function getOptionBoss(list) {
     }
   });
 
-  console.log(12,positiveData)
-  console.log(22,negData)
-
   const positiveMax = Math.ceil(Math.max.apply(null, positiveData));
   const navMax = Math.floor(Math.min.apply(null, negData));
   const huanbiMax = Math.ceil(Math.max.apply(null, huanbi));

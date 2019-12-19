@@ -1,4 +1,7 @@
 import { queryNotices } from '@/services/user';
+import { msgF } from '@/utils/utils';
+import { message } from 'antd/lib/index';
+import { getBasicInfo } from '@/pages/ko/behaviorPath/services';
 
 export default {
   namespace: 'global',
@@ -77,6 +80,26 @@ export default {
           unreadCount: notices.filter(item => !item.read).length,
         },
       });
+    },
+    *getBasicInfo({ payload }, { call, put }) {
+      const params = payload.params;
+      if(!params || !params.stuId){
+        return;
+      }
+      if(params.stuId>2147483647){
+        message.warn('学员ID不合法');
+        return;
+      }
+      const result = yield call(getBasicInfo, params);
+      if (result.code !== 20000) {
+        message.warn(result.msgDetail);
+      } else {
+        let params1 = {
+          userId: params.stuId,
+          target: 'userName',
+        };
+        window.open(`/inspector/ko/behaviorPath?params=${JSON.stringify(params1)}`);
+      }
     },
   },
 

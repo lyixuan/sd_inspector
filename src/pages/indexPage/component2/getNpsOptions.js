@@ -27,6 +27,35 @@ export function getOption(data) {
       top: 30,
       bottom: 60,
     },
+    tooltip: {
+      show: true,
+      backgroundColor: '#fff',
+      borderColor: '#ddd',
+      borderWidth: 1,
+      textStyle: {
+        color: '#3c3c3c',
+        fontSize: 12,
+      },
+      trigger: 'item',
+      formatter: function(parms) {
+        var str = parms.data.name + '</br>' + '数量：' + parms.data.value + '</br>';
+        return str;
+      },
+      // trigger: 'item',
+      // formatter: function(parms) {
+      //   var str =
+      //     parms.seriesName +
+      //     '</br>' +
+      //     parms.marker +
+      //     '' +
+      //     parms.data.name +
+      //     '</br>' +
+      //     '数量：' +
+      //     parms.data.value +
+      //     '</br>';
+      //   return str;
+      // },
+    },
     xAxis: {
       data: newAxis,
       axisLabel: {
@@ -35,16 +64,16 @@ export function getOption(data) {
           color: '#7D90AA',
           fontSize: 12,
         },
-        interval:0,  
-        rotate:40  
+        interval: 0,
+        rotate: 40,
       },
       axisTick: {
         show: false,
       },
       axisLine: {
         show: false,
-      }
-    //   z: 10,
+      },
+      //   z: 10,
     },
     yAxis: {
       axisLine: {
@@ -67,10 +96,6 @@ export function getOption(data) {
       {
         // For shadow
         type: 'bar',
-        itemStyle: {
-          normal: { color: '#F6F6F4' },
-        },
-
         barGap: '-100%',
         barWidth: 17, //柱图宽度
         // barCategoryGap: '100%',
