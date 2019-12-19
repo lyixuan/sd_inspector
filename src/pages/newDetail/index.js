@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import styles from './style.less';
 
 const headObj = {
-  '/newDetail/analyze': '创收分析',
+  '/newDetail/analyze': '创收产品包',
   '/newDetail/incomeRank': '创收对比'
 }
 
