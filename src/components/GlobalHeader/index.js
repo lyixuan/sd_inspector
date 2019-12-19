@@ -4,7 +4,8 @@ import Debounce from 'lodash-decorators/debounce';
 import { Link } from 'dva/router';
 import styles from './index.less';
 import bilogo from '../../assets/new-logo.png';
-import { STATIC_HOST } from '@/utils/constants'
+import { STATIC_HOST } from '@/utils/constants';
+import router from 'umi/router';
 import { nullLiteral } from '@babel/types';
 
 export default class GlobalHeader extends PureComponent {
@@ -23,6 +24,9 @@ export default class GlobalHeader extends PureComponent {
     event.initEvent('resize', true, false);
     window.dispatchEvent(event);
   }
+  goToIndex = () => {
+    router.push('/indexPage');
+  };
   render() {
     const {
       currentUser = {},
@@ -64,7 +68,8 @@ export default class GlobalHeader extends PureComponent {
         <img
           src={bilogo}
           alt="logo"
-          className={styles.newLogo}/>
+          className={styles.newLogo}
+          onClick={this.goToIndex}/>
         {/*<Icon*/}
         {/*  className={styles.trigger}*/}
         {/*  type={collapsed ? 'menu-unfold' : 'menu-fold'}*/}
