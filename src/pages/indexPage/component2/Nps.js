@@ -40,7 +40,7 @@ class Nps extends React.Component {
               <NpsLeft cloudOptions={WorkbenchNpsData.tagImageDtoList} />
             </div>
             <div className={style.npsRight}>
-              <Echarts options={options} style={{ width: '243px', height: 253 + 'px' }} />
+              <Echarts options={options} style={{ width: '243px', height: 223 + 'px' }} />
             </div>
           </div>
         </Spin>
