@@ -53,10 +53,7 @@ export function getAppealLeftOption(data) {
       },
       trigger: 'item',
       formatter: function(parms) {
-        var str =
-          parms.data.name +
-          parms.data.value +
-          '</br>';
+        var str = parms.data.name + ':' + parms.data.value + '</br>';
         return str;
       },
     },
