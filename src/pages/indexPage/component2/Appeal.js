@@ -55,10 +55,10 @@ class Appeal extends React.Component {
             <div className={style.appealLeft} style={{ width: '230px' }}>
               <Echarts options={options1} style={{ width: '230px', height: 213 + 'px' }} />
             </div>
-            <div className={style.appealRight} style={{ width: '280px' }}>
+            <div className={style.appealRight} style={{ width: '260px' }}>
               <Echarts
                 options={options}
-                style={{ width: '280px', height: 273 + 'px' }}
+                style={{ width: '280px', height: 253 + 'px' }}
                 clickEvent={item => this.clickEvent(item)}
               />
             </div>
