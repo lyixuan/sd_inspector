@@ -57,7 +57,6 @@ class Score extends React.Component {
       const params = {dementionId, startTime:moment(date.startDate).format('YYYY-MM-DD'), endTime:moment(date.startDate).format('YYYY-MM-DD'),familyType: familyTypeParam};
       jumpGobalRouter('xdCredit/index',  params )
     } else if(barJump){
-      console.log('barJump',bossList)
       const collegeId = bossList[barJump.dataIndex].collegeId;
       const params = {orgId:collegeId,startTime:moment(date.startDate).format('YYYY-MM-DD'), endTime:moment(date.startDate).format('YYYY-MM-DD'),familyType: String(bossFamilyType)};
       jumpGobalRouter('xdCredit/index', params )
@@ -114,7 +113,6 @@ class Score extends React.Component {
       )
     });
 
-    console.log('boss0',boss0)
     return (
       <div className={stylefather.boxLeft}>
         <div className={stylefather.boxHeader}>
