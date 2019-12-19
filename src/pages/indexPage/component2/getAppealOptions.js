@@ -1,4 +1,4 @@
-const colorArr = ['#6665DD', '#FFC442'];
+const colorArr = ['#FFC442', '#6665DD'];
 
 export function getOption(data) {
   let newName = [];
@@ -10,8 +10,8 @@ export function getOption(data) {
   if (data && data.detailList) {
     data.detailList.map((item, index) => {
       newName.push(item.name);
-      data1.push(item.failCount);
       data2.push(item.appealCount);
+      data1.push(item.failCount);
     });
   }
 
@@ -80,7 +80,7 @@ export function getOption(data) {
     series: [
       {
         type: 'bar',
-        name: '审核中',
+        name: '审核失败',
         stack: '2',
         // label: _label,
         legendHoverLink: false,
@@ -97,7 +97,7 @@ export function getOption(data) {
       },
       {
         type: 'bar',
-        name: '申诉失败',
+        name: '审核中',
         stack: '2',
         legendHoverLink: false,
         barWidth: 16,
