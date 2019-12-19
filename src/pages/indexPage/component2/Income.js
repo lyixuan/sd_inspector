@@ -21,7 +21,8 @@ class Income extends React.Component {
   render() {
     const { WorkbenchIncome, userType } = this.props;
     const { sumData, pieData=[], rank,boss=[]} = WorkbenchIncome || {};
-    const {sumAmount=0,sumOrder} = sumData || {};
+    let {sumAmount=0,sumOrder} = sumData || {};
+    sumAmount = sumAmount===null?0:sumAmount;
     const {rankList=[]} = rank || {};
 
     const optionL = getOptionL2(rankList);
