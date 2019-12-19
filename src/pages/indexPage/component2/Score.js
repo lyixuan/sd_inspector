@@ -5,7 +5,7 @@ import gengduo from '@/assets/newIndex/gengduo@2x.png';
 import zheng from '@/assets/newIndex/zheng@2x.png';
 import fu from '@/assets/newIndex/fu@2x.png';
 import Echarts from './Echart_WorkBentch';
-import { jumpGobalRouter } from '@/pages/ko/utils/utils';
+import { jumpGobalRouter ,jumpGobalSelfRouter} from '@/pages/ko/utils/utils';
 import style from './style.less';
 import { getNormalOption } from './score_normal_option';
 import { getOptionBoss } from './score_boss_option';
@@ -60,7 +60,7 @@ class Score extends React.Component {
       const bossList =WorkbenchScore[bossFamilyType].boss;
       const collegeId = bossList[barJump.dataIndex].collegeId;
       const params = {orgId:collegeId,startTime:moment(date.startDate).format('YYYY-MM-DD'), endTime:moment(date.endDate).format('YYYY-MM-DD'),familyType: String(bossFamilyType)};
-      jumpGobalRouter('xdCredit/index', params )
+      jumpGobalSelfRouter('xdCredit/index', params )
     } else {
       handleDataTrace({"widgetName":`本期学分`,"traceName":`工作台2.0/本期学分`});
       jumpGobalRouter('newDetail/histogram', {contrasts, dataRange: [moment(date.startDate).format('YYYY-MM-DD'), moment(date.endDate).format('YYYY-MM-DD')], familyType: familyTypeParam})
@@ -158,8 +158,8 @@ class Score extends React.Component {
             <span>自考</span>
             <span>壁垒</span>
           </div>
-          <Echarts id='ads112' options={bossOptions1} style={{ height: 250, width: 265, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,0)}/>
-          <Echarts  id='ads222'  options={bossOptions2} style={{ height: 250, width: 260, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,1)}/>
+          <Echarts  options={bossOptions1} style={{ height: 250, width: 265, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,0)}/>
+          <Echarts  options={bossOptions2} style={{ height: 250, width: 260, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,1)}/>
         </div>}
       </div>
     );
