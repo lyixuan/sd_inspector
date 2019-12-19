@@ -34,7 +34,7 @@ export function getOption(data) {
       },
       // trigger: 'axis',
       formatter: function(p, index) {
-        return '名称：' + p.name + '<br>' + p.seriesName + ':' + p.value;
+        return  p.name + '<br>' + p.seriesName + ':' + p.value;
       },
       extraCssText: 'box-shadow: 0 0 5px rgba(0, 0, 0, 0.1)',
     },

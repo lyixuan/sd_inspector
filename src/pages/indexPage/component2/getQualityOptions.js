@@ -1,5 +1,4 @@
 export function getOptions(data) {
-  console.log(data, 'data');
   let list = [];
   if (data && data.class && data.class.detailList) {
     list = data.class.detailList;

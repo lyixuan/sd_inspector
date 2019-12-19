@@ -27,8 +27,37 @@ class NPSLeft extends React.Component {
           color: '#FFFFFF',
         },
       },
+      // tooltip: {
+      //   show: true,
+      // },
       tooltip: {
-        show: true,
+        backgroundColor:'#fff',
+        borderColor:'#eee',
+        borderWidth:1,
+        borderRadius:10,
+        shadowBlur: 10,
+        shadowOffsetX: 1,
+        shadowOffsetY: 0,
+        shadowColor: 'rgba(0,0,0,0.8)',
+        textStyle:{
+          color:'#666',
+          fontSize:12,
+        },
+        // trigger: 'axis',
+        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+          type : 'none'        // 默认为直线，可选为：'line' | 'shadow'
+        },
+        animation:false,
+        // formatter: function (params) {
+        //   if(params[0]) {
+        //     return "学分均分：" + (params[1]?params[1].value:params[3].value) +"分"+
+        //       "<br>环比：" +  (params[4]?params[4].value:'--')+"%";
+        //   }
+        // }
+        formatter: function(params) {
+          var str = params.data.name;
+          return str;
+        },
       },
       series: [
         {
