@@ -88,8 +88,8 @@ class Score extends React.Component {
     }
 
     if (userType === 'boss' && WorkbenchScore[0]&& WorkbenchScore[1]) {
-      boss0 = WorkbenchScore[0].boss;
-      boss1 = WorkbenchScore[1].boss;
+      boss0.splice(0, 0, ...WorkbenchScore[0].boss);
+      boss1.splice(0, 0,...WorkbenchScore[1].boss);
     } else if (userType !== 'boss' && familyType!==3 && WorkbenchScore[familyType]) {
       positive = this.state.tabActive===1? WorkbenchScore[familyType].positive:WorkbenchScore[familyType].negative;
       rank = WorkbenchScore[familyType].rank;
