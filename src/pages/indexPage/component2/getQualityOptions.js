@@ -185,7 +185,7 @@ export function getOptions(data) {
         max: positiveMax,
         axisLabel: {
           show: false,
-          color: '#000000 ',
+          color: '#7D90AA',
         },
         axisLine: {
           show: false,

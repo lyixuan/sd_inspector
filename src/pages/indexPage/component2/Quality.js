@@ -75,8 +75,9 @@ class Quality extends React.Component {
           <span className={stylefather.headerTitle}>质检</span>
           <img src={gengduo} alt="" onClick={() => this.jump()} />
         </div>
-        <Spin spinning={loadingTime}>
-          {WorkbenchQualityData && WorkbenchQualityData.class && (
+
+        {WorkbenchQualityData && WorkbenchQualityData.class && (
+          <Spin spinning={loadingTime}>
             <div className={style.qualityContent}>
               <div
                 className={style.qualityLeft}
@@ -109,11 +110,7 @@ class Quality extends React.Component {
                     <span className={style.qualityTotal}>
                       {WorkbenchQualityData.class.personCount}
                     </span>
-                    {qoqPersonCount == 0 && (
-                      <span className={style.block}>
-                        {qoqPersonCount}%
-                      </span>
-                    )}
+                    {qoqPersonCount == 0 && <span className={style.block}>{qoqPersonCount}%</span>}
                     {Number(qoqPersonCount) != 0 &&
                       (qoqPersonCount && (
                         <Popover content={title1}>
@@ -146,8 +143,8 @@ class Quality extends React.Component {
                 />
               </div>
             </div>
-          )}
-        </Spin>
+          </Spin>
+        )}
       </div>
     );
   }
