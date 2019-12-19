@@ -410,7 +410,6 @@ export const EmptyContentLayout = [
   { path: '/setting/performance/copy', name: '创收绩效包详情' },
   { path: '/xdWorkbench', name: '小德工作台' },
   { path: '/xdCredit/index', name: '小德学分' },
-  { path: '/xdFamilyBench/index', name: '家族长工作台' },
   { path: '/indexPage', name: '小德工作台' },
   { path: '/cubePlan/list', name: '魔方计划' },
   { path: '/xdCredit/im', name: 'im差评分析'}

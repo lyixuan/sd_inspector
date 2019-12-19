@@ -6,7 +6,7 @@ import BIContainer from '@/components/BIContainer';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import BISelect from '@/ant_components/BISelect';
 import CreditImDetials from '../imDetails';
-import { disabledDate, getDateObj } from '@/pages/indexPage/components/utils/utils';
+import { disabledDate, getDateArray } from '@/pages/indexPage/components/utils/utils';
 import styles from './style.less';
 import moment from 'moment';
 
@@ -34,7 +34,6 @@ class ImPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // dataRange: [], // 时间
       groupId: [], // 组织
       groupTypes: [],// 组织全部信息数组
       familyType: undefined,// 自考壁垒
@@ -48,13 +47,16 @@ class ImPage extends React.Component {
   componentDidMount() {
     const { dataRange } = this.state;
     if (dataRange.length === 2) {
-      this.getUserOrgList(getDateObj(dataRange), () => this.getReasonListData()); // 初始化 数据
+      this.getUserOrgList(getDateArray(dataRange), () => this.getReasonListData()); // 初始化 数据
     }
     this.props.dispatch({
       type: 'xdCreditModal/getKpiDateRange',
       callback: res => {
         if (dataRange && dataRange.length !==2) {
-          this.setState({ dataRange: [moment(res.endDate), moment(res.endDate)] });
+          this.setState({ 
+            dataRange: [moment(res.endDate), moment(res.endDate)],
+            dataRangeInit: [moment(res.endDate), moment(res.endDate)]
+          });
           this.getUserOrgList([res.endDate, res.endDate], () => this.getReasonListData()); // 初始化 数据
         } 
       },
@@ -63,11 +65,19 @@ class ImPage extends React.Component {
   // 
   getInitState = () => {
     const { params } = this.props.location.query;
-    const { dataRange = [], reasonTypeId = 0 } = params ? JSON.parse(params) : {};
-    return {
-      dataRange,
-      reasonTypeId
+    const { dataRange, reasonTypeId = 0 } = params ? JSON.parse(params) : {};
+    const initSate = { 
+      reasonTypeId,
+      dataRange:[],
+      dataRangeInit: []
+     };
+    if (dataRange && dataRange instanceof Array) {
+      initSate.dataRange = [moment(dataRange[0]), moment(dataRange[1])];
+      initSate.dataRangeInit = [moment(dataRange[0]), moment(dataRange[1])];
+    } else {
+
     }
+    return initSate
   }
   // 请求组织
   getUserOrgList = (date, callBack) => {
@@ -172,15 +182,13 @@ class ImPage extends React.Component {
     this.getReasonListData();
   }
   handleReset = () => {
-    const { startDate, endDate} = this.props;
     this.setState(
       {
-        startTime: endDate,
-        endTime: endDate,
+        dataRange: this.state.dataRangeInit,
         ...this.getResetGroupMsg(),
       },
       () => {
-        this.getUserOrgList([startDate, endDate], () => this.getReasonListData()); // 初始化 数据
+        this.getUserOrgList(getDateArray(this.state.dataRangeInit), () => this.getReasonListData()); // 初始化 数据
       }
     );
   };
