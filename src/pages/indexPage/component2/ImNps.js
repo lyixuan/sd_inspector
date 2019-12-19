@@ -12,7 +12,7 @@ class ImNps extends React.Component {
     return (
       <div className={style.scoreWrap}>
         <div className={style.scoreHeader}>
-          <span className={style.leftLine} /> <span className={style.leftText}>学院反馈</span>
+          <span className={style.leftLine} /> <span className={style.leftText}>学员反馈</span>
         </div>
         <Im />
         <Nps />
