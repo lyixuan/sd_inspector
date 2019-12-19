@@ -5,7 +5,7 @@ import gengduo from '@/assets/newIndex/gengduo@2x.png';
 import zheng from '@/assets/newIndex/zheng@2x.png';
 import fu from '@/assets/newIndex/fu@2x.png';
 import Echarts from './Echart_WorkBentch';
-import { jumpGobalRouter,jumpGobalSelfRouter } from '@/pages/ko/utils/utils';
+import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 import style from './style.less';
 import { getNormalOption } from './score_normal_option';
 import { getOptionBoss } from './score_boss_option';
@@ -36,7 +36,7 @@ class Score extends React.Component {
     })
   };
 
-  jump = (dementionId,name,barJump,bossFamilyType) => {
+  jump = (dementionId,name,barJump,bossFamilyType,bossList) => {
     const { userType ,WorkbenchScore,date } = this.props;
     const { familyType } = WorkbenchScore || {};
     let contrasts = 1;
@@ -57,14 +57,14 @@ class Score extends React.Component {
       const params = {dementionId, startTime:moment(date.startDate).format('YYYY-MM-DD'), endTime:moment(date.startDate).format('YYYY-MM-DD'),familyType: familyTypeParam};
       jumpGobalRouter('xdCredit/index',  params )
     } else if(barJump){
-      const params = {startTime:moment(date.startDate).format('YYYY-MM-DD'), endTime:moment(date.startDate).format('YYYY-MM-DD'),familyType: String(bossFamilyType)};
+      console.log('barJump',bossList)
+      const collegeId = bossList[barJump.dataIndex].collegeId;
+      const params = {orgId:collegeId,startTime:moment(date.startDate).format('YYYY-MM-DD'), endTime:moment(date.startDate).format('YYYY-MM-DD'),familyType: String(bossFamilyType)};
       jumpGobalRouter('xdCredit/index', params )
     } else {
       handleDataTrace({"widgetName":`本期学分`,"traceName":`工作台2.0/本期学分`});
       jumpGobalRouter('newDetail/histogram', {contrasts, dataRange: [moment(date.startDate).format('YYYY-MM-DD'), moment(date.endDate).format('YYYY-MM-DD')], familyType: familyTypeParam})
     }
-
-
   };
 
   render() {
@@ -114,6 +114,7 @@ class Score extends React.Component {
       )
     });
 
+    console.log('boss0',boss0)
     return (
       <div className={stylefather.boxLeft}>
         <div className={stylefather.boxHeader}>
@@ -158,8 +159,8 @@ class Score extends React.Component {
             <span>自考</span>
             <span>壁垒</span>
           </div>
-          <Echarts options={bossOptions1} style={{ height: 250, width: 265, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,0)}/>
-          <Echarts options={bossOptions2} style={{ height: 250, width: 260, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,1)}/>
+          <Echarts options={bossOptions1} style={{ height: 250, width: 265, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,0,boss0)}/>
+          <Echarts options={bossOptions2} style={{ height: 250, width: 260, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,1,boss1)}/>
         </div>}
       </div>
     );
