@@ -4,8 +4,8 @@ import { Spin } from 'antd';
 import stylefather from '../indexPage.less';
 import zhijian from '@/assets/zhijian@2x.png';
 import gengduo from '@/assets/newIndex/gengduo@2x.png';
-import zheng from '@/assets/newIndex/zheng@2x.png';
-import fu from '@/assets/newIndex/fu@2x.png';
+import zheng1 from '@/assets/newIndex/zheng1@2x.png';
+import fu1 from '@/assets/newIndex/fu1@2x.png';
 import style from './style.less';
 import Echarts from '@/components/Echart';
 import { getOptions } from './getQualityOptions.js';
@@ -45,8 +45,8 @@ class Quality extends React.Component {
     let title = '';
     let title1 = '';
     if (WorkbenchQualityData && WorkbenchQualityData.class) {
-      qoqTotal = Number(Number(WorkbenchQualityData.class.qoqTotal) * 100).toFixed(2);
-      qoqPersonCount = Number(Number(WorkbenchQualityData.class.qoqPersonCount) * 100).toFixed(2);
+      qoqTotal = Number(Number(WorkbenchQualityData.class.qoqTotal) * 100).toFixed(0);
+      qoqPersonCount = Number(Number(WorkbenchQualityData.class.qoqPersonCount) * 100).toFixed(0);
       total = WorkbenchQualityData.class.total;
       word = qoqTotal > 0 ? '增长' : '降低';
       word1 = qoqPersonCount > 0 ? '增长' : '降低';
@@ -83,23 +83,22 @@ class Quality extends React.Component {
                 <div className={style.qualityItem}>
                   <p>
                     <span className={style.qualityTotal}>{total}</span>
-                    {qoqTotal === 0 ||
-                      (qoqTotal && (
-                        <Popover content={title}>
-                          <span
-                            className={
-                              WorkbenchQualityData.class.qoqTotal < 0
-                                ? style.qualityGreen
-                                : style.qualityRed
-                            }
-                          >
-                            {qoqTotal}
-                            <i>%</i>
-                          </span>
-                        </Popover>
-                      ))}
+                    {qoqTotal && (
+                      <Popover content={title}>
+                        <span
+                          className={
+                            WorkbenchQualityData.class.qoqTotal < 0
+                              ? style.qualityGreen
+                              : style.qualityRed
+                          }
+                        >
+                          {qoqTotal}
+                          <i>%</i>
+                        </span>
+                      </Popover>
+                    )}
                     {qoqTotal === null && <span className={style.qualityGreen}>N/A</span>}
-                    {qoqTotal > 0 && qoqTotal !== null ? <img src={fu} /> : <img src={zheng} />}
+                    {qoqTotal > 0 && qoqTotal !== null ? <img src={fu1} /> : <img src={zheng1} />}
                   </p>
                   <p className={style.qualityWords}>违规总量</p>
                 </div>
@@ -119,9 +118,9 @@ class Quality extends React.Component {
                       ))}
                     {qoqPersonCount === null && <span className={style.qualityGreen}>N/A</span>}
                     {Number(qoqPersonCount) > 0 && qoqPersonCount !== null ? (
-                      <img src={fu} />
+                      <img src={fu1} />
                     ) : (
-                      <img src={zheng} />
+                      <img src={zheng1} />
                     )}
                   </p>
                   <p className={style.qualityWords}>违规总人数</p>

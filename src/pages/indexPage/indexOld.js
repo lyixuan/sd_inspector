@@ -39,8 +39,7 @@ class IndexPage extends Component {
       }
       return false;
     } else if (
-      (userType === 'college' || userType === 'boss') &&
-      (userInfo.privilegeView || userInfo.moreView)
+      (userType === 'college' || userType === 'boss') && (userInfo.privilegeView || userInfo.moreView)
     ) {
       //
       if (this.props.history.location.pathname !== '/indexPage/ManagementBench') {
