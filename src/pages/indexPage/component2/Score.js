@@ -10,6 +10,7 @@ import style from './style.less';
 import { getNormalOption } from './score_normal_option';
 import { getOptionBoss } from './score_boss_option';
 import BISelect from '@/ant_components/BISelect/index';
+import moment from 'moment';
 const { Option } = BISelect;
 
 
@@ -34,9 +35,27 @@ class Score extends React.Component {
     })
   };
 
-  jump = () => {
-    jumpGobalRouter('newDetail/histogram', {contrasts: 2/3});
+  jump = (dementionId) => {
+    const { userType ,WorkbenchScore,date } = this.props;
+    const { familyType } = WorkbenchScore || {};
+    let contrasts = 1;
+    if (userType === 'group' || userType === 'class') {
+      contrasts = 3;
+    }
+    if (userType === 'family') {
+      contrasts = 2;
+    }
+    if (userType === 'college'||userType === 'boss') {
+      contrasts = 1;
+    }
+    if(dementionId){
+      const params = {dementionId, startTime:date.startDate, endTime:date.endDate,familyType: Number(this.state.type)}
+      jumpGobalRouter('xdCredit/index',  params )
+    } else {
+      jumpGobalRouter('newDetail/histogram', {contrasts, dataRange: [moment(date.startDate).format('YYYY-MM-DD'), moment(date.endDate).format('YYYY-MM-DD')], familyType: familyType ===3?Number(this.state.type):familyType})
+    }
   };
+
 
   render() {
     const { tabActive } = this.state;
@@ -75,7 +94,7 @@ class Score extends React.Component {
 
     const normalContent =positive.map((item)=>{
       return (
-        <div className={style.dataItem}>
+        <div className={style.dataItem} onClick={()=>this.jump(item.dimensionId)}>
           {item.qoqValue>0&&<div style={{color:'#3DD598'}}>{item.qoqValue===null?'N/A':(item.qoqValue*100).toFixed(0)+'%'} <img width={16} src={zheng} alt=""/></div>}
           {item.qoqValue<0&&<div style={{ color: '#FC5A5A' }}>{item.qoqValue===null?'N/A':(item.qoqValue*100).toFixed(0)+'%'} <img width={16} src={fu} alt=""/></div>}
           {(item.qoqValue===0||item.qoqValue===null)&&<div style={{ color: '#333' }}>{item.qoqValue===null?'N/A':(item.qoqValue*100).toFixed(0)+'%'}</div>}
