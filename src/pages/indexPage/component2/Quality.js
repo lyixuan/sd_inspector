@@ -104,7 +104,7 @@ class Quality extends React.Component {
                   <p className={style.qualityWords}>违规总量</p>
                 </div>
                 <div className={style.qualityItem}>
-                  <p>
+                  <p style={{ marginTop: '32px' }}>
                     <span className={style.qualityTotal}>
                       {WorkbenchQualityData.class.personCount}
                     </span>
