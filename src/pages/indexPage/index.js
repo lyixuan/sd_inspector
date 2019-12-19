@@ -127,7 +127,7 @@ class IndexPage extends Component {
     ) {
       return true;
     } else {
-      return false;
+      return true;
     }
   };
 
