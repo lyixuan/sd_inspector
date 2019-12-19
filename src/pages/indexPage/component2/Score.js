@@ -62,7 +62,9 @@ class Score extends React.Component {
     }
   };
 
-
+  bossBarClick = (item) =>{
+    console.log(1111,item)
+  }
 
   render() {
     const { tabActive } = this.state;
@@ -155,7 +157,7 @@ class Score extends React.Component {
             <span>自考</span>
             <span>壁垒</span>
           </div>
-          <Echarts options={bossOptions1} style={{ height: 250, width: 265, float: 'left' }}/>
+          <Echarts options={bossOptions1} style={{ height: 250, width: 265, float: 'left' }} onClick={(item)=>this.bossBarClick(item)}/>
           <Echarts options={bossOptions2} style={{ height: 250, width: 260, float: 'left' }}/>
         </div>}
       </div>

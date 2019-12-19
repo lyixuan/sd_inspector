@@ -21,7 +21,7 @@ class Income extends React.Component {
   render() {
     const { WorkbenchIncome, userType } = this.props;
     const { sumData, pieData=[], rank,boss=[]} = WorkbenchIncome || {};
-    const {sumAmount,sumOrder} = sumData || {};
+    const {sumAmount=0,sumOrder} = sumData || {};
     const {rankList=[]} = rank || {};
 
     const optionL = getOptionL2(rankList);
@@ -29,11 +29,11 @@ class Income extends React.Component {
     const optionBossL = getOptioBossL(boss);
     const optionBossR = getOptionBossR(pieData,sumAmount);
 
-    const dot = pieData.map((item)=>{
-      return <span> <i style={{backgroundColor: `${item.name==='好推'?'#45D199':item.name==='续报'?'#FEC350':'#6769DA'}`}}/>{sumAmount>999999?thousandsFormatDot((item.value/10000).toFixed(2))+'万':item.value}</span>
+    const dot = pieData.map((item,idx)=>{
+      return <span key={idx}> <i style={{backgroundColor: `${item.name==='好推'?'#45D199':item.name==='续报'?'#FEC350':'#6769DA'}`}}/>{sumAmount>999999?thousandsFormatDot((item.value/10000).toFixed(0))+'万':(item.value).toFixed(0)}</span>
     });
-    const dotName = pieData.map((item)=>{
-      return <span><i/>{item.name}</span>
+    const dotName = pieData.map((item,i)=>{
+      return <span key={i}><i/>{item.name}</span>
     });
     return (
       <div className={stylefather.boxRight}>
@@ -57,7 +57,7 @@ class Income extends React.Component {
           <div className={style.ScoreLeft}>
             <div className={style.incomeTotal}>
               <div>
-                <div>{sumAmount>999999?thousandsFormatDot((sumAmount/10000).toFixed(2)):sumAmount}</div>
+                <div>{sumAmount>999999?thousandsFormatDot((sumAmount/10000).toFixed(0)):sumAmount.toFixed(0)}</div>
                 <div>总流水({sumAmount>999999?'万元':'元'})</div>
               </div>
               <div>
