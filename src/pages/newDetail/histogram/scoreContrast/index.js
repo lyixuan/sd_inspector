@@ -259,8 +259,8 @@ class ScoreContrast extends React.Component {
         rightStyles={{
           display: 'flex',
           justifyContent: 'space-between',
-          width: 'calc(100% - 386px)',
-          marginLeft: 386,
+          width: 'calc(100% - 326px)',
+          marginLeft: 326,
           left: 0
         }} 
         keye={this.state.tabNum}

@@ -8,7 +8,8 @@ import ClassIndex from './components/classIndex'
 import styles from './style.less';
 
 @connect(({ newDetailModal }) => ({
-  globalUserType: newDetailModal.globalUserType
+  globalUserType: newDetailModal.globalUserType,
+  globalDateRange: newDetailModal.globalDateRange
 }))
 class IncomeRank extends React.Component {
   componentDidMount() {
@@ -47,10 +48,15 @@ class IncomeRank extends React.Component {
     return tabParams
   }
   render() {
+    const { globalDateRange } = this.props;
     return (
-      <div className={styles.incomeRank}>
-        <TopTabs tabParams={this.getTabParams()} />
-      </div>
+      <>
+       {
+          globalDateRange && globalDateRange.startTime && <div className={styles.incomeRank}>
+            <TopTabs tabParams={this.getTabParams()} />
+          </div>
+       }
+      </>
     );
   }
 }

@@ -21,6 +21,7 @@
   width: 100px;
   height: 18px;
   font-weight: 500;
+  margin-left: 8px;
   font-size: 14px;
   color: rgba(26, 28, 31, 1);
 }
@@ -66,7 +67,6 @@
   width: 100%;
   overflow: hidden;
   > div {
-    width: 50%;
     float: left;
     text-align: center;
     > div:nth-child(1) {
@@ -78,6 +78,12 @@
       color: #7e7d82;
       font-weight: normal;
     }
+  }
+  >div:nth-child(1){
+    width: 60%;
+  }
+  >div:nth-child(2){
+    width: 40%;
   }
 }
 .ScoreTab {

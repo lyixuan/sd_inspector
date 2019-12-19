@@ -29,11 +29,11 @@ class Income extends React.Component {
     const optionBossL = getOptioBossL(boss);
     const optionBossR = getOptionBossR(pieData,sumAmount);
 
-    const dot = pieData.map((item)=>{
-      return <span> <i style={{backgroundColor: `${item.name==='好推'?'#45D199':item.name==='续报'?'#FEC350':'#6769DA'}`}}/>{sumAmount>999999?thousandsFormatDot((item.value/10000).toFixed(0))+'万':(item.value).toFixed(0)}</span>
+    const dot = pieData.map((item,idx)=>{
+      return <span key={idx}> <i style={{backgroundColor: `${item.name==='好推'?'#45D199':item.name==='续报'?'#FEC350':'#6769DA'}`}}/>{sumAmount>999999?thousandsFormatDot((item.value/10000).toFixed(0))+'万':(item.value).toFixed(0)}</span>
     });
-    const dotName = pieData.map((item)=>{
-      return <span><i/>{item.name}</span>
+    const dotName = pieData.map((item,i)=>{
+      return <span key={i}><i/>{item.name}</span>
     });
     return (
       <div className={stylefather.boxRight}>

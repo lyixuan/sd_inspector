@@ -5,7 +5,7 @@ import gengduo from '@/assets/newIndex/gengduo@2x.png';
 import zheng from '@/assets/newIndex/zheng@2x.png';
 import fu from '@/assets/newIndex/fu@2x.png';
 import Echarts from './Echart_WorkBentch';
-import { jumpGobalRouter } from '@/pages/ko/utils/utils';
+import { jumpGobalRouter,jumpGobalSelfRouter } from '@/pages/ko/utils/utils';
 import style from './style.less';
 import { getNormalOption } from './score_normal_option';
 import { getOptionBoss } from './score_boss_option';
@@ -36,7 +36,7 @@ class Score extends React.Component {
     })
   };
 
-  jump = (dementionId,name) => {
+  jump = (dementionId,name,barJump,bossFamilyType) => {
     const { userType ,WorkbenchScore,date } = this.props;
     const { familyType } = WorkbenchScore || {};
     let contrasts = 1;
@@ -56,13 +56,16 @@ class Score extends React.Component {
       handleDataTrace({"widgetName":`${tabActive===1?'学分正面':'学分负面'}${name}`,"traceName":`工作台2.0/本期学分${tabActive===1?'正面子维度':'负面子维度'}`});
       const params = {dementionId, startTime:moment(date.startDate).format('YYYY-MM-DD'), endTime:moment(date.startDate).format('YYYY-MM-DD'),familyType: familyTypeParam};
       jumpGobalRouter('xdCredit/index',  params )
+    } else if(barJump){
+      const params = {startTime:moment(date.startDate).format('YYYY-MM-DD'), endTime:moment(date.startDate).format('YYYY-MM-DD'),familyType: String(bossFamilyType)};
+      jumpGobalRouter('xdCredit/index', params )
     } else {
       handleDataTrace({"widgetName":`本期学分`,"traceName":`工作台2.0/本期学分`});
       jumpGobalRouter('newDetail/histogram', {contrasts, dataRange: [moment(date.startDate).format('YYYY-MM-DD'), moment(date.endDate).format('YYYY-MM-DD')], familyType: familyTypeParam})
     }
+
+
   };
-
-
 
   render() {
     const { tabActive } = this.state;
@@ -155,8 +158,8 @@ class Score extends React.Component {
             <span>自考</span>
             <span>壁垒</span>
           </div>
-          <Echarts options={bossOptions1} style={{ height: 250, width: 265, float: 'left' }}/>
-          <Echarts options={bossOptions2} style={{ height: 250, width: 260, float: 'left' }}/>
+          <Echarts options={bossOptions1} style={{ height: 250, width: 265, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,0)}/>
+          <Echarts options={bossOptions2} style={{ height: 250, width: 260, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,1)}/>
         </div>}
       </div>
     );
