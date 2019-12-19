@@ -170,7 +170,7 @@ export function getOptions(data) {
           show: false,
         },
         axisLabel: {
-          color: '#E2E7EC',
+          color: '#7D90AA',
         },
         axisTick: {
           show: false,
