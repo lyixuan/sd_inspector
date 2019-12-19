@@ -166,6 +166,19 @@ class ImPage extends React.Component {
   handleClick = () => {
     this.getReasonListData();
   }
+  handleReset = () => {
+    const { startDate, endDate} = this.props;
+    this.setState(
+      {
+        startTime: endDate,
+        endTime: endDate,
+        ...this.getResetGroupMsg(),
+      },
+      () => {
+        this.getUserOrgList([startDate, endDate], () => this.getReasonListData()); // 初始化 数据
+      }
+    );
+  };
   // 二级组件方法
   onPageChange = currentPage => {
     this.setState({ page: currentPage }, () => this.getImDetail());

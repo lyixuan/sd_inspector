@@ -70,7 +70,7 @@ export default {
       const params = payload.params;
       const result = yield call(packageRankList, params);
       if (result.code === 20000) {
-        return result.data;
+        return result.data.splice(0, 10);
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -80,7 +80,7 @@ export default {
     *getRisePackageRankList({ payload, callback }, { call, put }) {
       const result = yield call(risePackageRankList);
       if (result.code === 20000) {
-        return result.data;
+        return result.data.splice(0, 10);
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }

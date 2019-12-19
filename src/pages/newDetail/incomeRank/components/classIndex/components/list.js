@@ -61,7 +61,6 @@ class ProfitList extends React.Component {
 
       }, {
         ellipsis: true,
-        width: '40%',
         title: '组织',
         dataIndex: 'orgName',
         key: 'orgName',
@@ -72,7 +71,7 @@ class ProfitList extends React.Component {
         dataIndex: 'personName',
         key: 'personName',
       }, {
-        ellipsis: true,
+        width: 120,
         title: '绩效收入（元）',
         dataIndex: 'totalKpi',
         key: 'totalKpi',

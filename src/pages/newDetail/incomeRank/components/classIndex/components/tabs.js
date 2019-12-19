@@ -79,7 +79,7 @@ class ProfitTbas extends React.Component {
       title: '总单量',
       dataIndex: 'totalOrderCount',
       key: 'totalOrderCount',
-      render: (text, record) => this.getColumn(record, <BITextAlign>{text}</BITextAlign>)
+      render: (text, record) => this.getColumn(record, text)
     },
     {
       width: '8%',
@@ -102,7 +102,7 @@ class ProfitTbas extends React.Component {
       title: '好推单量',
       dataIndex: 'goodpushOrderCount',
       key: 'goodpushOrderCount',
-      render: (text, record) => this.getColumn(record, <BITextAlign>{text}</BITextAlign>)
+      render: (text, record) => this.getColumn(record, text)
     }, {
       width: '8%',
       className: styles.rowBg2,
@@ -132,7 +132,7 @@ class ProfitTbas extends React.Component {
       title: '续报单量',
       dataIndex: 'renewalOrderCount',
       key: 'renewalOrderCount',
-      render: (text, record) => this.getColumn(record, <BITextAlign>{text}</BITextAlign>)
+      render: (text, record) => this.getColumn(record, text)
     }, {
       width: '8%',
       className: styles.rowBg4,

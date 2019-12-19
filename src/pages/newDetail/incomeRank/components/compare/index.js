@@ -44,7 +44,7 @@ class Compare extends React.Component {
         title: '好推单量',
         dataIndex: 'goodPushOrder',
         key: 'goodPushOrder',
-        render: text => <BITextAlign>{text}</BITextAlign>
+        // render: text => <BITextAlign>{text}</BITextAlign>
       },
       {
         title: '好推流水',
@@ -67,7 +67,7 @@ class Compare extends React.Component {
         title: '续报单量',
         dataIndex: 'repeatSignOrder',
         key: 'repeatSignOrder',
-        render: text => <BITextAlign>{text}</BITextAlign>
+        // render: text => <BITextAlign>{text}</BITextAlign>
       },
       {
         title: '续报流水',
@@ -90,7 +90,7 @@ class Compare extends React.Component {
         title: '成考单量',
         dataIndex: 'adultRegularOrder',
         key: 'adultRegularOrder',
-        render: text => <BITextAlign>{text}</BITextAlign>
+        // render: text => <BITextAlign>{text}</BITextAlign>
       },
       {
         title: '成考流水',
