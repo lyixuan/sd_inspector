@@ -94,9 +94,9 @@ class ClassQuality extends React.Component {
     if (document.body) {
       document.body.onscroll = (e) => {
         const val = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-        if (val > 54 && !this.state.setFixed) {
+        if (val > 0 && !this.state.setFixed) {
           this.setState({ setFixed: styles.searchFixed})
-        } else if (val <= 54 && this.state.setFixed) {
+        } else if (val <= 0 && this.state.setFixed) {
           this.setState({ setFixed: ''})
         }
       }
@@ -209,7 +209,7 @@ class ClassQuality extends React.Component {
       <BILoading isLoading={isLoading} style={{height: 'auto'}}>
         <div className={styles.classQuality}>
           {/* 左侧功能条 */}
-          <div className={styles.functionBar} style={{ left: globalCollapsed ? 100 : 236 }}>
+          <div className={styles.functionBar}>
             <Tooltip title="手册目录" placement="right">
               <span onClick={() => this.handleFun(1)}><img src={funTypeSelected === 1 ? rulesImg1 : rulesImg} alt=""/></span>
             </Tooltip>
@@ -239,7 +239,7 @@ class ClassQuality extends React.Component {
               </BIScrollbar>
             </div> : ''
           }
-          <div className={setFixed} style={ setFixed ? {width: globalCollapsed ? '100%' : 'calc(100vw - 230px)'} : {}}>
+          <div className={setFixed}>
             <div className={styles.search}>
               <img className={styles.icon} src={searchImg} alt=""/>
               <span style={{display: 'inline-block'}}><BIInput onChange={e => this.changeSearch(e.target.value)} value={this.state.keyWord} onPressEnter={this.handleSubmit} placeholder="请输入要查找的手册内容" allowClear/></span>

@@ -1,23 +1,13 @@
-var spNum = 5,
-  _max = 100;
-var legendData = ['常住人口', '户籍人口', '农村人口', '城镇居民'];
-var y_data = ['成都市', '绵阳市', '自贡市', '攀枝花市', '泸州市', '德阳市'];
-const _datamax = [100, 100, 100, 100, 100, 100];
-const _data1 = [10, 15, 10, 13, 15, 11];
-const _data2 = [19, 5, 40, 33, 15, 51];
-const _data3 = [21, 55, 10, 13, 35, 11];
-const _data4 = [21, 55, 10, 13, 35, 11];
-
 const colorArr = ['#6665DD', '#FFC442'];
 
 var fomatter_fn = function(v) {
-  return ((v.value / _max) * 100).toFixed(0);
+  return v.value;
 };
 const _label = {
   normal: {
     show: true,
     position: 'inside',
-    // formatter: fomatter_fn,
+    formatter: fomatter_fn,
     textStyle: {
       color: '#fff',
       fontSize: 12,
@@ -31,35 +21,18 @@ export function getOption(data) {
   let contentData = [];
   let data1 = [];
   let data2 = [];
+  let nameArr = ['审核失败', '审核中'];
+  let totalArr = [];
   if (data && data.detailList) {
     data.detailList.map((item, index) => {
       newName.push(item.name);
       data1.push(item.failCount);
       data2.push(item.appealCount);
+      totalArr.push(item.total);
     });
-    contentData.push(data1, data2);
-
-    data.detailList.map((item, index) => {
-      newdata.push({
-        type: 'bar',
-        name: item.name,
-        stack: '2',
-        label: _label,
-        legendHoverLink: false,
-        barWidth: 16,
-        itemStyle: {
-          barBorderRadius: [10, 10, 0, 0],
-          normal: {
-            color: colorArr[index],
-          },
-          emphasis: {
-            color: colorArr[index],
-          },
-        },
-        data: contentData[index],
-      });
-    });
+    totalArr = totalArr.reverse();
   }
+  console.log(newdata, 'newdata');
 
   return {
     // legend: {
@@ -87,22 +60,23 @@ export function getOption(data) {
       borderWidth: 1,
       textStyle: {
         color: '#3c3c3c',
-        fontSize: 16,
+        fontSize: 12,
       },
+      trigger: 'axis',
       formatter: function(p) {
-        console.log(p);
-        var _arr = p.seriesName.split('/'),
+        const value = Number(p[0].value) + Number(p[1].value);
+        var _arr = p[0].seriesName.split('/'),
           idx = p.seriesIndex; //1，2，3
         return (
           '名称：' +
-          p.seriesName +
+          p[0].name +
           '<br>' +
-          '完成：' +
-          p.value +
+          p[0].seriesName +
+          ':' +
+          p[0].value +
           '<br>' +
-          '占比：' +
-          ((p.value / _max) * 100).toFixed(0) +
-          '%'
+          '总数量' +
+          value
         );
       },
       extraCssText: 'box-shadow: 0 0 5px rgba(0, 0, 0, 0.1)',
@@ -154,6 +128,80 @@ export function getOption(data) {
         },
       },
     ],
-    series: newdata,
+    series: [
+      {
+        type: 'bar',
+        name: '审核中',
+        stack: '2',
+        label: _label,
+        legendHoverLink: false,
+        barWidth: 16,
+        itemStyle: {
+          normal: {
+            color: '#6665DD',
+          },
+          emphasis: {
+            color: '#6665DD',
+          },
+        },
+        data: data1,
+      },
+      {
+        type: 'bar',
+        name: '申诉失败',
+        stack: '2',
+        legendHoverLink: false,
+        barWidth: 16,
+        label: _label,
+        itemStyle: {
+          barBorderRadius: [10, 10, 10, 10],
+          normal: {
+            color: '#FFC442',
+          },
+          emphasis: {
+            color: '#FFC442',
+          },
+        },
+        data: data2,
+      },
+    ],
+    // },] [
+    //     {
+    //       type: 'bar',
+    //       name: '审核失败',
+    //       stack: '2',
+    //       label: _label,
+    //       legendHoverLink: false,
+    //       barWidth: 16,
+    //       itemStyle: {
+    //         barBorderRadius: [10, 10, 0, 0],
+    //         normal: {
+    //           color: '6665DD',
+    //         },
+    //         emphasis: {
+    //           color: '6665DD',
+    //         },
+    //       },
+    //       data: data1,
+    //     },
+    //     {
+    //       type: 'bar',
+    //       name: '审核中',
+    //       stack: '2',
+    //       label: _label,
+    //       legendHoverLink: false,
+    //       barWidth: 16,
+    //       itemStyle: {
+    //         barBorderRadius: [10, 10, 0, 0],
+    //         normal: {
+    //           color: '#FFC442',
+    //         },
+    //         emphasis: {
+    //           color: '#FFC442',
+    //         },
+    //       },
+    //       data: data2,
+    //     },
+    //   ],
   };
 }

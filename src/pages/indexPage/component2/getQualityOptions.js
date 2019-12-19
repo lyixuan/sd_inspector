@@ -135,15 +135,7 @@ export function getOptions(data) {
       animation: false,
       formatter: function(params) {
         if (params[0]) {
-          return (
-            params[0].name +
-            '<br>正面：' +
-            (params[1] ? params[1].value : 0) +
-            '个' +
-            '<br>负面：' +
-            (params[3] ? -params[3].value : 0) +
-            '个'
-          );
+          return params[0].name + '<br>违规数量：' + (params[1] ? params[1].value : 0) + '个';
         }
       },
     },
@@ -224,7 +216,7 @@ export function getOptions(data) {
         itemStyle: itemStyleBg1,
       },
       {
-        name: '正面',
+        name: '违规数量',
         type: 'bar',
         stack: 'one',
         barWidth: 17,
@@ -242,7 +234,7 @@ export function getOptions(data) {
         animation: false,
       },
       {
-        name: '负面',
+        name: '违规数量',
         type: 'bar',
         stack: 'one',
         barWidth: 17,

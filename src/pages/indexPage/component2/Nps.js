@@ -8,12 +8,20 @@ import style from './style.less';
 import Echarts from '@/components/Echart';
 import { getOption } from './getNpsOptions.js';
 import NpsLeft from './npsLeft.js';
+import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 
 @connect(({ xdWorkModal, loading }) => ({
   WorkbenchNpsData: xdWorkModal.WorkbenchNpsData,
+  getCurrentDateRangeData: xdWorkModal.getCurrentDateRangeData,
   loadingTime: loading.effects['xdWorkModal/getNpsData'],
 }))
 class Nps extends React.Component {
+  jump = () => {
+    const { getCurrentDateRangeData } = this.props;
+    jumpGobalRouter('nps', {
+      dataRange: [getCurrentDateRangeData.startTime, getCurrentDateRangeData.endTime],
+    });
+  };
   render() {
     const { WorkbenchNpsData, loadingTime } = this.props;
     const options = getOption(WorkbenchNpsData);
@@ -22,7 +30,7 @@ class Nps extends React.Component {
         <div className={stylefather.boxHeader}>
           <img src={NpsImg} />
           <span className={stylefather.headerTitle}>NPS分析</span>
-          <img src={gengduo} alt="" />
+          <img src={gengduo} alt="" onClick={() => this.jump()} />
         </div>
         <Spin spinning={loadingTime}>
           <div className={style.npsContent}>
