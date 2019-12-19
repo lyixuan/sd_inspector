@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import BISelect from '@/ant_components/BISelect';
 import styles from './styles.less';
-import BIWrapperTable from '../../../../indexPage/components/BIWrapperTable';
+import BIWrapperTable from '@/ant_components/BIScrollbarTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import rank1 from '@/assets/xdFamily/rank1.png';
 import rank2 from '@/assets/xdFamily/rank2.png';
@@ -229,7 +229,7 @@ class Top extends React.Component {
             loading={this.props.loading}
             onRow={this.onClickRow}
             rowKey={record => record.id}
-            scroll={{ y: 288 }}
+            // scroll={{ y: 288 }}
             name="hotData"
           />
         </div>
