@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import BILoading from '@/components/BILoading';
 import Echart from '../components/echart';
-import EchartBottom from '@/pages/indexPage/ManagementBench/scoreContrast/components/echartBottom';
+import EchartBottom from '../components/echartBottom';
 import BIScrollbar from '@/ant_components/BIScrollbar';
 
 @connect(({xdCreditModal, loading}) => ({
@@ -141,7 +141,7 @@ class CollegeScore extends React.Component {
           },
           barGap:'-100%',
           barWidth,
-          data: dataShadow
+          data: dataShadow,
         },
         { // For shadow
           type: 'bar',

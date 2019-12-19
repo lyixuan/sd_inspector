@@ -595,6 +595,7 @@ class XdCredit extends React.Component {
       case 16:
         newTable = (
           <CreditImDetials
+            detialsWidth={770}
             onPageChange={this.onPageChange2}
             pageSize2={this.state.pageSize2}
             currentPage={this.state.page}
