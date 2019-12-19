@@ -272,7 +272,7 @@ class BehaviorPath1 extends React.Component {
 
 
     return (
-      <>
+      <div className={styles.bbbWrap}>
         <div className={styles.behaviorPath}>
           <div className={styles.headBar}>学员档案</div>
           <div className={styles.tabBlank}>&nbsp;</div>
@@ -345,7 +345,7 @@ class BehaviorPath1 extends React.Component {
           ((this.state.searchType && this.state.searchType === '5') || (!this.state.searchType && this.state.activeKey === '5')) ?
             <LetterWrap stuId={sutId} info={userInfoParams}/> : null
         }
-      </>
+      </div>
     );
   }
 }
