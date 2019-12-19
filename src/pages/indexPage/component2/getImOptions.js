@@ -23,6 +23,13 @@ export function getOption(data) {
     });
   }
   return {
+    grid: {
+      containLabel: true,
+      left: 0,
+      right: 15,
+      top: 10,
+      bottom: 10,
+    },
     title: [
       {
         text: '',
@@ -43,7 +50,7 @@ export function getOption(data) {
           color: '#282828',
         },
         subtextStyle: {
-          fontSize: 17,
+          fontSize: 12,
           color: '#282828',
         },
       },
