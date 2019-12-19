@@ -6,7 +6,7 @@ export function getOption(data) {
   const newAxis = [];
   if (data.starList) {
     let maxArr = [];
-    for (let i of data.tagImageDtoList) {
+    for (let i of data.starList) {
       maxArr.push(Number(i.value));
     }
     const max = Math.max.apply(null, maxArr);
