@@ -19,6 +19,9 @@
 .ant-menu.ant-menu-dark .ant-menu-item-selected {
   background-color: #52c9c2 !important;
 }
+/*.ant-menu.ant-menu-dark .ant-menu-item-selected {*/
+/*  background-color:  #52C9C2!important;*/
+/*}*/
 /* dxForm */
 .dxForm .ant-form-item-label label {
   width: 70px;
