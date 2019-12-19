@@ -230,7 +230,7 @@ class ImPage extends React.Component {
                   style={{ width: '224px' }}
                 />
               </span>
-              <span className={styles.option}>
+              {globalOrgList && globalOrgList.length > 0 && <span className={styles.option}>
                 选择组织：
                 <BICascader
                   placeholder="选择组织"
@@ -245,7 +245,7 @@ class ImPage extends React.Component {
                   style={{ width: '136px' }}
                   allowClear={globalUserType === 'boss'}
                 />
-              </span>
+              </span> }
               {
                 this.getCollegeFlag() && <span className={styles.option}>
                   学院类型：
