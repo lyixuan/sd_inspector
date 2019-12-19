@@ -301,25 +301,22 @@ class CreditImDetials extends React.Component {
     const dataSource = detailsData.data || [];
     const totalCount = detailsData.total || 0;
     return (
-      <div className={styles.detials}>
-        <BITable
-        columns={this.columns()}
-        dataSource={dataSource}
-        rowClassName={this.setRowClassName}
-        pagination={{
-          onChange: this.onChangeSize,
-          defaultPageSize: pageSize,
-          current: currentPage,
-          total: totalCount,
-          hideOnSinglePage: true,
-          showQuickJumper: true,
-        }}
-        rowKey={(record, index) => record.id + '' + index}
-        loading={this.props.loading}
-        smalled={true}
-        />
-      </div>
-        
+      <BITable
+      columns={this.columns()}
+      dataSource={dataSource}
+      rowClassName={this.setRowClassName}
+      pagination={{
+        onChange: this.onChangeSize,
+        defaultPageSize: pageSize,
+        current: currentPage,
+        total: totalCount,
+        hideOnSinglePage: true,
+        showQuickJumper: true,
+      }}
+      rowKey={(record, index) => record.id + '' + index}
+      loading={this.props.loading}
+      smalled={true}
+      />        
     );
   }
 }
