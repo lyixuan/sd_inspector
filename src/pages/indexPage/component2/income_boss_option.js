@@ -1,9 +1,12 @@
-export function getOptionR(obj) {
+import {thousandsFormatDot} from '@/utils/utils';
+export function getOptionBossR(list,sumData) {
+  const  total = sumData>999999?thousandsFormatDot((sumData/10000).toFixed(2)):sumData;
+  const  unit = sumData>999999?'万元':'元';
   return  {
     color: ['#FEC350', '#3ED097', '#6769DA'],
     title: {
-      text: '1289',
-      subtext: '总流水(元)',
+      text: total,
+      subtext: `总流水(${unit})`,
       textStyle: {
         fontSize: 32,
         align: 'center',
@@ -12,10 +15,10 @@ export function getOptionR(obj) {
       },
       subtextStyle: {
         fontSize: 14,
-        color:'rgba(40,40,40,0.6)',
+        color:'rgba(40,40,40,0.8)',
       },
       x: 'center',
-      y: '25%',
+      y: '30%',
     },
     grid: {
       bottom: 150,
@@ -27,8 +30,8 @@ export function getOptionR(obj) {
         name:'访问来源',
         hoverAnimation:false,
         type:'pie',
-        radius: ['60%', '70%'],
-        center: ['50%', '35%'],
+        radius: ['50%', '60%'],
+        center: ['50%', '40%'],
         startAngle: '135',
         label: {
           normal: {
@@ -36,11 +39,7 @@ export function getOptionR(obj) {
           }
         },
 
-        data:[
-          {value:335, name:'直接访问'},
-          {value:310, name:'邮件营销'},
-          {value:234, name:'联盟广告'},
-        ]
+        data:list
       }
     ]
   };

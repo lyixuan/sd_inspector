@@ -57,7 +57,7 @@ export async function getWorkbenchScore(data) {
   return request('/workbench/score',{ method: 'POST', data: data });
 }
 export async function getWorkbenchIncome(params) {
-  return request('/workbench/score',{params});
+  return request('/incomeOrder/incomeOrderData',{params});
 }
 
 // 获取nps
