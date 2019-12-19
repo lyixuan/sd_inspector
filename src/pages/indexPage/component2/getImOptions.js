@@ -16,27 +16,12 @@ export function getOption(data) {
       newData.push({
         value: item.noStatisticNum,
         name: item.reasonTypeName.replace('方向', ''),
+        reasonTypeId: item.reasonTypeId,
         itemStyle: colorArr[index],
       });
       total += item.noStatisticNum;
     });
   }
-  // const newX = [];
-  // m2R2Data.xAxis &&
-  // m2R2Data.xAxis.forEach(item => {
-  //     let arr = [];
-  //     let newDate = '';
-  //     arr = item.split('-');
-  //     newDate = `${arr[1]}-${arr[2]}\n${arr[0]}`;
-  //     newX.push(newDate);
-  //   });
-
-  // const newCorrectRatio = [];
-  // m2R2Data.correctRatio &&
-  // m2R2Data.correctRatio.forEach(item => {
-  //     newCorrectRatio.push((item * 100).toFixed(2));
-  //   });
-
   return {
     title: [
       {
@@ -65,29 +50,20 @@ export function getOption(data) {
     ],
     // tooltip: {
     //   trigger: 'item',
-    //   triggerOn: 'mousemove',
-    //   formatter: function(param) {
-    //     const { data } = param;
-    //     const { name = undefined } = data;
-    //     return `<div style='font-size: 12px;background: #fff;color: #414D55;width: 100%'>${name}</div>`;
-    //   },
+    //   // formatter: function(parms) {
+    //   //   var str =
+    //   //     parms.seriesName +
+    //   //     '</br>' +
+    //   //     parms.marker +
+    //   //     '' +
+    //   //     parms.data.name +
+    //   //     '</br>' +
+    //   //     '数量：' +
+    //   //     parms.data.value +
+    //   //     '</br>';
+    //   //   return str;
+    //   // },
     // },
-    tooltip: {
-      trigger: 'item',
-      formatter: function(parms) {
-        var str =
-          parms.seriesName +
-          '</br>' +
-          parms.marker +
-          '' +
-          parms.data.name +
-          '</br>' +
-          '数量：' +
-          parms.data.value +
-          '</br>';
-        return str;
-      },
-    },
     legend: {
       itemWidth: 4,
       icon: 'circle',
