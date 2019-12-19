@@ -11,6 +11,7 @@ import { getNormalOption } from './score_normal_option';
 import { getOptionBoss } from './score_boss_option';
 import BISelect from '@/ant_components/BISelect/index';
 import moment from 'moment';
+import { handleDataTrace } from '@/utils/utils';
 const { Option } = BISelect;
 
 
@@ -35,7 +36,7 @@ class Score extends React.Component {
     })
   };
 
-  jump = (dementionId) => {
+  jump = (dementionId,name) => {
     const { userType ,WorkbenchScore,date } = this.props;
     const { familyType } = WorkbenchScore || {};
     let contrasts = 1;
@@ -49,12 +50,16 @@ class Score extends React.Component {
       contrasts = 1;
     }
     if(dementionId){
+      const {tabActive} = this.state;
+      handleDataTrace({"widgetName":`${tabActive===1?'学分正面':'学分负面'}${name}`,"traceName":`工作台2.0/本期学分${tabActive===1?'正面子维度':'负面子维度'}`});
       const params = {dementionId, startTime:date.startDate, endTime:date.endDate,familyType: Number(this.state.type)}
       jumpGobalRouter('xdCredit/index',  params )
     } else {
+      handleDataTrace({"widgetName":`本期学分`,"traceName":`工作台2.0/本期学分`});
       jumpGobalRouter('newDetail/histogram', {contrasts, dataRange: [moment(date.startDate).format('YYYY-MM-DD'), moment(date.endDate).format('YYYY-MM-DD')], familyType: familyType ===3?Number(this.state.type):familyType})
     }
   };
+
 
 
   render() {
@@ -94,7 +99,7 @@ class Score extends React.Component {
 
     const normalContent =positive.map((item)=>{
       return (
-        <div className={style.dataItem} onClick={()=>this.jump(item.dimensionId)}>
+        <div className={style.dataItem} onClick={()=>this.jump(item.dimensionId,item.name)}>
           {item.qoqValue>0&&<div style={{color:'#3DD598'}}>{item.qoqValue===null?'N/A':(item.qoqValue*100).toFixed(0)+'%'} <img width={16} src={zheng} alt=""/></div>}
           {item.qoqValue<0&&<div style={{ color: '#FC5A5A' }}>{item.qoqValue===null?'N/A':(item.qoqValue*100).toFixed(0)+'%'} <img width={16} src={fu} alt=""/></div>}
           {(item.qoqValue===0||item.qoqValue===null)&&<div style={{ color: '#333' }}>{item.qoqValue===null?'N/A':(item.qoqValue*100).toFixed(0)+'%'}</div>}
