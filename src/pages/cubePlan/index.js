@@ -10,7 +10,8 @@ class CubePlan extends React.Component {
   }
   getScreenWidth = ()=>{
     let screenRange = 'small_screen';
-    const sWidth = window.screen.width;
+    // const sWidth = window.screen.width;
+    const sWidth = 1280;
 
     if(sWidth < 1440){
       // width:1030px;
