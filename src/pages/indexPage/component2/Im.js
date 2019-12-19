@@ -12,6 +12,7 @@ import style from './style.less';
 import Echarts from '@/components/Echart';
 import { getOption } from './getImOptions';
 import { jumpGobalRouter } from '@/pages/ko/utils/utils';
+import { handleDataTrace } from '@/utils/utils';
 import { jumpGobalSelfRouter } from '@/pages/ko/utils/utils';
 
 @connect(({ xdWorkModal, loading }) => ({
@@ -21,17 +22,18 @@ import { jumpGobalSelfRouter } from '@/pages/ko/utils/utils';
   loadingTime: loading.effects['xdWorkModal/getImPieData'],
 }))
 class Im extends React.Component {
-  jump = id => {
+  jump = (widgetName, traceName) => {
     const { getCurrentDateRangeData } = this.props;
+    handleDataTrace({ widgetName: widgetName, traceName: traceName });
     jumpGobalRouter('xdCredit/im', {
       dataRange: [getCurrentDateRangeData.startTime, getCurrentDateRangeData.endTime],
-      reasonTypeId: id,
+      reasonTypeId: 0,
     });
   };
 
   clickEvent = item => {
     const { getCurrentDateRangeData } = this.props;
-    console.log(item, 'item');
+    handleDataTrace({ widgetName: 'IM负面原因', traceName: item.data.name });
     jumpGobalRouter('xdCredit/im', {
       dataRange: [getCurrentDateRangeData.startTime, getCurrentDateRangeData.endTime],
       reasonTypeId: item.data.reasonTypeId || 0,
@@ -46,7 +48,7 @@ class Im extends React.Component {
         <div className={stylefather.boxHeader}>
           <img src={IMImg} />
           <span className={stylefather.headerTitle}>IM分析</span>
-          <img src={gengduo} alt="" onClick={() => this.jump(0)} />
+          <img src={gengduo} alt="" onClick={() => this.jump('IM_进入详情', '2.0/IM_进入详情')} />
         </div>
         <div className={style.imContent}>
           <div className={style.imContentLeft}>
@@ -54,7 +56,7 @@ class Im extends React.Component {
               <div className={style.imItem}>
                 <p
                   className={style.items}
-                  onClick={() => this.jump(0)}
+                  onClick={() => this.jump('IM不满意率', '2.0/IM不满意率')}
                   style={{ cursor: 'pointer' }}
                 >
                   {(WorkbenchImNegativeData.badContrasts * 100).toFixed(2)}
@@ -73,7 +75,7 @@ class Im extends React.Component {
             {WorkbenchImNegativeData.notSatisfied ? (
               <div
                 className={style.imItem}
-                onClick={() => this.jump(0)}
+                onClick={() => this.jump('IM不满意会话', '2.0/IM不满意会话')}
                 style={{ cursor: 'pointer' }}
               >
                 <p className={style.items}>{WorkbenchImNegativeData.notSatisfied}</p>

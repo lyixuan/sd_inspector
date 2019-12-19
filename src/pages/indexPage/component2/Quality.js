@@ -12,6 +12,7 @@ import { getOptions } from './getQualityOptions.js';
 import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 import { Tooltip } from 'antd';
 import { Popover, Button } from 'antd';
+import { handleDataTrace } from '@/utils/utils';
 
 @connect(({ xdWorkModal, loading }) => ({
   WorkbenchQualityData: xdWorkModal.WorkbenchQualityData,
@@ -20,6 +21,7 @@ import { Popover, Button } from 'antd';
 }))
 class Quality extends React.Component {
   jump = () => {
+    handleDataTrace({ widgetName: '质检_进入质检报告', traceName: '2.0/质检_进入质检报告' });
     // const { getCurrentDateRangeData } = this.props;
     jumpGobalRouter('qualityReport/classReport', {
       // dataRange: [getCurrentDateRangeData.startTime, getCurrentDateRangeData.endTime],
