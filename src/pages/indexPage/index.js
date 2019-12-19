@@ -127,7 +127,7 @@ class IndexPage extends Component {
     ((userType === 'college' || userType === 'boss') && (userInfo.privilegeView || userInfo.moreView))) {
       return true;
     } else {
-      return true;
+      return false;
     }
   };
 

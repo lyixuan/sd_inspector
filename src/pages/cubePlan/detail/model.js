@@ -76,8 +76,13 @@ export default {
       } else {
         result = yield call(getMiniProgramCode,params);
       }
+      let qrCode;
       if (result.code === 200) {
-        const qrCode = result.data;
+        qrCode = result.data;
+        yield put({ type: 'save', payload: {qrCode }});
+        return true;
+      } else if (result.code === 20000) {
+        qrCode = result.data.qrcodeUrl;
         yield put({ type: 'save', payload: {qrCode }});
         return true;
       } else {
