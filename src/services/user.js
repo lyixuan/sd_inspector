@@ -11,3 +11,9 @@ export async function queryCurrent() {
 export async function queryNotices() {
   return request('/api/notices');
 }
+
+
+// 获取用户基本详情
+export async function userInfo(params) {
+  return request('/homePage/userBaseInfo', { params });
+}
