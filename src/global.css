@@ -12,9 +12,9 @@
   font-family: "PingFangSC-Regular","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"!important;
 }
 
-.ant-menu.ant-menu-dark .ant-menu-item-selected {
-  background-color:  #52C9C2!important;
-}
+/*.ant-menu.ant-menu-dark .ant-menu-item-selected {*/
+/*  background-color:  #52C9C2!important;*/
+/*}*/
 /* dxForm */
 .dxForm .ant-form-item-label label {
   width: 70px;
