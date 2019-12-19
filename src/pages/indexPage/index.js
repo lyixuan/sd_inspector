@@ -28,20 +28,26 @@ class IndexPage extends Component {
     };
   }
   componentDidMount() {
-    this.props
-      .dispatch({
-        type: 'xdWorkModal/getCurrentDateRange',
-        payload: { params: { userType: 'family' } },
-      })
-      .then(res => {
-        this.setState({ date: res });
-        this.getData(res);
-        this.getNpsData(res);
-        this.getImNegativeData(res);
-        this.getImPieData(res);
-        this.getAppealData();
-        this.getQualityData();
-      });
+    this.props.dispatch({
+      type: 'xdWorkModal/getUserInfo',
+    }).then(res => {
+      if (this.getPageDom()) { 
+        this.props
+        .dispatch({
+          type: 'xdWorkModal/getCurrentDateRange',
+          payload: { params: { userType: 'family' } },
+        })
+        .then(res => {
+          this.setState({ date: res });
+          this.getData(res);
+          this.getNpsData(res);
+          this.getImNegativeData(res);
+          this.getImPieData(res);
+          this.getAppealData();
+          this.getQualityData();
+        });
+      }
+    }) 
   }
 
   // 获取nps接口
@@ -116,15 +122,9 @@ class IndexPage extends Component {
     const admin_user = localStorage.getItem('admin_user');
     const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
     const { userInfo } = this.props;
-
-    if (userType === 'class' || userType === 'group') {
-      return true;
-    } else if (userType === 'family' && userInfo.privilegeView && userInfo.moreView) {
-      return true;
-    } else if (
-      (userType === 'college' || userType === 'boss') &&
-      (userInfo.privilegeView || userInfo.moreView)
-    ) {
+    if ( userType === 'class' || userType === 'group' || 
+    (userType === 'family' && userInfo.privilegeView && userInfo.moreView) || 
+    ((userType === 'college' || userType === 'boss') && (userInfo.privilegeView || userInfo.moreView))) {
       return true;
     } else {
       return true;
@@ -135,10 +135,6 @@ class IndexPage extends Component {
     const { date } = this.state;
     const { loadingTime } = this.props;
     const { WorkbenchScore, WorkbenchIncome, WorkbenchNpsData } = this.props.xdWorkModal;
-
-    const admin_user = localStorage.getItem('admin_user');
-    const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
-    const { userInfo } = this.props;
     if (this.getPageDom()) {
       return (
         <Spin spinning={loadingTime}>
