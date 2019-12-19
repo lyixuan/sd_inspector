@@ -6,9 +6,19 @@ import styles from './index.less';
 import bilogo from '../../assets/new-logo.png';
 import { STATIC_HOST } from '@/utils/constants';
 import router from 'umi/router';
+import BIInput from '@/ant_components/BIInput';
 import { nullLiteral } from '@babel/types';
+import { connect } from 'dva/index';
+import searchIcon from '@/assets/newIndex/searchIcon.png';
+import Score from '@/pages/indexPage/component2/Score';
 
-export default class GlobalHeader extends PureComponent {
+class GlobalHeader extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userId: '',
+    };
+  }
   componentWillUnmount() {
     this.triggerResizeEvent.cancel();
   }
@@ -26,6 +36,17 @@ export default class GlobalHeader extends PureComponent {
   }
   goToIndex = () => {
     router.push('/indexPage');
+  };
+  onFormChange = (value) => {
+    this.setState({
+      userId: value,
+    });
+  };
+  getUserInfo = () => {
+    this.props.dispatch({
+      type: 'global/getBasicInfo',
+      payload: { params: { stuId: this.state.userId } },
+    });
   };
   render() {
     const {
@@ -94,6 +115,17 @@ export default class GlobalHeader extends PureComponent {
           // </ul> : null
         }
         <div className={styles.right}>
+          <span className="searchBox">
+          <BIInput
+            placeholder="学员档案 (输入学员id)"
+            allowClear
+            style={{width:190}}
+            value={this.state.userId}
+            onPressEnter={this.getUserInfo}
+            onChange={e => this.onFormChange(e.target.value)}
+          />
+            <img src={searchIcon}  width={16} alt=""/>
+        </span>
           {currentUser.name ? (
             <Dropdown overlay={menu} placement="bottomRight">
               <span className={`${styles.action} ${styles.account}`}>
@@ -109,3 +141,4 @@ export default class GlobalHeader extends PureComponent {
     );
   }
 }
+export default GlobalHeader;
