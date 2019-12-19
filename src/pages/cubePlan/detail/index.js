@@ -235,6 +235,8 @@ class CubePlanDetail extends React.Component {
     const { titleName, data } = this.state;
     const {id} = this;
 
+    console.log(qrCode);
+
     this.name = detailInfo.name;
     const xingText = BiFilter(`Xing|id:${starLevel}`).name;
     return (
