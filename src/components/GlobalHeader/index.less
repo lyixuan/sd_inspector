@@ -162,7 +162,25 @@ i.trigger {
   }
 }
 
-.searchBox {
-  display: inline-block;
-  margin-right: 20px;
+
+:global{
+  .searchBox {
+    display: inline-block;
+    margin-right: 20px;
+    height: 36px;
+    line-height: 36px;
+    width: 200px;
+    text-align: center;
+    border-radius: 18px;
+    background: #fff;
+    position: relative;
+    input{
+      border: none;
+    }
+    img {
+      position: absolute;
+      right: 15px;
+      top: 10px;
+    }
+  }
 }
