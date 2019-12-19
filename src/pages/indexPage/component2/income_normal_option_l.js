@@ -61,8 +61,8 @@ export function getOptionL2(list) {
           borderType: 'solid',
           borderColor: '#fff',
           color: 'rgba(61,213,152,1)',
-          shadowColor: '#68b837',
-          shadowBlur: 10,
+          // shadowColor: '#68b837',
+          // shadowBlur: 10,
         },
       },
 

@@ -49,14 +49,16 @@ class Score extends React.Component {
     if (userType === 'college'||userType === 'boss') {
       contrasts = 1;
     }
+
+    let familyTypeParam =  familyType ===3?Number(this.state.type):familyType===null?0:familyType;
     if(dementionId){
       const {tabActive} = this.state;
       handleDataTrace({"widgetName":`${tabActive===1?'学分正面':'学分负面'}${name}`,"traceName":`工作台2.0/本期学分${tabActive===1?'正面子维度':'负面子维度'}`});
-      const params = {dementionId, startTime:date.startDate, endTime:date.endDate,familyType: Number(this.state.type)}
+      const params = {dementionId, startTime:moment(date.startDate).format('YYYY-MM-DD'), endTime:moment(date.startDate).format('YYYY-MM-DD'),familyType: familyTypeParam};
       jumpGobalRouter('xdCredit/index',  params )
     } else {
       handleDataTrace({"widgetName":`本期学分`,"traceName":`工作台2.0/本期学分`});
-      jumpGobalRouter('newDetail/histogram', {contrasts, dataRange: [moment(date.startDate).format('YYYY-MM-DD'), moment(date.endDate).format('YYYY-MM-DD')], familyType: familyType ===3?Number(this.state.type):familyType})
+      jumpGobalRouter('newDetail/histogram', {contrasts, dataRange: [moment(date.startDate).format('YYYY-MM-DD'), moment(date.endDate).format('YYYY-MM-DD')], familyType: familyTypeParam})
     }
   };
 
@@ -115,7 +117,6 @@ class Score extends React.Component {
           <img src={xuefen} alt=""/>
           <span className={stylefather.headerTitle}>学分</span>
           <img src={gengduo} alt="" onClick={()=>this.jump()}/>
-          &nbsp;
           &nbsp;
           {familyType===3&&<BISelect style={{ width: '90px' }} value={String(this.state.type)} onChange={(val) => this.onChangeApp(val)}>
             <Option key={0}>

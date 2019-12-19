@@ -11,10 +11,10 @@ export function getOptionBossR(list,sumData) {
         fontSize: 32,
         align: 'center',
         color:'rgba(40,40,40,1)',
-        fontFamily:'DINCondensed-Bold,DINCondensed',
+        fontFamily:'DINCondensed-Bold,DINCondensed,Haettenschweiler',
       },
       subtextStyle: {
-        fontSize: 14,
+        fontSize: 12,
         color:'rgba(40,40,40,0.8)',
       },
       x: 'center',
