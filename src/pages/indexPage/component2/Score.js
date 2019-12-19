@@ -36,7 +36,7 @@ class Score extends React.Component {
     })
   };
 
-  jump = (dementionId,name,barJump,bossFamilyType,bossList) => {
+  jump = (dementionId,name,barJump,bossFamilyType) => {
     const { userType ,WorkbenchScore,date } = this.props;
     const { familyType } = WorkbenchScore || {};
     let contrasts = 1;
@@ -49,7 +49,7 @@ class Score extends React.Component {
     if (userType === 'college'||userType === 'boss') {
       contrasts = 1;
     }
-    console.log('barJump11',bossList)
+    const bossList =WorkbenchScore[bossFamilyType].boss;
     let familyTypeParam =  familyType ===3?Number(this.state.type):familyType===null?0:familyType;
     if(dementionId){
       const {tabActive} = this.state;
@@ -87,8 +87,8 @@ class Score extends React.Component {
     }
 
     if (userType === 'boss' && WorkbenchScore[0]&& WorkbenchScore[1]) {
-      boss0.splice(0, 0, ...WorkbenchScore[0].boss);
-      boss1.splice(0, 0,...WorkbenchScore[1].boss);
+      boss0=WorkbenchScore[0].boss;
+      boss1 = WorkbenchScore[1].boss;
     } else if (userType !== 'boss' && familyType!==3 && WorkbenchScore[familyType]) {
       positive = this.state.tabActive===1? WorkbenchScore[familyType].positive:WorkbenchScore[familyType].negative;
       rank = WorkbenchScore[familyType].rank;
@@ -157,8 +157,8 @@ class Score extends React.Component {
             <span>自考</span>
             <span>壁垒</span>
           </div>
-          <Echarts options={bossOptions1} style={{ height: 250, width: 265, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,0,boss0)}/>
-          <Echarts options={bossOptions2} style={{ height: 250, width: 260, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,1,boss1)}/>
+          <Echarts options={bossOptions1} style={{ height: 250, width: 265, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,0)}/>
+          <Echarts options={bossOptions2} style={{ height: 250, width: 260, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,1)}/>
         </div>}
       </div>
     );
