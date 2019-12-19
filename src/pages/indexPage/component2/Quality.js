@@ -47,8 +47,8 @@ class Quality extends React.Component {
     let title = '';
     let title1 = '';
     if (WorkbenchQualityData && WorkbenchQualityData.class) {
-      qoqTotal = Number(Number(WorkbenchQualityData.class.qoqTotal) * 100).toFixed(0);
-      qoqPersonCount = Number(Number(WorkbenchQualityData.class.qoqPersonCount) * 100).toFixed(0);
+      qoqTotal = Number(WorkbenchQualityData.class.qoqTotal) === 0 ? 0 : Number(Number(WorkbenchQualityData.class.qoqTotal) * 100).toFixed(0);
+      qoqPersonCount = Number(WorkbenchQualityData.class.qoqPersonCount) === 0 ? 0 : Number(Number(WorkbenchQualityData.class.qoqPersonCount) * 100).toFixed(0);
       total = WorkbenchQualityData.class.total;
       word = qoqTotal > 0 ? '增长' : '降低';
       word1 = qoqPersonCount > 0 ? '增长' : '降低';
