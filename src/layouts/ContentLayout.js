@@ -46,7 +46,7 @@ class ContentLayout extends Component {
             {this.props.children && { ...this.props.children }}
           </div>
         ):isEmptyContentLayout ? (
-          <div style={{ marginTop: '16px' }}>{this.props.children && { ...this.props.children }}</div>
+          <div>{this.props.children && { ...this.props.children }}</div>
         ) :(
             <div>
               <div className={styles.bread}>
