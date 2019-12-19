@@ -118,15 +118,8 @@ class IndexPage extends Component {
   getPageDom = () => {
     const admin_user = localStorage.getItem('admin_user');
     const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
-    const { userInfo } = this.props.xdWorkModal;
-    if (userType === 'class' || userType === 'group') {
-      return true;
-    } else if (userType === 'family' && userInfo.privilegeView && userInfo.moreView) {
-      return true;
-    } else if (
-      (userType === 'college' || userType === 'boss') &&
-      (userInfo.privilegeView || userInfo.moreView)
-    ) {
+
+    if (userType === 'class' || userType === 'group'||userType === 'family' ||userType === 'college' || userType === 'boss') {
       return true;
     } else {
       return false;
