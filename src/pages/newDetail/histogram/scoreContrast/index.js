@@ -62,6 +62,8 @@ class ScoreContrast extends React.Component {
         initSate.contrasts = 2
       } else if ( userType === 'group' || userType === 'class') {
         initSate.contrasts = 3
+      } else {
+        initSate.contrasts = 1
       }
     }
     if (dataRange && dataRange instanceof Array) {
