@@ -49,16 +49,17 @@ class Score extends React.Component {
     if (userType === 'college'||userType === 'boss') {
       contrasts = 1;
     }
-    const bossList =WorkbenchScore[bossFamilyType].boss;
+
     let familyTypeParam =  familyType ===3?Number(this.state.type):familyType===null?0:familyType;
     if(dementionId){
       const {tabActive} = this.state;
       handleDataTrace({"widgetName":`${tabActive===1?'学分正面':'学分负面'}${name}`,"traceName":`工作台2.0/本期学分${tabActive===1?'正面子维度':'负面子维度'}`});
-      const params = {dementionId, startTime:moment(date.startDate).format('YYYY-MM-DD'), endTime:moment(date.startDate).format('YYYY-MM-DD'),familyType: familyTypeParam};
+      const params = {dementionId, startTime:moment(date.startDate).format('YYYY-MM-DD'), endTime:moment(date.endDate).format('YYYY-MM-DD'),familyType: familyTypeParam};
       jumpGobalRouter('xdCredit/index',  params )
     } else if(barJump){
+      const bossList =WorkbenchScore[bossFamilyType].boss;
       const collegeId = bossList[barJump.dataIndex].collegeId;
-      const params = {orgId:collegeId,startTime:moment(date.startDate).format('YYYY-MM-DD'), endTime:moment(date.startDate).format('YYYY-MM-DD'),familyType: String(bossFamilyType)};
+      const params = {orgId:collegeId,startTime:moment(date.startDate).format('YYYY-MM-DD'), endTime:moment(date.endDate).format('YYYY-MM-DD'),familyType: String(bossFamilyType)};
       jumpGobalRouter('xdCredit/index', params )
     } else {
       handleDataTrace({"widgetName":`本期学分`,"traceName":`工作台2.0/本期学分`});
@@ -157,8 +158,8 @@ class Score extends React.Component {
             <span>自考</span>
             <span>壁垒</span>
           </div>
-          <Echarts options={bossOptions1} style={{ height: 250, width: 265, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,0)}/>
-          <Echarts options={bossOptions2} style={{ height: 250, width: 260, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,1)}/>
+          <Echarts id='ads112' options={bossOptions1} style={{ height: 250, width: 265, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,0)}/>
+          <Echarts  id='ads222'  options={bossOptions2} style={{ height: 250, width: 260, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,1)}/>
         </div>}
       </div>
     );
