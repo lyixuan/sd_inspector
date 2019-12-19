@@ -6,7 +6,8 @@ import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import { thousandsFormatBigger } from '@/utils/utils';
 
-@connect(() => ({
+@connect(({ newDetailModal }) => ({
+  globalDateRange: newDetailModal.globalDateRange
 }))
 class Compare extends React.Component {
   constructor(props) {
@@ -18,14 +19,13 @@ class Compare extends React.Component {
   }
 
   componentDidMount() {
-    const { date } = this.props;
     this.props
       .dispatch({
         type: 'incomeRankModal/getCompareCollegeList',
         payload: {
           params: {
-            beginDate: '2019-11-29',
-            endDate: '2019-12-11',
+            beginDate: this.props.globalDateRange.startTime,
+            endDate: this.props.globalDateRange.endTime,
           },
         },
       })
