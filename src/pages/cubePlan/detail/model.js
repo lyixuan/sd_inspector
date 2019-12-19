@@ -68,7 +68,14 @@ export default {
     },
     *getQRCode({ payload }, { call, put }) {
       const params = payload.params;
-      const result = yield call(getMiniProgramCode,params);
+      const {usedH5} = params;
+      delete params.usedH5;
+      let result;
+      if (usedH5) {
+        result = yield call(getQRCode, params)
+      } else {
+        result = yield call(getMiniProgramCode,params);
+      }
       if (result.code === 200) {
         const qrCode = result.data;
         yield put({ type: 'save', payload: {qrCode }});

@@ -45,14 +45,14 @@
         pathnameList: PM_list_name,
         listFlag: 'black',
         clickMiniCallback: function () {
-                const { BI = {} } = window;
-                BI.traceV &&  BI.traceV({"widgetName":"用户反馈入口","traceName":"用户反馈入口"});
-          },
-          clickNormalCallback: function () {
           const { BI = {} } = window;
-                  BI.traceV &&  BI.traceV({"widgetName":"用户反馈入口","traceName":"用户反馈入口"});
-          }
-
+          BI.traceV &&  BI.traceV({"widgetName":"用户反馈入口","traceName":"用户反馈入口"});
+        },
+        clickNormalCallback: function () {
+          const { BI = {} } = window;
+          BI.traceV &&  BI.traceV({"widgetName":"用户反馈入口","traceName":"用户反馈入口"});
+        },
+        windowWidth: document.documentElement.clientWidth || document.body.clientWidth
       });
   </script>
 </body>

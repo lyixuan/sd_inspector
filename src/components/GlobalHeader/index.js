@@ -3,7 +3,7 @@ import { Menu, Icon, Spin, Dropdown, Avatar, Divider } from 'antd';
 import Debounce from 'lodash-decorators/debounce';
 import { Link } from 'dva/router';
 import styles from './index.less';
-import bilogo from '../../assets/logo.png';
+import bilogo from '../../assets/new-logo.png';
 import { STATIC_HOST } from '@/utils/constants'
 import { nullLiteral } from '@babel/types';
 
@@ -61,35 +61,39 @@ export default class GlobalHeader extends PureComponent {
           </Link>,
           <Divider type="vertical" key="line" />,
         ]}
-        <Icon
-          className={styles.trigger}
-          type={collapsed ? 'menu-unfold' : 'menu-fold'}
-          onClick={this.toggle}
-        />
+        <img
+          src={bilogo}
+          alt="logo"
+          className={styles.newLogo}/>
+        {/*<Icon*/}
+        {/*  className={styles.trigger}*/}
+        {/*  type={collapsed ? 'menu-unfold' : 'menu-fold'}*/}
+        {/*  onClick={this.toggle}*/}
+        {/*/>*/}
         {
-          userType == 'class' ? <ul className={styles.certification}>
-            {
-              certificationList.map(item => {
-                return (
-                  <>
-                    {
-                      item.child.map(item2 => (
-                        item2.obtained ? <li key={item2.id + item.grade}><img src={`${url}${item2.obtainedIcon}`} /></li> : <li key={item2.id + item.grade}><img src={`${url}${item2.originalIcon}`} /></li>
-                      ))
-                    }
-                    <li className={styles.bigImgLi} key={item.grade}><img src={item.imgUrl} className={styles.bigImg} /></li>
-                  </>
-                )
-              })
-            }
-          </ul> : null
+          // userType == 'class' ? <ul className={styles.certification}>
+          //   {
+          //     certificationList.map(item => {
+          //       return (
+          //         <>
+          //           {
+          //             item.child.map(item2 => (
+          //               item2.obtained ? <li key={item2.id + item.grade}><img src={`${url}${item2.obtainedIcon}`} /></li> : <li key={item2.id + item.grade}><img src={`${url}${item2.originalIcon}`} /></li>
+          //             ))
+          //           }
+          //           <li className={styles.bigImgLi} key={item.grade}><img src={item.imgUrl} className={styles.bigImg} /></li>
+          //         </>
+          //       )
+          //     })
+          //   }
+          // </ul> : null
         }
         <div className={styles.right}>
           {currentUser.name ? (
-            <Dropdown overlay={menu}>
+            <Dropdown overlay={menu} placement="bottomRight">
               <span className={`${styles.action} ${styles.account}`}>
                 <Avatar size="large" className={styles.avatar} src={currentUser.avatar} />
-                <span className={styles.name}>{currentUser.name}</span>
+                {/*<span className={styles.name}>{currentUser.name}</span>*/}
               </span>
             </Dropdown>
           ) : (
