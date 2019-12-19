@@ -356,11 +356,11 @@ class CreditImDetials extends React.Component {
   };
 
   render() {
-    const { currentPage, pageSize2, loading1, loading2 } = this.props;
+    const { currentPage, pageSize2, loading1, loading2, detialsWidth } = this.props;
     const { imDetailData, imDetailList } = this.props.xdCreditModal;
     const totalCount = imDetailList.total || 0;
     return (
-      <div className={`${styles.detials}`}>
+      <div className={`${styles.detials}`} style={ detialsWidth ? { width: 760 } : {} }>
         <div className={styles.classityBox} id="classityBox">
           {loading1 && this.props.loadingStatus ? (
             <div

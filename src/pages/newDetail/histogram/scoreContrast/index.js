@@ -237,13 +237,13 @@ class ScoreContrast extends React.Component {
   getTabParams = () => {
     const trace = this.props.globalUserTypes[this.props.userType];
     return [{
-      name: <span data-trace={`{"widgetName":"学院学分对比","traceName":"${trace}工作台/学院学分对比"}`}>学院学分对比</span>,
+      name: <span data-trace={`{"widgetName":"学院学分对比","traceName":"${trace}工作台/学院学分对比"}`}>学院学分</span>,
       key: '1',
     },{
-      name: <span data-trace={`{"widgetName":"家族学分对比","traceName":"${trace}工作台/家族学分对比"}`}>家族学分对比</span>,
+      name: <span data-trace={`{"widgetName":"家族学分对比","traceName":"${trace}工作台/家族学分对比"}`}>家族学分</span>,
       key:'2',
     },{
-      name: <span data-trace={`{"widgetName":"小组学分对比","traceName":"${trace}工作台/小组学分对比"}`}>小组学分对比</span>,
+      name: <span data-trace={`{"widgetName":"小组学分对比","traceName":"${trace}工作台/小组学分对比"}`}>小组学分</span>,
       key: '3',
     }]
   }

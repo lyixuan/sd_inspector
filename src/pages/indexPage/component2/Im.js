@@ -11,14 +11,32 @@ import bixin from '@/assets/bixin@2x.png';
 import style from './style.less';
 import Echarts from '@/components/Echart';
 import { getOption } from './getImOptions';
-
+import { jumpGobalRouter } from '@/pages/ko/utils/utils';
+import { jumpGobalSelfRouter } from '@/pages/ko/utils/utils';
 
 @connect(({ xdWorkModal, loading }) => ({
   WorkbenchImNegativeData: xdWorkModal.WorkbenchImNegativeData,
   WorkbenchImPieData: xdWorkModal.WorkbenchImPieData,
+  getCurrentDateRangeData: xdWorkModal.getCurrentDateRangeData,
   loadingTime: loading.effects['xdWorkModal/getImPieData'],
 }))
 class Im extends React.Component {
+  jump = id => {
+    const { getCurrentDateRangeData } = this.props;
+    jumpGobalRouter('xdCredit/im', {
+      dataRange: [getCurrentDateRangeData.startTime, getCurrentDateRangeData.endTime],
+      reasonTypeId: id,
+    });
+  };
+
+  clickEvent = item => {
+    const { getCurrentDateRangeData } = this.props;
+    jumpGobalRouter('xdCredit/im', {
+      dataRange: [getCurrentDateRangeData.startTime, getCurrentDateRangeData.endTime],
+      reasonTypeId: item.reasonTypeId || 0,
+    });
+  };
+
   render() {
     const { WorkbenchImNegativeData, WorkbenchImPieData, loadingTime } = this.props;
     const options = getOption(WorkbenchImPieData);
@@ -27,13 +45,17 @@ class Im extends React.Component {
         <div className={stylefather.boxHeader}>
           <img src={IMImg} />
           <span className={stylefather.headerTitle}>IM分析</span>
-          <img src={gengduo} alt="" />
+          <img src={gengduo} alt="" onClick={() => this.jump(0)} />
         </div>
         <div className={style.imContent}>
           <div className={style.imContentLeft}>
             {WorkbenchImNegativeData.badContrasts ? (
               <div className={style.imItem}>
-                <p className={style.items}>
+                <p
+                  className={style.items}
+                  onClick={() => this.jump(0)}
+                  style={{ cursor: 'pointer' }}
+                >
                   {(WorkbenchImNegativeData.badContrasts * 100).toFixed(2)}
                   <span className={style.precent}>%</span>
                 </p>
@@ -48,7 +70,11 @@ class Im extends React.Component {
               </div>
             )}
             {WorkbenchImNegativeData.notSatisfied ? (
-              <div className={style.imItem}>
+              <div
+                className={style.imItem}
+                onClick={() => this.jump(0)}
+                style={{ cursor: 'pointer' }}
+              >
                 <p className={style.items}>{WorkbenchImNegativeData.notSatisfied}</p>
                 <p className={style.small}>不满意会话</p>
               </div>
@@ -89,7 +115,11 @@ class Im extends React.Component {
           </div>
           <Spin spinning={loadingTime}>
             <div className={style.imContentRight}>
-              <Echarts options={options} style={{ height: 275 + 'px', top: '-49px' }} />
+              <Echarts
+                options={options}
+                style={{ height: 275 + 'px', top: '-49px' }}
+                clickEvent={item => this.clickEvent(item)}
+              />
             </div>
           </Spin>
         </div>

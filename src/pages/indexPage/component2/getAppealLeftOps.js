@@ -6,10 +6,12 @@ export function getAppealLeftOption(data) {
       {
         value: data.appealCount,
         itemStyle: colorArr[0],
+        name:'审核中',
       },
       {
         value: data.failCount,
         itemStyle: colorArr[1],
+        name:'申诉失败',
       }
     );
   }
@@ -50,6 +52,14 @@ export function getAppealLeftOption(data) {
     //   },
     // },
     tooltip: {
+      show: true,
+      backgroundColor: '#fff',
+      borderColor: '#ddd',
+      borderWidth: 1,
+      textStyle: {
+        color: '#3c3c3c',
+        fontSize: 12,
+      },
       trigger: 'item',
       formatter: function(parms) {
         var str =
@@ -80,7 +90,7 @@ export function getAppealLeftOption(data) {
     },
     series: [
       {
-        name: 'IM',
+        name: '申诉',
         type: 'pie',
         center: ['50%', '50%'],
         radius: ['40%', '65%'],
