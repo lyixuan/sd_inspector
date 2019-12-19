@@ -9,6 +9,8 @@ import Echarts from '@/components/Echart';
 import { getOption } from './getAppealOptions.js';
 import { getAppealLeftOption } from './getAppealLeftOps.js';
 import { jumpGobalRouter } from '@/pages/ko/utils/utils';
+import { handleDataTrace } from '@/utils/utils';
+import { jumpGobalSelfRouter } from '@/pages/ko/utils/utils';
 
 @connect(({ xdWorkModal, loading }) => ({
   WorkbenchAppealData: xdWorkModal.WorkbenchAppealData,
@@ -17,6 +19,7 @@ import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 }))
 class Appeal extends React.Component {
   jump = id => {
+    handleDataTrace({ widgetName: '质检_进入质检报告', traceName: '2.0/质检_进入质检报告' });
     const { getCurrentDateRangeData } = this.props;
     jumpGobalRouter('scoreAppeal/awaitAppeal', {
       creditBeginDate: getCurrentDateRangeData.startTime,
@@ -31,12 +34,29 @@ class Appeal extends React.Component {
     if (item.name == '工单') dimensionType = 19;
     if (item.name == '底线') dimensionType = 23;
     if (item.name == '优新') dimensionType = 42;
-    const { getCurrentDateRangeData } = this.props;
-    jumpGobalRouter('scoreAppeal/awaitAppeal', {
-      creditBeginDate: getCurrentDateRangeData.startTime,
-      creditEndDate: getCurrentDateRangeData.endTime,
-      dimensionType,
+
+    handleDataTrace({
+      widgetName: `学分申诉_质检${item.seriesName}`,
+      traceName: `学分申诉_质检${item.seriesName}`,
     });
+    if (item.name == '质检') {
+      jumpGobalSelfRouter('qualityAppeal/qualityAppeal');
+      return;
+    }
+    const { getCurrentDateRangeData } = this.props;
+    if (item.seriesName == '审核失败') {
+      jumpGobalSelfRouter('scoreAppeal/awaitAppeal', {
+        creditBeginDate: getCurrentDateRangeData.startTime,
+        creditEndDate: getCurrentDateRangeData.endTime,
+        dimensionType,
+      });
+    } else {
+      jumpGobalSelfRouter('scoreAppeal/onAppeal', {
+        creditBeginDate: getCurrentDateRangeData.startTime,
+        creditEndDate: getCurrentDateRangeData.endTime,
+        dimensionType,
+      });
+    }
   };
 
   render() {
@@ -58,7 +78,7 @@ class Appeal extends React.Component {
             <div className={style.appealRight} style={{ width: '260px' }}>
               <Echarts
                 options={options}
-                style={{ width: '280px', height: 253 + 'px' }}
+                style={{ width: '280px', height: 243 + 'px' }}
                 clickEvent={item => this.clickEvent(item)}
               />
             </div>

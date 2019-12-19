@@ -1,159 +1,275 @@
-import echarts from 'echarts';
-
-const dataShadow = [];
-
-export function getOption(data) {
-  const newAxis = [];
-  if (data.starList) {
-    let maxArr = [];
-    for (let i of data.starList) {
-      maxArr.push(Number(i.value));
+export function getOption(listsrc) {
+  const {starList:list=[]} = listsrc||{};
+  const bg1 = [];
+  const bg2 = [];
+  let positiveData = [];
+  let negData = [];
+  const scores = [];
+  const xArr = [];
+  let huanbi = [];
+  list.forEach((item)=>{
+    scores.push(item.value);
+    xArr.push(item.name);
+    huanbi.push((item.qoqValue * 100).toFixed(2));
+    if(item.value>=0){
+      positiveData.push(item.value);
+      negData.push(0);
+    } else {
+      negData.push(item.value);
+      positiveData.push(0);
     }
-    const max = Math.max.apply(null, maxArr);
-    data.starList.map(item => {
-      newAxis.push(item.name);
-      dataShadow.push(max);
-    });
-  }
+  });
+
+  const positiveMax = Math.ceil(Math.max.apply(null, positiveData));
+  const navMax = Math.floor(Math.min.apply(null, negData));
+  const huanbiMax = Math.ceil(Math.max.apply(null, huanbi));
+  const huanbiMin = Math.floor(Math.min.apply(null, huanbi));
+  list.forEach((item)=>{
+    bg1.push(positiveMax);
+    bg2.push(navMax);
+  });
+
+  const itemStyle1 = {
+    color:'#ccc',
+    normal: {
+      barBorderRadius: [10,10,0,0],
+      color: {
+        type: 'linear',
+        x: 0,
+        y: 0,
+        x2: 0,
+        y2: 1,
+        colorStops: [
+          {
+            offset: 0,
+            color: '#00BFCC', // 0% 处的颜色
+          },
+          {
+            offset: 1,
+            color: '#5384DF', // 100% 处的颜色
+          },
+        ],
+        global: false, // 缺省为 false
+      }
+    },
+    emphasis: {
+      barBorderWidth: 1,
+      shadowBlur: 10,
+      shadowOffsetX: 0,
+      shadowOffsetY: 0,
+      shadowColor: 'rgba(0,0,0,0.1)'
+    }
+  };
+  const itemStyle2 = {
+    color:'#ccc',
+    normal: {
+      barBorderRadius: [0,0,10,10],
+      color: {
+        type: 'linear',
+        x: 0,
+        y: 0,
+        x2: 0,
+        y2: 1,
+        colorStops: [
+          {
+            offset: 0,
+            color: '#FF8742', // 0% 处的颜色
+          },
+          {
+            offset: 1,
+            color: '#DF5252', // 100% 处的颜色
+          },
+        ],
+        global: false, // 缺省为 false
+        barBorderRadius: [0,0,10,10]
+      }},
+    emphasis: {
+      barBorderWidth: 1,
+      shadowBlur: 10,
+      shadowOffsetX: 0,
+      shadowOffsetY: 0,
+      shadowColor: 'rgba(0,0,0,0.5)'
+    }
+  };
+
+  const itemStyleBg1 = {
+    normal: {
+      color: '#F6F6F4',
+      barBorderRadius: [10, 10, 0, 0],
+    },
+    emphasis: {
+      color:'#F6F6F4',
+    }
+  };
+  const itemStyleBg2 = {
+    normal: {
+      color: '#F6F6F4',
+      barBorderRadius: [0, 0, 10, 10],
+    },
+    emphasis: {
+      color:'#F6F6F4',
+    }
+  };
 
   return {
-    title: {
-      text: '',
-      subtext: '',
-    },
-    grid: {
-      left: 50,
-      right: 20,
-      top: 30,
-      bottom: 60,
-    },
+    color: ["#50D4FD", "#FD8188"],
     tooltip: {
-      show: true,
-      backgroundColor: '#fff',
-      borderColor: '#ddd',
-      borderWidth: 1,
-      textStyle: {
-        color: '#3c3c3c',
-        fontSize: 12,
+      backgroundColor:'#fff',
+      borderColor:'#eee',
+      borderWidth:1,
+      borderRadius:10,
+      shadowBlur: 10,
+      shadowOffsetX: 1,
+      shadowOffsetY: 0,
+      shadowColor: 'rgba(0,0,0,0.8)',
+      textStyle:{
+        color:'#666',
+        fontSize:12,
       },
-      trigger: 'item',
-      formatter: function(parms) {
-        var str = parms.data.name + '</br>' + '数量：' + parms.data.value + '</br>';
+      trigger: 'axis',
+      axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+        type : 'none'        // 默认为直线，可选为：'line' | 'shadow'
+      },
+      animation:false,
+      // formatter: function (params) {
+      //   if(params[0]) {
+      //     return "学分均分：" + (params[1]?params[1].value:params[3].value) +"分"+
+      //       "<br>环比：" +  (params[4]?params[4].value:'--')+"%";
+      //   }
+      // }
+      formatter: function(params) {
+        var str = params[1].name + '</br>' + '数量：' + params[1].value + '</br>';
         return str;
       },
-      // trigger: 'item',
-      // formatter: function(parms) {
-      //   var str =
-      //     parms.seriesName +
-      //     '</br>' +
-      //     parms.marker +
-      //     '' +
-      //     parms.data.name +
-      //     '</br>' +
-      //     '数量：' +
-      //     parms.data.value +
-      //     '</br>';
-      //   return str;
-      // },
     },
     xAxis: {
-      data: newAxis,
-      axisLabel: {
-        // inside: true,
-        textStyle: {
-          color: '#7D90AA',
-          fontSize: 12,
-        },
-        interval: 0,
-        rotate: 40,
+      data: xArr,
+      name: '',
+      // type:'category',
+      silent: false,
+      // axisPointer: {
+      //   type: 'shadow'
+      // },
+      axisLine:{
+        show:false
       },
-      axisTick: {
-        show: false,
+      axisLabel:{
+        rotate:45,
+        color:'#000000 '
       },
-      axisLine: {
-        show: false,
+      axisTick:{
+        show:false
       },
-      //   z: 10,
+      splitLine: {show: false},
+      splitArea: {show: false}
     },
-    yAxis: {
-      axisLine: {
-        show: false,
+    yAxis: [{
+      inverse: false,
+      type: 'value',
+      min: navMax,
+      max: positiveMax,
+      axisLine:{
+        show:false
       },
-      axisTick: {
-        show: false,
+      axisLabel:{
+        color:'#7D90AA'
       },
-      splitLine: {
-        //网格线
-        show: false,
+      axisTick:{
+        show:false
       },
-      axisLabel: {
-        textStyle: {
-          color: '#999',
-        },
+      splitLine: {show: false},
+      splitArea: {show: false}
+    },{
+      inverse: false,
+      type: 'value',
+      min: navMax,
+      max: positiveMax,
+      axisLabel:{
+        show:false,
+        color:'#000000 '
       },
+      axisLine:{
+        show:false
+      },
+      axisTick:{
+        show:false
+      },
+      splitLine: {show: false},
+      splitArea: {show: false}
     },
-    series: [
       {
-        // For shadow
-        type: 'bar',
-        barGap: '-100%',
-        barWidth: 17, //柱图宽度
-        // barCategoryGap: '100%',
-        data: dataShadow,
-        // animation: false,
-        itemStyle: {
-          barBorderRadius: [10, 10, 0, 0],
-          color: '#F6F6F4',
+        type: 'value',
+        name: '',
+        min: huanbiMin,
+        max: huanbiMax,
+        position: 'left',
+        axisLabel:{
+          show:false,
         },
-      },
-      {
-        type: 'bar',
-        barWidth: 17, //柱图宽度
-        itemStyle: {
-          normal: {
-            barBorderRadius: [10, 10, 0, 0],
-            color: {
-              type: 'linear',
-              x: 0,
-              y: 0,
-              x2: 0,
-              y2: 1,
-              colorStops: [
-                {
-                  offset: 0,
-                  color: '#00BFCC', // 0% 处的颜色
-                },
-                {
-                  offset: 1,
-                  color: '#5384DF', // 100% 处的颜色
-                },
-              ],
-              global: false, // 缺省为 false
-            },
-          },
-          emphasis: {
-            color: {
-              type: 'linear',
-              x: 0,
-              y: 0,
-              x2: 0,
-              y2: 1,
-              colorStops: [
-                {
-                  offset: 0,
-                  color: '#00BFCC', // 0% 处的颜色
-                },
-                {
-                  offset: 1,
-                  color: '#5384DF', // 100% 处的颜色
-                },
-              ],
-              global: false, // 缺省为 false
-            },
-          },
+        axisLine:{
+          show:false
         },
-        data: data.starList,
-      },
+        axisTick:{
+          show:false
+        },
+        splitLine: {show: false},
+        splitArea: {show: false}
+      }
     ],
-  };
+    grid: {
+      left: 40,
+      right:20,
+      top:10,
+      bottom:30
+    },
+    // barGap:'-100%',
+    series: [
+      { // For shadow
+        type: 'bar',
+        barGap:'-100%',
+        // barCategoryGap:'40%',
+        barWidth:17,
+        data: bg1,
+        animation: false,
+        itemStyle: itemStyleBg1,
+      },
+      {
+        name: '正面',
+        type: 'bar',
+        stack: 'one',
+        barWidth:17,
+        itemStyle: itemStyle1,
+        data: positiveData
+
+      },
+      { // For shadow
+        type: 'bar',
+        barGap:'-100%',
+        // barCategoryGap:'40%',
+        barWidth:17,
+        data: bg2,
+        itemStyle: itemStyleBg2,
+        animation: false
+      },
+      {
+        name: '负面',
+        type: 'bar',
+        stack: 'one',
+        barWidth:17,
+        itemStyle: itemStyle2,
+        data: negData
+      },
+      {
+        name:'环比',
+        type:'line',
+        yAxisIndex: 2,
+        itemStyle:{
+          normal: {
+            color: '#FFB900',
+          }
+        },
+        data:huanbi
+      }
+    ]
+  }
 }

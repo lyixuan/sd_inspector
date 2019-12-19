@@ -1,4 +1,4 @@
-import { getUserInfo, getCurrentDateRange, getHotList, packageRankList, risePackageRankList } from './services';
+import { getUserInfo, getCurrentDateRange, getHotList, packageRankList, risePackageRankList, getKpiDateRange } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
 import moment from 'moment';
@@ -87,6 +87,20 @@ export default {
       const result = yield call(risePackageRankList);
       if (result.code === 20000) {
         return result.data.splice(0, 10);
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getKpiDateRange({ callback }, { call, put }) {
+      const result = yield call(getKpiDateRange);
+      if (result.code === 20000) {
+        const res = result.data;
+        if (res && res !== null) {
+          yield put({ type: 'save', payload: { globalkpiDateRange: res } });
+          if (callback && typeof callback === 'function') {
+            callback(res);
+          }
+        }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }

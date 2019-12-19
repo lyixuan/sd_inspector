@@ -50,7 +50,6 @@ export default class EchartsComponent extends React.Component {
     window.addEventListener("resize", () => {
       this.myChart.resize();
     });
-
   }
 
   render() {

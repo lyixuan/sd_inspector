@@ -12,6 +12,7 @@ import { getOptions } from './getQualityOptions.js';
 import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 import { Tooltip } from 'antd';
 import { Popover, Button } from 'antd';
+import { handleDataTrace } from '@/utils/utils';
 
 @connect(({ xdWorkModal, loading }) => ({
   WorkbenchQualityData: xdWorkModal.WorkbenchQualityData,
@@ -20,6 +21,7 @@ import { Popover, Button } from 'antd';
 }))
 class Quality extends React.Component {
   jump = () => {
+    handleDataTrace({ widgetName: '质检_进入质检报告', traceName: '2.0/质检_进入质检报告' });
     // const { getCurrentDateRangeData } = this.props;
     jumpGobalRouter('qualityReport/classReport', {
       // dataRange: [getCurrentDateRangeData.startTime, getCurrentDateRangeData.endTime],
@@ -73,8 +75,9 @@ class Quality extends React.Component {
           <span className={stylefather.headerTitle}>质检</span>
           <img src={gengduo} alt="" onClick={() => this.jump()} />
         </div>
-        <Spin spinning={loadingTime}>
-          {WorkbenchQualityData && WorkbenchQualityData.class && (
+
+        {WorkbenchQualityData && WorkbenchQualityData.class && (
+          <Spin spinning={loadingTime}>
             <div className={style.qualityContent}>
               <div
                 className={style.qualityLeft}
@@ -83,22 +86,27 @@ class Quality extends React.Component {
                 <div className={style.qualityItem}>
                   <p>
                     <span className={style.qualityTotal}>{total}</span>
-                    {qoqTotal && (
-                      <Popover content={title}>
-                        <span
-                          className={
-                            WorkbenchQualityData.class.qoqTotal < 0
-                              ? style.qualityGreen
-                              : style.qualityRed
-                          }
-                        >
-                          {qoqTotal}
-                          <i>%</i>
-                        </span>
-                      </Popover>
-                    )}
+                    {qoqTotal == 0 && <span className={style.block}>{qoqTotal}%</span>}
+                    {Number(qoqTotal) != 0 &&
+                      (qoqTotal && (
+                        <Popover content={title}>
+                          <span
+                            className={
+                              WorkbenchQualityData.class.qoqPersonCount < 0
+                                ? style.qualityGreen
+                                : style.qualityRed
+                            }
+                          >
+                            {qoqTotal}
+                            <i>%</i>
+                          </span>
+                        </Popover>
+                      ))}
                     {qoqTotal === null && <span className={style.qualityGreen}>N/A</span>}
-                    {qoqTotal > 0 && qoqTotal !== null ? <img src={fu1} /> : <img src={zheng1} />}
+                    {Number(qoqTotal) > 0 && qoqTotal !== null && <img src={fu1} />}
+                    {Number(qoqTotal) !== 0 && Number(qoqTotal) < 0 && qoqTotal !== null && (
+                      <img src={zheng1} />
+                    )}
                   </p>
                   <p className={style.qualityWords}>违规总量</p>
                 </div>
@@ -107,7 +115,8 @@ class Quality extends React.Component {
                     <span className={style.qualityTotal}>
                       {WorkbenchQualityData.class.personCount}
                     </span>
-                    {qoqPersonCount === 0 ||
+                    {qoqPersonCount == 0 && <span className={style.block}>{qoqPersonCount}%</span>}
+                    {Number(qoqPersonCount) != 0 &&
                       (qoqPersonCount && (
                         <Popover content={title1}>
                           <span
@@ -139,8 +148,8 @@ class Quality extends React.Component {
                 />
               </div>
             </div>
-          )}
-        </Spin>
+          </Spin>
+        )}
       </div>
     );
   }

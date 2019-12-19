@@ -31,7 +31,7 @@ class IndexPage extends Component {
     this.props.dispatch({
       type: 'xdWorkModal/getUserInfo',
     }).then(res => {
-      if (this.getPageDom()) { 
+      if (this.getPageDom()) {
         this.props
         .dispatch({
           type: 'xdWorkModal/getCurrentDateRange',
@@ -47,7 +47,7 @@ class IndexPage extends Component {
           this.getQualityData();
         });
       }
-    }) 
+    })
   }
 
   // 获取nps接口
@@ -122,8 +122,8 @@ class IndexPage extends Component {
     const admin_user = localStorage.getItem('admin_user');
     const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
     const { userInfo } = this.props;
-    if ( userType === 'class' || userType === 'group' || 
-    (userType === 'family' && userInfo.privilegeView && userInfo.moreView) || 
+    if ( userType === 'class' || userType === 'group' ||
+    (userType === 'family' && (userInfo.privilegeView || userInfo.moreView)) ||
     ((userType === 'college' || userType === 'boss') && (userInfo.privilegeView || userInfo.moreView))) {
       return true;
     } else {

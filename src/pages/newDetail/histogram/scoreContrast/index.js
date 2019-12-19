@@ -26,7 +26,8 @@ const userTypes = {
   userInfo: histogramModel.userInfo || {},
   globalUserTypes: global.globalUserTypes || {},
   globalDateMoment: newDetailModal.globalDateMoment,
-  userType: newDetailModal.globalUserType
+  userType: newDetailModal.globalUserType,
+  globalkpiDateRange: newDetailModal.globalkpiDateRange,
 }))
 class ScoreContrast extends React.Component {
   constructor(props) {
@@ -174,7 +175,7 @@ class ScoreContrast extends React.Component {
             format={dateFormat}
             onChange={val => this.onFormChange(val, 'dataRange')}
             allowClear={false}
-            disabledDate={val => disabledDate(val, this.props.globalDate)}
+            disabledDate={val => disabledDate(val, this.props.globalkpiDateRange)}
             style={{ width: 224, marginRight: 12 }}
           />
           <BISelect style={{ width: 100, marginRight: 12 }} placeholder="请选择" value={queryParams.familyType} onChange={val => this.onFormChange(val, 'familyType')}>

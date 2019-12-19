@@ -8,6 +8,7 @@ import style from './style.less';
 import Echarts from '@/components/Echart';
 import { getOption } from './getNpsOptions.js';
 import NpsLeft from './npsLeft.js';
+import { handleDataTrace } from '@/utils/utils';
 import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 
 @connect(({ xdWorkModal, loading }) => ({
@@ -17,6 +18,7 @@ import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 }))
 class Nps extends React.Component {
   jump = () => {
+    handleDataTrace({ widgetName: 'NPS_进入详情', traceName: '2.0/NPS_进入详情' });
     const { getCurrentDateRangeData } = this.props;
     jumpGobalRouter('nps', {
       dataRange: [getCurrentDateRangeData.startTime, getCurrentDateRangeData.endTime],
@@ -38,7 +40,7 @@ class Nps extends React.Component {
               <NpsLeft cloudOptions={WorkbenchNpsData.tagImageDtoList} />
             </div>
             <div className={style.npsRight}>
-              <Echarts options={options} style={{ width: '243px', height: 253 + 'px' }} />
+              <Echarts options={options} style={{ width: '243px', height: 223 + 'px' }} />
             </div>
           </div>
         </Spin>

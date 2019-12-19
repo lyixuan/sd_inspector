@@ -5,7 +5,7 @@ import gengduo from '@/assets/newIndex/gengduo@2x.png';
 import zheng from '@/assets/newIndex/zheng@2x.png';
 import fu from '@/assets/newIndex/fu@2x.png';
 import Echarts from './Echart_WorkBentch';
-import { jumpGobalRouter } from '@/pages/ko/utils/utils';
+import { jumpGobalRouter ,jumpGobalSelfRouter} from '@/pages/ko/utils/utils';
 import style from './style.less';
 import { getNormalOption } from './score_normal_option';
 import { getOptionBoss } from './score_boss_option';
@@ -36,7 +36,7 @@ class Score extends React.Component {
     })
   };
 
-  jump = (dementionId,name,barJump,bossFamilyType,bossList) => {
+  jump = (dementionId,name,barJump,bossFamilyType) => {
     const { userType ,WorkbenchScore,date } = this.props;
     const { familyType } = WorkbenchScore || {};
     let contrasts = 1;
@@ -49,17 +49,18 @@ class Score extends React.Component {
     if (userType === 'college'||userType === 'boss') {
       contrasts = 1;
     }
-    console.log('barJump11',bossList)
+
     let familyTypeParam =  familyType ===3?Number(this.state.type):familyType===null?0:familyType;
     if(dementionId){
       const {tabActive} = this.state;
       handleDataTrace({"widgetName":`${tabActive===1?'学分正面':'学分负面'}${name}`,"traceName":`工作台2.0/本期学分${tabActive===1?'正面子维度':'负面子维度'}`});
-      const params = {dementionId, startTime:moment(date.startDate).format('YYYY-MM-DD'), endTime:moment(date.startDate).format('YYYY-MM-DD'),familyType: familyTypeParam};
+      const params = {dementionId, startTime:moment(date.startDate).format('YYYY-MM-DD'), endTime:moment(date.endDate).format('YYYY-MM-DD'),familyType: familyTypeParam};
       jumpGobalRouter('xdCredit/index',  params )
     } else if(barJump){
+      const bossList =WorkbenchScore[bossFamilyType].boss;
       const collegeId = bossList[barJump.dataIndex].collegeId;
-      const params = {orgId:collegeId,startTime:moment(date.startDate).format('YYYY-MM-DD'), endTime:moment(date.startDate).format('YYYY-MM-DD'),familyType: String(bossFamilyType)};
-      jumpGobalRouter('xdCredit/index', params )
+      const params = {orgId:collegeId,startTime:moment(date.startDate).format('YYYY-MM-DD'), endTime:moment(date.endDate).format('YYYY-MM-DD'),familyType: String(bossFamilyType)};
+      jumpGobalSelfRouter('xdCredit/index', params )
     } else {
       handleDataTrace({"widgetName":`本期学分`,"traceName":`工作台2.0/本期学分`});
       jumpGobalRouter('newDetail/histogram', {contrasts, dataRange: [moment(date.startDate).format('YYYY-MM-DD'), moment(date.endDate).format('YYYY-MM-DD')], familyType: familyTypeParam})
@@ -87,8 +88,8 @@ class Score extends React.Component {
     }
 
     if (userType === 'boss' && WorkbenchScore[0]&& WorkbenchScore[1]) {
-      boss0.splice(0, 0, ...WorkbenchScore[0].boss);
-      boss1.splice(0, 0,...WorkbenchScore[1].boss);
+      boss0=WorkbenchScore[0].boss;
+      boss1 = WorkbenchScore[1].boss;
     } else if (userType !== 'boss' && familyType!==3 && WorkbenchScore[familyType]) {
       positive = this.state.tabActive===1? WorkbenchScore[familyType].positive:WorkbenchScore[familyType].negative;
       rank = WorkbenchScore[familyType].rank;
@@ -157,8 +158,8 @@ class Score extends React.Component {
             <span>自考</span>
             <span>壁垒</span>
           </div>
-          <Echarts options={bossOptions1} style={{ height: 250, width: 265, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,0,boss0)}/>
-          <Echarts options={bossOptions2} style={{ height: 250, width: 260, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,1,boss1)}/>
+          <Echarts  options={bossOptions1} style={{ height: 250, width: 265, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,0)}/>
+          <Echarts  options={bossOptions2} style={{ height: 250, width: 260, float: 'left' }} clickEvent={(item)=>this.jump(null,null,item,1)}/>
         </div>}
       </div>
     );

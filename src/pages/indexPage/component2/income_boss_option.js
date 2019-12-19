@@ -2,8 +2,25 @@ import {thousandsFormatDot} from '@/utils/utils';
 export function getOptionBossR(list,sumData) {
   const  total = sumData>999999?thousandsFormatDot((sumData/10000).toFixed(0)):sumData.toFixed(0);
   const  unit = sumData>999999?'万元':'元';
+  list.forEach((item)=>{
+    if(item.name==='好推'){
+      item['itemStyle']={
+        color:'#45D199'
+      }
+    }
+    if(item.name==='续报'){
+      item['itemStyle']={
+        color:'#FEC350'
+      }
+    }
+    if(item.name==='成考专本套'){
+      item['itemStyle']={
+        color:'#6769DA'
+      }
+    }
+
+  });
   return  {
-    color: ['#3ED097','#6769DA' , '#FEC350'],
     title: {
       text: total,
       subtext: `总流水(${unit})`,

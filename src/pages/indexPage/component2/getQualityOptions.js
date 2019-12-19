@@ -1,5 +1,4 @@
 export function getOptions(data) {
-  console.log(data, 'data');
   let list = [];
   if (data && data.class && data.class.detailList) {
     list = data.class.detailList;
@@ -170,7 +169,7 @@ export function getOptions(data) {
           show: false,
         },
         axisLabel: {
-          color: '#E2E7EC',
+          color: '#7D90AA',
         },
         axisTick: {
           show: false,
@@ -185,7 +184,7 @@ export function getOptions(data) {
         max: positiveMax,
         axisLabel: {
           show: false,
-          color: '#000000 ',
+          color: '#7D90AA',
         },
         axisLine: {
           show: false,
