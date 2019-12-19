@@ -19,7 +19,7 @@ class Score extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tabActive: 1,
+      tabActive: 2,
       type:0,
     };
   }
@@ -49,7 +49,7 @@ class Score extends React.Component {
     if (userType === 'college'||userType === 'boss') {
       contrasts = 1;
     }
-
+    console.log('barJump11',bossList)
     let familyTypeParam =  familyType ===3?Number(this.state.type):familyType===null?0:familyType;
     if(dementionId){
       const {tabActive} = this.state;
@@ -102,9 +102,9 @@ class Score extends React.Component {
     const bossOptions1 = getOptionBoss(boss0);
     const bossOptions2 = getOptionBoss(boss1);
 
-    const normalContent =positive.map((item)=>{
+    const normalContent =positive.map((item,idx)=>{
       return (
-        <div className={style.dataItem} onClick={()=>this.jump(item.dimensionId,item.name)}>
+        <div key={idx} className={style.dataItem} onClick={()=>this.jump(item.dimensionId,item.name)}>
           {item.qoqValue>0&&<div style={{color:'#3DD598'}}>{item.qoqValue===null?'N/A':(item.qoqValue*100).toFixed(0)+'%'} <img width={16} src={zheng} alt=""/></div>}
           {item.qoqValue<0&&<div style={{ color: '#FC5A5A' }}>{item.qoqValue===null?'N/A':(item.qoqValue*100).toFixed(0)+'%'} <img width={16} src={fu} alt=""/></div>}
           {(item.qoqValue===0||item.qoqValue===null)&&<div style={{ color: '#333' }}>{item.qoqValue===null?'N/A':(item.qoqValue*100).toFixed(0)+'%'}</div>}
@@ -114,7 +114,6 @@ class Score extends React.Component {
       )
     });
 
-    console.log('boss0',boss0)
     return (
       <div className={stylefather.boxLeft}>
         <div className={stylefather.boxHeader}>

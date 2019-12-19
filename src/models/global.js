@@ -1,4 +1,6 @@
-import { queryNotices } from '@/services/user';
+import { queryNotices,userInfo } from '@/services/user';
+import { msgF } from '@/utils/utils';
+import { message } from 'antd/lib/index';
 
 export default {
   namespace: 'global',
@@ -77,6 +79,16 @@ export default {
           unreadCount: notices.filter(item => !item.read).length,
         },
       });
+    },
+    *userInfo({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(userInfo, params);
+      if (result.code === 20000) {
+        const userInfo = result.data.map;
+        yield put({ type: 'save', payload: { userInfo } });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
     },
   },
 
