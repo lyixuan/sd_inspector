@@ -10,6 +10,7 @@ import { getOption } from './getAppealOptions.js';
 import { getAppealLeftOption } from './getAppealLeftOps.js';
 import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 import { handleDataTrace } from '@/utils/utils';
+import { jumpGobalSelfRouter } from '@/pages/ko/utils/utils';
 
 @connect(({ xdWorkModal, loading }) => ({
   WorkbenchAppealData: xdWorkModal.WorkbenchAppealData,
@@ -39,15 +40,23 @@ class Appeal extends React.Component {
       traceName: `学分申诉_质检${item.seriesName}`,
     });
     if (item.name == '质检') {
-      jumpGobalRouter('qualityAppeal/qualityAppeal');
+      jumpGobalSelfRouter('qualityAppeal/qualityAppeal');
       return;
     }
     const { getCurrentDateRangeData } = this.props;
-    jumpGobalRouter('scoreAppeal/awaitAppeal', {
-      creditBeginDate: getCurrentDateRangeData.startTime,
-      creditEndDate: getCurrentDateRangeData.endTime,
-      dimensionType,
-    });
+    if (item.seriesName == '审核失败') {
+      jumpGobalSelfRouter('scoreAppeal/awaitAppeal', {
+        creditBeginDate: getCurrentDateRangeData.startTime,
+        creditEndDate: getCurrentDateRangeData.endTime,
+        dimensionType,
+      });
+    } else {
+      jumpGobalSelfRouter('scoreAppeal/onAppeal', {
+        creditBeginDate: getCurrentDateRangeData.startTime,
+        creditEndDate: getCurrentDateRangeData.endTime,
+        dimensionType,
+      });
+    }
   };
 
   render() {

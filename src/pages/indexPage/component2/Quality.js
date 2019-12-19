@@ -83,35 +83,13 @@ class Quality extends React.Component {
                 className={style.qualityLeft}
                 style={{ width: '160px', height: 253 + 'px', paddingTop: '48px' }}
               >
-                {/* <div className={style.qualityItem}>
-                  <p>
-                    <span className={style.qualityTotal}>{total}</span>
-                    {qoqTotal && (
-                      <Popover content={title}>
-                        <span
-                          className={
-                            WorkbenchQualityData.class.qoqTotal < 0
-                              ? style.qualityGreen
-                              : style.qualityRed
-                          }
-                        >
-                          {qoqTotal}
-                          <i>%</i>
-                        </span>
-                      </Popover>
-                    )}
-                    {qoqTotal === null && <span className={style.qualityGreen}>N/A</span>}
-                    {qoqTotal > 0 && qoqTotal !== null ? <img src={fu1} /> : <img src={zheng1} />}
-                  </p>
-                  <p className={style.qualityWords}>违规总量</p>
-                </div> */}
                 <div className={style.qualityItem}>
                   <p>
                     <span className={style.qualityTotal}>{total}</span>
                     {qoqTotal == 0 && <span className={style.block}>{qoqTotal}%</span>}
                     {Number(qoqTotal) != 0 &&
                       (qoqTotal && (
-                        <Popover content={title1}>
+                        <Popover content={title}>
                           <span
                             className={
                               WorkbenchQualityData.class.qoqPersonCount < 0
@@ -126,9 +104,9 @@ class Quality extends React.Component {
                       ))}
                     {qoqTotal === null && <span className={style.qualityGreen}>N/A</span>}
                     {Number(qoqTotal) > 0 && qoqTotal !== null && <img src={fu1} />}
-                    {Number(qoqTotal) !== 0 &&
-                      Number(qoqTotal) < 0 &&
-                      qoqTotal !== null && <img src={zheng1} />}
+                    {Number(qoqTotal) !== 0 && Number(qoqTotal) < 0 && qoqTotal !== null && (
+                      <img src={zheng1} />
+                    )}
                   </p>
                   <p className={style.qualityWords}>违规总量</p>
                 </div>
