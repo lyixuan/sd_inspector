@@ -1,6 +1,6 @@
 export function getOptionR2(list) {
   return  {
-    color: ['#FEC350', '#3ED097', '#6769DA'],
+    color: ['#FEC350', '#6769DA', '#3ED097'],
     grid: {
       bottom: 150,
       left: 0,

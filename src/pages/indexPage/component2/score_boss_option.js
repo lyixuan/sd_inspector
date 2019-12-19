@@ -19,10 +19,10 @@ export function getOptionBoss(list) {
     }
   });
 
-  const positiveMax =  Math.max.apply(null, positiveData);
-  const navMax = Math.min.apply(null, negData);
-  const huanbiMax = Math.max.apply(null, huanbi);
-  const huanbiMin = Math.min.apply(null, huanbi);
+  const positiveMax = Math.ceil(Math.max.apply(null, positiveData));
+  const navMax = Math.floor(Math.min.apply(null, negData));
+  const huanbiMax = Math.ceil(Math.max.apply(null, huanbi));
+  const huanbiMin = Math.floor(Math.min.apply(null, huanbi));
   list.forEach((item)=>{
     bg1.push(positiveMax);
     bg2.push(navMax);
@@ -72,11 +72,11 @@ export function getOptionBoss(list) {
         colorStops: [
           {
             offset: 0,
-            color: '#00BFCC', // 0% 处的颜色
+            color: '#FF8742', // 0% 处的颜色
           },
           {
             offset: 1,
-            color: '#5384DF', // 100% 处的颜色
+            color: '#DF5252', // 100% 处的颜色
           },
         ],
         global: false, // 缺省为 false
