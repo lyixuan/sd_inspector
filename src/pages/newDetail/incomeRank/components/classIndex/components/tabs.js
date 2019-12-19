@@ -3,7 +3,7 @@ import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BIWrapperTable from '@/components/BIWrapperTable';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import BIIcon from '@/components/BIIcon';
-import BILoading from '@/components/BILoading';
+import BILoading from '/@/components/BILoading';
 import pluscircle from '@/assets/xdwork/pluscircle.png';
 import gradeA from '@/assets/workBench/a.png';
 import gradeB from '@/assets/workBench/b.png';
@@ -70,7 +70,7 @@ class ProfitTbas extends React.Component {
     // }, 
     {
       // width: 140,
-      title: '总流水',
+      title: '绩效流水',
       dataIndex: 'totalFinanceNetFlow',
       key: 'totalFinanceNetFlow',
       render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, 'totalFinanceNetFlow')} />)

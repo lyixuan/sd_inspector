@@ -110,7 +110,7 @@ class Compare extends React.Component {
         },
       },
       {
-        title: '创收总流水',
+        title: '创收绩效流水',
         dataIndex: 'incomeTotalKpi',
         key: 'incomeTotalKpi',
         render: (incomeTotalKpi, record) => {
