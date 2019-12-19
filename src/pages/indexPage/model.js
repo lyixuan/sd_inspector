@@ -16,6 +16,8 @@ import {
   getNpsData,
   getImNegativeData,
   getImPieData,
+  getAppealData,
+  getQualityData,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -35,6 +37,8 @@ export default {
     WorkbenchNpsData: {},
     WorkbenchImNegativeData: {},
     WorkbenchImPieData: {},
+    WorkbenchAppealData: {},
+    WorkbenchQualityData: {},
   },
   effects: {
     // l
@@ -207,7 +211,24 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-
+    // 获取学分申诉数据
+    *getAppealData({ payload, callback }, { call, put }) {
+      const result = yield call(getAppealData, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { WorkbenchAppealData: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 获取质检数据
+    *getQualityData({ payload, callback }, { call, put }) {
+      const result = yield call(getQualityData, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { WorkbenchQualityData: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
     // 获取im负面数据
     *getImNegativeData({ payload, callback }, { call, put }) {
       const result = yield call(getImNegativeData, payload.params);
