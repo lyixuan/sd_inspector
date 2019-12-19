@@ -26,11 +26,11 @@ class Appeal extends React.Component {
 
   clickEvent = item => {
     let dimensionType = 0;
-    if (item.name == '创收') return (dimensionType = 11);
-    if (item.name == 'IM') return (dimensionType = 14);
-    if (item.name == '工单') return (dimensionType = 19);
-    if (item.name == '底线') return (dimensionType = 23);
-    if (item.name == '优新') return (dimensionType = 42);
+    if (item.name == '创收') dimensionType = 11;
+    if (item.name == 'IM') dimensionType = 14;
+    if (item.name == '工单') dimensionType = 19;
+    if (item.name == '底线') dimensionType = 23;
+    if (item.name == '优新') dimensionType = 42;
     const { getCurrentDateRangeData } = this.props;
     jumpGobalRouter('scoreAppeal/awaitAppeal', {
       creditBeginDate: getCurrentDateRangeData.startTime,

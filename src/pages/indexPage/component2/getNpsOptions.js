@@ -127,7 +127,7 @@ export function getOption(data) {
             },
           },
         },
-        data: data.tagImageDtoList,
+        data: data.starList,
       },
     ],
   };
