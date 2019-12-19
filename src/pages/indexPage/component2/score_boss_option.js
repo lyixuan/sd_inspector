@@ -132,7 +132,7 @@ export function getOptionBoss(list) {
       animation:false,
       formatter: function (params) {
         if(params[0]) {
-          return "学分均分：" + (params[1]?params[1].value:params[3].value) +"分"+
+          return "学分均分：" + (params[1]?params[1].value?params[1].value:params[3].value:'--') +"分"+
             "<br>环比：" +  (params[4]?params[4].value:'--')+"%";
         }
       }
