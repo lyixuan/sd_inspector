@@ -92,12 +92,14 @@ export function getOption(data) {
         radius: ['39%', '62%'],
         clockwise: false, //饼图的扇区是否是顺时针排布
         avoidLabelOverlap: false,
+
         label: {
           normal: {
             position: 'inside',
             formatter: function(params) {
               return params.data.value;
             },
+            textBorderColor: 'none',
           },
         },
         textStyle: {
