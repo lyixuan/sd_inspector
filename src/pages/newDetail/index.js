@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import styles from './style.less';
 
 const headObj = {
-  '/newDetail/analyze': '创收分析页',
+  '/newDetail/analyze': '创收分析',
   '/newDetail/incomeRank': '创收对比'
 }
 
@@ -13,6 +13,9 @@ const headObj = {
 }))
 class NewDetail extends Component {
   componentDidMount() {
+    this.props.dispatch({
+      type: 'newDetailModal/getGlobalUserType',
+    });
     this.props.dispatch({
       type: 'newDetailModal/getUserInfo',
     });

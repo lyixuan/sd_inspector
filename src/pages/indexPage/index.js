@@ -97,6 +97,15 @@ class IndexPage extends Component {
         },
       },
     });
+    this.props.dispatch({
+      type: 'xdWorkModal/getWorkbenchIncome',
+      payload: {
+        params: {
+          startTime: moment(new Date(date.startDate)).format('YYYY-MM-DD'),
+          endTime: moment(new Date(date.endDate)).format('YYYY-MM-DD'),
+        },
+      },
+    });
   };
 
   render() {

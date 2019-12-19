@@ -3,18 +3,24 @@ import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
 import moment from 'moment';
 
-const admin_user = localStorage.getItem('admin_user');
-const globalUserType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
 export default {
   namespace: 'newDetailModal',
   state: {
-    globalUserType: globalUserType,
+    globalUserType: '',
     globalUserInfo: {}, // 全局值
     globalDateRange: {},
     globalDateMoment: [],
     globalDate: {},
   },
   effects: {
+    *getGlobalUserType(_, { call, put }) {
+      const admin_user = localStorage.getItem('admin_user');
+      const globalUserType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
+      yield put({
+        type: 'save',
+        payload: { globalUserType },
+      });
+    },
     *getUserInfo({ callback }, { call, put }) {
       const result = yield call(getUserInfo);
       if (result.code === 20000 && result.data) {
@@ -70,7 +76,7 @@ export default {
       const params = payload.params;
       const result = yield call(packageRankList, params);
       if (result.code === 20000) {
-        return result.data;
+        return result.data.splice(0, 10);
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -80,7 +86,7 @@ export default {
     *getRisePackageRankList({ payload, callback }, { call, put }) {
       const result = yield call(risePackageRankList);
       if (result.code === 20000) {
-        return result.data;
+        return result.data.splice(0, 10);
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }

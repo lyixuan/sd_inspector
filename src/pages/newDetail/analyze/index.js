@@ -6,18 +6,18 @@ import Surge from './block/surge';
 
 @connect(({ newDetailModal }) => ({
   globalUserInfo: newDetailModal.globalUserInfo,
-  globalDateRange: newDetailModal.globalDateRange,
+  globalDate: newDetailModal.globalDate,
 }))
 class IncomeCompare extends React.Component {
   render() {
-    const { globalUserInfo, globalDateRange } = this.props;
+    const { globalUserInfo, globalDate } = this.props;
     return (
       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '24px' }}>
-        {globalDateRange && globalDateRange.startTime && (
-          <Top date={globalDateRange} userInfo={globalUserInfo} />
+        {globalDate && globalDate.startDate && (
+          <Top date={globalDate} userInfo={globalUserInfo} />
         )}
-        {globalDateRange && globalDateRange.startTime && (
-          <Surge date={globalDateRange} userInfo={globalUserInfo} />
+        {globalDate && globalDate.startDate && (
+          <Surge date={globalDate} userInfo={globalUserInfo} />
         )}
       </div>
     );
