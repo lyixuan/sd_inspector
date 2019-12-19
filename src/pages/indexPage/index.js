@@ -12,7 +12,7 @@ import styles from './indexPage.less';
 
 @connect(({ xdWorkModal, loading }) => ({
   xdWorkModal,
-  userInfo: xdWorkModal.userInfo,
+  userInfo:xdWorkModal.userInfo,
   loadingTime: loading.effects['xdWorkModal/getCurrentDateRange'],
   getCurrentDateRangeData: xdWorkModal.getCurrentDateRangeData,
 }))
@@ -28,9 +28,6 @@ class IndexPage extends Component {
     };
   }
   componentDidMount() {
-    this.props.dispatch({
-      type: 'xdWorkModal/getUserInfo',
-    });
     this.props
       .dispatch({
         type: 'xdWorkModal/getCurrentDateRange',
@@ -118,8 +115,16 @@ class IndexPage extends Component {
   getPageDom = () => {
     const admin_user = localStorage.getItem('admin_user');
     const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
+    const { userInfo } = this.props;
 
-    if (userType === 'class' || userType === 'group'||userType === 'family' ||userType === 'college' || userType === 'boss') {
+    if (userType === 'class' || userType === 'group') {
+      return true;
+    } else if (userType === 'family' && userInfo.privilegeView && userInfo.moreView) {
+      return true;
+    } else if (
+      (userType === 'college' || userType === 'boss') &&
+      (userInfo.privilegeView || userInfo.moreView)
+    ) {
       return true;
     } else {
       return false;
@@ -131,9 +136,9 @@ class IndexPage extends Component {
     const { loadingTime } = this.props;
     const { WorkbenchScore, WorkbenchIncome, WorkbenchNpsData } = this.props.xdWorkModal;
 
-    // const admin_user = localStorage.getItem('admin_user');
-    // const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
-    // const { userInfo } = this.props;
+    const admin_user = localStorage.getItem('admin_user');
+    const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
+    const { userInfo } = this.props;
     if (this.getPageDom()) {
       return (
         <Spin spinning={loadingTime}>

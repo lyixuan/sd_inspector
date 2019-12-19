@@ -4,8 +4,8 @@ import { Spin } from 'antd';
 import stylefather from '../indexPage.less';
 import zhijian from '@/assets/zhijian@2x.png';
 import gengduo from '@/assets/newIndex/gengduo@2x.png';
-import zheng from '@/assets/newIndex/zheng@2x.png';
-import fu from '@/assets/newIndex/fu@2x.png';
+import zheng1 from '@/assets/newIndex/zheng1@2x.png';
+import fu1 from '@/assets/newIndex/fu1@2x.png';
 import style from './style.less';
 import Echarts from '@/components/Echart';
 import { getOptions } from './getQualityOptions.js';
@@ -99,7 +99,7 @@ class Quality extends React.Component {
                         </Popover>
                       ))}
                     {qoqTotal === null && <span className={style.qualityGreen}>N/A</span>}
-                    {qoqTotal > 0 && qoqTotal !== null ? <img src={fu} /> : <img src={zheng} />}
+                    {qoqTotal > 0 && qoqTotal !== null ? <img src={fu1} /> : <img src={zheng1} />}
                   </p>
                   <p className={style.qualityWords}>违规总量</p>
                 </div>
@@ -119,9 +119,9 @@ class Quality extends React.Component {
                       ))}
                     {qoqPersonCount === null && <span className={style.qualityGreen}>N/A</span>}
                     {Number(qoqPersonCount) > 0 && qoqPersonCount !== null ? (
-                      <img src={fu} />
+                      <img src={zheng1} />
                     ) : (
-                      <img src={zheng} />
+                      <img src={fu1} />
                     )}
                   </p>
                   <p className={style.qualityWords}>违规总人数</p>
