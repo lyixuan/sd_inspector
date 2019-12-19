@@ -123,7 +123,7 @@ class IndexPage extends Component {
     const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
     const { userInfo } = this.props;
     if ( userType === 'class' || userType === 'group' ||
-    (userType === 'family' && userInfo.privilegeView && userInfo.moreView) ||
+    (userType === 'family' && (userInfo.privilegeView || userInfo.moreView)) ||
     ((userType === 'college' || userType === 'boss') && (userInfo.privilegeView || userInfo.moreView))) {
       return true;
     } else {
