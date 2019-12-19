@@ -1,14 +1,15 @@
 import {thousandsFormatDot} from '@/utils/utils';
 export function getOptionBossR(list,sumData) {
-  const  total = sumData>999999?thousandsFormatDot((sumData/10000).toFixed(2)):sumData;
+  const  total = sumData>999999?thousandsFormatDot((sumData/10000).toFixed(0)):sumData.toFixed(0);
   const  unit = sumData>999999?'万元':'元';
   return  {
-    color: ['#FEC350', '#3ED097', '#6769DA'],
+    color: ['#3ED097','#6769DA' , '#FEC350'],
     title: {
       text: total,
       subtext: `总流水(${unit})`,
       textStyle: {
         fontSize: 32,
+        fontWeight:400,
         align: 'center',
         color:'rgba(40,40,40,1)',
         fontFamily:'DINCondensed-Bold,DINCondensed,Haettenschweiler',
