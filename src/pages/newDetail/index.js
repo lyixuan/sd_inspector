@@ -14,6 +14,9 @@ const headObj = {
 class NewDetail extends Component {
   componentDidMount() {
     this.props.dispatch({
+      type: 'newDetailModal/getGlobalUserType',
+    });
+    this.props.dispatch({
       type: 'newDetailModal/getUserInfo',
     });
     this.props.dispatch({
