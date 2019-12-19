@@ -3,7 +3,7 @@ import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BIWrapperTable from '@/components/BIWrapperTable';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import BIIcon from '@/components/BIIcon';
-import BILoading from '/@/components/BILoading';
+import BILoading from '@/components/BILoading';
 import pluscircle from '@/assets/xdwork/pluscircle.png';
 import gradeA from '@/assets/workBench/a.png';
 import gradeB from '@/assets/workBench/b.png';
