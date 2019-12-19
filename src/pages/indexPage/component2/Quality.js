@@ -107,9 +107,7 @@ class Quality extends React.Component {
                 </div> */}
                 <div className={style.qualityItem}>
                   <p>
-                    <span className={style.qualityTotal}>
-                      {WorkbenchQualityData.class.personCount}
-                    </span>
+                    <span className={style.qualityTotal}>{total}</span>
                     {qoqTotal == 0 && <span className={style.block}>{qoqTotal}%</span>}
                     {Number(qoqTotal) != 0 &&
                       (qoqTotal && (
