@@ -157,7 +157,7 @@ class ScoreContrast extends React.Component {
               {item.name}
             </Option>)}
           </BISelect>
-          {queryParams.contrasts === 2 && <BISelect style={{ width: 130, marginRight: 12 }} placeholder="请选择" value={queryParams.collegeId} onChange={val => this.onFormChange(val, 'collegeId')} allowClear>
+          {queryParams.contrasts === 2 && <BISelect style={{ width: 110, marginRight: 12 }} placeholder="请选择" value={queryParams.collegeId} onChange={val => this.onFormChange(val, 'collegeId')} allowClear>
             {orgList.map(item => <Option key={item.id} value={item.id} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
               {item.name}
             </Option>)}
@@ -172,7 +172,7 @@ class ScoreContrast extends React.Component {
             value={queryParams.groupId}
             onChange={val => this.onFormChange(val, 'groupId')}
             allowClear
-            style={{ width: '130px' }}
+            style={{ width: 110 }}
           />}
         </span>
         <span>
@@ -234,8 +234,8 @@ class ScoreContrast extends React.Component {
         rightStyles={{
           display: 'flex',
           justifyContent: 'space-between',
-          width: 'calc(100% - 400px)',
-          marginLeft: 400,
+          width: 'calc(100% - 386px)',
+          marginLeft: 386,
           left: 0
         }} 
         keye={this.state.tabNum}
