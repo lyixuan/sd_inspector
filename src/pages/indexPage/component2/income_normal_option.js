@@ -1,4 +1,4 @@
-export function getOptionR2(obj) {
+export function getOptionR2(list) {
   return  {
     color: ['#FEC350', '#3ED097', '#6769DA'],
     grid: {
@@ -30,11 +30,7 @@ export function getOptionR2(obj) {
             borderWidth: 5,
           },
         },
-        data:[
-          {value:335, name:'直接访问'},
-          {value:310, name:'邮件营销'},
-          {value:234, name:'联盟广告'},
-        ]
+        data:list
       }
     ]
   };

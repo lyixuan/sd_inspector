@@ -5,9 +5,11 @@ export function getOptionBoss(list) {
   let negData = [];
   const scores = [];
   const xArr = [];
+  let huanbi = [];
   list.forEach((item)=>{
     scores.push(item.score);
     xArr.push(item.name);
+    huanbi.push((item.qoqValue * 100).toFixed(2));
     if(item.score>=0){
       positiveData.push(item.score);
       negData.push(0);
@@ -19,6 +21,8 @@ export function getOptionBoss(list) {
 
   const positiveMax =  Math.max.apply(null, positiveData);
   const navMax = Math.min.apply(null, negData);
+  const huanbiMax = Math.max.apply(null, huanbi);
+  const huanbiMin = Math.min.apply(null, huanbi);
   list.forEach((item)=>{
     bg1.push(positiveMax);
     bg2.push(navMax);
@@ -128,9 +132,8 @@ export function getOptionBoss(list) {
       animation:false,
       formatter: function (params) {
         if(params[0]) {
-          return params[0].name +
-            "<br>正面：" + (params[1]?params[1].value:0) +"个"+
-            "<br>负面：" +  (params[3]?-params[3].value:0)+"个";
+          return "学分均分：" + (params[1]?params[1].value:params[3].value) +"分"+
+            "<br>环比：" +  (params[4]?params[4].value:'--')+"%";
         }
       }
     },
@@ -164,7 +167,7 @@ export function getOptionBoss(list) {
         show:false
       },
       axisLabel:{
-        color:'#E2E7EC'
+        color:'#7D90AA'
       },
       axisTick:{
         show:false
@@ -188,13 +191,31 @@ export function getOptionBoss(list) {
       },
       splitLine: {show: false},
       splitArea: {show: false}
-    }
+    },
+      {
+        type: 'value',
+        name: '',
+        min: huanbiMin,
+        max: huanbiMax,
+        position: 'left',
+        axisLabel:{
+          show:false,
+        },
+        axisLine:{
+          show:false
+        },
+        axisTick:{
+          show:false
+        },
+        splitLine: {show: false},
+        splitArea: {show: false}
+      }
     ],
     grid: {
       left: 40,
       right:20,
-      top:30,
-      bottom:60
+      top:10,
+      bottom:100
     },
     // barGap:'-100%',
     series: [
@@ -233,6 +254,17 @@ export function getOptionBoss(list) {
         itemStyle: itemStyle2,
         data: negData
       },
+      {
+        name:'环比',
+        type:'line',
+        yAxisIndex: 2,
+        itemStyle:{
+          normal: {
+            color: '#FFB900',
+          }
+        },
+        data:huanbi
+      }
     ]
   }
 }
