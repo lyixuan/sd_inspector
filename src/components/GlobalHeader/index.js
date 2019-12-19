@@ -44,8 +44,8 @@ class GlobalHeader extends PureComponent {
   getUserInfo = () => {
     console.log('9999999')
     this.props.dispatch({
-      type: 'behaviorPath/userInfo',
-      payload: { params: { userId: this.state.userId } },
+      type: 'global/getBasicInfo',
+      payload: { params: { stuId: this.state.userId } },
     });
   };
   render() {

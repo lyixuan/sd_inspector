@@ -50,7 +50,7 @@ export default class UserPortary extends React.Component {
           {/*学习状况*/}
           <LearnDetail learnDetail={learnDetail} height={height}/>
           {/*IM情绪值*/}
-          <ImDetail imDetail={imDetail} height={height}/>
+          {/*<ImDetail imDetail={imDetail} height={height}/>*/}
           {/*做题分析*/}
           <ExerciseDetail exerciseDetail={exerciseDetail} height={height}/>
           <br/>
