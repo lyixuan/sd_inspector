@@ -48,11 +48,23 @@ class ScoreContrast extends React.Component {
     }
   }
   getInitState = () => {
+    const { userType } = this.props;
     const { params } = this.props.location.query;
-    const { contrasts = 1, dataRange, familyType = 0 } = params ? JSON.parse(params) : {};
+    const { contrasts, dataRange, familyType = 0 } = params ? JSON.parse(params) : {};
     const initSate = {
       contrasts,
       familyType: familyType + ''
+    }
+    if (!contrasts) {
+      if (userType === 'boss' || userType === 'college') {
+        initSate.contrasts = 1
+      } else if (userType === 'family') {
+        initSate.contrasts = 2
+      } else if ( userType === 'group' || userType === 'class') {
+        initSate.contrasts = 3
+      } else {
+        initSate.contrasts = 1
+      }
     }
     if (dataRange && dataRange instanceof Array) {
       initSate.dataRange = [moment(dataRange[0]), moment(dataRange[1])];
@@ -170,7 +182,7 @@ class ScoreContrast extends React.Component {
               {item.name}
             </Option>)}
           </BISelect>
-          {queryParams.contrasts === 2 && <BISelect style={{ width: 110, marginRight: 12 }} placeholder="请选择" value={queryParams.collegeId} onChange={val => this.onFormChange(val, 'collegeId')} allowClear>
+          {queryParams.contrasts === 2 && <BISelect style={{ width: 110, marginRight: 12 }} placeholder="选择组织" value={queryParams.collegeId} onChange={val => this.onFormChange(val, 'collegeId')} allowClear>
             {orgList.map(item => <Option key={item.id} value={item.id} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
               {item.name}
             </Option>)}
