@@ -114,7 +114,7 @@ class Quality extends React.Component {
                         {qoqPersonCount}%
                       </span>
                     )}
-                    {qoqPersonCount !== 0 ||
+                    {Number(qoqPersonCount) != 0 &&
                       (qoqPersonCount && (
                         <Popover content={title1}>
                           <span
