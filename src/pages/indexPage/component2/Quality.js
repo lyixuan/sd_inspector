@@ -109,7 +109,12 @@ class Quality extends React.Component {
                     <span className={style.qualityTotal}>
                       {WorkbenchQualityData.class.personCount}
                     </span>
-                    {qoqPersonCount === 0 ||
+                    {qoqPersonCount == 0 && (
+                      <span className={style.block}>
+                        {qoqPersonCount}%
+                      </span>
+                    )}
+                    {qoqPersonCount !== 0 ||
                       (qoqPersonCount && (
                         <Popover content={title1}>
                           <span
