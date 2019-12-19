@@ -15,7 +15,7 @@ class QualityAppeal extends React.Component {
           <span className={style.leftLine} /> <span className={style.leftText}>质检/学分申诉</span>
         </div>
         <Quality />
-        <Appeal WorkbenchNpsData={WorkbenchNpsData} />
+        <Appeal />
       </div>
     );
   }
