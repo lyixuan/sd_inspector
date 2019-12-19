@@ -354,13 +354,14 @@ class XdCredit extends React.Component {
   getResetGroupMsg = (arr = this.state.userOrgConfig) => {
     const { orgId, orgType } = this.state;
     let arr1 = [];
-    const { familyType:familyTypeurl='0' } = JSON.parse(this.props.location.query.params)||{};
+    const { params } = this.props.location.query;
+    const { familyType = '0' } = params ? JSON.parse(params) : {};
     if (arr && arr.length > 0) {
       this.getParentNode(arr, orgId, orgType, arr1);
       const item = arr[0];
 
       if (orgId && arr1.length > 0) {
-        const { familyType } = JSON.parse(this.props.location.query.params);
+        // const { familyType } = JSON.parse(this.props.location.query.params);
         const groupArr = arr1.map(item => item.id);
         this.setState({
           showCollege: arr1.length == 1 && arr1[0].familyType.length > 1,
@@ -378,9 +379,9 @@ class XdCredit extends React.Component {
       this.setState({
         showCollege: item.familyType.length > 1,
       });
-      return { groupId: [item.id], groupTypeArr: [item], familyType: familyTypeurl||item.familyType };
+      return { groupId: [item.id], groupTypeArr: [item], familyType: familyType||item.familyType };
     } else {
-      return { groupId: [], groupTypeArr: [], familyType:familyTypeurl };
+      return { groupId: [], groupTypeArr: [], familyType: familyType };
     }
   };
   // date
