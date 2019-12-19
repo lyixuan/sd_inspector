@@ -45,6 +45,7 @@ export function getNormalOption(list) {
     yAxis: {
       show: false,
       type: 'value',
+      min:  0,
     },
     grid: {
       top: 50,
