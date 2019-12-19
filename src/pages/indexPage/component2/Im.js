@@ -120,7 +120,7 @@ class Im extends React.Component {
             <div className={style.imContentRight}>
               <Echarts
                 options={options}
-                style={{ height: 260 + 'px', top: '-10px' }}
+                style={{ height: 235 + 'px', top: '-10px' }}
                 clickEvent={item => this.clickEvent(item)}
               />
             </div>

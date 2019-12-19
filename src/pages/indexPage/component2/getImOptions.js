@@ -88,8 +88,8 @@ export function getOption(data) {
       {
         name: 'IM',
         type: 'pie',
-        center: ['50%', '47%'],
-        radius: ['40%', '65%'],
+        center: ['50%', '49%'],
+        radius: ['36%', '58%'],
         clockwise: false, //饼图的扇区是否是顺时针排布
         avoidLabelOverlap: false,
         label: {
