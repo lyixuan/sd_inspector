@@ -110,6 +110,7 @@
   float: left;
   margin-top: 20px;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 
 .dataItem div:nth-child(1) {
@@ -239,4 +240,74 @@
     margin-left: 30px;
   }
 }
+
+.appealContent {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: -25px;
+}
+
+.appealContentDot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  span {
+    width: 100px;
+    display: flex;
+    align-items: center;
+  }
+  i {
+    margin-right: 6px;
+  }
+  .yellow {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #ffc442;
+    display: inline-block;
+  }
+  .purple {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #6665dd;
+    display: inline-block;
+  }
+}
+
+.qualityContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .qualityWords {
+    color: #7e7d82;
+    font-size: 12px;
+  }
+
+  .qualityGreen {
+    color: #3dd598;
+    font-size: 14px;
+    margin-left: 10px;
+  }
+  i {
+    font-style: normal;
+  }
+  .qualityItem {
+    .qualityTotal {
+      width: 39px;
+      height: 32px;
+      font-size: 32px;
+      font-family: DINCondensed-Bold, DINCondensed;
+      font-weight: bold;
+      color: rgba(40, 40, 40, 1);
+      line-height: 38px;
+    }
+  }
+  img {
+    width: 16px;
+  }
+}
+
 // end

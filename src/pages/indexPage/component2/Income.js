@@ -3,15 +3,21 @@ import stylefather from '../indexPage.less';
 import chuangshou from '@/assets/newIndex/chuangshou@2x.png';
 import gengduo from '@/assets/newIndex/gengduo@2x.png';
 import Echarts from './Echart_WorkBentch';
-import {thousandsFormatDot} from '@/utils/utils';
+import { handleDataTrace, thousandsFormatDot } from '@/utils/utils';
 import { getOptionBossR } from './income_boss_option';
 import { getOptioBossL } from './income_boss_option_l';
 
 import { getOptionR2 } from './income_normal_option';
 import { getOptionL2 } from './income_normal_option_l';
 import style from './style.less';
+import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 
 class Income extends React.Component {
+  jump = () =>{
+    handleDataTrace({"widgetName":`创收_进入详情`,"traceName":`2.0/创收_进入详情`});
+    jumpGobalRouter('newDetail/incomeRank' );
+  };
+
   render() {
     const { WorkbenchIncome, userType } = this.props;
     const { sumData, pieData=[], rank,boss=[]} = WorkbenchIncome || {};
@@ -34,7 +40,7 @@ class Income extends React.Component {
         <div className={stylefather.boxHeader}>
           <img src={chuangshou} alt=""/>
           <span className={stylefather.headerTitle}>创收</span>
-          <img src={gengduo} alt=""/>
+          <img src={gengduo} alt="" onClick={()=>this.jump()}/>
         </div>
 
         {userType==='boss'&&<div className={style.crossRow}>

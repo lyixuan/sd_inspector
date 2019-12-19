@@ -1,7 +1,8 @@
+import echarts from 'echarts';
+
 const dataShadow = [];
 
 export function getOption(data) {
-  console.log(data, 'aa');
   const newAxis = [];
   if (data.starList) {
     let maxArr = [];
@@ -20,6 +21,12 @@ export function getOption(data) {
       text: '',
       subtext: '',
     },
+    grid: {
+      left: 50,
+      right: 20,
+      top: 30,
+      bottom: 60,
+    },
     xAxis: {
       data: newAxis,
       axisLabel: {
@@ -28,14 +35,16 @@ export function getOption(data) {
           color: '#7D90AA',
           fontSize: 12,
         },
+        interval:0,  
+        rotate:40  
       },
       axisTick: {
         show: false,
       },
       axisLine: {
         show: false,
-      },
-      z: 10,
+      }
+    //   z: 10,
     },
     yAxis: {
       axisLine: {
@@ -54,11 +63,6 @@ export function getOption(data) {
         },
       },
     },
-    // dataZoom: [
-    //   {
-    //     type: 'inside',
-    //   },
-    // ],
     series: [
       {
         // For shadow

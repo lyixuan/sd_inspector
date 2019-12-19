@@ -39,7 +39,7 @@ class NPSLeft extends React.Component {
           height: '90%',
           right: null,
           bottom: null,
-          sizeRange: [3, 36],
+          sizeRange: [9, 30],
           textPadding: 60,
           rotationRange: [0, 0],
           rotationStep: 0,

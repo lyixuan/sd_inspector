@@ -1,41 +1,18 @@
-export function getOption(data) {
-  const colorArr = [
-    { color: '#6665DD' },
-    { color: '#FF602F' },
-    { color: '#33D195' },
-    { color: '#B5E1F9' },
-    { color: '#FFC442' },
-    { color: '#4A5F75' },
-    { color: '#0496FF' },
-    { color: '#AEB89F' },
-  ];
+export function getAppealLeftOption(data) {
+  const colorArr = [{ color: '#6665DD' }, { color: '#FFC442' }];
   const newData = [];
-  let total = 0;
-  if (Object.prototype.toString.call(data) == '[object Array]' && data.length > 0) {
-    data.map((item, index) => {
-      newData.push({
-        value: item.noStatisticNum,
-        name: item.reasonTypeName.replace('方向', ''),
-        itemStyle: colorArr[index],
-      });
-      total += item.noStatisticNum;
-    });
+  if (data.appealCount) {
+    newData.push(
+      {
+        value: data.appealCount,
+        itemStyle: colorArr[0],
+      },
+      {
+        value: data.failCount,
+        itemStyle: colorArr[1],
+      }
+    );
   }
-  // const newX = [];
-  // m2R2Data.xAxis &&
-  // m2R2Data.xAxis.forEach(item => {
-  //     let arr = [];
-  //     let newDate = '';
-  //     arr = item.split('-');
-  //     newDate = `${arr[1]}-${arr[2]}\n${arr[0]}`;
-  //     newX.push(newDate);
-  //   });
-
-  // const newCorrectRatio = [];
-  // m2R2Data.correctRatio &&
-  // m2R2Data.correctRatio.forEach(item => {
-  //     newCorrectRatio.push((item * 100).toFixed(2));
-  //   });
 
   return {
     title: [
@@ -51,7 +28,7 @@ export function getOption(data) {
         orient: 'vertical',
         x: 'center',
         y: '40%',
-        text: total,
+        text: data.total,
         subtext: '总量',
         textStyle: {
           fontSize: 26,

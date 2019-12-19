@@ -35,6 +35,8 @@ class IndexPage extends Component {
         this.getNpsData(res);
         this.getImNegativeData(res);
         this.getImPieData(res);
+        this.getAppealData();
+        this.getQualityData();
       });
   }
 
@@ -63,6 +65,24 @@ class IndexPage extends Component {
     const { startTime, endTime } = this.props.getCurrentDateRangeData;
     this.props.dispatch({
       type: 'xdWorkModal/getImPieData',
+      payload: { params: { startTime, endTime } },
+    });
+  };
+
+  // 学分申诉
+  getAppealData = () => {
+    const { startTime, endTime } = this.props.getCurrentDateRangeData;
+    this.props.dispatch({
+      type: 'xdWorkModal/getAppealData',
+      payload: { params: { startTime, endTime } },
+    });
+  };
+
+  // 质检
+  getQualityData = () => {
+    const { startTime, endTime } = this.props.getCurrentDateRangeData;
+    this.props.dispatch({
+      type: 'xdWorkModal/getQualityData',
       payload: { params: { startTime, endTime } },
     });
   };
