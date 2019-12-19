@@ -220,7 +220,7 @@ export function getOption(listsrc) {
       left: 40,
       right:20,
       top:10,
-      bottom:100
+      bottom:30
     },
     // barGap:'-100%',
     series: [
