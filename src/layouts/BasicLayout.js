@@ -13,7 +13,7 @@ import { LocaleProvider } from 'antd';
 import Footer from './Footer';
 import ContentLayout from '@/layouts/ContentLayout';
 import SiderMenu from '../components/SiderMenu';
-import biIcon from '../assets/biIcon.png';
+import biIcon from '../assets/touxiang.png';
 import logo from '../assets/menu/logo.png';
 import storage from '../utils/storage';
 import { getBowerInfo } from '../utils/utils';
