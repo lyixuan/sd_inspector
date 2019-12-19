@@ -124,7 +124,7 @@ class Quality extends React.Component {
                       <img src={zheng} />
                     )}
                   </p>
-                  <p className={style.qualityWords}>违规总人次</p>
+                  <p className={style.qualityWords}>违规总人数</p>
                 </div>
               </div>
               <div className={style.qualityRight}>

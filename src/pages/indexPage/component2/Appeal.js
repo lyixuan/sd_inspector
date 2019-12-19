@@ -26,11 +26,11 @@ class Appeal extends React.Component {
 
   clickEvent = item => {
     let dimensionType = 0;
-    if (item.name == '创收') return (dimensionType = 11);
-    if (item.name == 'IM') return (dimensionType = 14);
-    if (item.name == '工单') return (dimensionType = 19);
-    if (item.name == '底线') return (dimensionType = 23);
-    if (item.name == '优新') return (dimensionType = 42);
+    if (item.name == '创收') dimensionType = 11;
+    if (item.name == 'IM') dimensionType = 14;
+    if (item.name == '工单') dimensionType = 19;
+    if (item.name == '底线') dimensionType = 23;
+    if (item.name == '优新') dimensionType = 42;
     const { getCurrentDateRangeData } = this.props;
     jumpGobalRouter('scoreAppeal/awaitAppeal', {
       creditBeginDate: getCurrentDateRangeData.startTime,
@@ -55,10 +55,10 @@ class Appeal extends React.Component {
             <div className={style.appealLeft} style={{ width: '230px' }}>
               <Echarts options={options1} style={{ width: '230px', height: 213 + 'px' }} />
             </div>
-            <div className={style.appealRight} style={{ width: '280px' }}>
+            <div className={style.appealRight} style={{ width: '260px' }}>
               <Echarts
                 options={options}
-                style={{ width: '280px', height: 273 + 'px' }}
+                style={{ width: '280px', height: 253 + 'px' }}
                 clickEvent={item => this.clickEvent(item)}
               />
             </div>
