@@ -18,23 +18,6 @@ export const routes = [
       {
         path: '/indexPage',
         component: './indexPage',
-        routes: [
-          {
-            path: '/indexPage/xdWorkbench',
-            component: './indexPage/xdWorkbench',
-            name: '小德工作台',
-          },
-          {
-            path: '/indexPage/xdFamilyBench',
-            component: './indexPage/xdFamilyBench',
-            name: '小德工作台',
-          },
-          {
-            path: '/indexPage/ManagementBench',
-            component: './indexPage/ManagementBench',
-            name: '小德工作台',
-          },
-        ],
       },
       {
         path: '/exception/403',
@@ -532,28 +515,6 @@ export const routes = [
           },
         ],
       },
-      {
-        path: '/xdFamilyBench',
-        name: '家族长工作台',
-        routes: [
-          {
-            path: '/xdFamilyBench/index',
-            component: './indexPage/xdFamilyBench',
-            name: '家族长工作台',
-          },
-        ],
-      },
-      // {
-      //   path: '/xdWorkbench',
-      //   name: '小德工作台',
-      //   routes: [
-      //     {
-      //       path: '/xdWorkbench/index',
-      //       component: './indexPage/xdWorkbench',
-      //       name: '小德工作台',
-      //     },
-      //   ]
-      // }
       {
         path: '/configWords',
         component: './configWords/index',

@@ -35,6 +35,8 @@ class IndexPage extends Component {
         this.getNpsData(res);
         this.getImNegativeData(res);
         this.getImPieData(res);
+        this.getAppealData();
+        this.getQualityData();
       });
   }
 
@@ -67,9 +69,36 @@ class IndexPage extends Component {
     });
   };
 
+  // 学分申诉
+  getAppealData = () => {
+    const { startTime, endTime } = this.props.getCurrentDateRangeData;
+    this.props.dispatch({
+      type: 'xdWorkModal/getAppealData',
+      payload: { params: { startTime, endTime } },
+    });
+  };
+
+  // 质检
+  getQualityData = () => {
+    const { startTime, endTime } = this.props.getCurrentDateRangeData;
+    this.props.dispatch({
+      type: 'xdWorkModal/getQualityData',
+      payload: { params: { startTime, endTime } },
+    });
+  };
+
   getData = date => {
     this.props.dispatch({
       type: 'xdWorkModal/getWorkbenchScore',
+      payload: {
+        params: {
+          startTime: moment(new Date(date.startDate)).format('YYYY-MM-DD'),
+          endTime: moment(new Date(date.endDate)).format('YYYY-MM-DD'),
+        },
+      },
+    });
+    this.props.dispatch({
+      type: 'xdWorkModal/getWorkbenchIncome',
       payload: {
         params: {
           startTime: moment(new Date(date.startDate)).format('YYYY-MM-DD'),

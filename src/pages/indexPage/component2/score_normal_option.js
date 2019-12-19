@@ -26,15 +26,15 @@ export function getNormalOption(list) {
         fontSize:12,
       },
       trigger: 'item',
-      position: function (pos, params, dom, rect, size) {
-        var obj = {top: 60};
-        obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5;
-        return obj;
-      },
+      // position: function (pos, params, dom, rect, size) {
+      //   var obj = {top: 60};
+      //   obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5;
+      //   return obj;
+      // },
       formatter: function(param) {
         const { data } = param;
         const { showName = '', rankNum='',total=''} = data;
-        return `${showName}排名   ${rankNum}/${total}`
+        return showName+'<br>排名:' + rankNum +'/'+total
       },
     },
     xAxis: {
@@ -50,7 +50,7 @@ export function getNormalOption(list) {
       top: 50,
       left: 10,
       right: 10,
-      bottom: 30,
+      bottom: 20,
     },
     series: [{
       name: 'scatter',

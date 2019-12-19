@@ -112,3 +112,10 @@ export function getDateObj(date = []) {
   }
   return {}
 }
+
+export function getDateArray(date = []) {
+  if (date instanceof Array && date.length === 2) {
+    return [date[0].format(dateFormat), date[1].format(dateFormat)]
+  }
+  return []
+}

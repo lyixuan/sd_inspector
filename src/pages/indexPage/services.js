@@ -54,10 +54,10 @@ export async function getCurrentDateRange(params) {
 
 // l
 export async function getWorkbenchScore(data) {
-  return request('/workbench/score',{ method: 'POST', data: data });
+  return request('/workbench/score', { method: 'POST', data: data });
 }
 export async function getWorkbenchIncome(params) {
-  return request('/workbench/score',{params});
+  return request('/incomeOrder/incomeOrderData', { params });
 }
 
 // 获取nps
@@ -71,4 +71,12 @@ export async function getImNegativeData(params) {
 
 export async function getImPieData(data) {
   return request('/deskperfpcapi/im/reasonListV2', { method: 'POST', data });
+}
+
+export async function getAppealData(data) {
+  return request('/workbench/appeal', { method: 'POST', data });
+}
+
+export async function getQualityData(data) {
+  return request('/workbench/quality', { method: 'POST', data });
 }

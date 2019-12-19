@@ -11,6 +11,7 @@ import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 import { disabledDate, getDateObj } from '@/pages/indexPage/components/utils/utils';
 import pkBtnImg from '@/assets/pkbtn.png';
 import qushiImg from '@/assets/qushibtn.png';
+import moment from 'moment';
 
 const { BIRangePicker } = BIDatePicker;
 const { Option } = BISelect;
@@ -30,36 +31,66 @@ const userTypes = {
 class ScoreContrast extends React.Component {
   constructor(props) {
     super(props);
-    const { params } = this.props.location.query;
-    const { contrasts = 1 } = params ? JSON.parse(params) : {};
+    const { contrasts, dataRange, familyType} = this.getInitState();
     this.state = {
       queryAppealDatas:{},
       queryParams: {
         contrasts,
-        familyType: '0',
+        familyType: familyType,
         dimensionId: undefined,
         collegeId: undefined,
         groupId: undefined,
-        dataRange: this.props.globalDateMoment
+        dataRange
       },
       query: { }, // tabs值储存
       tabNum: contrasts,
-      familyTypeInit: '0'
+      familyTypeInit: familyType
     }
+  }
+  getInitState = () => {
+    const { userType } = this.props;
+    const { params } = this.props.location.query;
+    const { contrasts, dataRange, familyType = 0 } = params ? JSON.parse(params) : {};
+    const initSate = {
+      contrasts,
+      familyType: familyType + ''
+    }
+    if (!contrasts) {
+      if (userType === 'boss' || userType === 'college') {
+        initSate.contrasts = 1
+      } else if (userType === 'family') {
+        initSate.contrasts = 2
+      } else if ( userType === 'group' || userType === 'class') {
+        initSate.contrasts = 3
+      } else {
+        initSate.contrasts = 1
+      }
+    }
+    if (dataRange && dataRange instanceof Array) {
+      initSate.dataRange = [moment(dataRange[0]), moment(dataRange[1])];
+    } else {
+      initSate.dataRange = this.props.globalDateMoment;
+    }
+    return initSate;
   }
   componentDidMount() {
     // 自考壁垒对应的学院  三个工作台都要用
-    this.props.dispatch({
-      type:"histogramModel/getCurrentFamilyType",
-      callback:({ familyType }) => {
-        const { queryParams } = this.state;
-        queryParams.familyType = familyType + '';
-        this.setState({
-          familyTypeInit: familyType + '',
-          queryParams
-        }, () => this.queryAppealDataPage())
-      }
-    })
+    if (!this.state.familyTypeInit) {
+      this.props.dispatch({
+        type:"histogramModel/getCurrentFamilyType",
+        callback:({ familyType }) => {
+          const { queryParams } = this.state;
+          queryParams.familyType = familyType + '';
+          this.setState({
+            familyTypeInit: familyType + '',
+            queryParams
+          }, () => this.queryAppealDataPage())
+        }
+      })
+    } else {
+      this.queryAppealDataPage()
+    }
+    
     if (this.tabNum !== 1) {
       this.getOrgList();
     }
@@ -68,12 +99,6 @@ class ScoreContrast extends React.Component {
   changeTab = (obj) => {
     const { queryParams } = this.state;
     this.state.query[queryParams.contrasts] = {
-      // contrasts: queryParams.contrasts,
-      // familyType: queryParams.familyType,
-      // dimensionId: queryParams.dimensionId,
-      // collegeId: queryParams.collegeId,
-      // groupId: queryParams.groupId,
-      // dataRange: queryParams.dataRange
       ...queryParams
     }
     const keye = Number(obj.keye);
@@ -84,7 +109,7 @@ class ScoreContrast extends React.Component {
         familyType: this.state.familyTypeInit,
         collegeId: undefined,
         groupId: undefined,
-        dataRange: this.props.globalDateMoment
+        dataRange: this.state.queryParams.dataRange
       };
     }
     if (keye !== 1) {
@@ -157,7 +182,7 @@ class ScoreContrast extends React.Component {
               {item.name}
             </Option>)}
           </BISelect>
-          {queryParams.contrasts === 2 && <BISelect style={{ width: 110, marginRight: 12 }} placeholder="请选择" value={queryParams.collegeId} onChange={val => this.onFormChange(val, 'collegeId')} allowClear>
+          {queryParams.contrasts === 2 && <BISelect style={{ width: 110, marginRight: 12 }} placeholder="选择组织" value={queryParams.collegeId} onChange={val => this.onFormChange(val, 'collegeId')} allowClear>
             {orgList.map(item => <Option key={item.id} value={item.id} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
               {item.name}
             </Option>)}

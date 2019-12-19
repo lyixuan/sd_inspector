@@ -6,7 +6,7 @@ import BIContainer from '@/components/BIContainer';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import BISelect from '@/ant_components/BISelect';
 import CreditImDetials from '../imDetails';
-import { disabledDate } from '@/pages/indexPage/components/utils/utils';
+import { disabledDate, getDateArray } from '@/pages/indexPage/components/utils/utils';
 import styles from './style.less';
 import moment from 'moment';
 
@@ -34,35 +34,50 @@ class ImPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataRange: [], // 时间
       groupId: [], // 组织
       groupTypes: [],// 组织全部信息数组
       familyType: undefined,// 自考壁垒
       page: 1,
       loadingStatus: true,
-      reasonTypeId: 0, //  内部组件参数
+      // reasonTypeId: 0, //  内部组件参数
       loadingStart: true,
+      ...this.getInitState()
     };
   }
   componentDidMount() {
-    // 权限 - 时间 - 列表- 初始化
-    // this.props.dispatch({
-    //   type: 'xdCreditModal/getUserInfo',
-    // }); 
+    const { dataRange } = this.state;
+    if (dataRange.length === 2) {
+      this.getUserOrgList(getDateArray(dataRange), () => this.getReasonListData()); // 初始化 数据
+    }
+    this.props.dispatch({
+      type: 'xdCreditModal/getKpiDateRange',
+      callback: res => {
+        if (dataRange && dataRange.length !==2) {
+          this.setState({ 
+            dataRange: [moment(res.endDate), moment(res.endDate)],
+            dataRangeInit: [moment(res.endDate), moment(res.endDate)]
+          });
+          this.getUserOrgList([res.endDate, res.endDate], () => this.getReasonListData()); // 初始化 数据
+        } 
+      },
+    }); 
+  }
+  // 
+  getInitState = () => {
     const { params } = this.props.location.query;
-    const { dataRange = [], groupId = [], reasonTypeId = 0} = params ? JSON.parse(params) : {};
-    this.setState({ dataRange, groupId, reasonTypeId }, () => {
-      this.props.dispatch({
-        type: 'xdCreditModal/getKpiDateRange',
-        callback: res => {
-          const { dataRange } = this.state;
-          if (dataRange && dataRange.length !==2) {
-            this.setState({ dataRange: [moment(res.endDate), moment(res.endDate)] });
-            this.getUserOrgList([res.endDate, res.endDate], () => this.getReasonListData()); // 初始化 数据
-          }
-        },
-      });
-    })
+    const { dataRange, reasonTypeId = 0 } = params ? JSON.parse(params) : {};
+    const initSate = { 
+      reasonTypeId,
+      dataRange:[],
+      dataRangeInit: []
+     };
+    if (dataRange && dataRange instanceof Array) {
+      initSate.dataRange = [moment(dataRange[0]), moment(dataRange[1])];
+      initSate.dataRangeInit = [moment(dataRange[0]), moment(dataRange[1])];
+    } else {
+
+    }
+    return initSate
   }
   // 请求组织
   getUserOrgList = (date, callBack) => {
@@ -167,15 +182,13 @@ class ImPage extends React.Component {
     this.getReasonListData();
   }
   handleReset = () => {
-    const { startDate, endDate} = this.props;
     this.setState(
       {
-        startTime: endDate,
-        endTime: endDate,
+        dataRange: this.state.dataRangeInit,
         ...this.getResetGroupMsg(),
       },
       () => {
-        this.getUserOrgList([startDate, endDate], () => this.getReasonListData()); // 初始化 数据
+        this.getUserOrgList(getDateArray(this.state.dataRangeInit), () => this.getReasonListData()); // 初始化 数据
       }
     );
   };
@@ -230,7 +243,7 @@ class ImPage extends React.Component {
                   style={{ width: '224px' }}
                 />
               </span>
-              <span className={styles.option}>
+              {globalOrgList && globalOrgList.length > 0 && <span className={styles.option}>
                 选择组织：
                 <BICascader
                   placeholder="选择组织"
@@ -245,7 +258,7 @@ class ImPage extends React.Component {
                   style={{ width: '136px' }}
                   allowClear={globalUserType === 'boss'}
                 />
-              </span>
+              </span> }
               {
                 this.getCollegeFlag() && <span className={styles.option}>
                   学院类型：
