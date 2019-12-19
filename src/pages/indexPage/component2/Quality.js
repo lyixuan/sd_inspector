@@ -54,14 +54,14 @@ class Quality extends React.Component {
         <span>
           对比{WorkbenchQualityData.class.qoqStartTime}~{WorkbenchQualityData.class.qoqEndTime}{' '}
           {word}
-          {qoqTotal}%
+          {Math.abs(qoqTotal)}%
         </span>
       );
       title1 = (
         <span>
           对比{WorkbenchQualityData.class.qoqStartTime}~{WorkbenchQualityData.class.qoqEndTime}{' '}
           {word1}
-          {qoqPersonCount}%
+          {Math.abs(qoqPersonCount)}%
         </span>
       );
     }
