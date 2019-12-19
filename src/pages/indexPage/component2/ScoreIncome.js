@@ -3,12 +3,11 @@ import style from './style.less';
 import moment from 'moment';
 import Income from './Income';
 import Score from './Score';
+
 import { handleDataTrace } from '@/utils/utils';
 
 class ScoreIncome extends React.Component {
 
-  onBeforePlay=()=>{
-  };
   render() {
     const { WorkbenchScore,WorkbenchIncome,date } = this.props;
     const admin_user = localStorage.getItem('admin_user');
