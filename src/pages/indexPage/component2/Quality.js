@@ -15,6 +15,7 @@ import { Popover, Button } from 'antd';
 
 @connect(({ xdWorkModal, loading }) => ({
   WorkbenchQualityData: xdWorkModal.WorkbenchQualityData,
+  getCurrentDateRangeData: xdWorkModal.getCurrentDateRangeData,
   loadingTime: loading.effects['xdWorkModal/getQualityData'],
 }))
 class Quality extends React.Component {
