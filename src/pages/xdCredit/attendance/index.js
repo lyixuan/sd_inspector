@@ -197,7 +197,7 @@ class Attendance extends React.Component {
       {
         title: (
           <Tooltip title="学员直播听课时长达标，但未做随堂考的排课数">
-            <span style={{ cursor: 'pointer' }}>直播可督学人次</span>
+            <span style={{ cursor: 'pointer' }}>直播达标可督学人次</span>
           </Tooltip>
         ),
         width: '23%',
@@ -228,7 +228,7 @@ class Attendance extends React.Component {
       {
         title: (
           <Tooltip title="学员重播听课时长达标，但未做随堂考的排课数（不包含直播听课时长达标数据）">
-            <span style={{ cursor: 'pointer' }}>重播可督学人次</span>
+            <span style={{ cursor: 'pointer' }}>重播达标可督学人次</span>
           </Tooltip>
         ),
         width: '23%',
