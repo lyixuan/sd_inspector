@@ -33,7 +33,15 @@ class Appeal extends React.Component {
     if (item.name == '工单') dimensionType = 19;
     if (item.name == '底线') dimensionType = 23;
     if (item.name == '优新') dimensionType = 42;
-    handleDataTrace({ widgetName: `学分申诉_质检${item.seriesName}`, traceName: `学分申诉_质检${item.seriesName}` });
+
+    handleDataTrace({
+      widgetName: `学分申诉_质检${item.seriesName}`,
+      traceName: `学分申诉_质检${item.seriesName}`,
+    });
+    if (item.name == '质检') {
+      jumpGobalRouter('qualityAppeal/qualityAppeal');
+      return;
+    }
     const { getCurrentDateRangeData } = this.props;
     jumpGobalRouter('scoreAppeal/awaitAppeal', {
       creditBeginDate: getCurrentDateRangeData.startTime,
