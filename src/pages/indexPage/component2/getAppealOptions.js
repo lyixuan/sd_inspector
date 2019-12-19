@@ -1,6 +1,7 @@
 const colorArr = ['#6665DD', '#FFC442'];
 
 var fomatter_fn = function(v) {
+  console.log(v,'cccccccccccc');
   return v.value;
 };
 const _label = {
@@ -62,36 +63,27 @@ export function getOption(data) {
         color: '#3c3c3c',
         fontSize: 12,
       },
-      trigger: 'axis',
-      formatter: function(p) {
-        const value = Number(p[0].value) + Number(p[1].value);
-        var _arr = p[0].seriesName.split('/'),
-          idx = p.seriesIndex; //1，2，3
+      // trigger: 'axis',
+      formatter: function(p,index) {
         return (
           '名称：' +
-          p[0].name +
+          p.name +
           '<br>' +
-          p[0].seriesName +
+          p.seriesName +
           ':' +
-          p[0].value +
-          '<br>' +
-          '总数量' +
-          value
+          p.value 
         );
       },
       extraCssText: 'box-shadow: 0 0 5px rgba(0, 0, 0, 0.1)',
     },
     xAxis: {
-      //   spliƒtNumber: spNum,
-      //   interval: _max / spNum,
-      //   max: _max,
       axisLabel: {
         show: false,
-        formatter: function(v) {
-          console.log(v, 'v');
-          //   var _v = ((v / _max) * 100).toFixed(0);
-          //   return _v == 0 ? _v : _v + '%';
-        },
+        // formatter: function(v) {
+        //   console.log(v, 'v');
+        //   //   var _v = ((v / _max) * 100).toFixed(0);
+        //   //   return _v == 0 ? _v : _v + '%';
+        // },
       },
       axisLine: {
         show: false,
