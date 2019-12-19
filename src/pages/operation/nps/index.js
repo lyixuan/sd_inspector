@@ -10,6 +10,7 @@ import NPSLeft from './NPSLeft';
 // import NPSRight from './NPSRight'
 import moment from 'moment';
 import { initTimeData } from '../../ko/utils/utils';
+import { removeTypeDuplicates } from '@babel/types';
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -49,9 +50,7 @@ class NPSEvaluate extends React.Component {
       groupId: [0] || localStorage.getItem('NPSGroupId'),
       groupTypeArr: [],
       NPSParams: {},
-      dateArr: localStorage.getItem('NPSDates')
-        ? this.localStoryDates()
-        : [this.handleDefaultPickerValueMark(), this.handleDefaultPickerValueMarkDays()],
+      dateArr: this.getIniDateRange(),
       userInfo: props.userInfo,
       disableEndDate: this.handleDefaultPickerValueMarkDays(),
       star: localStorage.getItem('NPSStar') ? localStorage.getItem('NPSStar') : '0',
@@ -88,6 +87,17 @@ class NPSEvaluate extends React.Component {
         );
       },
     });
+  }
+  getIniDateRange = () => {
+    const { params } = this.props.location.query;
+    const { dataRange } = params ? JSON.parse(params) : {};
+    if (dataRange && dataRange instanceof Array && dataRange.length === 2) {
+      return [moment(dataRange[0]), moment(dataRange[1])];
+    } else if (localStorage.getItem('NPSDates')) {
+      return this.localStoryDates();
+    } else {
+      return [this.handleDefaultPickerValueMark(), this.handleDefaultPickerValueMarkDays()]
+    }
   }
   localStoryDates = () => {
     let startDate = moment(JSON.parse(localStorage.getItem('NPSDates'))[0]);
