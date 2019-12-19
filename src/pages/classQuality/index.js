@@ -94,9 +94,9 @@ class ClassQuality extends React.Component {
     if (document.body) {
       document.body.onscroll = (e) => {
         const val = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-        if (val > 54 && !this.state.setFixed) {
+        if (val > 0 && !this.state.setFixed) {
           this.setState({ setFixed: styles.searchFixed})
-        } else if (val <= 54 && this.state.setFixed) {
+        } else if (val <= 0 && this.state.setFixed) {
           this.setState({ setFixed: ''})
         }
       }
@@ -239,7 +239,7 @@ class ClassQuality extends React.Component {
               </BIScrollbar>
             </div> : ''
           }
-          <div className={setFixed} style={ setFixed ? {width: globalCollapsed ? '100%' : 'calc(100vw - 230px)'} : {}}>
+          <div className={setFixed}>
             <div className={styles.search}>
               <img className={styles.icon} src={searchImg} alt=""/>
               <span style={{display: 'inline-block'}}><BIInput onChange={e => this.changeSearch(e.target.value)} value={this.state.keyWord} onPressEnter={this.handleSubmit} placeholder="请输入要查找的手册内容" allowClear/></span>
