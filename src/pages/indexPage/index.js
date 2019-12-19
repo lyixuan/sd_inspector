@@ -5,10 +5,14 @@ import MainPage from './mainPage/index';
 import ScoreIncome from './component2/ScoreIncome';
 import ImNps from './component2/ImNps';
 import QualityAppeal from './component2/QualityAppeal';
+import homeImg from '@/assets/homeImg.png';
+import homeText from '@/assets/homeText.png';
 import moment from 'moment/moment';
+import styles from './indexPage.less';
 
 @connect(({ xdWorkModal, loading }) => ({
   xdWorkModal,
+  userInfo: xdWorkModal.userInfo,
   loadingTime: loading.effects['xdWorkModal/getCurrentDateRange'],
   getCurrentDateRangeData: xdWorkModal.getCurrentDateRangeData,
 }))
@@ -24,6 +28,9 @@ class IndexPage extends Component {
     };
   }
   componentDidMount() {
+    this.props.dispatch({
+      type: 'xdWorkModal/getUserInfo',
+    });
     this.props
       .dispatch({
         type: 'xdWorkModal/getCurrentDateRange',
@@ -108,21 +115,49 @@ class IndexPage extends Component {
     });
   };
 
+  getPageDom = () => {
+    const admin_user = localStorage.getItem('admin_user');
+    const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
+
+    if (userType === 'class' || userType === 'group'||userType === 'family' ||userType === 'college' || userType === 'boss') {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   render() {
     const { date } = this.state;
     const { loadingTime } = this.props;
     const { WorkbenchScore, WorkbenchIncome, WorkbenchNpsData } = this.props.xdWorkModal;
-    return (
-      <Spin spinning={loadingTime}>
-        <ScoreIncome
-          date={date}
-          WorkbenchScore={WorkbenchScore}
-          WorkbenchIncome={WorkbenchIncome}
-        />
-        <ImNps WorkbenchNpsData={WorkbenchNpsData} />
-        <QualityAppeal WorkbenchNpsData={WorkbenchNpsData} />
-      </Spin>
-    );
+
+    // const admin_user = localStorage.getItem('admin_user');
+    // const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
+    // const { userInfo } = this.props;
+    if (this.getPageDom()) {
+      return (
+        <Spin spinning={loadingTime}>
+          <ScoreIncome
+            date={date}
+            WorkbenchScore={WorkbenchScore}
+            WorkbenchIncome={WorkbenchIncome}
+          />
+          <ImNps WorkbenchNpsData={WorkbenchNpsData} />
+          <QualityAppeal WorkbenchNpsData={WorkbenchNpsData} />
+        </Spin>
+      );
+    } else {
+      return (
+        <div className={styles.container}>
+          <div className={styles.content}>
+            <img src={homeImg} alt="首页" className={styles.homeImg} />
+            <div className={styles.userDescription}>
+              <img src={homeText} alt="首页文字" />
+            </div>
+          </div>
+        </div>
+      );
+    }
   }
 }
 

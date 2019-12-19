@@ -600,20 +600,20 @@ export const routes = [
           }
         ]
       }, {
-        path: '/newdetail',
+        path: '/newDetail',
         component: './newDetail',
         routes: [
           {
-            path: '/newdetail/analyze',
+            path: '/newDetail/analyze',
             component: './newDetail/analyze',
-            name: '创收分析页',
+            // name: '创收分析页',
           }, {
-            path: '/newdetail/histogram',
+            path: '/newDetail/histogram',
             component: './newDetail/histogram',
           }, {
-            path: '/newdetail/incomeRank',
+            path: '/newDetail/incomeRank',
             component: './newDetail/incomeRank',
-            name: '创收数据',
+            // name: '创收数据',
           },
         ],
       },

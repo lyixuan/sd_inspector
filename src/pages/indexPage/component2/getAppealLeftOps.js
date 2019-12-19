@@ -1,7 +1,7 @@
 export function getAppealLeftOption(data) {
-  const colorArr = [{ color: '#6665DD' }, { color: '#FFC442' }];
+  const colorArr = [{ color: '#FFC442' }, { color: '#6665DD' }];
   const newData = [];
-  if (data.appealCount) {
+  if (Number(data.appealCount) >= 0) {
     newData.push(
       {
         value: data.appealCount,

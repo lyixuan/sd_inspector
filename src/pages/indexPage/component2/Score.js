@@ -57,7 +57,6 @@ class Score extends React.Component {
       const params = {dementionId, startTime:moment(date.startDate).format('YYYY-MM-DD'), endTime:moment(date.startDate).format('YYYY-MM-DD'),familyType: familyTypeParam};
       jumpGobalRouter('xdCredit/index',  params )
     } else if(barJump){
-      console.log('barJump',bossList)
       const collegeId = bossList[barJump.dataIndex].collegeId;
       const params = {orgId:collegeId,startTime:moment(date.startDate).format('YYYY-MM-DD'), endTime:moment(date.startDate).format('YYYY-MM-DD'),familyType: String(bossFamilyType)};
       jumpGobalRouter('xdCredit/index', params )
@@ -88,8 +87,8 @@ class Score extends React.Component {
     }
 
     if (userType === 'boss' && WorkbenchScore[0]&& WorkbenchScore[1]) {
-      boss0 = WorkbenchScore[0].boss;
-      boss1 = WorkbenchScore[1].boss;
+      boss0.splice(0, 0, ...WorkbenchScore[0].boss);
+      boss1.splice(0, 0,...WorkbenchScore[1].boss);
     } else if (userType !== 'boss' && familyType!==3 && WorkbenchScore[familyType]) {
       positive = this.state.tabActive===1? WorkbenchScore[familyType].positive:WorkbenchScore[familyType].negative;
       rank = WorkbenchScore[familyType].rank;
