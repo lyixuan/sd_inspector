@@ -21,3 +21,8 @@ export async function risePackageRankList() {
 export async function packageRankList(data) {
   return request('/adminWorkbench/hotSellPackage/packageRankList', { method: 'POST', data: data });
 }
+
+// 学分—日期
+export async function getKpiDateRange(params) {
+  return request('/deskperfpcapi/credit/dimension/kpiDateRange', { method: 'get', params });
+}

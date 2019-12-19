@@ -23,6 +23,9 @@ class NewDetail extends Component {
       type: 'newDetailModal/getCurrentDateRange',
       payload: { params: { userType: 'family' } },
     });
+    this.props.dispatch({
+      type: 'newDetailModal/getKpiDateRange',
+    });
   }
   render() {
     const { globalDate, location = {} } = this.props;
