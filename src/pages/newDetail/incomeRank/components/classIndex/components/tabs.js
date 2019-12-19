@@ -70,7 +70,7 @@ class ProfitTbas extends React.Component {
     // }, 
     {
       // width: 140,
-      title: '总流水',
+      title: '绩效流水',
       dataIndex: 'totalFinanceNetFlow',
       key: 'totalFinanceNetFlow',
       render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, 'totalFinanceNetFlow')} />)

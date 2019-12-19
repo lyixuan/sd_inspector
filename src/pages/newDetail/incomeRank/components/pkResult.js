@@ -47,7 +47,7 @@ class ProfitTbas extends React.Component {
         render: (text, record) => this.getColumn(record, <BITextAlign textalign='center'>{text > 3 ? text : <img src={gradeImg[text]} alt='' style={{ width: '20px'}}/>}</BITextAlign>)
       }, {
         width: '10%',
-        title: this.props.incomeType + '总流水',
+        title: this.props.incomeType + '绩效流水',
         dataIndex: 'kpiFlow',
         key: 'kpiFlow',
         render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.kpiFlow)}/>)
