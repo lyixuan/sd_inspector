@@ -137,7 +137,7 @@ export default class BaseInfo extends React.Component {
           </Col>
           <Col span={2} className={styles.baseCol} onClick={()=>jumpRouter(stuId,{target:'im'} )}>
             <Tooltip placement="top" title={`最近一周IM会话“不满意”率。`}>
-              {imNonRatio!==null?<div style={{ color: '#1A1C1F' }}><span className={styles.im}>{(imNonRatio * 100).toFixed(2)}</span> %
+              {imNonRatio!==null?<div style={{ color: '#1A1C1F' }}><span className={styles.im}>{(imNonRatio * 100)}</span> %
               </div>:<div style={{ color: '#1A1C1F',height:45,lineHeight:3 }}>--</div>}
               <div>IM不满意率</div>
             </Tooltip>
@@ -148,7 +148,7 @@ export default class BaseInfo extends React.Component {
           <Col span={2} className={styles.baseCol}>
             <Tooltip placement="top" title={`该学员所有做题情况：做对题目/总做题数。`}>
             <div style={{cursor:'pointer'}}>
-              {exerciseRatio!==null?<div style={{ color: '#1A1C1F' }}><span className={styles.zxl}>{(exerciseRatio * 100).toFixed(2)}</span> %
+              {exerciseRatio!==null?<div style={{ color: '#1A1C1F' }}><span className={styles.zxl}>{(exerciseRatio * 100)}</span> %
               </div>:<div style={{ color: '#1A1C1F',height:45,lineHeight:3 }}>--</div>}
               <div>做题准确率</div>
             </div>
