@@ -1,3 +1,5 @@
+import { Tooltip } from 'antd';
+
 export function getOptions(data) {
   let list = [];
   if (data && data.class && data.class.detailList) {
@@ -152,6 +154,9 @@ export function getOptions(data) {
       axisLabel: {
         rotate: 45,
         color: '#000000 ',
+        formatter: function(val) {
+          return val.length > 5 ? val.substr(0, 4) + '...' : val;
+        },
       },
       axisTick: {
         show: false,
@@ -168,8 +173,8 @@ export function getOptions(data) {
         axisLine: {
           show: false,
         },
-        axisLabel: {
-          color: '#7D90AA',
+        axisLabel:{
+          color:'#CAD2DC'
         },
         axisTick: {
           show: false,
