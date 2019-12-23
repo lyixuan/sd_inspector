@@ -119,12 +119,12 @@ class GlobalHeader extends PureComponent {
           <BIInput
             placeholder="学员档案 (输入学员id)"
             allowClear
-            style={{width:190}}
+            style={{width:170}}
             value={this.state.userId}
             onPressEnter={this.getUserInfo}
             onChange={e => this.onFormChange(e.target.value)}
           />
-            <img src={searchIcon}  width={16} alt=""/>
+            <img src={searchIcon}  width={16} alt="" onClick={this.getUserInfo}/>
         </span>
           {currentUser.name ? (
             <Dropdown overlay={menu} placement="bottomRight">
