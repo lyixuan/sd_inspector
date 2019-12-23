@@ -24,10 +24,10 @@ export function getOption(data) {
       splitLine: {
         //网格线
         // show: true,
-        lineStyle: {
-          type: 'dashed',
-          color: '#999999',
-        },
+        // lineStyle: {
+        //   type: 'dashed',
+        //   color: '#999999',
+        // },
       },
       axisLine: {
         show: true,

@@ -24,6 +24,7 @@ const { BI = {} } = window;
   xdOperation,
   xdOperationNpsData: xdOperation.xdOperationNpsData,
   getCurrentDateRangeData1: xdOperation.getCurrentDateRangeData1,
+  xdOperationNpsPaiData: xdOperation.xdOperationNpsPaiData,
   userInfo: xdOperation.userInfo,
 }))
 class NPSEvaluate extends React.Component {
@@ -71,6 +72,7 @@ class NPSEvaluate extends React.Component {
       callback: userInfo => {
         this.getUserOrgList();
         this.getNpsData();
+        this.getPieData();
         if (userInfo.userType == 'boss') {
           this.state.groupId = [0];
         } else {
@@ -170,6 +172,30 @@ class NPSEvaluate extends React.Component {
       },
     });
   };
+  getPieData = () => {
+    const { userInfo } = this.state;
+    let params = {
+      ...this.initRecordTimeListData(this.state.dateArr),
+      collegeId:
+        (userInfo && userInfo.collegeId) ||
+        (this.state.groupId.length > 0 && this.state.groupId[0]) ||
+        null,
+      familyId:
+        (userInfo && userInfo.familyId) ||
+        (this.state.groupId.length > 0 && this.state.groupId[1]) ||
+        null,
+      groupId:
+        (userInfo && userInfo.groupId) ||
+        (this.state.groupId.length > 0 && this.state.groupId[2]) ||
+        null,
+      star: this.state.star === '0' ? null : Number(this.state.star),
+      cycle: this.state.cycle === '0' ? null : Number(this.state.cycle),
+    };
+    this.props.dispatch({
+      type: 'xdOperation/getNPSPaiData',
+      payload: { params: params },
+    });
+  };
   // 组织 - 时间
   getUserOrgList = () => {
     this.props.dispatch({
@@ -194,6 +220,7 @@ class NPSEvaluate extends React.Component {
       },
       () => {
         this.getNpsAutonomousEvaluation(0, true);
+        this.getPieData();
       }
     );
     BI.traceV && BI.traceV({ widgetName: 'NPS归属筛选', traceName: '管理层工作台/NPS归属筛选' });
@@ -206,6 +233,7 @@ class NPSEvaluate extends React.Component {
       },
       () => {
         this.getNpsAutonomousEvaluation(0, true);
+        this.getPieData();
       }
     );
     BI.traceV && BI.traceV({ widgetName: '星级筛选', traceName: '管理层工作台/NPS分析' });
@@ -219,6 +247,7 @@ class NPSEvaluate extends React.Component {
       },
       () => {
         this.getNpsAutonomousEvaluation(0, true);
+        this.getPieData();
       }
     );
     BI.traceV &&
@@ -235,6 +264,7 @@ class NPSEvaluate extends React.Component {
       },
       () => {
         this.getNpsAutonomousEvaluation(0, true);
+        this.getPieData();
       }
     );
     // this.setState({ dateArr: v }, () => this.getNpsAutonomousEvaluation(0, true));
@@ -323,9 +353,9 @@ class NPSEvaluate extends React.Component {
   };
   render() {
     const { NPSParams } = this.state;
-    const { npsList = [], xdOperationNpsData } = this.props.xdOperation;
+    const { npsList = [], xdOperationNpsData, xdOperationNpsPaiData } = this.props.xdOperation;
     const options = getOption(npsList);
-    console.log(xdOperationNpsData, 'xdOperationNpsData');
+    console.log(xdOperationNpsPaiData, 'xdOperationNpsPaiData');
     const options1 = getOption1(xdOperationNpsData);
     return (
       <Container

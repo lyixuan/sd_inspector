@@ -45,3 +45,8 @@ export async function getFamilyType(params) {
 export async function getNpsData(data) {
   return request('/workbench/nps', { method: 'POST', data });
 }
+
+// 获取nps
+export async function getNPSPaiData(data) {
+  return request('/income/getCycleList', { method: 'POST', data });
+}

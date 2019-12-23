@@ -9,6 +9,7 @@ import {
   getOrgMapList,
   getIncomeCollegeList,
   getNpsData,
+  getNPSPaiData,
 } from './services';
 import { message } from 'antd/lib';
 import { msgF } from '@/utils/utils';
@@ -30,6 +31,7 @@ export default {
     globalCollegeList: [],
     globalQVisible: false, // 问卷调查是否显示
     xdOperationNpsData: {},
+    xdOperationNpsPaiData: {},
   },
   effects: {
     //  管理层工作台的接口
@@ -223,8 +225,17 @@ export default {
     *getNpsData({ payload, callback }, { call, put }) {
       const result = yield call(getNpsData, payload.params);
       if (result.code === 20000 && result.data) {
-        console.log(result, 'result');
         yield put({ type: 'save', payload: { xdOperationNpsData: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
+    // 获取Nps数据
+    *getNPSPaiData({ payload, callback }, { call, put }) {
+      const result = yield call(getNPSPaiData, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { xdOperationNpsPaiData: result.data } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
