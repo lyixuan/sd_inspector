@@ -118,7 +118,6 @@ class GlobalHeader extends PureComponent {
           <span className="searchBox">
           <BIInput
             placeholder="学员档案 (输入学员id)"
-            allowClear
             style={{width:170}}
             value={this.state.userId}
             onPressEnter={this.getUserInfo}
