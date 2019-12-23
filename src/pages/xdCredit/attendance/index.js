@@ -279,24 +279,22 @@ class Attendance extends React.Component {
           );
         },
       },
-      // {
-      //   title: '创收总流水',
-      //   dataIndex: 'incomeTotalKpi',
-      //   key: 'incomeTotalKpi',
-      //   render: (incomeTotalKpi, record) => {
-      //     const percent = record.incomeTotalKpiRatio * 100 + '%';
-      //     const money = thousandsFormatBigger(incomeTotalKpi);
-      //     return (
-      //       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      //         <BIWrapperProgress
-      //           text={money}
-      //           percent={percent}
-      //           propsStyle={{ flex: 'inherit', width: '60px', justifyContent: 'flex-end' }}
-      //         />
-      //       </div>
-      //     );
-      //   },
-      // },
+      {
+        title: '操作',
+        width: '10%',
+        dataIndex: '',
+        key: '',
+        render: (incomeTotalKpi, record) => {
+          return (
+            <a
+              onClick={() => this.download()}
+              style={{ display: 'flex', justifyContent: 'center', color: '#67EECB' }}
+            >
+              下载
+            </a>
+          );
+        },
+      },
     ];
     return columns || [];
     // if (titleFive) {
@@ -335,6 +333,14 @@ class Attendance extends React.Component {
     //   });
     // }
     // return columns || [];
+  };
+
+  download = () => {
+    // 下载功能
+    // this.props.dispatch({
+    //   type: 'createIncome/reportDownload',
+    //   payload: { type, kpiPackageStartDate, kpiPackageEndDate },
+    // });
   };
   setRowClassName = (r, c, b) => {
     if (this.props.dementionId === r.id) {
