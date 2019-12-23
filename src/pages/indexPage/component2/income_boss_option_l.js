@@ -160,7 +160,8 @@ export function getOptioBossL(list) {
         show:false
       },
       axisLabel:{
-        color:'#7D90AA'
+        // color:'#7D90AA'
+        color:'#CAD2DC'
       },
       axisTick:{
         show:false
