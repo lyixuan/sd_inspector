@@ -11,12 +11,19 @@ import NPSLeft from './NPSLeft';
 import moment from 'moment';
 import { initTimeData } from '../../ko/utils/utils';
 import { removeTypeDuplicates } from '@babel/types';
+import Echarts from '@/components/Echart';
+import { getOption } from './npsLeftOptions.js';
+import { getOption1 } from './npscenterOptions.js';
+import NPSRight from './npsrightOptions.js';
+
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
 const { BI = {} } = window;
 @connect(({ xdOperation }) => ({
   xdOperation,
+  xdOperationNpsData: xdOperation.xdOperationNpsData,
+  getCurrentDateRangeData1: xdOperation.getCurrentDateRangeData1,
   userInfo: xdOperation.userInfo,
 }))
 class NPSEvaluate extends React.Component {
@@ -63,6 +70,7 @@ class NPSEvaluate extends React.Component {
       type: 'xdOperation/getUserInfo',
       callback: userInfo => {
         this.getUserOrgList();
+        this.getNpsData();
         if (userInfo.userType == 'boss') {
           this.state.groupId = [0];
         } else {
@@ -88,6 +96,15 @@ class NPSEvaluate extends React.Component {
       },
     });
   }
+
+  // 获取nps接口
+  getNpsData = () => {
+    this.props.dispatch({
+      type: 'xdOperation/getNpsData',
+      payload: { params: { ...this.initRecordTimeListData(this.state.dateArr) } },
+    });
+  };
+
   getIniDateRange = () => {
     const { params } = this.props.location.query;
     const { dataRange } = params ? JSON.parse(params) : {};
@@ -306,7 +323,10 @@ class NPSEvaluate extends React.Component {
   };
   render() {
     const { NPSParams } = this.state;
-    const { npsList = [] } = this.props.xdOperation;
+    const { npsList = [], xdOperationNpsData } = this.props.xdOperation;
+    const options = getOption(npsList);
+    console.log(xdOperationNpsData, 'xdOperationNpsData');
+    const options1 = getOption1(xdOperationNpsData);
     return (
       <Container
         title="NPS自主评价分析"
@@ -320,18 +340,31 @@ class NPSEvaluate extends React.Component {
                 <span></span>
                 生命周期分布
               </p>
+              <div className={styles.NPSCenterLPie}>
+                <div className={styles.NPSCenterLTotal}>
+                  <p className={styles.total}>635</p>
+                  <p className={styles.totalWord}>总数量</p>
+                </div>
+                <Echarts options={options} style={{ width: '243px', height: 223 + 'px' }} />
+              </div>
             </div>
             <div className={styles.NPSCenterC}>
               <p className={styles.title}>
                 <span></span>
                 NPS评分
               </p>
+              <div>
+                <Echarts options={options1} style={{ width: '243px', height: 223 + 'px' }} />
+              </div>
             </div>
             <div className={styles.NPSCenterR}>
               <p className={styles.title}>
                 <span></span>
                 NPS标签
               </p>
+              <div className={styles.NPSCenterRCon}>
+                <NPSRight cloudOptions={xdOperationNpsData.tagImageDtoList} />
+              </div>
             </div>
           </div>
           {NPSParams && (

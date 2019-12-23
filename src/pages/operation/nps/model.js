@@ -8,9 +8,11 @@ import {
   getUserInfo,
   getOrgMapList,
   getIncomeCollegeList,
+  getNpsData,
 } from './services';
 import { message } from 'antd/lib';
 import { msgF } from '@/utils/utils';
+import moment from 'moment';
 
 export default {
   namespace: 'xdOperation',
@@ -18,7 +20,8 @@ export default {
     npsParams: {}, //nps部分的数据
     npsList: [],
     compareCollegeListData: [],
-    getCurrentDateRangeData: null,
+    getCurrentDateRangeData: {},
+    getCurrentDateRangeData1: {},
     orgList: [],
     imDetailData: [],
     userInfo: {}, // 全局值
@@ -26,6 +29,7 @@ export default {
     // globalLevelList: [],
     globalCollegeList: [],
     globalQVisible: false, // 问卷调查是否显示
+    xdOperationNpsData: {},
   },
   effects: {
     //  管理层工作台的接口
@@ -152,6 +156,12 @@ export default {
         yield put({
           type: 'save',
           payload: {
+            getCurrentDateRangeData1: {
+              startTime: moment(result.data.startDate).format('YYYY-MM-DD'),
+              endTime: moment(result.data.endDate).format('YYYY-MM-DD'),
+            },
+          },
+          payload: {
             getCurrentDateRangeData: result.data,
           },
         });
@@ -205,6 +215,17 @@ export default {
       if (result.code === 20000) {
         yield put({ type: 'save', payload: { globalCollegeList: result.data } });
       } else if (result && result.code !== 50000) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
+    // 获取Nps数据
+    *getNpsData({ payload, callback }, { call, put }) {
+      const result = yield call(getNpsData, payload.params);
+      if (result.code === 20000 && result.data) {
+        console.log(result, 'result');
+        yield put({ type: 'save', payload: { xdOperationNpsData: result.data } });
+      } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
