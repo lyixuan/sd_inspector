@@ -123,7 +123,7 @@ class RobotTrend extends React.Component {
         },
       },
       grid: {
-        top: 40,
+        top: 50,
         left: 50,
         right: 60,
         bottom: 50,
