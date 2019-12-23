@@ -58,8 +58,8 @@ class Income extends React.Component {
           <div className={style.ScoreLeft}>
             <div className={style.incomeTotal}>
               <div>
-                <div>{changeToThousandsForIncome(sumAmount,1)}</div>
-                <div>总流水({sumAmount>999999?'万元':'元'})</div>
+                <div>{changeToThousandsForIncome(sumAmount,1)} <span style={{fontSize:14}}>万</span></div>
+                <div>总流水</div>
               </div>
               <div>
                 <div>{sumOrder}</div>

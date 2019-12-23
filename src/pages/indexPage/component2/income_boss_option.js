@@ -1,7 +1,7 @@
-import {thousandsFormatDot} from '@/utils/utils';
+import {  changeToThousandsForIncome } from '@/utils/utils';
 export function getOptionBossR(list,sumData) {
-  const  total = sumData>999999?thousandsFormatDot((sumData/10000).toFixed(0)):sumData.toFixed(0);
-  const  unit = sumData>999999?'万元':'元';
+  const  total = changeToThousandsForIncome(sumData,1);
+  const  unit = '元';
   list.forEach((item)=>{
     if(item.name==='好推'){
       item['itemStyle']={
