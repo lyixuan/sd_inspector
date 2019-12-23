@@ -4,10 +4,10 @@ import request from '@/utils/request';
 export async function getIncomeCollegeList(params) {
   return request('/orgMap/findCollegeShortNameList', { method: 'get', params });
 }
-// 学分—日期
-export async function getKpiDateRange(params) {
-  return request('/deskperfpcapi/credit/dimension/kpiDateRange', { method: 'get', params });
-}
+// // 学分—日期
+// export async function getKpiDateRange(params) {
+//   return request('/deskperfpcapi/credit/dimension/kpiDateRange', { method: 'get', params });
+// }
 
 
 //家族创收对比

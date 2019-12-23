@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less';
 import BIWrapperTable from '@/components/BIWrapperTable';
-import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import { thousandsFormatBigger } from '@/utils/utils';
 
