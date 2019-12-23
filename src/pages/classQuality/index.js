@@ -282,7 +282,8 @@ class ClassQuality extends React.Component {
                     <>
                       {rulesObj[item.id] &&
                         <div className={styles.detailed}>
-                          {item.qualityDetaile}
+                          {/* {item.qualityDetaile} */}
+                          <span dangerouslySetInnerHTML={{ __html: item.qualityDetaile }}></span>
                         </div>
                       }
                     </>
