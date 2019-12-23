@@ -155,7 +155,7 @@ export function getOption(listsrc) {
       },
       axisLabel:{
         rotate:45,
-        color:'#000000 '
+        color:'#000000'
       },
       axisTick:{
         show:false
@@ -172,7 +172,7 @@ export function getOption(listsrc) {
         show:false
       },
       axisLabel:{
-        color:'#7D90AA'
+        color:'#CAD2DC'
       },
       axisTick:{
         show:false

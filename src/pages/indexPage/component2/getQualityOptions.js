@@ -173,8 +173,8 @@ export function getOptions(data) {
         axisLine: {
           show: false,
         },
-        axisLabel: {
-          color: '#7D90AA',
+        axisLabel:{
+          color:'#CAD2DC'
         },
         axisTick: {
           show: false,
