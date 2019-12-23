@@ -2,7 +2,7 @@ import request from '@/utils/request';
 
 // 准考证填写排行
 export async function zkzWriteList(params) {
-  return request('/test/zkzStatistics/zkzWrite/list', { method: 'post', data: params });
+  return request('/zkzStatistics/zkzWrite/list', { method: 'post', data: params });
 }
 // 准考证填写明细
 export async function zkzWriteDetail(params) {

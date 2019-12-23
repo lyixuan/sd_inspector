@@ -11,5 +11,5 @@ export async function getProvinceData(params) {
 
 // 学分对比组织架构列表接口
 export async function getOrgList(params) {
-  return request('/test/orgMap/getOwnExamMapList', { method: 'get', params });
+  return request('/orgMap/getOwnExamMapList', { method: 'get', params });
 }

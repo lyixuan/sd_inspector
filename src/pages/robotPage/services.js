@@ -8,19 +8,19 @@ export function getAnswer(param) {
 
 // 学分对比组织架构列表接口
 export async function getOrgList(params) {
-  return request('/test/orgMap/getOwnExamMapList', { method: 'get', params });
+  return request('/orgMap/getOwnExamMapList', { method: 'get', params });
 }
 
 // 获取机器人会话数据
 export async function dialoguDataList(params) {
-  return request('/test/robotDialog/aiDialogueData/list', { method: 'post', data: params });
+  return request('/robotDialog/aiDialogueData/list', { method: 'post', data: params });
 }
 
 // 机器人会话趋势满意度接口
 export async function getDayData(params) {
-  return request('/test/robotDialogTrend/getDayDate', { method: 'post', data: params });
+  return request('/robotDialogTrend/getDayDate', { method: 'post', data: params });
 }
 // 机器人会话趋势饼状图接口
 export async function getDialogAndEvaluateData(params) {
-  return request('/test/robotDialogTrend/getDialogAndEvaluateData', { method: 'post', data: params });
+  return request('/robotDialogTrend/getDialogAndEvaluateData', { method: 'post', data: params });
 }
