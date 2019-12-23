@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from './style.css';
 import { BiFilter } from '@/utils/utils';
+import { Tooltip } from 'antd';
 import moment from 'moment/moment';
-
+import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 
 export default class IllegalInfo extends React.Component {
   renderAttached = ()=>{
@@ -31,7 +32,9 @@ export default class IllegalInfo extends React.Component {
             <div><span className={styles.spanLabel}>扣分日期</span>：{moment(data.reduceScoreDate).format('YYYY-MM-DD')}</div>
             <div><span className={styles.spanLabel}>质检类型</span>：{BiFilter(`QUALITY_TYPE|id:${data.qualityType}`).name}</div>
             <div><span className={styles.spanLabel}>分维</span>：{data.violationName}</div>
-            <div><span className={styles.spanLabel}>违规分类</span>：{data.thirdAssortment||data.secondAssortment||data.primaryAssortment}</div>
+            <div className={styles.jumpStyle}
+                 onClick={()=>jumpGobalRouter(`classQuality/qualityType/${data.violationName==='客诉'?1:2}`)}>
+              <span className={styles.spanLabel}>违规分类</span>：<Tooltip placement="right" title="点击查看质检细则" >{data.thirdAssortment||data.secondAssortment||data.primaryAssortment}</Tooltip></div>
           </div>
           <div className={styles.secRow}>
             <div>&nbsp;</div>
