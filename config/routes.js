@@ -584,6 +584,20 @@ export const routes = [
         component: './xdCreditPk/index',
       },
       {
+        path: '/robotPage',
+        component: './robotPage',
+        routes: [
+          {
+            path: '/robotPage/data',
+            component: './robotPage/robotData',
+          },
+          {
+            path: '/robotPage/trend',
+            component: './robotPage/robotTrend',
+          }
+        ]
+      },
+      {
         path: '/hotQuestion',
         routes: [
           {
