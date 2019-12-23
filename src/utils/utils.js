@@ -428,10 +428,10 @@ export function changeToThousandsForIncome(num,n) {
     console.error('传递参数错误，请检查');
     return 0;
   }
-  if(!n){
+  if(!n||isNaN(n)){
     n = 0;
   }
-  let number = Math.round(num/10000*Math.pow(10,n))/Math.pow(10,n);
+  let number = Math.round(num/10000*Math.pow(10,Number(n)))/Math.pow(10,Number(n));
 
   return thousandsFormatDot(number);
 }
