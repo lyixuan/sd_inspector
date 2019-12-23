@@ -110,10 +110,10 @@ class AwaitAppeal extends React.Component {
     const timeParams = JSON.stringify(this.initTime);
     let score_tab = storage.getSessionItem('score_tab');
     if (score_tab) {
+      score_tab = saveUrlParams;
       if(flag===1){
         score_tab = timeParams;
       }
-      score_tab = saveUrlParams;
       storage.setSessonItem('score_tab', score_tab);
     } else {
       storage.setSessonItem('score_tab', saveUrlParams);
