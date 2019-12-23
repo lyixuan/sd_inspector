@@ -4,7 +4,8 @@ import moment from 'moment';
 import { msgF } from '@/utils/utils';
 import {
   getExamList,
-  getProvinceData
+  getProvinceData,
+  getOrgList
 } from './services';
 
 const tHead = ['省份', '在服学员', '新生注册', '新生报考', '老生报考', '新生确认', '老生确认', '实践报考', '缴费', '补报',]
@@ -16,11 +17,10 @@ export default {
     selectVal: null,
     provinceExamList: [],
     systemTime: '',
-    // startTime: moment('2019-09-01'),
-    // endTime: moment(new Date().getTime())
     startTime: '',
     endTime: '',
-    visible: false
+    visible: false,
+    globalOrgList: {}
   },
 
   effects: {
@@ -66,10 +66,18 @@ export default {
         message.error(response.msg)
       }
     },
+    // 自考壁垒对应学院
+    *getOrgList({ }, { call, put }) {
+      const result = yield call(getOrgList);
+      console.log(72, result)
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'saveOrg', payload: { listObj: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
 
   },
-
-  // const tHead = ['省份', '在服学员', '新生注册', '新生报考', '老生报考', '新生确认', '老生确认', '实践报考', '缴费', '补考',]
 
   reducers: {
     save(state, { payload }) {
@@ -121,6 +129,28 @@ export default {
       return { ...state, ...{ provinceExamList: data, systemTime: payload.systemTime } };
 
     },
+    saveOrg(state, { payload }) {
+      const globalOrgList = {
+        0: getNullNodeList(payload.listObj),
+        1: getNullNodeList(payload.listObj),
+      };
+      return { ...state, globalOrgList };
+    },
+
   },
   subscriptions: {},
 };
+function getNullNodeList(data = []) {
+  data.map(item => {
+    if (item.nodeList instanceof Array) {
+      const l = item.nodeList.length;
+      if (l === 0) {
+        item.nodeList = null;
+      } else if (l > 0) {
+        getNullNodeList(item.nodeList);
+      }
+    }
+  });
+  return data;
+}
+

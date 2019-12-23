@@ -3,6 +3,8 @@ import { connect } from 'dva';
 import BIRadio from '@/ant_components/BIRadio';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
+import BICascader from '@/ant_components/BICascader';
+import BISelect from '@/ant_components/BISelect';
 import rank1 from '@/assets/xdFamily/rank1.png';
 import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
@@ -11,8 +13,11 @@ import { thousandsFormat } from '@/utils/utils';
 import close from '@/assets/examPlan/close.png';
 import styles from './style.less';
 
+const { Option } = BISelect;
 const rankType = ['学院', '家族', '小组'];
-@connect(({ registTouch, loading }) => ({
+@connect(({ registTouch, examPlant, loading }) => ({
+  examPlant,
+  globalOrgList: examPlant.globalOrgList || {},
   registTouch,
   reachNumRankList: registTouch.reachNumRankList,
   loading: loading.effects['registTouch/reachNumRankList']
@@ -22,14 +27,43 @@ class TicketRankList extends React.Component {
     super(props);
     this.state = {
       rankType: 1,
+      collegeId: undefined,
+      org: []
     }
+  }
+  componentDidMount() {
+    this.getOrgList();
+  }
+  getOrgList = () => {
+    this.props.dispatch({
+      type: 'examPlant/getOrgList'
+    });
+  }
+  onFormChange = (val, type) => {
+    if (type === 'familyType') {
+      this.setState({
+        collegeId: val
+      }, () => {
+        this.props.getList({ collegeId: val })
+      })
+    } else {
+      this.setState({
+        org: val
+      }, () => {
+        this.props.getList({ org: val })
+      })
+
+    }
+
   }
   handleRankChange = (e) => {
     this.setState({
-      rankType: e.target.value
+      rankType: e.target.value,
+      collegeId: this.state.collegeId,
+      org: this.state.org
     }, () => {
       if (this.props.getList) {
-        this.props.getList(e.target.value);
+        this.props.getList({ type: e.target.value, collegeId: this.state.collegeId, org: this.state.org });
       }
     });
   }
@@ -134,15 +168,38 @@ class TicketRankList extends React.Component {
   }
 
   render() {
+    const orgList = rankTypeValue === 1 ? this.props.globalOrgList[0] || [] : this.props.globalOrgList[1] || [];
+    const rankTypeValue = this.state.rankType
     return (
       <div className={styles.ticketList}>
-        <BIRadio onChange={this.handleRankChange} value={this.state.rankType} style={{ marginBottom: 16 }}>
-          {rankType.map((item, index) =>
-            <BIRadio.Radio.Button value={index + 1} key={index}>
-              <div data-trace={`{ "widgetName": "报考触达-${item}", "traceName": "报考大盘/报考触达" }`}>{item}</div>
-            </BIRadio.Radio.Button>
-          )}
-        </BIRadio>
+        <div style={{ display: 'flex' }}>
+          <BIRadio onChange={this.handleRankChange} value={rankTypeValue} style={{ marginBottom: 16 }}>
+            {rankType.map((item, index) =>
+              <BIRadio.Radio.Button value={index + 1} key={index}>
+                <div data-trace={`{ "widgetName": "报考触达-${item}", "traceName": "报考大盘/报考触达" }`}>{item}</div>
+              </BIRadio.Radio.Button>
+            )}
+          </BIRadio>
+          {
+            rankTypeValue == 2 && <BISelect style={{ width: 136, marginLeft: '20px' }} value={this.state.collegeId} allowClear onChange={val => this.onFormChange(val, 'familyType')} placeholder="请选择">
+              {orgList && orgList.map(item => <Option key={item.id} value={item.id}>
+                {item.name}
+              </Option>)}
+            </BISelect>
+          }
+          {
+            rankTypeValue == 3 && <BICascader
+              placeholder="请选择"
+              changeOnSelect
+              value={this.state.org}
+              options={orgList}
+              onChange={val => this.onFormChange(val, 'org')}
+              fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
+              allowClear
+              style={{ width: 136, marginLeft: '20px' }}
+            />
+          }
+        </div>
         <div className={styles.tableWrap}>
           <BIScrollbarTable
             columns={this.columns()}

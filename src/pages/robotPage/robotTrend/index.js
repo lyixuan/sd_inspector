@@ -1,7 +1,13 @@
 import React from 'react';
+import { connect } from 'dva';
 import Echart from '@/components/Echart';
 import styles from './style.less';
 
+@connect(({ robotPage }) => ({
+  robotPage,
+  dayData: robotPage.dayData,
+  pieData: robotPage.pieData
+}))
 class RobotTrend extends React.Component {
   constructor(props) {
     super(props);
@@ -10,6 +16,17 @@ class RobotTrend extends React.Component {
     }
   }
   drawChart = () => {
+    const { pieData } = this.props;
+    const datas = [{
+      value: pieData.robotOnlyNum,
+      name: '机器人独立访问'
+    }, {
+      value: pieData.robotAndTeacherNum,
+      name: '机器人协同会话'
+    }, {
+      value: pieData.teacherOnlyNum,
+      name: '班主任独立会话'
+    }]
     let option = {
       title: {
         text: '会话类型',
@@ -21,6 +38,10 @@ class RobotTrend extends React.Component {
           fontSize: 14,
           fontWeight: 'normal'
         }
+      },
+      tooltip: {
+        trigger: 'item',
+        formatter: "{b} : {c}"
       },
       legend: {
         orient: 'vertical',
@@ -43,11 +64,75 @@ class RobotTrend extends React.Component {
           radius: '75%',
           center: ['30%', '48%'],
           color: ["#33D195", "#FFC442", "#3CB3FC"],
-          data: [
-            { value: 335, name: '机器人独立访问' },
-            { value: 310, name: '机器人协同会话' },
-            { value: 234, name: '班主任独立会话' },
-          ],
+          data: datas,
+          hoverOffset: 0,
+          itemStyle: {
+            normal: {
+              label: { show: false },
+              labelLine: { show: false },
+              borderColor: "#FFFFFF",
+              borderWidth: 4
+            },
+          }
+        }
+      ]
+    };
+
+    return option
+  }
+  drawChart2 = () => {
+    const { pieData } = this.props;
+    const datas = [{
+      value: pieData.veryGoodNum,
+      name: '非常满意'
+    }, {
+      value: pieData.goodNum,
+      name: '满意'
+    }, {
+      value: pieData.commonNum,
+      name: '一般'
+    }, {
+      value: pieData.badNum,
+      name: '不满意'
+    }]
+    let option = {
+      title: {
+        text: '满意度',
+        x: 'center',
+        bottom: 0,
+        left: '20%',
+        textStyle: {
+          color: '#282828',
+          fontSize: 14,
+          fontWeight: 'normal'
+        }
+      },
+      tooltip: {
+        trigger: 'item',
+        formatter: "{b} : {c}"
+      },
+      legend: {
+        orient: 'vertical',
+        right: 'right',
+        data: ['非常满意', '满意', '一般', '不满意'],
+        top: '30%',
+        itemWidth: 8,
+        itemHeight: 8,
+        itemGap: 20,
+        icon: 'circle',
+        textStyle: {
+          color: '#444',
+          fontSize: 12,
+        }
+      },
+      series: [
+        {
+          name: '访问来源',
+          type: 'pie',
+          radius: '75%',
+          center: ['30%', '48%'],
+          color: ["#33D195", "#33D1BB", "#FFC442", "#FF602F"],
+          data: datas,
           hoverOffset: 0,
           itemStyle: {
             normal: {
@@ -64,7 +149,15 @@ class RobotTrend extends React.Component {
     return option
   }
   chartIntercept = () => {
-    var data = [["2016-10-4", 467], ["2016-10-2", 670], ["2016-10-2", 1670], ["2016-1-1", 2670]]
+    const data = this.props.dayData
+    let data1 = [];
+    let data2 = [];
+    if (data.length > 0) {
+      data.map(item => {
+        data1.push(item.interceptPercent)
+        data2.push(item.date)
+      })
+    }
     let option = {
       animation: false,
       title: {
@@ -75,20 +168,10 @@ class RobotTrend extends React.Component {
       },
       tooltip: {
         trigger: 'axis',
-
       },
       xAxis: {
-        type: 'time',
+        data: data2,
         boundaryGap: false,
-        axisPointer: {
-          value: '2016-10-7',
-          snap: true,
-          lineStyle: {
-            color: '#004E52',
-            opacity: 0.5,
-            width: 2
-          },
-        },
         axisLine: {
           lineStyle: {
             type: 'dotted',
@@ -96,9 +179,14 @@ class RobotTrend extends React.Component {
           },
         },
         axisLabel: {
-          color: '#000000 ',
+          color: '#000000',
+          show: true,
+          interval: 0,
+          formatter: function (value) {
+            const val = value.split("-")[1] + '-' + value.split("-")[2] + '\n' + value.split("-")[0]
+            return val;
+          }
         },
-        // data:data,
         splitLine: {
           show: false
         }
@@ -159,7 +247,7 @@ class RobotTrend extends React.Component {
               global: false, // 缺省为 false
             },
           },
-          data: data
+          data: data1
         }
 
       ]
@@ -168,6 +256,21 @@ class RobotTrend extends React.Component {
     return option
   }
   chartCategory = () => {
+    const data = this.props.dayData
+    let data1 = [];
+    let data2 = [];
+    let data3 = [];
+    let data4 = [];
+    let dataX = [];
+    if (data.length > 0) {
+      data.map(item => {
+        dataX.push(item.date)
+        data1.push(item.veryGoodPercent)
+        data2.push(item.commonPercent)
+        data3.push(item.goodPercent)
+        data4.push(item.badPercent)
+      })
+    }
     let option = {
       title: {
         text: '满意度',
@@ -177,15 +280,12 @@ class RobotTrend extends React.Component {
       },
       tooltip: {
         trigger: 'axis',
-        axisPointer: {
-          type: 'cross',
-        },
         textStyle: {
           fontSize: 12,
         }
       },
       legend: {
-        data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎'],
+        data: ['差评率', '一般率', '满意率', '非常满意率'],
         bottom: '-5px',
         itemWidth: 8,
         itemHeight: 8,
@@ -201,7 +301,16 @@ class RobotTrend extends React.Component {
         {
           type: 'category',
           boundaryGap: false,
-          data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+          data: dataX,
+          axisLabel: {
+            color: '#000000',
+            show: true,
+            interval: 0,
+            formatter: function (value) {
+              const val = value.split("-")[1] + '-' + value.split("-")[2] + '\n' + value.split("-")[0]
+              return val;
+            }
+          },
         }
       ],
       yAxis: [
@@ -211,35 +320,35 @@ class RobotTrend extends React.Component {
       ],
       series: [
         {
-          name: '联盟广告',
-          type: 'line',
-          stack: '总量',
-          areaStyle: {},
-          data: [220, 182, 191, 234, 290, 330, 310],
-          color: "#FFC442"
-        },
-        {
-          name: '视频广告',
-          type: 'line',
-          stack: '总量',
-          areaStyle: {},
-          data: [150, 232, 201, 154, 190, 330, 410],
-          color: "#50DAC7",
-        },
-        {
-          name: '直接访问',
+          name: '非常满意率',
           type: 'line',
           stack: '总量',
           areaStyle: { normal: {} },
-          data: [320, 332, 301, 334, 390, 330, 320],
+          data: data4,
           color: "#52E8AF"
         },
         {
-          name: '邮件营销',
+          name: '满意率',
           type: 'line',
           stack: '总量',
           areaStyle: {},
-          data: [120, 132, 101, 134, 90, 230, 210],
+          data: data3,
+          color: "#50DAC7",
+        },
+        {
+          name: '一般率',
+          type: 'line',
+          stack: '总量',
+          areaStyle: {},
+          data: data2,
+          color: "#FFC442"
+        },
+        {
+          name: '差评率',
+          type: 'line',
+          stack: '总量',
+          areaStyle: {},
+          data: data1,
           color: "#FF9B7D"
         },
       ]
@@ -252,7 +361,7 @@ class RobotTrend extends React.Component {
     return <div className={styles.sessonTrend}>
       <div className={styles.chartPie}>
         <Echart options={this.drawChart()} style={{ width: '320px', height: '220px', }}></Echart>
-        <Echart options={this.drawChart()} style={{ width: '320px', height: '220px' }}></Echart>
+        <Echart options={this.drawChart2()} style={{ width: '320px', height: '220px' }}></Echart>
       </div>
       <div className={styles.chart1}>
         <Echart options={this.chartIntercept()} style={{ width: '100%', height: '450px' }}></Echart>
