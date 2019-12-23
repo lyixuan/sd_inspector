@@ -53,8 +53,8 @@ class NPSEvaluate extends React.Component {
       dateArr: this.getIniDateRange(),
       userInfo: props.userInfo,
       disableEndDate: this.handleDefaultPickerValueMarkDays(),
-      star: localStorage.getItem('NPSStar') ? localStorage.getItem('NPSStar') : '0',
-      cycle: localStorage.getItem('CYCLE_VALUE') ? localStorage.getItem('CYCLE_VALUE') : '0',
+      star: localStorage.getItem('NPSStar') ? localStorage.getItem('NPSStar') : undefined,
+      cycle: localStorage.getItem('CYCLE_VALUE') ? localStorage.getItem('CYCLE_VALUE') : undefined,
       npsList: [],
     };
   }
@@ -96,9 +96,9 @@ class NPSEvaluate extends React.Component {
     } else if (localStorage.getItem('NPSDates')) {
       return this.localStoryDates();
     } else {
-      return [this.handleDefaultPickerValueMark(), this.handleDefaultPickerValueMarkDays()]
+      return [this.handleDefaultPickerValueMark(), this.handleDefaultPickerValueMarkDays()];
     }
-  }
+  };
   localStoryDates = () => {
     let startDate = moment(JSON.parse(localStorage.getItem('NPSDates'))[0]);
     let endDate = moment(JSON.parse(localStorage.getItem('NPSDates'))[1]);
@@ -160,7 +160,7 @@ class NPSEvaluate extends React.Component {
       payload: { params: {} },
       callback: res => {
         if (res && res.length > 0) {
-          res.unshift({ id: 0, name: '全部', nodeList: '' });
+          res.unshift({ id: 0, name: '全集团', nodeList: '' });
           this.setState({
             userOrgConfig: res,
           });
@@ -247,9 +247,9 @@ class NPSEvaluate extends React.Component {
     return (
       <div className={styles.more}>
         <span className={styles.change}>
-         组织：
+          {/* 组织： */}
           <BICascader
-            placeholder="选择组织"
+            placeholder="请选择组织"
             changeOnSelect
             options={userOrgConfig}
             fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
@@ -262,9 +262,9 @@ class NPSEvaluate extends React.Component {
           />
         </span>
         <span className={styles.change}>
-          星级：
+          {/* 星级： */}
           <BISelect
-            placeholder="选择星级"
+            placeholder="请选择星级"
             value={star}
             onChange={this.onChangeStar}
             allowClear={false}
@@ -276,9 +276,9 @@ class NPSEvaluate extends React.Component {
           </BISelect>
         </span>
         <span className={styles.change}>
-        学员生命周期：
+          {/* 学员生命周期： */}
           <BISelect
-            placeholder="选择周期"
+            placeholder="请选择生命周期"
             value={cycle}
             onChange={this.onChangeCycle}
             allowClear={false}
@@ -290,7 +290,7 @@ class NPSEvaluate extends React.Component {
           </BISelect>
         </span>
         <span className={styles.change}>
-          时间：
+          {/* 时间： */}
           <BIRangePicker
             value={dateArr}
             placeholder={['选择起始时间', '选择截止时间']}
@@ -313,17 +313,39 @@ class NPSEvaluate extends React.Component {
         style={{ width: '100%', marginBottom: '16px' }}
         right={this.rightPart()}
       >
-        {NPSParams && (
-          <div className={styles.NPSMain}>
-            <NPSLeft
-              NPSleftParams={NPSParams}
-              npsList={npsList}
-              getCommentList={(pageNum, change) => {
-                this.getCommentList(pageNum, change);
-              }}
-            />
+        <div className={styles.NPSMainCon}>
+          <div className={styles.NPSCenter}>
+            <div className={styles.NPSCenterL}>
+              <p className={styles.title}>
+                <span></span>
+                生命周期分布
+              </p>
+            </div>
+            <div className={styles.NPSCenterC}>
+              <p className={styles.title}>
+                <span></span>
+                NPS评分
+              </p>
+            </div>
+            <div className={styles.NPSCenterR}>
+              <p className={styles.title}>
+                <span></span>
+                NPS标签
+              </p>
+            </div>
           </div>
-        )}
+          {NPSParams && (
+            <div className={styles.NPSMain}>
+              <NPSLeft
+                NPSleftParams={NPSParams}
+                npsList={npsList}
+                getCommentList={(pageNum, change) => {
+                  this.getCommentList(pageNum, change);
+                }}
+              />
+            </div>
+          )}
+        </div>
       </Container>
     );
   }

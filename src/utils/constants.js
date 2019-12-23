@@ -523,7 +523,7 @@ export const REMOVE_LOCAL_DATA = [
 ];
 // 工作台星级
 export const WB_STAR = [
-  { id: '0', name: '全部' },
+  // { id: '0', name: '全部' },
   { id: '5', name: '5星' },
   { id: '4', name: '4星' },
   { id: '3', name: '3星' },
@@ -534,7 +534,7 @@ export const WB_STAR = [
 
 // 生命周期
 export const WB_LIFE_CYCLE = [
-  { id: '0', name: '全部' },
+  // { id: '0', name: '全部' },
   { id: '7', name: '7' },
   { id: '30', name: '30' },
   { id: '60', name: '60' },
