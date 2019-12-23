@@ -41,8 +41,41 @@ class Im extends React.Component {
   };
 
   render() {
+    const colorArr = [
+      '#6665DD',
+      '#FF602F',
+      '#33D195',
+      '#B5E1F9',
+      '#FFC442',
+      '#4A5F75',
+      '#0496FF',
+      '#AEB89F',
+    ];
     const { WorkbenchImNegativeData, WorkbenchImPieData, loadingTime } = this.props;
     const options = getOption(WorkbenchImPieData);
+    let dot = '';
+    // let dotName = '';
+    if (WorkbenchImPieData.length) {
+      dot = WorkbenchImPieData.map((item, idx) => {
+        return (
+          <span key={idx} className={style.colorArr}>
+            <i
+              style={{
+                backgroundColor: `${colorArr[idx]}`,
+                width: '8px',
+                height: '8px',
+                display: 'inline-block',
+                borderRadius: '50%',
+                marginRight: '8px',
+              }}
+            />
+            {item.reasonTypeName.replace('方向', '')}
+          </span>
+        );
+      });
+    }
+
+    console.log(dot, 'dotName');
     return (
       <div className={stylefather.boxLeft}>
         <div className={stylefather.boxHeader}>
@@ -123,6 +156,9 @@ class Im extends React.Component {
                 style={{ height: 235 + 'px', top: '-10px' }}
                 clickEvent={item => this.clickEvent(item)}
               />
+            </div>
+            <div className={style.imContentDot}>
+              <div className={style.imContentDotCon}>{dot}</div>
             </div>
           </Spin>
         </div>
