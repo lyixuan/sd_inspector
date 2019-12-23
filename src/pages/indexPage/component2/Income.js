@@ -3,7 +3,7 @@ import stylefather from '../indexPage.less';
 import chuangshou from '@/assets/newIndex/chuangshou@2x.png';
 import gengduo from '@/assets/newIndex/gengduo@2x.png';
 import Echarts from './Echart_WorkBentch';
-import { handleDataTrace, thousandsFormatDot } from '@/utils/utils';
+import { handleDataTrace, changeToThousandsForIncome } from '@/utils/utils';
 import { getOptionBossR } from './income_boss_option';
 import { getOptioBossL } from './income_boss_option_l';
 
@@ -31,7 +31,7 @@ class Income extends React.Component {
     const optionBossR = getOptionBossR(pieData,sumAmount);
 
     const dot = pieData.map((item,idx)=>{
-      return <span key={idx}> <i style={{backgroundColor: `${item.name==='好推'?'#45D199':item.name==='续报'?'#FEC350':'#6769DA'}`}}/>{sumAmount>999999?thousandsFormatDot((item.value/10000).toFixed(0))+'万':(item.value).toFixed(0)}</span>
+      return <span key={idx}> <i style={{backgroundColor: `${item.name==='好推'?'#45D199':item.name==='续报'?'#FEC350':'#6769DA'}`}}/>{changeToThousandsForIncome(item.value,1)+'万'}</span>
     });
     const dotName = pieData.map((item,i)=>{
       return <span key={i}><i/>{item.name}</span>
@@ -58,7 +58,7 @@ class Income extends React.Component {
           <div className={style.ScoreLeft}>
             <div className={style.incomeTotal}>
               <div>
-                <div>{sumAmount>999999?thousandsFormatDot((sumAmount/10000).toFixed(0)):sumAmount.toFixed(0)}</div>
+                <div>{changeToThousandsForIncome(sumAmount,1)}</div>
                 <div>总流水({sumAmount>999999?'万元':'元'})</div>
               </div>
               <div>
