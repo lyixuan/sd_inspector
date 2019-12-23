@@ -413,4 +413,25 @@ export function GetLength(str) {
   return str.replace(/[\u0391-\uFFE5]/g,"aa").length;   // 计算中英文字符串长度
 };
 
+/*
+* 创收用
+* 1、数字转万元
+* 2、转千分位
+* 3、保留n位小数
+* 4、传入异常数据返回0
+* @num  number  待转换数字
+* @n    number  保留n位小数  default：0
+* return number
+* */
+export function changeToThousandsForIncome(num,n) {
+  if(isNaN(num)){
+    console.error('传递参数错误，请检查');
+    return 0;
+  }
+  if(!n||isNaN(n)){
+    n = 0;
+  }
+  let number = Math.round(num/10000*Math.pow(10,Number(n)))/Math.pow(10,Number(n));
 
+  return thousandsFormatDot(number);
+}
