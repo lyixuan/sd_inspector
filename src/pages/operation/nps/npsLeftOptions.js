@@ -1,3 +1,5 @@
+import { stratify } from 'd3';
+
 export function getOption(data) {
   const dataAxis = [];
   const seriesData = [];
@@ -34,7 +36,10 @@ export function getOption(data) {
     },
     tooltip: {},
     radiusAxis: {
-      show : false,
+      show: false,
+      nameTextStyle: {
+        verticalAlign: 'center',
+      },
       axisTick: {
         //y轴刻度线
         show: false,
@@ -47,12 +52,13 @@ export function getOption(data) {
           color: '#999999',
         },
       },
-      axisLabel: {
-           show:false,
-       },
+      // axisLabel: {
+      //      show:false,
+      //  },
     },
     polar: {
-      // show:true,
+      show:true,
+      center:['50%', '50%'],  
     },
     grid: {
       left: 200,

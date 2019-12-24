@@ -74,10 +74,15 @@ class NPSEvaluate extends React.Component {
         this.getNpsData();
         this.getPieData();
         let groupIds = [0];
-        if (userInfo.userType == 'boss') {
-          groupIds = [0];
-        } else {
+        if (
+          userInfo.userType == 'collage' ||
+          userInfo.userType == 'family' ||
+          userInfo.userType == 'class' ||
+          userInfo.userType == 'group'
+        ) {
           groupIds = [userInfo.collegeId, userInfo.familyId, userInfo.groupId];
+        } else {
+          groupIds = [0];
         }
         // else {
         //   if (userInfo.collegeId) {
@@ -332,7 +337,7 @@ class NPSEvaluate extends React.Component {
   };
   rightPart = () => {
     // const {collegeOptions,orgValue} = this.state
-    const { groupId = [0], userOrgConfig, dateArr, star, cycle } = this.state;
+    const { groupId = ['0'], userOrgConfig, dateArr, star = '0', cycle } = this.state;
     const { orgList } = this.props.xdOperation;
     orgList.length > 0 && this.getResetGroupMsg(orgList);
     return (
@@ -421,7 +426,7 @@ class NPSEvaluate extends React.Component {
                   <p className={styles.total}>{total}</p>
                   <p className={styles.totalWord}>总数量</p>
                 </div>
-                <Echarts options={options} style={{ width: '243px', height: 223 + 'px' }} />
+                <Echarts options={options} style={{ width: '263px', height: 223 + 'px' }} />
               </div>
             </div>
             <div className={styles.NPSCenterC}>

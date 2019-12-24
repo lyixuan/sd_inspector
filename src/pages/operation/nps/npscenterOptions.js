@@ -157,7 +157,7 @@ export function getOption1(listsrc) {
       },
       axisLabel: {
         rotate: 45,
-        color: '#000000 ',
+        color: '#7D90AA',
       },
       axisTick: {
         show: false,
@@ -174,8 +174,8 @@ export function getOption1(listsrc) {
         axisLine: {
           show: false,
         },
-        axisLabel: {
-          color: '#7D90AA',
+        axisLabel:{
+          color:'#CAD2DC'
         },
         axisTick: {
           show: false,
@@ -190,7 +190,7 @@ export function getOption1(listsrc) {
         max: positiveMax,
         axisLabel: {
           show: false,
-          color: '#000000 ',
+          color: '#7D90AA',
         },
         axisLine: {
           show: false,
@@ -221,7 +221,7 @@ export function getOption1(listsrc) {
       },
     ],
     grid: {
-      left: '19%',
+      left: 60,
       right: 20,
       top: 10,
       bottom: 30,
