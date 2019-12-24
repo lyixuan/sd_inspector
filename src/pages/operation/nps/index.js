@@ -61,7 +61,7 @@ class NPSEvaluate extends React.Component {
       dateArr: this.getIniDateRange(),
       userInfo: props.userInfo,
       disableEndDate: this.handleDefaultPickerValueMarkDays(),
-      star: localStorage.getItem('NPSStar') ? localStorage.getItem('NPSStar') : undefined,
+      star: props.location.query.params.star ? props.location.query.params.star : localStorage.getItem('NPSStar') ? localStorage.getItem('NPSStar') : undefined,
       cycle: localStorage.getItem('CYCLE_VALUE') ? localStorage.getItem('CYCLE_VALUE') : undefined,
       npsList: [],
     };

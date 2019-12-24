@@ -24,6 +24,16 @@ class Nps extends React.Component {
       dataRange: [getCurrentDateRangeData.startTime, getCurrentDateRangeData.endTime],
     });
   };
+
+  clickEvent = item => {
+    const { getCurrentDateRangeData } = this.props;
+    console.log(item, 'item');
+    jumpGobalRouter('nps', {
+      dataRange: [getCurrentDateRangeData.startTime, getCurrentDateRangeData.endTime],
+      star: item.name.replace('星', ''),
+    });
+  };
+
   render() {
     const { WorkbenchNpsData, loadingTime } = this.props;
     const options = getOption(WorkbenchNpsData);
@@ -40,7 +50,11 @@ class Nps extends React.Component {
               <NpsLeft cloudOptions={WorkbenchNpsData.tagImageDtoList} />
             </div>
             <div className={style.npsRight}>
-              <Echarts options={options} style={{ width: '243px', height: 223 + 'px' }} />
+              <Echarts
+                options={options}
+                style={{ width: '243px', height: 223 + 'px' }}
+                clickEvent={item => this.clickEvent(item)}
+              />
             </div>
           </div>
         </Spin>

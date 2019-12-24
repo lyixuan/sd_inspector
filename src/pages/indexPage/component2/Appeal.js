@@ -52,10 +52,11 @@ class Appeal extends React.Component {
         dimensionType,
       });
     } else {
-      jumpGobalSelfRouter('scoreAppeal/awaitAppeal', {
+      jumpGobalSelfRouter('scoreAppeal/onAppeal', {
         creditBeginDate: getCurrentDateRangeData.startTime,
         creditEndDate: getCurrentDateRangeData.endTime,
         dimensionType,
+        statusList: ['2', '5', '6'],
       });
     }
   };
