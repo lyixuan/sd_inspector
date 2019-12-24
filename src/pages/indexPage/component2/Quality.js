@@ -35,8 +35,8 @@ class Quality extends React.Component {
       beginDate: getCurrentDateRangeData.startTime,
       endDate: getCurrentDateRangeData.endTime,
       organization: data.collegeId
-        ? data.collegeId
-        : data.familyId
+        ? '' + data.collegeId
+        : '' + data.familyId
         ? '-' + data.familyId
         : data.groupId
         ? '-' + data.groupId

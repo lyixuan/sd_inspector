@@ -337,7 +337,7 @@ class NPSEvaluate extends React.Component {
   };
   rightPart = () => {
     // const {collegeOptions,orgValue} = this.state
-    const { groupId = ['0'], userOrgConfig, dateArr, star, cycle } = this.state;
+    const { groupId = ['0'], userOrgConfig, dateArr, star = '0', cycle } = this.state;
     const { orgList } = this.props.xdOperation;
     orgList.length > 0 && this.getResetGroupMsg(orgList);
     return (
