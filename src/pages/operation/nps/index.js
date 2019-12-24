@@ -426,7 +426,7 @@ class NPSEvaluate extends React.Component {
                   <p className={styles.total}>{total}</p>
                   <p className={styles.totalWord}>总数量</p>
                 </div>
-                <Echarts options={options} style={{ width: '243px', height: 223 + 'px' }} />
+                <Echarts options={options} style={{ width: '263px', height: 223 + 'px' }} />
               </div>
             </div>
             <div className={styles.NPSCenterC}>
