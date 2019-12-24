@@ -23,8 +23,8 @@ export default {
       }
     },
     // 创收排名接口
-    *getIncomeDetailPage(_, { call, put }) {
-      const result = yield call(getIncomeDetailPage);
+    *getIncomeDetailPage({ payload }, { call, put }) {
+      const result = yield call(getIncomeDetailPage, payload.params);
       if (result.code === 20000) {
         return result.data;
       } else if (result && result.code !== 50000) {

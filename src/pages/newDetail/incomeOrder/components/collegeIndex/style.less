@@ -1,12 +1,19 @@
 .container {
   width: 100%;
   padding: 16px 24px 32px 24px;
+  position: relative;
+  .select {
+    right: 24px;
+    top: -39px;
+    position: absolute;
+  }
+  .rowLight {
+    background-color: #FFF498;
+  }
   :global {
-    // .ant-table-thead > tr > th {
-    //   text-align: center;
-    // }
-    .ant-table-thead > tr > th:nth-child(8){
-      text-align: right;  
+    .ant-table-thead > tr > th:last-child{
+      text-align: right; 
+      padding-right: 24px; 
     }
     .ant-table-thead > tr >th:first-child {
       text-align: left; 
