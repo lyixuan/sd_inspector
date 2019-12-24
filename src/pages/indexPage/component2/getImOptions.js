@@ -1,6 +1,6 @@
 export function getOption(data) {
   const colorArr = [
-    { color: '#6665DD' },
+    { color: '#6665DD', width: '8px', height: '8px', display: 'inline-block' },
     { color: '#FF602F' },
     { color: '#33D195' },
     { color: '#B5E1F9' },
@@ -47,6 +47,7 @@ export function getOption(data) {
         subtext: '总量',
         textStyle: {
           fontSize: 26,
+          fontFamily: 'DINCondensed-Bold, DINCondensed, Haettenschweiler',
           color: '#282828',
         },
         subtextStyle: {
@@ -55,35 +56,19 @@ export function getOption(data) {
         },
       },
     ],
-    // tooltip: {
-    //   trigger: 'item',
-    //   // formatter: function(parms) {
-    //   //   var str =
-    //   //     parms.seriesName +
-    //   //     '</br>' +
-    //   //     parms.marker +
-    //   //     '' +
-    //   //     parms.data.name +
-    //   //     '</br>' +
-    //   //     '数量：' +
-    //   //     parms.data.value +
-    //   //     '</br>';
-    //   //   return str;
-    //   // },
+    // legend: {
+    //   itemWidth: 4,
+    //   icon: 'circle',
+    //   orient: 'horizontal',
+    //   top: 'bottom',
+    //   textStyle: {
+    //     fontSize: '12',
+    //     width: 120,
+    //     color: '#8C8C8C',
+    //   },
+    //   width: 204,
+    //   //   height: 175,
     // },
-    legend: {
-      itemWidth: 4,
-      icon: 'circle',
-      orient: 'horizontal',
-      top: 'bottom',
-      textStyle: {
-        fontSize: '12',
-        width: 120,
-        color: '#8C8C8C',
-      },
-      width: 204,
-      //   height: 175,
-    },
     series: [
       {
         name: 'IM',

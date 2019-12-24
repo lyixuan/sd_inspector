@@ -20,6 +20,7 @@ import { jumpGobalSelfRouter } from '@/pages/ko/utils/utils';
   WorkbenchImPieData: xdWorkModal.WorkbenchImPieData,
   getCurrentDateRangeData: xdWorkModal.getCurrentDateRangeData,
   loadingTime: loading.effects['xdWorkModal/getImPieData'],
+  loadingTime1: loading.effects['xdWorkModal/getImNegativeData'],
 }))
 class Im extends React.Component {
   jump = (widgetName, traceName) => {
@@ -41,8 +42,40 @@ class Im extends React.Component {
   };
 
   render() {
-    const { WorkbenchImNegativeData, WorkbenchImPieData, loadingTime } = this.props;
+    const colorArr = [
+      '#6665DD',
+      '#FF602F',
+      '#33D195',
+      '#B5E1F9',
+      '#FFC442',
+      '#4A5F75',
+      '#0496FF',
+      '#AEB89F',
+    ];
+    const { WorkbenchImNegativeData, WorkbenchImPieData, loadingTime, loadingTime1 } = this.props;
     const options = getOption(WorkbenchImPieData);
+    let dot = '';
+    // let dotName = '';
+    if (WorkbenchImPieData.length) {
+      dot = WorkbenchImPieData.map((item, idx) => {
+        return (
+          <span key={idx} className={style.colorArr}>
+            <i
+              style={{
+                backgroundColor: `${colorArr[idx]}`,
+                width: '8px',
+                height: '8px',
+                display: 'inline-block',
+                borderRadius: '50%',
+                marginRight: '8px',
+              }}
+            />
+            {item.reasonTypeName.replace('方向', '')}
+          </span>
+        );
+      });
+    }
+
     return (
       <div className={stylefather.boxLeft}>
         <div className={stylefather.boxHeader}>
@@ -50,72 +83,75 @@ class Im extends React.Component {
           <span className={stylefather.headerTitle}>IM分析</span>
           <img src={gengduo} alt="" onClick={() => this.jump('IM_进入详情', '2.0/IM_进入详情')} />
         </div>
+
         <div className={style.imContent}>
-          <div className={style.imContentLeft}>
-            {WorkbenchImNegativeData.badContrasts ? (
-              <div className={style.imItem}>
-                <p
-                  className={style.items}
-                  onClick={() => this.jump('IM不满意率', '2.0/IM不满意率')}
+          <Spin spinning={loadingTime1}>
+            <div className={style.imContentLeft}>
+              {WorkbenchImNegativeData.badContrasts ? (
+                <div className={style.imItem}>
+                  <p
+                    className={style.items}
+                    onClick={() => this.jump('IM不满意率', '2.0/IM不满意率')}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {(WorkbenchImNegativeData.badContrasts * 100).toFixed(2)}
+                    <span className={style.precent}>%</span>
+                  </p>
+                  <p className={style.small}>不满意率</p>
+                </div>
+              ) : (
+                <div className={style.imItem}>
+                  <p className={style.items}>
+                    <img src={dianzan} className={style.iconImg} />
+                  </p>
+                  <p className={style.small}>全部满意</p>
+                </div>
+              )}
+              {WorkbenchImNegativeData.notSatisfied ? (
+                <div
+                  className={style.imItem}
+                  onClick={() => this.jump('IM不满意会话', '2.0/IM不满意会话')}
                   style={{ cursor: 'pointer' }}
                 >
-                  {(WorkbenchImNegativeData.badContrasts * 100).toFixed(2)}
-                  <span className={style.precent}>%</span>
-                </p>
-                <p className={style.small}>不满意率</p>
-              </div>
-            ) : (
-              <div className={style.imItem}>
-                <p className={style.items}>
-                  <img src={dianzan} className={style.iconImg} />
-                </p>
-                <p className={style.small}>全部满意</p>
-              </div>
-            )}
-            {WorkbenchImNegativeData.notSatisfied ? (
-              <div
-                className={style.imItem}
-                onClick={() => this.jump('IM不满意会话', '2.0/IM不满意会话')}
-                style={{ cursor: 'pointer' }}
-              >
-                <p className={style.items}>{WorkbenchImNegativeData.notSatisfied}</p>
-                <p className={style.small}>不满意会话</p>
-              </div>
-            ) : (
-              <div className={style.imItem}>
-                <p className={style.items}>
-                  <img src={kaixin} className={style.iconImg} />
-                </p>
-                <p className={style.small}>全部满意</p>
-              </div>
-            )}
-            {WorkbenchImNegativeData.notReply ? (
-              <div className={style.imItem}>
-                <p className={style.items}>{WorkbenchImNegativeData.notReply}</p>
-                <p className={style.small}>未回复数</p>
-              </div>
-            ) : (
-              <div className={style.imItem}>
-                <p className={style.items}>
-                  <img src={flower} className={style.iconImg} />
-                </p>
-                <p className={style.small}>全部回复</p>
-              </div>
-            )}
-            {WorkbenchImNegativeData.notInTime ? (
-              <div className={style.imItem}>
-                <p className={style.items}>{WorkbenchImNegativeData.notInTime}</p>
-                <p className={style.small}>不及时数</p>
-              </div>
-            ) : (
-              <div className={style.imItem}>
-                <p className={style.items}>
-                  <img src={bixin} className={style.iconImg1} />
-                </p>
-                <p className={style.small}>全部及时</p>
-              </div>
-            )}
-          </div>
+                  <p className={style.items}>{WorkbenchImNegativeData.notSatisfied}</p>
+                  <p className={style.small}>不满意会话</p>
+                </div>
+              ) : (
+                <div className={style.imItem}>
+                  <p className={style.items}>
+                    <img src={kaixin} className={style.iconImg} />
+                  </p>
+                  <p className={style.small}>全部满意</p>
+                </div>
+              )}
+              {WorkbenchImNegativeData.notReply ? (
+                <div className={style.imItem}>
+                  <p className={style.items}>{WorkbenchImNegativeData.notReply}</p>
+                  <p className={style.small}>未回复数</p>
+                </div>
+              ) : (
+                <div className={style.imItem}>
+                  <p className={style.items}>
+                    <img src={flower} className={style.iconImg} />
+                  </p>
+                  <p className={style.small}>全部回复</p>
+                </div>
+              )}
+              {WorkbenchImNegativeData.notInTime ? (
+                <div className={style.imItem}>
+                  <p className={style.items}>{WorkbenchImNegativeData.notInTime}</p>
+                  <p className={style.small}>不及时数</p>
+                </div>
+              ) : (
+                <div className={style.imItem}>
+                  <p className={style.items}>
+                    <img src={bixin} className={style.iconImg1} />
+                  </p>
+                  <p className={style.small}>全部及时</p>
+                </div>
+              )}
+            </div>
+          </Spin>
           <Spin spinning={loadingTime}>
             <div className={style.imContentRight}>
               <Echarts
@@ -123,6 +159,9 @@ class Im extends React.Component {
                 style={{ height: 235 + 'px', top: '-10px' }}
                 clickEvent={item => this.clickEvent(item)}
               />
+            </div>
+            <div className={style.imContentDot}>
+              <div className={style.imContentDotCon}>{dot}</div>
             </div>
           </Spin>
         </div>
