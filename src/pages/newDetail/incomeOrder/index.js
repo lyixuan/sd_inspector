@@ -13,6 +13,7 @@ const { BIRangePicker } = BIDatePicker;
 
 @connect(({ newDetailModal, incomeOrderModal }) => ({
   incomeOrderModal,
+  globalUserInfo: newDetailModal.globalUserInfo,
   globalUserType: newDetailModal.globalUserType,
   globalDateMoment: newDetailModal.globalDateMoment,
   globalkpiDateRange: newDetailModal.globalkpiDateRange,
@@ -37,6 +38,7 @@ class IncomeOrder extends React.Component {
       payload: { date: val },
     })
     this.getOverviewData(val);
+    handleDataTrace({"widgetName": '创收_时间筛选',"traceName": '2.1/创收_时间筛选'})
   };
 
   getOverviewData = date => {
@@ -62,22 +64,22 @@ class IncomeOrder extends React.Component {
   getTabParams = () => {
     const tabParams = [
       {
-        name: <span data-trace={`{"widgetName":"创收_学院排名","traceName":"2.0/创收_学院排名"}`}>学院排名</span>,
+        name: <span data-trace={`{"widgetName":"创收_学院排名","traceName":"2.1/创收_学院排名"}`}>学院排名</span>,
         key: '1',
         children: <CollegeIndex rankType="college"/>,
       },
       {
-        name: <span data-trace={`{"widgetName":"创收_家族排名","traceName":"2.0/创收_家族排名"}`}>家族排名</span>,
+        name: <span data-trace={`{"widgetName":"创收_家族排名","traceName":"2.1/创收_家族排名"}`}>家族排名</span>,
         key: '2',
         children: <CollegeIndex rankType="family"/>,
       },
       {
-        name: <span data-trace={`{"widgetName":"创收_小组排名","traceName":"2.0/创收_小组排名"}`}>小组排名</span>,
+        name: <span data-trace={`{"widgetName":"创收_小组排名","traceName":"2.1/创收_小组排名"}`}>小组排名</span>,
         key: '3',
         children: <CollegeIndex rankType="group"/>,
       },
       {
-        name: <span data-trace={`{"widgetName":"创收_班主任排名","traceName":"2.0/创收_班主任排名"}`}>班主任排名</span>,
+        name: <span data-trace={`{"widgetName":"创收_班主任排名","traceName":"2.1/创收_班主任排名"}`}>班主任排名</span>,
         key: '4',
         children: <CollegeIndex rankType="class"/>,
       },
@@ -87,7 +89,7 @@ class IncomeOrder extends React.Component {
 
   render() {
     const { IncomeData, IncomeOrderCollege, IncomeOrderFamily, IncomeOrderGroup } = this.props.incomeOrderModal;
-    const { globalUserType } = this.props;
+    const { globalUserType, globalUserInfo } = this.props;
     return (
       <div className={styles.incomeOrder}>
         <span className={styles.dataRange}>
@@ -108,7 +110,7 @@ class IncomeOrder extends React.Component {
           IncomeOrderFamily={IncomeOrderFamily}
           IncomeOrderGroup={IncomeOrderGroup}
         />}
-        <TopTabs tabParams={this.getTabParams()}/>
+        { globalUserInfo && globalUserInfo.userType && <TopTabs tabParams={this.getTabParams()}/> }
       </div>
     );
   }

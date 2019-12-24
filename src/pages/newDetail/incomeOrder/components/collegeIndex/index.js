@@ -5,7 +5,7 @@ import BISelect from '@/ant_components/BISelect';
 import BIWrapperTable from '@/components/BIWrapperTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import { getDateObj } from '@/pages/indexPage/components/utils/utils';
-import { thousandsFormatBigger } from '@/utils/utils';
+import { thousandsFormatBigger, handleDataTrace } from '@/utils/utils';
 
 const allColumns = {
   college: { title: '学院', key: 'collegeName' },
@@ -14,7 +14,8 @@ const allColumns = {
   class: { title: '班主任', key: 'cpName' },
 }
 const { Option } = BISelect;
-@connect(({ incomeOrderModal, loading }) => ({
+@connect(({ newDetailModal, incomeOrderModal, loading }) => ({
+  globalUserInfo: newDetailModal.globalUserInfo,
   incomeCollegeList: incomeOrderModal.incomeCollegeList,
   incomeDateRange: incomeOrderModal.incomeDateRange,
   loading: loading.effects['incomeOrderModal/getIncomeDetailPage']
@@ -28,7 +29,7 @@ class Compare extends React.Component {
       totalCount: 0,
       currentPage: 1, // 筛选条件
       pageSize: 10,
-      collegeId: undefined
+      collegeId: this.getInitCollegeId()
     };
   }
   componentDidMount() {
@@ -39,7 +40,14 @@ class Compare extends React.Component {
       this.getData({ page: 1, ...getDateObj(nextProps.incomeDateRange) });
     }
   }
-
+  getInitCollegeId = () => {
+    const { globalUserInfo } = this.props;
+    if (typeof globalUserInfo.collegeId === 'number' && this.props.rankType !== 'college') {
+      return globalUserInfo.collegeId
+    } else {
+      return undefined;
+    }
+  }
   getData = (others) => {
     const { collegeId, currentPage, pageSize } = this.state;
     const initParams = {
@@ -75,6 +83,7 @@ class Compare extends React.Component {
   // 学院改变
   onChangeCollege = (collegeId) => {
     this.setState({ collegeId }, () => this.getData({ page: 1 }));
+    handleDataTrace({"widgetName": '创收_组织筛选',"traceName": '2.1/创收_组织筛选'})
   }
   columns = () => {
     const { rankType } = this.props;
