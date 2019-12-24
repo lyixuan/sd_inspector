@@ -28,6 +28,7 @@ class IncomeOrder extends React.Component {
       type: 'incomeOrderModal/getIncomeCollegeList',
     });
     this.onFormChange(globalDateMoment);
+    handleDataTrace({"widgetName":`创收_创收排名`,"traceName":`2.1/创收_创收排名`,traceType:200});
   }
 
   // select
@@ -105,7 +106,6 @@ class IncomeOrder extends React.Component {
         {globalUserType!=='boss'&&
         <IncomeOverview
           IncomeData={IncomeData}
-          IncomeOrder={IncomeOrder}
           IncomeOrderCollege={IncomeOrderCollege}
           IncomeOrderFamily={IncomeOrderFamily}
           IncomeOrderGroup={IncomeOrderGroup}
