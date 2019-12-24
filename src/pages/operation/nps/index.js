@@ -243,7 +243,7 @@ class NPSEvaluate extends React.Component {
       payload: { params: {} },
       callback: res => {
         if (res && res.length > 0) {
-          res.unshift({ id: 0, name: '全集团', nodeList: '' });
+          res.unshift({ id: 0, name: '组织', nodeList: '' });
           this.setState({
             userOrgConfig: res,
           });

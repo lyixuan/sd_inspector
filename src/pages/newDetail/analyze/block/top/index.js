@@ -11,6 +11,7 @@ import moment from 'moment';
 import { thousandsFormatBigger } from '@/utils/utils';
 import { Tooltip } from 'antd';
 const { Option } = BISelect;
+const { BI = {} } = window;
 
 @connect(({ newDetailModal }) => ({
   newDetailModal,
@@ -182,6 +183,7 @@ class Top extends React.Component {
   };
 
   onFormChange = val => {
+    BI.traceV && BI.traceV({ widgetName: '创收_组织筛选', traceName: '2.0/创收_组织筛选' });
     this.getData(val);
     this.setState({
       orgValue: val,
