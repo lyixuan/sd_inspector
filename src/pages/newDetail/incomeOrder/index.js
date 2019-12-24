@@ -85,6 +85,7 @@ class IncomeOrder extends React.Component {
 
   render() {
     const { IncomeData, IncomeOrderCollege, IncomeOrderFamily, IncomeOrderGroup } = this.props.incomeOrderModal;
+    const { globalUserType } = this.props;
     return (
       <div className={styles.incomeOrder}>
         <span className={styles.dataRange}>
@@ -98,13 +99,14 @@ class IncomeOrder extends React.Component {
             style={{ width: 224 }}
           />
         </span>
+        {globalUserType!=='boss'&&
         <IncomeOverview
           IncomeData={IncomeData}
           IncomeOrder={IncomeOrder}
           IncomeOrderCollege={IncomeOrderCollege}
           IncomeOrderFamily={IncomeOrderFamily}
           IncomeOrderGroup={IncomeOrderGroup}
-        />
+        />}
         <TopTabs tabParams={this.getTabParams()}/>
       </div>
     );
