@@ -43,7 +43,7 @@ export async function getFamilyType(params) {
 
 // 获取nps
 export async function getNpsData(data) {
-  return request('/workbench/nps', { method: 'POST', data });
+  return request('/income/nps', { method: 'POST', data });
 }
 
 // 获取nps

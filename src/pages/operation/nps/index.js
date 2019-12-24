@@ -355,7 +355,6 @@ class NPSEvaluate extends React.Component {
     const { NPSParams } = this.state;
     const { npsList = [], xdOperationNpsData, xdOperationNpsPaiData } = this.props.xdOperation;
     const options = getOption(npsList);
-    console.log(xdOperationNpsPaiData, 'xdOperationNpsPaiData');
     const options1 = getOption1(xdOperationNpsData);
     return (
       <Container

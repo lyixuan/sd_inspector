@@ -69,7 +69,7 @@ class NPSLeft extends React.Component {
           height: '90%',
           right: null,
           bottom: null,
-          sizeRange: [9, 30],
+          sizeRange: [20, 30],
           textPadding: 60,
           rotationRange: [0, 0],
           rotationStep: 0,
@@ -103,14 +103,14 @@ class NPSLeft extends React.Component {
     return (
       <div
         style={{
-          width: '226px',
+          width: '360px',
           height: '213px',
           background: 'rgba(255,255,255,1)',
           boxShadow: '0px 0px 4px 0px rgba(0,0,0,0.14)',
           borderRadius: '20px',
         }}
       >
-        <Echart options={this.optionsDraw()} style={{ height: '213px', width: '226px' }} />
+        <Echart options={this.optionsDraw()} style={{ height: '213px', width: '360px' }} />
       </div>
     );
   }
