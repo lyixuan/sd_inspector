@@ -36,7 +36,7 @@ class IncomeOrder extends React.Component {
     this.props.dispatch({
       type: 'incomeOrderModal/getIncomeDate',
       payload: { date: val },
-    })
+    });
     this.getOverviewData(val);
     handleDataTrace({"widgetName": '创收_时间筛选',"traceName": '2.1/创收_时间筛选'})
   };

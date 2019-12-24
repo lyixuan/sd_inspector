@@ -29,7 +29,7 @@ class Box extends React.Component {
         </div>
         {type===1&&
         <div>
-          <Echarts options={optionIncomeData} style={{ height: 190,width:190,float:'left'}}/>
+          <Echarts options={optionIncomeData} style={{ height: 190,width:220,float:'left'}}/>
           <div className={styles.footer}>
             {dot}
           </div>

@@ -95,8 +95,8 @@ export function getOptionIncomeOrder(list,titleName) {
     },
     grid: {
       top: 50,
-      left: 10,
-      right: 10,
+      left: titleName==='学院排名'?5:20,  // 处理学院数据较少导致的展示不一致问题
+      right: titleName==='学院排名'?5:20,
       bottom: 20,
     },
     series: [{

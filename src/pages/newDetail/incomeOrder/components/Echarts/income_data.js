@@ -1,7 +1,7 @@
 import {  changeToThousandsForIncome } from '@/utils/utils';
 export function getOptionIncomeData(list,sumData) {
   const  total = changeToThousandsForIncome(sumData,1);
-  const  unit = '元';
+  const  unit = '万元';
   list.forEach((item)=>{
     if(item.name==='好推'){
       item['itemStyle']={
