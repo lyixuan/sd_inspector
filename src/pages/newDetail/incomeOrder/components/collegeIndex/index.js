@@ -5,7 +5,7 @@ import BISelect from '@/ant_components/BISelect';
 import BIWrapperTable from '@/components/BIWrapperTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import { getDateObj } from '@/pages/indexPage/components/utils/utils';
-import { thousandsFormatBigger } from '@/utils/utils';
+import { thousandsFormatBigger, handleDataTrace } from '@/utils/utils';
 
 const allColumns = {
   college: { title: '学院', key: 'collegeName' },
@@ -83,6 +83,7 @@ class Compare extends React.Component {
   // 学院改变
   onChangeCollege = (collegeId) => {
     this.setState({ collegeId }, () => this.getData({ page: 1 }));
+    handleDataTrace({"widgetName": '创收_组织筛选',"traceName": '2.1/创收_组织筛选'})
   }
   columns = () => {
     const { rankType } = this.props;

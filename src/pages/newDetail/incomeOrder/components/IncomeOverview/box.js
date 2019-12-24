@@ -13,8 +13,8 @@ class Box extends React.Component {
     const optionIncomeData = getOptionIncomeData(pieData,sumAmount);
     const optionIncomeOrder = getOptionIncomeOrder(IncomeOrder,titleName);
     const dot = pieData.map((item,idx)=>{
-      return <div>
-        <span key={idx}>
+      return <div key={idx}>
+        <span>
         <i style={{backgroundColor: `${item.name==='好推'?'#45D199':item.name==='续报'?'#FEC350':'#6769DA'}`}}/>
           {changeToThousandsForIncome(item.value,1)+'万'}
         </span>
