@@ -107,7 +107,7 @@ class Quality extends React.Component {
                           <span
                             style={{ cursor: 'pointer' }}
                             className={
-                              WorkbenchQualityData.class.qoqPersonCount < 0
+                              WorkbenchQualityData.class.qoqTotal < 0
                                 ? style.qualityGreen
                                 : style.qualityRed
                             }
