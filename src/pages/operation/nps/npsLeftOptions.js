@@ -1,33 +1,29 @@
 export function getOption(data) {
+  const dataAxis = [];
+  const seriesData = [];
+  if (data) {
+    data.map(item => {
+      dataAxis.push(item.name);
+      seriesData.push(item.value);
+    });
+  }
+
   return {
     angleAxis: {
       type: 'category',
-      data: [
-        '7天',
-        '',
-        '60天',
-        '90天',
-        '120天',
-        '150天',
-        '180天',
-        '210天',
-        '230天',
-        '250天',
-        '270天',
-        '300天',
-      ],
+      data: dataAxis,
       z: 10,
       axisTick: {
         //y轴刻度线
         inside: true,
       },
       splitLine: {
-        //网格线
-        // show: true,
-        // lineStyle: {
-        //   type: 'dashed',
-        //   color: '#999999',
-        // },
+        // 网格线
+        show: true,
+        lineStyle: {
+          type: 'dashed',
+          color: '#999999',
+        },
       },
       axisLine: {
         show: true,
@@ -38,16 +34,22 @@ export function getOption(data) {
     },
     tooltip: {},
     radiusAxis: {
-      // show : false,
-      // axisTick:{       //y轴刻度线
-      //   "show":false
-      // },
-      // splitLine: {     //网格线
-      //   "show": false
-      // },
-      // axisLabel: {
-      //      show:false,
-      //  },
+      show : false,
+      axisTick: {
+        //y轴刻度线
+        show: false,
+      },
+      splitLine: {
+        //网格线
+        show: false,
+        lineStyle: {
+          type: 'dashed',
+          color: '#999999',
+        },
+      },
+      axisLabel: {
+           show:false,
+       },
     },
     polar: {
       // show:true,
@@ -62,7 +64,7 @@ export function getOption(data) {
       {
         type: 'bar',
         barCategoryGap: '1px',
-        data: [1, 1, 1, 4, 3, 5, 1, 1, 2, 3, 4, 3],
+        data: seriesData,
         coordinateSystem: 'polar',
         // name: 'A',
         stack: 'a',
