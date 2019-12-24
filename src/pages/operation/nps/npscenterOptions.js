@@ -1,23 +1,29 @@
-import {  changeToThousandsForIncome } from '@/utils/utils';
-export function getOptioBossL(list) {
+export function getOption1(listsrc) {
+  const {starList:list=[]} = listsrc||{};
   const bg1 = [];
   const bg2 = [];
   let positiveData = [];
   let negData = [];
+  const scores = [];
   const xArr = [];
+  let huanbi = [];
   list.forEach((item)=>{
+    scores.push(item.value);
     xArr.push(item.name);
+    huanbi.push((item.qoqValue * 100).toFixed(2));
     if(item.value>=0){
-      positiveData.push(changeToThousandsForIncome(item.value,1));
+      positiveData.push(item.value);
       negData.push(0);
     } else {
-      negData.push(changeToThousandsForIncome(item.value,1));
+      negData.push(item.value);
       positiveData.push(0);
     }
   });
 
-  const positiveMax =  Math.ceil(Math.max.apply(null, positiveData));
-  const navMax = Math.ceil(Math.min.apply(null, negData));
+  const positiveMax = Math.ceil(Math.max.apply(null, positiveData));
+  const navMax = Math.floor(Math.min.apply(null, negData));
+  const huanbiMax = Math.ceil(Math.max.apply(null, huanbi));
+  const huanbiMin = Math.floor(Math.min.apply(null, huanbi));
   list.forEach((item)=>{
     bg1.push(positiveMax);
     bg2.push(navMax);
@@ -67,11 +73,11 @@ export function getOptioBossL(list) {
         colorStops: [
           {
             offset: 0,
-            color: '#00BFCC', // 0% 处的颜色
+            color: '#FF8742', // 0% 处的颜色
           },
           {
             offset: 1,
-            color: '#5384DF', // 100% 处的颜色
+            color: '#DF5252', // 100% 处的颜色
           },
         ],
         global: false, // 缺省为 false
@@ -125,11 +131,16 @@ export function getOptioBossL(list) {
         type : 'none'        // 默认为直线，可选为：'line' | 'shadow'
       },
       animation:false,
-      formatter: function (params) {
-        if(params[0]) {
-          return "创收流水:<br>" + (params[1]?params[1].value:params[3].value)+'万元'
-        }
-      }
+      // formatter: function (params) {
+      //   if(params[0]) {
+      //     return "学分均分：" + (params[1]?params[1].value:params[3].value) +"分"+
+      //       "<br>环比：" +  (params[4]?params[4].value:'--')+"%";
+      //   }
+      // }
+      formatter: function(params) {
+        var str = params[1].name + '</br>' + '数量：' + params[1].value + '</br>';
+        return str;
+      },
     },
     xAxis: {
       data: xArr,
@@ -161,8 +172,7 @@ export function getOptioBossL(list) {
         show:false
       },
       axisLabel:{
-        // color:'#7D90AA'
-        color:'#CAD2DC'
+        color:'#7D90AA'
       },
       axisTick:{
         show:false
@@ -170,7 +180,6 @@ export function getOptioBossL(list) {
       splitLine: {show: false},
       splitArea: {show: false}
     },{
-
       inverse: false,
       type: 'value',
       min: navMax,
@@ -187,13 +196,31 @@ export function getOptioBossL(list) {
       },
       splitLine: {show: false},
       splitArea: {show: false}
-    }
+    },
+      {
+        type: 'value',
+        name: '',
+        min: huanbiMin,
+        max: huanbiMax,
+        position: 'left',
+        axisLabel:{
+          show:false,
+        },
+        axisLine:{
+          show:false
+        },
+        axisTick:{
+          show:false
+        },
+        splitLine: {show: false},
+        splitArea: {show: false}
+      }
     ],
     grid: {
-      left: 70,
-      right:10,
-      top:50,
-      bottom:60
+      left: 40,
+      right:20,
+      top:10,
+      bottom:30
     },
     // barGap:'-100%',
     series: [
@@ -232,6 +259,17 @@ export function getOptioBossL(list) {
         itemStyle: itemStyle2,
         data: negData
       },
+      {
+        name:'环比',
+        type:'line',
+        yAxisIndex: 2,
+        itemStyle:{
+          normal: {
+            color: '#FFB900',
+          }
+        },
+        data:huanbi
+      }
     ]
   }
 }

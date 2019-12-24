@@ -117,14 +117,13 @@ class GlobalHeader extends PureComponent {
         <div className={styles.right}>
           <span className="searchBox">
           <BIInput
-            placeholder="学员档案 (输入学员ID)"
-            allowClear
-            style={{width:190}}
+            placeholder="学员档案 (输入学员id)"
+            style={{width:170}}
             value={this.state.userId}
             onPressEnter={this.getUserInfo}
             onChange={e => this.onFormChange(e.target.value)}
           />
-            <img src={searchIcon}  width={16} alt=""/>
+            <img src={searchIcon}  width={16} alt="" onClick={this.getUserInfo}/>
         </span>
           {currentUser.name ? (
             <Dropdown overlay={menu} placement="bottomRight">

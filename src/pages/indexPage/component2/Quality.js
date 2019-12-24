@@ -29,11 +29,19 @@ class Quality extends React.Component {
   };
 
   clickEvent = item => {
-    // const { getCurrentDateRangeData } = this.props;
-    // jumpGobalRouter('xdCredit/im', {
-    //   dataRange: [getCurrentDateRangeData.startTime, getCurrentDateRangeData.endTime],
-    //   reasonTypeId: item.reasonTypeId || 0,
-    // });
+    const { getCurrentDateRangeData, WorkbenchQualityData } = this.props;
+    const data = WorkbenchQualityData.class.detailList[item.dataIndex];
+    jumpGobalRouter('qualityReport/classReport', {
+      beginDate: getCurrentDateRangeData.startTime,
+      endDate: getCurrentDateRangeData.endTime,
+      organization: data.collegeId
+        ? data.collegeId
+        : data.familyId
+        ? '-' + data.familyId
+        : data.groupId
+        ? '-' + data.groupId
+        : '',
+    });
   };
 
   render() {

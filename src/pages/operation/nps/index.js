@@ -11,12 +11,20 @@ import NPSLeft from './NPSLeft';
 import moment from 'moment';
 import { initTimeData } from '../../ko/utils/utils';
 import { removeTypeDuplicates } from '@babel/types';
+import Echarts from '@/components/Echart';
+import { getOption } from './npsLeftOptions.js';
+import { getOption1 } from './npscenterOptions.js';
+import NPSRight from './npsrightOptions.js';
+
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
 const { BI = {} } = window;
 @connect(({ xdOperation }) => ({
   xdOperation,
+  xdOperationNpsData: xdOperation.xdOperationNpsData,
+  getCurrentDateRangeData1: xdOperation.getCurrentDateRangeData1,
+  xdOperationNpsPaiData: xdOperation.xdOperationNpsPaiData,
   userInfo: xdOperation.userInfo,
 }))
 class NPSEvaluate extends React.Component {
@@ -63,6 +71,8 @@ class NPSEvaluate extends React.Component {
       type: 'xdOperation/getUserInfo',
       callback: userInfo => {
         this.getUserOrgList();
+        this.getNpsData();
+        this.getPieData();
         if (userInfo.userType == 'boss') {
           this.state.groupId = [0];
         } else {
@@ -88,6 +98,15 @@ class NPSEvaluate extends React.Component {
       },
     });
   }
+
+  // 获取nps接口
+  getNpsData = () => {
+    this.props.dispatch({
+      type: 'xdOperation/getNpsData',
+      payload: { params: { ...this.initRecordTimeListData(this.state.dateArr) } },
+    });
+  };
+
   getIniDateRange = () => {
     const { params } = this.props.location.query;
     const { dataRange } = params ? JSON.parse(params) : {};
@@ -153,6 +172,30 @@ class NPSEvaluate extends React.Component {
       },
     });
   };
+  getPieData = () => {
+    const { userInfo } = this.state;
+    let params = {
+      ...this.initRecordTimeListData(this.state.dateArr),
+      collegeId:
+        (userInfo && userInfo.collegeId) ||
+        (this.state.groupId.length > 0 && this.state.groupId[0]) ||
+        null,
+      familyId:
+        (userInfo && userInfo.familyId) ||
+        (this.state.groupId.length > 0 && this.state.groupId[1]) ||
+        null,
+      groupId:
+        (userInfo && userInfo.groupId) ||
+        (this.state.groupId.length > 0 && this.state.groupId[2]) ||
+        null,
+      star: this.state.star === '0' ? null : Number(this.state.star),
+      cycle: this.state.cycle === '0' ? null : Number(this.state.cycle),
+    };
+    this.props.dispatch({
+      type: 'xdOperation/getNPSPaiData',
+      payload: { params: params },
+    });
+  };
   // 组织 - 时间
   getUserOrgList = () => {
     this.props.dispatch({
@@ -177,6 +220,7 @@ class NPSEvaluate extends React.Component {
       },
       () => {
         this.getNpsAutonomousEvaluation(0, true);
+        this.getPieData();
       }
     );
     BI.traceV && BI.traceV({ widgetName: 'NPS归属筛选', traceName: '管理层工作台/NPS归属筛选' });
@@ -189,6 +233,7 @@ class NPSEvaluate extends React.Component {
       },
       () => {
         this.getNpsAutonomousEvaluation(0, true);
+        this.getPieData();
       }
     );
     BI.traceV && BI.traceV({ widgetName: '星级筛选', traceName: '管理层工作台/NPS分析' });
@@ -202,6 +247,7 @@ class NPSEvaluate extends React.Component {
       },
       () => {
         this.getNpsAutonomousEvaluation(0, true);
+        this.getPieData();
       }
     );
     BI.traceV &&
@@ -218,6 +264,7 @@ class NPSEvaluate extends React.Component {
       },
       () => {
         this.getNpsAutonomousEvaluation(0, true);
+        this.getPieData();
       }
     );
     // this.setState({ dateArr: v }, () => this.getNpsAutonomousEvaluation(0, true));
@@ -306,7 +353,9 @@ class NPSEvaluate extends React.Component {
   };
   render() {
     const { NPSParams } = this.state;
-    const { npsList = [] } = this.props.xdOperation;
+    const { npsList = [], xdOperationNpsData, xdOperationNpsPaiData } = this.props.xdOperation;
+    const options = getOption(npsList);
+    const options1 = getOption1(xdOperationNpsData);
     return (
       <Container
         title="NPS自主评价分析"
@@ -320,18 +369,31 @@ class NPSEvaluate extends React.Component {
                 <span></span>
                 生命周期分布
               </p>
+              <div className={styles.NPSCenterLPie}>
+                <div className={styles.NPSCenterLTotal}>
+                  <p className={styles.total}>635</p>
+                  <p className={styles.totalWord}>总数量</p>
+                </div>
+                <Echarts options={options} style={{ width: '243px', height: 223 + 'px' }} />
+              </div>
             </div>
             <div className={styles.NPSCenterC}>
               <p className={styles.title}>
                 <span></span>
                 NPS评分
               </p>
+              <div>
+                <Echarts options={options1} style={{ width: '243px', height: 223 + 'px' }} />
+              </div>
             </div>
             <div className={styles.NPSCenterR}>
               <p className={styles.title}>
                 <span></span>
                 NPS标签
               </p>
+              <div className={styles.NPSCenterRCon}>
+                <NPSRight cloudOptions={xdOperationNpsData.tagImageDtoList} />
+              </div>
             </div>
           </div>
           {NPSParams && (
