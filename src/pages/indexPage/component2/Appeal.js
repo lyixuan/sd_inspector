@@ -45,9 +45,10 @@ class Appeal extends React.Component {
     }
     const { getCurrentDateRangeData } = this.props;
     if (item.seriesName == '审核失败') {
-      jumpGobalSelfRouter('scoreAppeal/awaitAppeal', {
+      jumpGobalSelfRouter('scoreAppeal/onAppeal', {
         creditBeginDate: getCurrentDateRangeData.startTime,
         creditEndDate: getCurrentDateRangeData.endTime,
+        statusList: ['4', '7'],
         dimensionType,
       });
     } else {
@@ -55,6 +56,7 @@ class Appeal extends React.Component {
         creditBeginDate: getCurrentDateRangeData.startTime,
         creditEndDate: getCurrentDateRangeData.endTime,
         dimensionType,
+        statusList: ['2', '5', '6'],
       });
     }
   };
