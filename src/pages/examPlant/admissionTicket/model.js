@@ -25,7 +25,7 @@ export default {
       if (response && response.code === 20000) {
         yield put({
           type: 'save',
-          payload: { zkzWriteList: response.data },
+          payload: { zkzWriteList: response.data || [] },
         });
       } else if (response) {
         message.error(response.msg)
@@ -37,7 +37,7 @@ export default {
       if (response && response.code === 20000) {
         yield put({
           type: 'save',
-          payload: { zkzWriteDetail: response.data },
+          payload: { zkzWriteDetail: response.data || {} },
         });
       } else if (response) {
         message.error(response.msg)

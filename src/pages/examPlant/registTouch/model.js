@@ -20,7 +20,7 @@ export default {
       if (response && response.code === 20000) {
         yield put({
           type: 'save',
-          payload: { reachNumRankList: response.data },
+          payload: { reachNumRankList: response.data || [] },
         });
       } else if (response) {
         message.error(response.msg)
@@ -32,7 +32,7 @@ export default {
       if (response && response.code === 20000) {
         yield put({
           type: 'save',
-          payload: { reachNumDetail: response.data },
+          payload: { reachNumDetail: response.data || {} },
         });
       } else if (response) {
         message.error(response.msg)
