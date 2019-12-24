@@ -5,7 +5,7 @@ import BISelect from '@/ant_components/BISelect';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import BIButton from '@/ant_components/BIButton';
-import { thousandsFormatBigger } from '@/utils/utils';
+import { companyThousandsIncome } from '@/utils/utils';
 import styles from '../style.less';
 
 const { BI = {} } = window;
@@ -78,7 +78,7 @@ class ProfitList extends React.Component {
         key: 'totalKpi',
         render: (text, record) => {
           const percent = text / total * 100 + '%';
-          return <BIWrapperProgress text={thousandsFormatBigger(text)} percent={percent} iconed={this.getIncludes(record.personId)} propsStyle={{flex: 'inherit',width: '60px'}}/>
+          return <BIWrapperProgress text={companyThousandsIncome(text)} percent={percent} iconed={this.getIncludes(record.personId)} propsStyle={{flex: 'inherit',width: '60px'}}/>
         }
       }
     ];

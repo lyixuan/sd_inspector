@@ -163,7 +163,8 @@ function TeacherOrStudent(props) {
   }
 }
 
-@connect(({ loading }) => ({
+@connect(({ xdCreditModal, loading }) => ({
+  xdCreditModal,
   loading: loading.effects['xdCreditModal/getAttendanceDeail'],
   loadingAppeal: loading.effects['xdCreditModal/getAttendanceDeail'],
 }))
@@ -282,13 +283,13 @@ class Attendance extends React.Component {
       {
         title: '操作',
         width: '10%',
-        dataIndex: '',
-        key: '',
-        render: (incomeTotalKpi, record) => {
+        dataIndex: 'subjectId',
+        key: 'subjectId',
+        render: (subjectId, record) => {
           return (
             <a
-              onClick={() => this.download()}
-              style={{ display: 'flex', justifyContent: 'center', color: '#67EECB' }}
+              onClick={() => this.download(record.subjectId)}
+              style={{ display: 'flex', justifyContent: 'center', color: '#00CCC3' }}
             >
               下载
             </a>
@@ -335,12 +336,12 @@ class Attendance extends React.Component {
     // return columns || [];
   };
 
-  download = () => {
+  download = item => {
     // 下载功能
-    // this.props.dispatch({
-    //   type: 'createIncome/reportDownload',
-    //   payload: { type, kpiPackageStartDate, kpiPackageEndDate },
-    // });
+    this.props.dispatch({
+      type: 'xdCreditModal/bottomTask',
+      payload: { params: { subjectId: item } },
+    });
   };
   setRowClassName = (r, c, b) => {
     if (this.props.dementionId === r.id) {

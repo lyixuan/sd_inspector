@@ -52,3 +52,8 @@ export async function queryAttendancePage(data) {
   return request('/credit/v1.9/queryAppealDataPage',{method:'POST',data:data})
 }
 
+// 底表下载
+export async function bottomTaskList(params) {
+  return request('/bottomTask/list',{ method: 'get', params })
+}
+

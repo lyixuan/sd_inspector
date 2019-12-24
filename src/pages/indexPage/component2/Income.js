@@ -15,7 +15,8 @@ import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 class Income extends React.Component {
   jump = () =>{
     handleDataTrace({"widgetName":`创收_进入详情`,"traceName":`2.0/创收_进入详情`});
-    jumpGobalRouter('newDetail/incomeRank' );
+    // jumpGobalRouter('newDetail/incomeRank' );
+    jumpGobalRouter('newDetail/incomeOrder')
   };
 
   render() {

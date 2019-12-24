@@ -1,5 +1,5 @@
 export function getOption1(listsrc) {
-  const {starList:list=[]} = listsrc||{};
+  const { starList: list = [] } = listsrc || {};
   const bg1 = [];
   const bg2 = [];
   let positiveData = [];
@@ -7,11 +7,11 @@ export function getOption1(listsrc) {
   const scores = [];
   const xArr = [];
   let huanbi = [];
-  list.forEach((item)=>{
+  list.forEach(item => {
     scores.push(item.value);
     xArr.push(item.name);
     huanbi.push((item.qoqValue * 100).toFixed(2));
-    if(item.value>=0){
+    if (item.value >= 0) {
       positiveData.push(item.value);
       negData.push(0);
     } else {
@@ -24,15 +24,15 @@ export function getOption1(listsrc) {
   const navMax = Math.floor(Math.min.apply(null, negData));
   const huanbiMax = Math.ceil(Math.max.apply(null, huanbi));
   const huanbiMin = Math.floor(Math.min.apply(null, huanbi));
-  list.forEach((item)=>{
+  list.forEach(item => {
     bg1.push(positiveMax);
     bg2.push(navMax);
   });
 
   const itemStyle1 = {
-    color:'#ccc',
+    color: '#ccc',
     normal: {
-      barBorderRadius: [10,10,0,0],
+      barBorderRadius: [10, 10, 0, 0],
       color: {
         type: 'linear',
         x: 0,
@@ -50,20 +50,20 @@ export function getOption1(listsrc) {
           },
         ],
         global: false, // 缺省为 false
-      }
+      },
     },
     emphasis: {
       barBorderWidth: 1,
       shadowBlur: 10,
       shadowOffsetX: 0,
       shadowOffsetY: 0,
-      shadowColor: 'rgba(0,0,0,0.1)'
-    }
+      shadowColor: 'rgba(0,0,0,0.1)',
+    },
   };
   const itemStyle2 = {
-    color:'#ccc',
+    color: '#ccc',
     normal: {
-      barBorderRadius: [0,0,10,10],
+      barBorderRadius: [0, 0, 10, 10],
       color: {
         type: 'linear',
         x: 0,
@@ -81,15 +81,16 @@ export function getOption1(listsrc) {
           },
         ],
         global: false, // 缺省为 false
-        barBorderRadius: [0,0,10,10]
-      }},
+        barBorderRadius: [0, 0, 10, 10],
+      },
+    },
     emphasis: {
       barBorderWidth: 1,
       shadowBlur: 10,
       shadowOffsetX: 0,
       shadowOffsetY: 0,
-      shadowColor: 'rgba(0,0,0,0.5)'
-    }
+      shadowColor: 'rgba(0,0,0,0.5)',
+    },
   };
 
   const itemStyleBg1 = {
@@ -98,8 +99,8 @@ export function getOption1(listsrc) {
       barBorderRadius: [10, 10, 0, 0],
     },
     emphasis: {
-      color:'#F6F6F4',
-    }
+      color: '#F6F6F4',
+    },
   };
   const itemStyleBg2 = {
     normal: {
@@ -107,30 +108,31 @@ export function getOption1(listsrc) {
       barBorderRadius: [0, 0, 10, 10],
     },
     emphasis: {
-      color:'#F6F6F4',
-    }
+      color: '#F6F6F4',
+    },
   };
 
   return {
-    color: ["#50D4FD", "#FD8188"],
+    color: ['#50D4FD', '#FD8188'],
     tooltip: {
-      backgroundColor:'#fff',
-      borderColor:'#eee',
-      borderWidth:1,
-      borderRadius:10,
+      backgroundColor: '#fff',
+      borderColor: '#eee',
+      borderWidth: 1,
+      borderRadius: 10,
       shadowBlur: 10,
       shadowOffsetX: 1,
       shadowOffsetY: 0,
       shadowColor: 'rgba(0,0,0,0.8)',
-      textStyle:{
-        color:'#666',
-        fontSize:12,
+      textStyle: {
+        color: '#666',
+        fontSize: 12,
       },
       trigger: 'axis',
-      axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-        type : 'none'        // 默认为直线，可选为：'line' | 'shadow'
+      axisPointer: {
+        // 坐标轴指示器，坐标轴触发有效
+        type: 'none', // 默认为直线，可选为：'line' | 'shadow'
       },
-      animation:false,
+      animation: false,
       // formatter: function (params) {
       //   if(params[0]) {
       //     return "学分均分：" + (params[1]?params[1].value:params[3].value) +"分"+
@@ -150,85 +152,88 @@ export function getOption1(listsrc) {
       // axisPointer: {
       //   type: 'shadow'
       // },
-      axisLine:{
-        show:false
+      axisLine: {
+        show: false,
       },
-      axisLabel:{
-        rotate:45,
-        color:'#000000 '
+      axisLabel: {
+        rotate: 45,
+        color: '#7D90AA',
       },
-      axisTick:{
-        show:false
+      axisTick: {
+        show: false,
       },
-      splitLine: {show: false},
-      splitArea: {show: false}
+      splitLine: { show: false },
+      splitArea: { show: false },
     },
-    yAxis: [{
-      inverse: false,
-      type: 'value',
-      min: navMax,
-      max: positiveMax,
-      axisLine:{
-        show:false
+    yAxis: [
+      {
+        inverse: false,
+        type: 'value',
+        min: navMax,
+        max: positiveMax,
+        axisLine: {
+          show: false,
+        },
+        axisLabel:{
+          color:'#CAD2DC'
+        },
+        axisTick: {
+          show: false,
+        },
+        splitLine: { show: false },
+        splitArea: { show: false },
       },
-      axisLabel:{
-        color:'#7D90AA'
+      {
+        inverse: false,
+        type: 'value',
+        min: navMax,
+        max: positiveMax,
+        axisLabel: {
+          show: false,
+          color: '#7D90AA',
+        },
+        axisLine: {
+          show: false,
+        },
+        axisTick: {
+          show: false,
+        },
+        splitLine: { show: false },
+        splitArea: { show: false },
       },
-      axisTick:{
-        show:false
-      },
-      splitLine: {show: false},
-      splitArea: {show: false}
-    },{
-      inverse: false,
-      type: 'value',
-      min: navMax,
-      max: positiveMax,
-      axisLabel:{
-        show:false,
-        color:'#000000 '
-      },
-      axisLine:{
-        show:false
-      },
-      axisTick:{
-        show:false
-      },
-      splitLine: {show: false},
-      splitArea: {show: false}
-    },
       {
         type: 'value',
         name: '',
         min: huanbiMin,
         max: huanbiMax,
         position: 'left',
-        axisLabel:{
-          show:false,
+        axisLabel: {
+          show: false,
         },
-        axisLine:{
-          show:false
+        axisLine: {
+          show: false,
         },
-        axisTick:{
-          show:false
+        axisTick: {
+          show: false,
         },
-        splitLine: {show: false},
-        splitArea: {show: false}
-      }
+        splitLine: { show: false },
+        splitArea: { show: false },
+      },
     ],
     grid: {
       left: 60,
-      right:20,
-      top:10,
-      bottom:30
+      right: 20,
+      top: 10,
+      bottom: 30,
     },
     // barGap:'-100%',
     series: [
-      { // For shadow
+      {
+        // For shadow
         type: 'bar',
-        barGap:'-100%',
+        barGap: '-100%',
         // barCategoryGap:'40%',
-        barWidth:17,
+        barWidth: 17,
         data: bg1,
         animation: false,
         itemStyle: itemStyleBg1,
@@ -237,39 +242,39 @@ export function getOption1(listsrc) {
         name: '正面',
         type: 'bar',
         stack: 'one',
-        barWidth:17,
+        barWidth: 17,
         itemStyle: itemStyle1,
-        data: positiveData
-
+        data: positiveData,
       },
-      { // For shadow
+      {
+        // For shadow
         type: 'bar',
-        barGap:'-100%',
+        barGap: '-100%',
         // barCategoryGap:'40%',
-        barWidth:17,
+        barWidth: 17,
         data: bg2,
         itemStyle: itemStyleBg2,
-        animation: false
+        animation: false,
       },
       {
         name: '负面',
         type: 'bar',
         stack: 'one',
-        barWidth:17,
+        barWidth: 17,
         itemStyle: itemStyle2,
-        data: negData
+        data: negData,
       },
       {
-        name:'环比',
-        type:'line',
+        name: '环比',
+        type: 'line',
         yAxisIndex: 2,
-        itemStyle:{
+        itemStyle: {
           normal: {
             color: '#FFB900',
-          }
+          },
         },
-        data:huanbi
-      }
-    ]
-  }
+        data: huanbi,
+      },
+    ],
+  };
 }

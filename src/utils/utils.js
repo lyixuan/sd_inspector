@@ -435,3 +435,7 @@ export function changeToThousandsForIncome(num,n) {
 
   return thousandsFormatDot(number);
 }
+
+export function companyThousandsIncome(num, n = 1) {
+  return changeToThousandsForIncome(num, n) + '万';
+}
