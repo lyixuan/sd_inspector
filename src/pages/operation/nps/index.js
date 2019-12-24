@@ -74,10 +74,15 @@ class NPSEvaluate extends React.Component {
         this.getNpsData();
         this.getPieData();
         let groupIds = [0];
-        if (userInfo.userType == 'boss') {
-          groupIds = [0];
-        } else {
+        if (
+          userInfo.userType == 'collage' ||
+          userInfo.userType == 'family' ||
+          userInfo.userType == 'class' ||
+          userInfo.userType == 'group'
+        ) {
           groupIds = [userInfo.collegeId, userInfo.familyId, userInfo.groupId];
+        } else {
+          groupIds = [0];
         }
         // else {
         //   if (userInfo.collegeId) {
