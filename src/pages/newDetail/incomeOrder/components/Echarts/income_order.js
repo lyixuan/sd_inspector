@@ -1,6 +1,6 @@
 import echarts from 'echarts';
 
-export function getOptionIncomeOrder(list) {
+export function getOptionIncomeOrder(list,titleName) {
   const xArr = [];
   const yArr = [];
   const seriesData = [];
@@ -10,6 +10,52 @@ export function getOptionIncomeOrder(list) {
     seriesData.push({name:i,value:item.selfGroup ?item.value:null,showName:item.name,rankNum:item.rankNum,total:list.length})
   });
 
+  let normal1 = {
+    color: new echarts.graphic.LinearGradient(0, 0, 0, 0.8, [{
+      offset: 0,
+      color: 'rgba(130, 128, 255, 0.9)',
+    }, {
+      offset: 1,
+      color: 'rgba(130, 128, 255, 0.1)',
+    }]),
+  };
+  let normal2 = {
+    color: 'rgba(130, 128, 255, 1)',
+    width: 2,
+  };
+  let nodeColor = 'rgba(130, 128, 255, 1)';
+  if(titleName==='家族排名'){
+    normal1 =  {
+      color: new echarts.graphic.LinearGradient(0, 0, 0, 0.8, [{
+        offset: 0,
+        color: 'rgba(254, 197, 61, 0.9)',
+      }, {
+        offset: 1,
+        color: 'rgba(254, 197, 61, 0.1)',
+      }]),
+    };
+    normal2 = {
+      color: 'rgba(254, 197, 61, 1)',
+      width: 2,
+    };
+    nodeColor='rgba(254, 197, 61, 1)'
+  }
+  if(titleName==='小组排名'){
+    normal1 =  {
+      color: new echarts.graphic.LinearGradient(0, 0, 0, 0.8, [{
+        offset: 0,
+        color: 'rgba(255, 151, 112, 0.9)',
+      }, {
+        offset: 1,
+        color: 'rgba(255, 151, 112, 0.1)',
+      }]),
+    };
+    normal2 = {
+      color: 'rgba(255, 151, 112, 1)',
+      width: 2,
+    };
+    nodeColor='rgba(255, 151, 112, 1)'
+  }
 
   return {
     tooltip: {
@@ -61,7 +107,7 @@ export function getOptionIncomeOrder(list) {
           borderWidth: '2',
           borderType: 'solid',
           borderColor: '#fff',
-          color: 'rgba(61,213,152,1)',
+          color: nodeColor,
           // shadowColor: '#68b837',
           // shadowBlur: 10,
         },
@@ -74,23 +120,12 @@ export function getOptionIncomeOrder(list) {
         data: yArr,
         type: 'line',
         areaStyle: {
-          normal: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 0.8, [{
-              offset: 0,
-              color: 'rgba(61,213,152,0.9)',
-            }, {
-              offset: 1,
-              color: 'rgba(61,213,152,0.1)',
-            }]),
-          },
+          normal: normal1,
         },
         symbol: 'none',
 
         lineStyle: {
-          normal: {
-            color: 'rgba(61,213,152,1)',
-            width: 2,
-          },
+          normal: normal2,
         },
       },
     ],
