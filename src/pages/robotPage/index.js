@@ -173,7 +173,7 @@ class RobotPage extends Component {
                 placeholder={['选择起始时间', '选择截止时间']}
                 format={dateFormat}
                 onChange={this.onDateChange}
-                allowClear
+                allowClear={false}
                 disabledDate={this.disabledDate}
                 style={{ width: 224, marginLeft: 12 }}
               />

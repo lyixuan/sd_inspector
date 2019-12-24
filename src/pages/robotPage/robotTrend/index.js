@@ -41,7 +41,7 @@ class RobotTrend extends React.Component {
       },
       tooltip: {
         trigger: 'item',
-        formatter: "{b} : {c}"
+        formatter: "{b} : {d}%"
       },
       legend: {
         orient: 'vertical',
@@ -65,6 +65,7 @@ class RobotTrend extends React.Component {
           color: ["#33D195", "#FFC442", "#3CB3FC"],
           data: datas,
           hoverOffset: 0,
+          stillShowZeroSum: false,
           itemStyle: {
             normal: {
               label: { show: false },
@@ -76,8 +77,9 @@ class RobotTrend extends React.Component {
         }
       ]
     };
-
     let optionEmpty = {
+      animation: false,
+      silent: true,
       title: {
         text: '会话类型',
         x: 'center',
@@ -89,10 +91,22 @@ class RobotTrend extends React.Component {
           fontWeight: 'normal'
         }
       },
-      tooltip: {
-        trigger: 'item',
-        formatter: "{b} : {c}"
-      },
+      zlevel: 1,
+      graphic: [{
+        type: 'text',
+        left: '23%',
+        top: '47%',
+        style: {
+          text: '暂无数据',
+          textAlign: 'center',
+          fill: '#9B9B9B',
+          fontSize: '12',
+          fontWeight: 'normal',
+          width: 30,
+          height: 30,
+          zlevel: 2
+        }
+      }],
       legend: {
         orient: 'vertical',
         right: 'right',
@@ -115,18 +129,17 @@ class RobotTrend extends React.Component {
           color: ["#F2F2F2", "#F2F2F2", "#F2F2F2"],
           data: datas,
           hoverOffset: 0,
+          hoverAnimation: false,
+          legendHoverLink: false,
           itemStyle: {
             normal: {
               label: { show: false },
               labelLine: { show: false },
             },
-          }
+          },
         }
       ]
     }
-
-
-
     if (pieData.robotOnlyNum === 0 && pieData.robotAndTeacherNum === 0 && pieData.teacherOnlyNum === 0) {
       return optionEmpty
     } else {
@@ -164,7 +177,7 @@ class RobotTrend extends React.Component {
       },
       tooltip: {
         trigger: 'item',
-        formatter: "{b} : {c}"
+        formatter: "{b} : {d}%"
       },
       legend: {
         orient: 'vertical',
@@ -201,7 +214,76 @@ class RobotTrend extends React.Component {
       ]
     };
 
-    return option
+    let optionEmpty = {
+      animation: false,
+      silent: true,
+      title: {
+        text: '满意度',
+        x: 'center',
+        bottom: 0,
+        left: '20%',
+        textStyle: {
+          color: '#282828',
+          fontSize: 14,
+          fontWeight: 'normal'
+        }
+      },
+      zlevel: 1,
+      graphic: [{
+        type: 'text',
+        left: '23%',
+        top: '47%',
+        style: {
+          text: '暂无数据',
+          textAlign: 'center',
+          fill: '#9B9B9B',
+          fontSize: '12',
+          fontWeight: 'normal',
+          width: 30,
+          height: 30,
+          zlevel: 2
+        }
+      }],
+      legend: {
+        orient: 'vertical',
+        right: 'right',
+        data: ['非常满意', '满意', '一般', '不满意'],
+        top: '30%',
+        itemWidth: 8,
+        itemHeight: 8,
+        itemGap: 20,
+        icon: 'circle',
+        textStyle: {
+          color: '#444',
+          fontSize: 12,
+        }
+      },
+      series: [
+        {
+          type: 'pie',
+          radius: '75%',
+          center: ['30%', '48%'],
+          color: ["#F2F2F2", "#F2F2F2", "#F2F2F2", "#F2F2F2"],
+          data: datas,
+          hoverOffset: 0,
+          hoverAnimation: false,
+          legendHoverLink: false,
+          itemStyle: {
+            normal: {
+              label: { show: false },
+              labelLine: { show: false },
+            },
+          },
+        }
+      ]
+    }
+
+    if (pieData.veryGoodNum === 0 && pieData.goodNum === 0 && pieData.commonNum === 0 && pieData.badNum === 0) {
+      return optionEmpty
+    } else {
+      return option
+    }
+
   }
   chartIntercept = () => {
     const data = this.props.dayData
