@@ -33,8 +33,8 @@ export default class IllegalInfo extends React.Component {
             <div><span className={styles.spanLabel}>质检类型</span>：{BiFilter(`QUALITY_TYPE|id:${data.qualityType}`).name}</div>
             <div><span className={styles.spanLabel}>分维</span>：{data.violationName}</div>
             <div className={styles.jumpStyle}
-                 onClick={()=>jumpGobalRouter(`classQuality/qualityType/${data.violationName==='客诉'?1:2}`)}>
-              <span className={styles.spanLabel}>违规分类</span>：<Tooltip placement="right" title="点击查看质检细则" >{data.thirdAssortment||data.secondAssortment||data.primaryAssortment}</Tooltip></div>
+                 onClick={()=>jumpGobalRouter(`classQuality/qualityType/${data.violationName==='客诉'?1:2}`, {keyWord: data.thirdAssortment||data.secondAssortment||data.primaryAssortment})}>
+              <span className={styles.spanLabel}>违规分类</span>：<Tooltip placement="right" title="点击查看质检细则" ><span style={{color: 'rgb(0, 204, 195)'}}>{data.thirdAssortment||data.secondAssortment||data.primaryAssortment}</span></Tooltip></div>
           </div>
           <div className={styles.secRow}>
             <div>&nbsp;</div>
