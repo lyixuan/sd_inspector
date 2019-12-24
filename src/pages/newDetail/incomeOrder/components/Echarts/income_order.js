@@ -112,7 +112,6 @@ export function getOptionIncomeOrder(list,titleName) {
           // shadowBlur: 10,
         },
       },
-
       data: seriesData,
     },
       {

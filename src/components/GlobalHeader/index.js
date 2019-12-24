@@ -11,6 +11,7 @@ import { nullLiteral } from '@babel/types';
 import { connect } from 'dva/index';
 import searchIcon from '@/assets/newIndex/searchIcon.png';
 import Score from '@/pages/indexPage/component2/Score';
+import { handleDataTrace } from '@/utils/utils';
 
 class GlobalHeader extends PureComponent {
   constructor(props) {
@@ -43,6 +44,7 @@ class GlobalHeader extends PureComponent {
     });
   };
   getUserInfo = () => {
+    handleDataTrace({"widgetName":`导航搜索学员档案`,"traceName":`首页/导航搜索进入学员档案`});
     this.props.dispatch({
       type: 'global/getBasicInfo',
       payload: { params: { stuId: this.state.userId } },
@@ -117,7 +119,7 @@ class GlobalHeader extends PureComponent {
         <div className={styles.right}>
           <span className="searchBox">
           <BIInput
-            placeholder="学员档案 (输入学员id)"
+            placeholder="学员档案 (输入学员ID)"
             style={{width:170}}
             value={this.state.userId}
             onPressEnter={this.getUserInfo}
