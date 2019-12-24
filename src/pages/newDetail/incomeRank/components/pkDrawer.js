@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Tooltip } from 'antd';
-import { setLocalValue, thousandsFormatAll } from '@/pages/indexPage/components/utils/utils';
+import { setLocalValue } from '@/pages/indexPage/components/utils/utils';
+import { thousandsFormatBigger } from '@/utils/utils';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
@@ -101,7 +102,7 @@ class ProfitList extends React.Component {
         key: 'kpiFlow',
         render: text => {
           const percent = (total ? text / total * 100 : 0) + '%';
-          return <BIWrapperProgress text={thousandsFormatAll(text)} percent={percent}/>
+          return <BIWrapperProgress text={thousandsFormatBigger(text)} percent={percent}/>
         }
       }, {
         ellipsis: true,
