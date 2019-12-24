@@ -59,7 +59,6 @@ class RobotTrend extends React.Component {
       },
       series: [
         {
-          name: '访问来源',
           type: 'pie',
           radius: '75%',
           center: ['30%', '48%'],
@@ -78,7 +77,63 @@ class RobotTrend extends React.Component {
       ]
     };
 
-    return option
+    let optionEmpty = {
+      title: {
+        text: '会话类型',
+        x: 'center',
+        bottom: 0,
+        left: '20%',
+        textStyle: {
+          color: '#282828',
+          fontSize: 14,
+          fontWeight: 'normal'
+        }
+      },
+      tooltip: {
+        trigger: 'item',
+        formatter: "{b} : {c}"
+      },
+      legend: {
+        orient: 'vertical',
+        right: 'right',
+        data: ['机器人独立访问', '机器人协同会话', '班主任独立会话'],
+        top: '30%',
+        itemWidth: 8,
+        itemHeight: 8,
+        itemGap: 20,
+        icon: 'circle',
+        textStyle: {
+          color: '#444',
+          fontSize: 12,
+        }
+      },
+      series: [
+        {
+          type: 'pie',
+          radius: '75%',
+          center: ['30%', '48%'],
+          color: ["#F2F2F2", "#F2F2F2", "#F2F2F2"],
+          data: datas,
+          hoverOffset: 0,
+          itemStyle: {
+            normal: {
+              label: { show: false },
+              labelLine: { show: false },
+            },
+          }
+        }
+      ]
+    }
+
+
+
+    if (pieData.robotOnlyNum === 0 && pieData.robotAndTeacherNum === 0 && pieData.teacherOnlyNum === 0) {
+      return optionEmpty
+    } else {
+      return option
+    }
+
+
   }
   drawChart2 = () => {
     const { pieData } = this.props;
@@ -198,6 +253,7 @@ class RobotTrend extends React.Component {
       },
       yAxis: {
         type: 'value',
+        max: 1,
         axisLabel: {
           color: '#000000 ',
           // formatter: '{value}\n',
@@ -331,6 +387,7 @@ class RobotTrend extends React.Component {
       ],
       yAxis: {
         type: 'value',
+        max: 1,
         axisLabel: {
           color: '#000000 ',
           // formatter: '{value}\n',
