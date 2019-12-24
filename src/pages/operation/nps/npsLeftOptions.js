@@ -13,37 +13,43 @@ export function getOption(data) {
       type: 'category',
       data: dataAxis,
       z: 10,
-      // axisTick: {
-      //   //y轴刻度线
-      //   inside: true,
-      // },
-      splitLine: {
-        //网格线
-        // show: true,
-        // lineStyle: {
-        //   type: 'dashed',
-        //   color: '#999999',
-        // },
+      axisTick: {
+        //y轴刻度线
+        inside: true,
       },
-      // axisLine: {
-      //   show: true,
-      //   lineStyle: {
-      //     color: '#999999',
-      //   },
-      // },
+      splitLine: {
+        // 网格线
+        show: true,
+        lineStyle: {
+          type: 'dashed',
+          color: '#999999',
+        },
+      },
+      axisLine: {
+        show: true,
+        lineStyle: {
+          color: '#999999',
+        },
+      },
     },
     tooltip: {},
     radiusAxis: {
-      // show : false,
-      // axisTick:{       //y轴刻度线
-      //   "show":false
-      // },
-      // splitLine: {     //网格线
-      //   "show": false
-      // },
-      // axisLabel: {
-      //      show:false,
-      //  },
+      show : false,
+      axisTick: {
+        //y轴刻度线
+        show: false,
+      },
+      splitLine: {
+        //网格线
+        show: false,
+        lineStyle: {
+          type: 'dashed',
+          color: '#999999',
+        },
+      },
+      axisLabel: {
+           show:false,
+       },
     },
     polar: {
       // show:true,
