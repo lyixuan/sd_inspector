@@ -5,7 +5,7 @@ import BISelect from '@/ant_components/BISelect';
 import BIWrapperTable from '@/components/BIWrapperTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import { getDateObj } from '@/pages/indexPage/components/utils/utils';
-import { thousandsFormatBigger, handleDataTrace } from '@/utils/utils';
+import { companyThousandsIncome, handleDataTrace } from '@/utils/utils';
 
 const allColumns = {
   college: { title: '学院', key: 'collegeName' },
@@ -148,7 +148,7 @@ class Compare extends React.Component {
   // 进度条值
   getProText = (val, record) => {
     const percent = record[val]/this.state.dataSourceTotal[val + 'Total'] * 100 + '%';
-    const money = thousandsFormatBigger(record[val]);
+    const money = companyThousandsIncome(record[val]);
     return <BIWrapperProgress text={money} percent={percent} />
   }
   setRowClassName = (record) => {
