@@ -12,6 +12,7 @@ const { BIRangePicker } = BIDatePicker;
 
 @connect(({ newDetailModal, incomeOrderModal }) => ({
   incomeOrderModal,
+  globalUserInfo: newDetailModal.globalUserInfo,
   globalUserType: newDetailModal.globalUserType,
   globalDateMoment: newDetailModal.globalDateMoment,
   globalkpiDateRange: newDetailModal.globalkpiDateRange,
@@ -85,6 +86,8 @@ class IncomeOrder extends React.Component {
 
   render() {
     const { IncomeData, IncomeOrderCollege, IncomeOrderFamily, IncomeOrderGroup } = this.props.incomeOrderModal;
+    console.log(this.props.globalUserInfo, 'ooooo')
+    const { globalUserInfo } = this.props;
     return (
       <div className={styles.incomeOrder}>
         <span className={styles.dataRange}>
@@ -105,7 +108,7 @@ class IncomeOrder extends React.Component {
           IncomeOrderFamily={IncomeOrderFamily}
           IncomeOrderGroup={IncomeOrderGroup}
         />
-        <TopTabs tabParams={this.getTabParams()}/>
+        { globalUserInfo && globalUserInfo.userType && <TopTabs tabParams={this.getTabParams()}/> }
       </div>
     );
   }
