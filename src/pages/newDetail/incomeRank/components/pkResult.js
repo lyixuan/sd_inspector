@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { thousandsFormatAll } from '@/pages/indexPage/components/utils/utils';
+// import { thousandsFormatAll } from '@/pages/indexPage/components/utils/utils';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import BIWrapperTable from '@/components/BIWrapperTable';
 import BITextAlign from '@/pages/indexPage/components/BITextAlign';
@@ -10,6 +10,7 @@ import rank1 from '@/assets/xdFamily/rank1.png';
 import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
 import xdPkImg from '@/assets/workBench/xdpk.gif';
+import { thousandsFormatBigger } from '@/utils/utils';
 import styles from './style.less';
 
 const { BI = {} } = window;
@@ -50,14 +51,14 @@ class ProfitTbas extends React.Component {
         title: this.props.incomeType + '绩效流水',
         dataIndex: 'kpiFlow',
         key: 'kpiFlow',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.kpiFlow)}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatBigger(text)} isColor="green" percent={this.getPercent(text, maxValue.kpiFlow)}/>)
       }, {
         className: styles.rowBg2,
         width: '10%',
         title: '好推流水',
         dataIndex: 'goodpushFlow',
         key: 'goodpushFlow',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.goodpushFlow)}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatBigger(text)} isColor="green" percent={this.getPercent(text, maxValue.goodpushFlow)}/>)
       },
       //  {
       //   className: styles.rowBg2,
@@ -80,7 +81,7 @@ class ProfitTbas extends React.Component {
         title: '续报流水',
         dataIndex: 'renewalFlow',
         key: 'renewalFlow',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.renewalFlow)}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatBigger(text)} isColor="green" percent={this.getPercent(text, maxValue.renewalFlow)}/>)
       }, 
       // {
       //   width: 90,
@@ -103,7 +104,7 @@ class ProfitTbas extends React.Component {
         title: '成考流水',
         dataIndex: 'examZbtFlow',
         key: 'examZbtFlow',
-        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatAll(text)} isColor="green" percent={this.getPercent(text, maxValue.examZbtFlow)}/>)
+        render: (text, record) => this.getColumn(record, <BIWrapperProgress text={thousandsFormatBigger(text)} isColor="green" percent={this.getPercent(text, maxValue.examZbtFlow)}/>)
       },
       //  {
       //   width: 90,
