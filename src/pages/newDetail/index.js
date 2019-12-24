@@ -46,7 +46,7 @@ class NewDetail extends Component {
           item && <div className={styles.title}>
             <span>{item.title}</span>
             {item.falg && <span>{globalDate.startDate} ~ {globalDate.endDate}</span>}
-          </div> 
+          </div>
         }
         {globalDate && globalDate.startDate && <RenderRoute {...this.props} />}
       </>
