@@ -61,7 +61,7 @@ class NPSEvaluate extends React.Component {
       dateArr: this.getIniDateRange(),
       userInfo: props.userInfo,
       disableEndDate: this.handleDefaultPickerValueMarkDays(),
-      star: props.location.query.params.star ? props.location.query.params.star : localStorage.getItem('NPSStar') ? localStorage.getItem('NPSStar') : undefined,
+      star: this.getStar(),
       cycle: localStorage.getItem('CYCLE_VALUE') ? localStorage.getItem('CYCLE_VALUE') : undefined,
       npsList: [],
     };
@@ -73,23 +73,28 @@ class NPSEvaluate extends React.Component {
         this.getUserOrgList();
         this.getNpsData();
         this.getPieData();
+        let groupIds = [0];
         if (userInfo.userType == 'boss') {
-          this.state.groupId = [0];
+          groupIds = [0];
         } else {
-          if (userInfo.collegeId) {
-            this.state.groupId.push(this.state.userInfo.collegeId);
-          } else if (userInfo.familyId) {
-            this.state.groupId.push(this.state.userInfo.familyId);
-          } else if (userInfo.groupId) {
-            this.state.groupId.push(this.state.userInfo.groupId);
-          }
+          groupIds = [userInfo.collegeId, userInfo.familyId, userInfo.groupId];
         }
+        // else {
+        //   if (userInfo.collegeId) {
+        //     this.state.groupId.push(this.state.userInfo.collegeId);
+        //   } else if (userInfo.familyId) {
+        //     this.state.groupId.push(this.state.userInfo.familyId);
+        //   } else if (userInfo.groupId) {
+        //     this.state.groupId.push(this.state.userInfo.groupId);
+        //   }
+        // }
         this.setState(
           {
             groupId: localStorage.getItem('NPSGroupId')
               ? JSON.parse(localStorage.getItem('NPSGroupId'))
-              : this.state.groupId,
+              : groupIds,
             userInfo,
+            star: this.getStar(),
           },
           () => {
             this.getNpsAutonomousEvaluation(0, false);
@@ -116,6 +121,18 @@ class NPSEvaluate extends React.Component {
       return this.localStoryDates();
     } else {
       return [this.handleDefaultPickerValueMark(), this.handleDefaultPickerValueMarkDays()];
+    }
+  };
+
+  getStar = () => {
+    let { params } = this.props.location.query;
+    if (params) {
+      params = JSON.parse(params);
+      if (params.star) {
+        return params.star;
+      } else {
+        return localStorage.getItem('NPSStar') ? localStorage.getItem('NPSStar') : undefined;
+      }
     }
   };
   localStoryDates = () => {
@@ -172,6 +189,7 @@ class NPSEvaluate extends React.Component {
       },
     });
   };
+
   getPieData = () => {
     const { userInfo } = this.state;
     let params = {
@@ -213,6 +231,7 @@ class NPSEvaluate extends React.Component {
   };
   // 选择组织
   onChangeSelect = (groupId, groupTypeArr) => {
+    console.log(groupId, 'groupId');
     this.setState(
       {
         groupId,
@@ -354,7 +373,7 @@ class NPSEvaluate extends React.Component {
   render() {
     const { NPSParams } = this.state;
     const { npsList = [], xdOperationNpsData, xdOperationNpsPaiData } = this.props.xdOperation;
-    const options = getOption(npsList);
+    const options = getOption(xdOperationNpsPaiData.detailList);
     const options1 = getOption1(xdOperationNpsData);
     return (
       <Container
@@ -382,7 +401,7 @@ class NPSEvaluate extends React.Component {
                 <span></span>
                 NPS评分
               </p>
-              <div>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <Echarts options={options1} style={{ width: '243px', height: 223 + 'px' }} />
               </div>
             </div>
