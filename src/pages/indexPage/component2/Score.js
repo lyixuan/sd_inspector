@@ -64,8 +64,7 @@ class Score extends React.Component {
     } else {
       // 创收排名
       handleDataTrace({"widgetName":`本期学分`,"traceName":`工作台2.0/本期学分`});
-      // jumpGobalRouter('newDetail/histogram', {contrasts, dataRange: [moment(date.startDate).format('YYYY-MM-DD'), moment(date.endDate).format('YYYY-MM-DD')], familyType: familyTypeParam})
-      jumpGobalRouter('newDetail/incomeOrder')
+      jumpGobalRouter('newDetail/histogram', {contrasts, dataRange: [moment(date.startDate).format('YYYY-MM-DD'), moment(date.endDate).format('YYYY-MM-DD')], familyType: familyTypeParam})
     }
   };
 
