@@ -144,16 +144,16 @@ class Compare extends React.Component {
     return (
       <div className={styles.container}>
         <BIWrapperTable
-            className={styles.table}
-            columns={this.columns()}
-            dataSource={dataSource}
-            pagination={false}
-            rowClassName={this.setRowClassName}
-            loading={this.props.loading}
-            onRow={this.onClickRow}
-            rowKey={record => record.id}
-            bordered={true}
-          />
+          className={styles.table}
+          columns={this.columns()}
+          dataSource={dataSource}
+          pagination={false}
+          rowClassName={this.setRowClassName}
+          loading={this.props.loading}
+          onRow={this.onClickRow}
+          rowKey={record => record.id}
+          bordered={true}
+        />
       </div>
     );
   }
