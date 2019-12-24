@@ -167,7 +167,12 @@ class RobotTrend extends React.Component {
         }
       },
       tooltip: {
-        trigger: 'axis',
+        trigger: 'item',
+        // formatter: "{b} : {c}",
+        formatter: function (parms) {
+          var str = parms.name + ': ' + (parms.value * 100).toFixed(2) + '%';
+          return str;
+        },
       },
       xAxis: {
         data: data2,
@@ -195,7 +200,11 @@ class RobotTrend extends React.Component {
         type: 'value',
         axisLabel: {
           color: '#000000 ',
-          formatter: '{value}\n'
+          // formatter: '{value}\n',
+          formatter: function (value) {
+            const val = value * 100 + '%'
+            return val;
+          }
         },
         splitLine: {
           lineStyle: {
@@ -282,6 +291,13 @@ class RobotTrend extends React.Component {
         trigger: 'axis',
         textStyle: {
           fontSize: 12,
+        },
+        formatter: function (params) {
+          let results = '';
+          for (let i = 0; i < params.length; i++) {
+            results += `<div><span style="width:6px;display:inline-block; height:6px;border-radius:100%;font-size:1px;margin-right:5px;background:${params[i].color}"></span>${params[i].seriesName}: ${(params[i].value * 100).toFixed(2)}%</div>`;
+          }
+          return results;
         }
       },
       legend: {
@@ -313,11 +329,29 @@ class RobotTrend extends React.Component {
           },
         }
       ],
-      yAxis: [
-        {
-          type: 'value'
-        }
-      ],
+      yAxis: {
+        type: 'value',
+        axisLabel: {
+          color: '#000000 ',
+          // formatter: '{value}\n',
+          formatter: function (value) {
+            const val = value * 100 + '%'
+            return val;
+          }
+        },
+        splitLine: {
+          lineStyle: {
+            type: 'dotted',
+            color: 'RGBA(229, 229, 229, 1)',
+          },
+        },
+        axisLine: {
+          lineStyle: {
+            type: 'dotted',
+            color: 'RGBA(229, 229, 229, 1)',
+          },
+        },
+      },
       series: [
         {
           name: '非常满意率',
