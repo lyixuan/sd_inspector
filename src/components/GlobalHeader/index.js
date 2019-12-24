@@ -44,7 +44,7 @@ class GlobalHeader extends PureComponent {
     });
   };
   getUserInfo = () => {
-    handleDataTrace({"widgetName":`本期学分`,"traceName":`工作台2.0/本期学分`});
+    handleDataTrace({"widgetName":`导航搜索学员档案`,"traceName":`首页/导航搜索进入学员档案`});
     this.props.dispatch({
       type: 'global/getBasicInfo',
       payload: { params: { stuId: this.state.userId } },
