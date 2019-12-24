@@ -2,7 +2,6 @@ import {  changeToThousandsForIncome } from '@/utils/utils';
 export function getOptionIncomeData(list,sumData) {
   const  total = changeToThousandsForIncome(sumData,1);
   const  unit = '元';
-  console.log(112222,list)
   list.forEach((item)=>{
     if(item.name==='好推'){
       item['itemStyle']={
@@ -28,7 +27,7 @@ export function getOptionIncomeData(list,sumData) {
       textStyle: {
         fontSize: 32,
         fontWeight:400,
-        align: 'center',
+        // align: 'center',
         color:'rgba(40,40,40,1)',
         fontFamily:'DINCondensed-Bold,DINCondensed,Haettenschweiler',
       },
@@ -37,7 +36,7 @@ export function getOptionIncomeData(list,sumData) {
         color:'rgba(40,40,40,0.8)',
       },
       x: 'center',
-      y: '30%',
+      y: '33%',
     },
     grid: {
       bottom: 150,
@@ -49,8 +48,8 @@ export function getOptionIncomeData(list,sumData) {
         name:'访问来源',
         hoverAnimation:false,
         type:'pie',
-        radius: ['50%', '60%'],
-        center: ['50%', '40%'],
+        radius: ['65%', '75%'],
+        center: ['50%', '45%'],
         startAngle: '135',
         label: {
           normal: {

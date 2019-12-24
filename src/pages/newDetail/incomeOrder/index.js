@@ -33,7 +33,8 @@ class IncomeOrder extends React.Component {
     this.props.dispatch({
       type: 'incomeOrderModal/getIncomeDate',
       payload: { date: val },
-    });
+    })
+    this.getOverviewData(val);
   };
 
   getOverviewData = date => {
