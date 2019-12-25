@@ -8,21 +8,20 @@ import compress from '@/assets/downloadCenter/compress.svg';
 import packing from '@/assets/downloadCenter/packing.svg';
 import DownLoad from './downLoad';
 
-function postTraceData(type) {
-  let obj;
-  if (type === 0) {
-    obj = {widgetName:"学分明细页督学表下载",traceName:"学分明细/学分底表下载"};
-  } else if (type === 2) {
-    obj = {widgetName:"下载中心督学表下载",traceName:"学分明细/督学底表下载"};
-  } else {
-
-  }
-  const {BI = {}} = window;
-  BI.traceV && BI.traceV(obj)
-}
-
 // 获取table列表头
 export function columnsFn() {
+  function postTraceData(type) {
+    let obj;
+    if (type === 0) {
+      obj = {widgetName:"学分明细页督学表下载",traceName:"学分明细/学分底表下载"};
+    } else if (type === 2) {
+      obj = {widgetName:"下载中心督学表下载",traceName:"学分明细/督学底表下载"};
+    } else {
+
+    }
+    const {BI = {}} = window;
+    BI.traceV && BI.traceV(obj)
+  }
   const imgArr = [packing, packSucess, packError];
   const columns = [
     {
