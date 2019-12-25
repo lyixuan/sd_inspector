@@ -163,7 +163,8 @@ function TeacherOrStudent(props) {
   }
 }
 
-@connect(({ loading }) => ({
+@connect(({ xdCreditModal, loading }) => ({
+  xdCreditModal,
   loading: loading.effects['xdCreditModal/getAttendanceDeail'],
   loadingAppeal: loading.effects['xdCreditModal/getAttendanceDeail'],
 }))
@@ -279,24 +280,22 @@ class Attendance extends React.Component {
           );
         },
       },
-      // {
-      //   title: '创收总流水',
-      //   dataIndex: 'incomeTotalKpi',
-      //   key: 'incomeTotalKpi',
-      //   render: (incomeTotalKpi, record) => {
-      //     const percent = record.incomeTotalKpiRatio * 100 + '%';
-      //     const money = thousandsFormatBigger(incomeTotalKpi);
-      //     return (
-      //       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      //         <BIWrapperProgress
-      //           text={money}
-      //           percent={percent}
-      //           propsStyle={{ flex: 'inherit', width: '60px', justifyContent: 'flex-end' }}
-      //         />
-      //       </div>
-      //     );
-      //   },
-      // },
+      {
+        title: '操作',
+        width: '10%',
+        dataIndex: 'subjectId',
+        key: 'subjectId',
+        render: (subjectId, record) => {
+          return (
+            <a
+              onClick={() => this.download(record.subjectId)}
+              style={{ display: 'flex', justifyContent: 'center', color: '#00CCC3' }}
+            >
+              下载
+            </a>
+          );
+        },
+      },
     ];
     return columns || [];
     // if (titleFive) {
@@ -335,6 +334,14 @@ class Attendance extends React.Component {
     //   });
     // }
     // return columns || [];
+  };
+
+  download = item => {
+    // 下载功能
+    this.props.dispatch({
+      type: 'xdCreditModal/bottomTask',
+      payload: { params: { subjectId: item } },
+    });
   };
   setRowClassName = (r, c, b) => {
     if (this.props.dementionId === r.id) {

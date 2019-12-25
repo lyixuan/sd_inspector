@@ -379,7 +379,11 @@ class XdCredit extends React.Component {
       this.setState({
         showCollege: item.familyType.length > 1,
       });
-      return { groupId: [item.id], groupTypeArr: [item], familyType: familyType||item.familyType };
+      return {
+        groupId: [item.id],
+        groupTypeArr: [item],
+        familyType: familyType || item.familyType,
+      };
     } else {
       return { groupId: [], groupTypeArr: [], familyType: familyType };
     }
@@ -620,6 +624,7 @@ class XdCredit extends React.Component {
             pageSize={this.state.pageSize}
             currentPage={this.state.page}
             detailsData={this.props.attendanceDeatils}
+            {...this.props}
             dementionId={dementionId}
           />
         );
@@ -633,7 +638,7 @@ class XdCredit extends React.Component {
             currentPage={this.state.page}
             detailsData={this.props.dimensionDetails}
             dementionId={dementionId}
-            timeDate={{startTime: this.state.startTime, endTime: this.state.endTime}}
+            timeDate={{ startTime: this.state.startTime, endTime: this.state.endTime }}
           />
         );
         break;

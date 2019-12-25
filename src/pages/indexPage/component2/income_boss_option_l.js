@@ -1,3 +1,4 @@
+import {  changeToThousandsForIncome } from '@/utils/utils';
 export function getOptioBossL(list) {
   const bg1 = [];
   const bg2 = [];
@@ -7,10 +8,10 @@ export function getOptioBossL(list) {
   list.forEach((item)=>{
     xArr.push(item.name);
     if(item.value>=0){
-      positiveData.push((item.value/10000).toFixed(2));
+      positiveData.push(changeToThousandsForIncome(item.value,1));
       negData.push(0);
     } else {
-      negData.push((item.value/10000).toFixed(2));
+      negData.push(changeToThousandsForIncome(item.value,1));
       positiveData.push(0);
     }
   });

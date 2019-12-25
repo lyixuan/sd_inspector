@@ -4,8 +4,22 @@ import { connect } from 'dva';
 import styles from './style.less';
 
 const headObj = {
-  '/newDetail/analyze': '创收产品包',
-  '/newDetail/incomeRank': '创收对比'
+  '/newDetail/analyze': {
+    title: '创收产品包',
+    falg: true,
+  },
+  '/newDetail/incomeRank': {
+    title: '创收对比',
+    falg: true,
+  },
+  '/newDetail/incomeOrder': {
+    title: '创收排名',
+    falg: false,
+  },
+  '/newDetail/resubmit' : {
+    title: '续报分析',
+    falg: false,
+  }
 }
 
 @connect(({ newDetailModal }) => ({
@@ -29,16 +43,16 @@ class NewDetail extends Component {
   }
   render() {
     const { globalDate, location = {} } = this.props;
-    const title = headObj[location.pathname];
+    const item = headObj[location.pathname];
     return (
       <>
         {
-          title && <div className={styles.title}>
-            <span>{title}</span>
-            <span>{globalDate.startDate} ~ {globalDate.endDate}</span>
-          </div> 
+          item && <div className={styles.title}>
+            <span>{item.title}</span>
+            {item.falg && <span>{globalDate.startDate} ~ {globalDate.endDate}</span>}
+          </div>
         }
-        <RenderRoute {...this.props} />
+        {globalDate && globalDate.startDate && <RenderRoute {...this.props} />}
       </>
     );
   }
