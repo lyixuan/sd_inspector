@@ -347,11 +347,11 @@ class Attendance extends React.Component {
       })
       .then(res => {
         if (res.code === 20000) {
-          this.props.isShow('任务已创建，\n请到下载中心下载');
+          this.props.isShow('任务已创建\n请到下载中心下载');
           return;
         }
         if (res.code === 20100) {
-          this.props.isShow('5分钟内，\n请勿重复提交任务');
+          this.props.isShow('5分钟内\n请勿重复提交任务');
           return;
         }
       });
