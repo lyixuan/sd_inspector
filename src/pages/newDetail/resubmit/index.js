@@ -8,26 +8,25 @@ import styles from './style.less';
 
 const { BIRangePicker } = BIDatePicker;
 
-@connect(({ newDetailModal, incomeOrderModal }) => ({
-  incomeOrderModal,
+@connect(({ newDetailModal, resubmitModal }) => ({
+  resubmitModal,
   // globalUserInfo: newDetailModal.globalUserInfo,
   // globalUserType: newDetailModal.globalUserType,
   globalDateMoment: newDetailModal.globalDateMoment,
   globalkpiDateRange: newDetailModal.globalkpiDateRange,
-  incomeDateRange: incomeOrderModal.incomeDateRange,
+  paramsQuery: resubmitModal.paramsQuery,
 }))
 class Resubmit extends React.Component {
   componentDidMount() {
-    const { globalDateMoment } = this.props;
-    this.onFormChange(globalDateMoment);
+    this.onParamsChange(this.props.globalDateMoment);
     handleDataTrace({"widgetName":`创收_创收排名`,"traceName":`2.1/创收_创收排名`,traceType:200});
   }
 
   // select
-  onFormChange = (val) => {
+  onParamsChange = (val, type = 'dateRange') => {
     this.props.dispatch({
-      type: 'incomeOrderModal/getIncomeDate',
-      payload: { date: val },
+      type: 'resubmitModal/saveParams',
+      payload: { [type]: val },
     });
   };
   getTabs = () => {
@@ -48,15 +47,16 @@ class Resubmit extends React.Component {
     ] 
   }
   render() {
+    const { paramsQuery = {} } = this.props;
     return (
       <div className={styles.resubmit}>
         <div className={styles.paramsQuery}>
           <span className={styles.dataRange}>
             <BIRangePicker
-              value={this.props.incomeDateRange}
+              value={paramsQuery.dateRange}
               placeholder={['选择起始时间', '选择截止时间']}
               format='YYYY-MM-DD'
-              onChange={val => this.onFormChange(val, 'dataRange')}
+              onChange={val => this.onParamsChange(val, 'dateRange')}
               allowClear={false}
               disabledDate={val => disabledDate(val, this.props.globalkpiDateRange)}
               style={{ width: 224 }}
