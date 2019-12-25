@@ -6,14 +6,36 @@ import AuthorizedButton from './components/AuthorizedButton';
 import ModalDialog from './components/Modal/Modal';
 import common from './utils/common.css';
 import storage from '@/utils/storage';
-import { columnsFn } from '@/pages/downloadCenter/components/_selfColumn';
 import ModalContent from './components/_modalContent';
 import backTop from '@/assets/downloadCenter/backTop.svg';
 import FormFilter from './components/FormFilter';
 import {getUrlParams} from './utils/util';
 import style from './style.less';
 
+import { STATIC_HOST } from '@/utils/constants';
+import { formatDate } from './utils/util';
+import { BOTTOM_TABLE_STATUS } from './constants/constant';
+import packSucess from '@/assets/downloadCenter/packSucess.svg';
+import packError from '@/assets/downloadCenter/packError.svg';
+import compress from '@/assets/downloadCenter/compress.svg';
+import packing from '@/assets/downloadCenter/packing.svg';
+import DownLoad from './components/downLoad';
+
 const dateFormat = 'YYYY-MM-DD';
+const imgArr = [packing, packSucess, packError];
+
+function postTraceData(type) {
+  let obj;
+  if (type === 0) {
+    obj = {widgetName:"学分明细页督学表下载",traceName:"学分明细/学分底表下载"};
+  } else if (type === 2) {
+    obj = {widgetName:"下载中心督学表下载",traceName:"学分明细/督学底表下载"};
+  } else {
+
+  }
+  const {BI = {}} = window;
+  BI.traceV && BI.traceV(obj)
+}
 
 @connect(({ bottomTable, loading }) => ({
   bottomTable,
@@ -43,6 +65,77 @@ class Index extends Component {
       visible: false,
     };
     this.dateArea = [];
+    this.columns = [
+      {
+        title: '底表名称',
+        dataIndex: 'taskName',
+        render: text => {
+          return (
+            <>
+              <img src={compress} alt="compress" style={{ marginRight: '8px' }} />
+              {text}
+            </>
+          );
+        },
+      },
+      {
+        title: '底表时间',
+        dataIndex: 'bottomTime',
+        // render: text => formatDate(text).substr(0, 10),
+        render: text => text,
+      },
+      {
+        title: '添加时间',
+        dataIndex: 'createTime',
+        render: text => formatDate(text),
+      },
+      {
+        title: '任务状态',
+        dataIndex: 'status',
+        render: text => {
+          return (
+            <>
+              <img src={imgArr[text]} alt="packError" style={{ marginRight: '8px' }} />
+              {BOTTOM_TABLE_STATUS.map(item => {
+                if (Number(item.id) === text) {
+                  return item.name;
+                }
+                return null;
+              })}
+            </>
+          );
+        },
+      },
+      {
+        title: '操作',
+        dataIndex: 'operate',
+        render: (text, record) => {
+          return (
+            <>
+              {Number(record.status) !== 1 ? null : (
+                <AuthorizedButton authority="/bottomTable/downloadBottomTable">
+                  <div
+                    style={{
+                      color: '#52C9C2',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      justifyContent: 'space-around',
+                    }}
+                  >
+                    <div onClick={postTraceData.bind(null, record.type)}>
+                      <DownLoad
+                        loadUrl={`${STATIC_HOST}${record.zipPath}`}
+                        fileName={() => record.taskName}
+                      />
+                    </div>
+                  </div>
+                </AuthorizedButton>
+              )}
+            </>
+          );
+        },
+      },
+    ];
   }
   componentDidMount() {
     let search = this.props.location.search;
@@ -207,7 +300,7 @@ class Index extends Component {
     const { bottomTable = {}, loading, isLoading } = this.props;
     const { dataList = [], findAllOrg = [], totalNum = 0 } = bottomTable;
     // const columns = columnsFn(this.downLoadBTable);
-    const columns = columnsFn();
+    const columns = this.columns;
 
     return (
       <>
