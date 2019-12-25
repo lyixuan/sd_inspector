@@ -10,6 +10,7 @@ import BIInput from '@/ant_components/BIInput';
 import { nullLiteral } from '@babel/types';
 import { connect } from 'dva/index';
 import searchIcon from '@/assets/newIndex/searchIcon.png';
+import downloadImg from '@/assets/download.png';
 import Score from '@/pages/indexPage/component2/Score';
 
 class GlobalHeader extends PureComponent {
@@ -48,19 +49,16 @@ class GlobalHeader extends PureComponent {
       payload: { params: { stuId: this.state.userId } },
     });
   };
+  goToDownload = () => {
+    router.push('/downloadCenter')
+  };
+
   render() {
     const {
       currentUser = {},
-      collapsed,
-      fetchingNotices,
       isMobile,
-      logo,
-      onNoticeVisibleChange,
       onMenuClick,
-      onNoticeClear,
-      selectedGroup,
-      certificationList
-    } = this.props;
+      selectedGroup } = this.props;
     const admin_user = localStorage.getItem('admin_user');
     const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
     const url = STATIC_HOST
@@ -86,46 +84,28 @@ class GlobalHeader extends PureComponent {
           </Link>,
           <Divider type="vertical" key="line" />,
         ]}
+
         <img
           src={bilogo}
           alt="logo"
           className={styles.newLogo}
           onClick={this.goToIndex}/>
-        {/*<Icon*/}
-        {/*  className={styles.trigger}*/}
-        {/*  type={collapsed ? 'menu-unfold' : 'menu-fold'}*/}
-        {/*  onClick={this.toggle}*/}
-        {/*/>*/}
-        {
-          // userType == 'class' ? <ul className={styles.certification}>
-          //   {
-          //     certificationList.map(item => {
-          //       return (
-          //         <>
-          //           {
-          //             item.child.map(item2 => (
-          //               item2.obtained ? <li key={item2.id + item.grade}><img src={`${url}${item2.obtainedIcon}`} /></li> : <li key={item2.id + item.grade}><img src={`${url}${item2.originalIcon}`} /></li>
-          //             ))
-          //           }
-          //           <li className={styles.bigImgLi} key={item.grade}><img src={item.imgUrl} className={styles.bigImg} /></li>
-          //         </>
-          //       )
-          //     })
-          //   }
-          // </ul> : null
-        }
+
         <div className={styles.right}>
           <span className="searchBox">
-          <BIInput
-            placeholder="学员档案 (输入学员id)"
-            allowClear
-            style={{width:190}}
-            value={this.state.userId}
-            onPressEnter={this.getUserInfo}
-            onChange={e => this.onFormChange(e.target.value)}
-          />
+            <BIInput
+              placeholder="学员档案 (输入学员id)"
+              allowClear
+              style={{width:190}}
+              value={this.state.userId}
+              onPressEnter={this.getUserInfo}
+              onChange={e => this.onFormChange(e.target.value)}
+            />
             <img src={searchIcon}  width={16} alt=""/>
-        </span>
+          </span>
+          <span className={styles.download} onClick={this.goToDownload}>
+            <img src={downloadImg} alt="" className={styles.image}/>
+          </span>
           {currentUser.name ? (
             <Dropdown overlay={menu} placement="bottomRight">
               <span className={`${styles.action} ${styles.account}`}>

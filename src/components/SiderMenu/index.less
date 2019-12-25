@@ -1,4 +1,5 @@
 @import '~antd/lib/style/themes/default.less';
+@import "../../layouts/styles/basic";
 @ease-in-out-circ: cubic-bezier(0.78, 0.14, 0.15, 0.86);
 .logo {
   // height: 64px;
@@ -36,7 +37,7 @@
   //overflow-y: auto;
   border-radius:20px;
   overflow: hidden;
-  background:#ffffff;
+  background: @menu-background;
   .secondaryMenu {
     display:flex;
     justify-content:flex-start;
@@ -47,20 +48,18 @@
       width:5px;
       height:5px;
       border-radius:50%;
-      background:#282828;
+      background:@menu-text-color;
     }
     .name {
       width:75px;
-      color:#282828;
+      color:@menu-text-color;
     }
   }
 
   :global {
     .ant-layout-sider-children {
-      //min-height:100vh;
       width:152px;
-      //background-color: #00CCC3;
-      background:#ffffff;
+      background:@menu-background;
     }
     //.ant-menu-submenu-open {
     //  .ant-menu-submenu-title {
@@ -69,7 +68,7 @@
     //}
     .ant-menu-submenu-active {
       .ant-menu-submenu-title {
-        color:#282828;
+        color:@menu-text-color;
       }
     }
     .ant-menu-submenu-open {
@@ -78,7 +77,7 @@
       }
     }
     .ant-menu-submenu-selected {
-      color: #282828;
+      color: @menu-select-text;
       //.ant-menu-submenu-title {
       //  background:#FFE300;
       //}
@@ -87,22 +86,23 @@
       margin:9px 0;
       padding-left:20px !important;
       font-size:14px;
+      color:@menu-text-color;
     }
     .ant-menu-submenu-title {
       .ant-menu-submenu-arrow::after {
-        background:linear-gradient(to right, #B9B9B9, #B9B9B9);
+        background:linear-gradient(to right, @menu-arrow-color, @menu-arrow-color);
       }
       .ant-menu-submenu-arrow::before {
-        background:linear-gradient(to right, #B9B9B9, #B9B9B9);
+        background:linear-gradient(to right, @menu-arrow-color, @menu-arrow-color);
       }
     }
     .ant-menu-submenu-title:hover {
-      background:#FFE300;
+      background: @menu-hover-color;
       .ant-menu-submenu-arrow::after {
-        background:linear-gradient(to right, #B9B9B9, #B9B9B9);
+        background:linear-gradient(to right, @menu-arrow-color, @menu-arrow-color);
       }
       .ant-menu-submenu-arrow::before {
-        background:linear-gradient(to right, #B9B9B9, #B9B9B9);
+        background:linear-gradient(to right, @menu-arrow-color, @menu-arrow-color);
       }
     }
 
@@ -111,7 +111,7 @@
       font-size:12px;
     }
     .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-      background-color: #FFE300;
+      background-color: @menu-select-color;
       &:after {
         display:none;
       }
@@ -128,16 +128,45 @@
   }
 }
 
+.sider::-webkit-scrollbar {
+  width:0;
+  height:0;
+}
+.sider::-webkit-scrollbar-button    {
+  background-color:rgba(0,0,0,0);
+}
+.sider::-webkit-scrollbar-track     {
+  background-color:rgba(0,0,0,0);
+}
+.sider::-webkit-scrollbar-track-piece {
+  background-color:rgba(0,0,0,0);
+}
+.sider::-webkit-scrollbar-thumb{
+  background-color:rgba(0,0,0,0);
+}
+.sider::-webkit-scrollbar-corner {
+  background-color:rgba(0,0,0,0);
+}
+.sider::-webkit-scrollbar-resizer  {
+  background-color:rgba(0,0,0,0);
+}
+.sider::-webkit-scrollbar {
+  width:10px;
+  height:10px;
+}
+
 .menuBox {
   margin-top:31px;
   width:169px;
   height:calc(100vh - 279px);
+  overflow-x:hidden;
   overflow-y:auto;
 }
 
 .menuInner {
+  border:none;
   min-height:calc(100vh - 276px);
-  width:153px;
+  width:152px;
 }
 
 .icon {
@@ -169,66 +198,5 @@
   .ant-menu-submenu-title .sider-menu-item-img + span {
     transition: opacity 0.3s @ease-in-out, width 0.3s @ease-in-out;
     opacity: 1;
-  }
-}
-// 菜单主体
-.menuPart {
-  display: flex;
-  :global {
-    .ant-menu {
-      width: 136px;
-      height: 100%;
-      padding-top: 54px;
-      border: none;
-      box-shadow: 2px 0 6px rgba(26, 28, 31, 0.05);
-      z-index: 1;
-    }
-    .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-      background-color: #FFFFFF;
-    }
-    .ant-menu-inline .ant-menu-selected::after, .ant-menu-inline .ant-menu-item-selected::after {
-      content: none;
-    }
-    .ant-menu-inline .ant-menu-item, .ant-menu-inline .ant-menu-submenu-title {
-      width: 100%;
-    }
-  }
-  .rightMenu {
-    width: 136px;
-    background-color: #FFFFFF;
-    .active {
-      color: #00CCC3;
-    }
-  }
-}
-.menuUl {
-  padding: 0;
-  margin-bottom: 0;
-  > li {
-    display: flex;
-    flex-direction: column;
-    height: 80px;
-    text-align: center;
-    color: #FFFFFF;
-    font-size: 13px;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    img {
-      width: 26px;
-      margin: 0;
-      margin-bottom: 10px;
-      // border: 1px solid transparent;
-    }
-  }
-  // 注：图片必须和背景色保持一致
-  > .active {
-    background-color: #FFFFFF;
-    color: #00CCC3;
-    // img {
-    //   filter: drop-shadow(#00CCC3 20px 0);
-    //   position: relative;
-    //   left: -20px;
-    // }
   }
 }
