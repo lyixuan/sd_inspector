@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'dva';
 import BILoading from '@/components/BILoading';
 import Echart from '../components/echart';
-// import EchartBottom from '@/pages/indexPage/ManagementBench/scoreContrast/components/echartBottom';
 import BIScrollbar from '@/ant_components/BIScrollbar';
 
 @connect(({ xdCreditModal, loading }) => ({

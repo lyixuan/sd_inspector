@@ -617,6 +617,10 @@ export const routes = [
             path: '/newDetail/incomeOrder',
             component: './newDetail/incomeOrder',
           },
+          {
+            path: '/newDetail/resubmit',
+            component: './newDetail/resubmit',
+          },
         ],
       },
     ],

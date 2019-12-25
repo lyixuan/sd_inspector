@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less';
 
-@connect((xdWorkModal) => ({
-  xdWorkModal,
+@connect(({ }) => ({
 }))
 class PageTab extends React.Component {
   constructor(props) {

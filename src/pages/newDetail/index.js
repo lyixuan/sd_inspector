@@ -15,6 +15,10 @@ const headObj = {
   '/newDetail/incomeOrder': {
     title: '创收排名',
     falg: false,
+  },
+  '/newDetail/resubmit' : {
+    title: '续报分析',
+    falg: false,
   }
 }
 
