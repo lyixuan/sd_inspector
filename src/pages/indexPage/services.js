@@ -59,6 +59,10 @@ export async function getWorkbenchScore(data) {
 export async function getWorkbenchIncome(params) {
   return request('/incomeOrder/incomeOrderData', { params });
 }
+export async function touchRatio(data) {
+  return request('/examNotice/reachNumRankList', { method: 'POST', data: data });
+}
+
 
 // 获取nps
 export async function getNpsData(data) {

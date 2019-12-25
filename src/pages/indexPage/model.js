@@ -18,6 +18,7 @@ import {
   getImPieData,
   getAppealData,
   getQualityData,
+  touchRatio,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -54,6 +55,22 @@ export default {
       const result = yield call(getWorkbenchIncome, payload.params);
       if (result.code === 20000 && result.data) {
         yield put({ type: 'save', payload: { WorkbenchIncome: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
+    *getTouchRatio({ payload, callback }, { call, put }) {
+      const result = yield call(touchRatio, payload.params);
+      if (result.code === 20000 && result.data) {
+        const touchRatioList = result.data;
+        let touchRatio = 0;
+        for(let i = 0;i<touchRatioList.length;i++) {
+          if(touchRatioList[i].hightLightFlag){
+            touchRatio = touchRatioList[i].reachNumPercent
+          }
+        }
+        yield put({ type: 'save', payload: { touchRatio } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
