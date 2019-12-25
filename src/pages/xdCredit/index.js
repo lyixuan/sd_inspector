@@ -587,9 +587,8 @@ class XdCredit extends React.Component {
       bottomEndDate: this.state.endTime,
       type: 2,
       familyType: this.getFamilyType(),
-      groupType: this.getGroupMsg().groupType || 'group',
+      orgType: this.getGroupMsg().groupType || 'group',
       orgId: this.getGroupMsg().groupId || this.state.allUserInfo.groupId,
-      orgType: this.state.orgType,
       userId: this.state.allUserInfo.id,
     };
     this.setState({ downloadParams: newParams });
