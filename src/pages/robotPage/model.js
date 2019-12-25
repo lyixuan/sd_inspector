@@ -14,7 +14,14 @@ export default {
     globalOrgList: {},
     dialoguDataList: [],
     dayData: [],
-    pieData: {}
+    pieData: {},
+    dataIsEmpty: {
+      interceptArr: [],
+      parse1: [],
+      parse2: [],
+      parse3: [],
+      parse4: []
+    }
   },
   effects: {
     // 自考壁垒对应学院
@@ -37,7 +44,7 @@ export default {
     *getDayData({ payload, callback }, { call, put }) {
       const result = yield call(getDayData, payload.params);
       if (result.code === 20000 && result.data) {
-        yield put({ type: 'save', payload: { dayData: result.data } });
+        yield put({ type: 'saveDayData', payload: { dayData: result.data } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -62,6 +69,25 @@ export default {
       };
       return { ...state, globalOrgList };
     },
+    saveDayData(state, { payload }) {
+      const list = payload.dayData;
+      let arr = {
+        interceptArr: [],
+        parse1: [],
+        parse2: [],
+        parse3: [],
+        parse4: []
+      }
+      list.map(item => {
+        arr.interceptArr.push(item.interceptPercent);
+        arr.parse1.push(item.badPercent);
+        arr.parse2.push(item.commonPercent);
+        arr.parse3.push(item.goodPercent);
+        arr.parse4.push(item.veryGoodPercent);
+      })
+      console.log(83, arr)
+      return { ...state, ...payload, dataIsEmpty: arr };
+    }
 
   }
 }

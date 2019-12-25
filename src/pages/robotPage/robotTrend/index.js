@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import Echart from '@/components/Echart';
+import examEmpty from '@/assets/examEmpty.png';
 import styles from './style.less';
 
 @connect(({ robotPage }) => ({
@@ -531,16 +532,32 @@ class RobotTrend extends React.Component {
   }
 
   render() {
+    const { dataIsEmpty } = this.props.robotPage;
+    const { interceptArr, parse1, parse2, parse3, parse4 } = dataIsEmpty
+    const empty1 = interceptArr.some(item => item !== 0)
+    const empty2 = parse1.some(item => item !== 0) && parse2.some(item => item !== 0) && parse3.some(item => item !== 0) && parse4.some(item => item !== 0)
     return <div className={styles.sessonTrend}>
       <div className={styles.chartPie}>
         <Echart options={this.drawChart()} style={{ width: '320px', height: '220px', }}></Echart>
         <Echart options={this.drawChart2()} style={{ width: '320px', height: '220px' }}></Echart>
       </div>
       <div className={styles.chart1}>
-        <Echart options={this.chartIntercept()} style={{ width: '100%', height: '450px' }}></Echart>
+        {
+          empty1 ? <Echart options={this.chartIntercept()} style={{ width: '100%', height: '450px' }}></Echart> : <div className={styles.empty}>
+            <h4>拦截率</h4>
+            <img src={examEmpty} />
+            <p>暂无数据</p>
+          </div>
+        }
       </div>
       <div className={styles.chart2}>
-        <Echart options={this.chartCategory()} style={{ width: '100%', height: '450px' }}></Echart>
+        {
+          empty2 ? <Echart options={this.chartCategory()} style={{ width: '100%', height: '450px' }}></Echart> : <div className={styles.empty}>
+            <h4>满意度</h4>
+            <img src={examEmpty} />
+            <p>暂无数据</p>
+          </div>
+        }
       </div>
     </div>
   }
