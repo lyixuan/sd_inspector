@@ -73,7 +73,7 @@ export const PROXY_PATH = hasSelfPri => {
 
 // 下载中心服务器地址
 export const DOWNLOAD_HOST = {
-  production: 'http://sscp.ministudy.com/college_learn/#/sessionRecord',
+  production: '',
   localhost: 'http://172.16.109.87:38083',
   localhost2: 'http://172.16.109.87:38083',
   development: 'http://172.16.109.87:38083',
