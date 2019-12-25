@@ -37,6 +37,7 @@ const errorHandler = error => {
   const { status, url } = response;
 
   if (status === 401) {
+
     redirectToLogin();
     return
   } else if (status === 403) {
@@ -87,16 +88,16 @@ request.interceptors.request.use((url, options) => {
   };
 });
 
-request.interceptors.response.use((response, options) => {
-  if(!response) {return}
-  const data = response.clone().json();
-  data.then((res) => {
-    if (res && res.code === 20002) {
-      redirectToLogin();
-    }
-  });
-  return response;
-});
+// request.interceptors.response.use((response, options) => {
+//   if (!response || response.status !== 200) { return }
+//   const data = response.clone().json();
+//   data.then((res) => {
+//     if (res && res.code === 20002) {
+//       redirectToLogin();
+//     }
+//   });
+//   return response;
+// });
 
 const DebugApis = (DebugConfig, url, options) => {
   return {
