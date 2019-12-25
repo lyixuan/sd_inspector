@@ -166,7 +166,7 @@ class RobotTrend extends React.Component {
     }]
     let option = {
       title: {
-        text: '满意度',
+        text: '会话满意度',
         x: 'center',
         bottom: 0,
         left: '20%',
@@ -219,7 +219,7 @@ class RobotTrend extends React.Component {
       animation: false,
       silent: true,
       title: {
-        text: '满意度',
+        text: '会话满意度',
         x: 'center',
         bottom: 0,
         left: '20%',
@@ -299,7 +299,7 @@ class RobotTrend extends React.Component {
     let option = {
       animation: false,
       title: {
-        text: '拦截率',
+        text: '机器人拦截率',
         textStyle: {
           fontSize: 16,
         }
@@ -421,7 +421,7 @@ class RobotTrend extends React.Component {
     }
     let option = {
       title: {
-        text: '满意度',
+        text: '会话满意度',
         textStyle: {
           fontSize: 16,
         }
@@ -544,7 +544,7 @@ class RobotTrend extends React.Component {
       <div className={styles.chart1}>
         {
           empty1 ? <Echart options={this.chartIntercept()} style={{ width: '100%', height: '450px' }}></Echart> : <div className={styles.empty}>
-            <h4>拦截率</h4>
+            <h4>机器人拦截率</h4>
             <img src={examEmpty} />
             <p>暂无数据</p>
           </div>
@@ -553,7 +553,7 @@ class RobotTrend extends React.Component {
       <div className={styles.chart2}>
         {
           empty2 ? <Echart options={this.chartCategory()} style={{ width: '100%', height: '450px' }}></Echart> : <div className={styles.empty}>
-            <h4>满意度</h4>
+            <h4>会话满意度</h4>
             <img src={examEmpty} />
             <p>暂无数据</p>
           </div>
