@@ -187,7 +187,6 @@ class RobotData extends React.Component {
   }
 
   render() {
-    console.log(216, this.props.dialoguDataList)
     const dataSource = this.props.dialoguDataList
     return <div className={styles.sessonData}>
       <BIScrollbarTable

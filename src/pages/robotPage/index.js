@@ -35,15 +35,21 @@ class RobotPage extends Component {
     }
   }
   componentDidMount() {
+    this.initPage(this.props);
+  }
+  initPage = (pro) => {
     this.getOrgList();
-    console.log(39, this.props.location.pathname)
-    if (this.props.location.pathname == '/robotPage/data') {
+    if (pro.location.pathname == '/robotPage/data') {
       this.dialoguDataList();
     } else {
       this.getDayData();
       this.getDialogAndEvaluateData();
     }
-
+  }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.location.pathname !== nextProps.location.pathname) {
+      this.initPage(nextProps);
+    }
   }
   getOrgList = () => {
     this.props.dispatch({
