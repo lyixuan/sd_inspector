@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Spin } from 'antd';
 import MainPage from './mainPage/index';
 import ScoreIncome from './component2/ScoreIncome';
+import OperationEvent from './component2/OperationEvent';
 import ImNps from './component2/ImNps';
 import QualityAppeal from './component2/QualityAppeal';
 import homeImg from '@/assets/homeImg.png';
@@ -116,6 +117,35 @@ class IndexPage extends Component {
         },
       },
     });
+    const admin_user = localStorage.getItem('admin_user');
+    const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType :'';
+    const userId = JSON.parse(admin_user) ? JSON.parse(admin_user).userId :'';
+    let orgType = '';
+    if(userType==='boss') {
+      orgType = 'boss'
+    }else if(userType==='college') {
+      orgType = 'college'
+    }else if(userType==='family') {
+      orgType = 'family'
+    }else if(userType==='group'||userType==='class') {
+      orgType = 'group'
+    }
+    this.props.dispatch({
+      type: 'xdWorkModal/getTouchRatio',
+      payload: {
+        params: {
+          operatorId:userId,
+          orgType,
+          startDate: "2019-12-12",
+          endDate: moment().subtract(1,'days').format('YYYY-MM-DD')
+        },
+      },
+    });
+    this.props.dispatch({
+      type: 'xdWorkModal/getExamYearMonth',
+      payload: {
+      },
+    });
   };
 
   getPageDom = () => {
@@ -134,10 +164,11 @@ class IndexPage extends Component {
   render() {
     const { date } = this.state;
     const { loadingTime } = this.props;
-    const { WorkbenchScore, WorkbenchIncome, WorkbenchNpsData } = this.props.xdWorkModal;
+    const { WorkbenchScore, WorkbenchIncome, WorkbenchNpsData, touchRatio,ExaminationTimeOfProvince} = this.props.xdWorkModal;
     if (this.getPageDom()) {
       return (
         <Spin spinning={loadingTime}>
+          <OperationEvent touchRatio={touchRatio} ExaminationTimeOfProvince={ExaminationTimeOfProvince}/>
           <ScoreIncome
             date={date}
             WorkbenchScore={WorkbenchScore}
