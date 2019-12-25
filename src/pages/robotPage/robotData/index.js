@@ -27,7 +27,7 @@ class RobotData extends React.Component {
         title: '学员发起会话',
         children: [
           {
-            title: '会话人数',
+            title: '人数',
             dataIndex: 'stuDialoguePersonNum',
             key: 'stuDialoguePersonNum',
             render: (text, record) => {

@@ -85,7 +85,6 @@ export default {
         arr.parse3.push(item.goodPercent);
         arr.parse4.push(item.veryGoodPercent);
       })
-      console.log(83, arr)
       return { ...state, ...payload, dataIsEmpty: arr };
     }
 
