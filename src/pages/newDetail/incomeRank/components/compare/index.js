@@ -2,9 +2,8 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less';
 import BIWrapperTable from '@/components/BIWrapperTable';
-import BITextAlign from '@/pages/indexPage/components/BITextAlign';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
-import { thousandsFormatBigger } from '@/utils/utils';
+import { companyThousandsIncome } from '@/utils/utils';
 
 @connect(({ newDetailModal }) => ({
   globalDateRange: newDetailModal.globalDateRange
@@ -52,7 +51,7 @@ class Compare extends React.Component {
         key: 'goodPushFlowKpi',
         render: (goodPushFlowKpi, record) => {
           const percent = record.goodPushFlowKpiRatio * 100 + '%';
-          const money = thousandsFormatBigger(goodPushFlowKpi);
+          const money = companyThousandsIncome(goodPushFlowKpi);
           return (
             // <div style={{ display: 'flex', justifyContent: 'center' }}>
               <BIWrapperProgress
@@ -75,7 +74,7 @@ class Compare extends React.Component {
         key: 'repeatSignFlowKpi',
         render: (repeatSignFlowKpi, record) => {
           const percent = record.repeatSignFlowKpiRatio * 100 + '%';
-          const money = thousandsFormatBigger(repeatSignFlowKpi);
+          const money = companyThousandsIncome(repeatSignFlowKpi);
           return (
             // <div style={{ display: 'flex', justifyContent: 'center' }}>
               <BIWrapperProgress
@@ -98,7 +97,7 @@ class Compare extends React.Component {
         key: 'adultRegularFlowKpi',
         render: (adultRegularFlowKpi, record) => {
           const percent = record.adultRegularFlowKpiRatio * 100 + '%';
-          const money = thousandsFormatBigger(adultRegularFlowKpi);
+          const money = companyThousandsIncome(adultRegularFlowKpi);
           return (
             // <div style={{ display: 'flex', justifyContent: 'center' }}>
               <BIWrapperProgress
@@ -115,7 +114,7 @@ class Compare extends React.Component {
         key: 'incomeTotalKpi',
         render: (incomeTotalKpi, record) => {
           const percent = record.incomeTotalKpiRatio * 100 + '%';
-          const money = thousandsFormatBigger(incomeTotalKpi);
+          const money = companyThousandsIncome(incomeTotalKpi);
           return (
             // <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <BIWrapperProgress
@@ -145,16 +144,16 @@ class Compare extends React.Component {
     return (
       <div className={styles.container}>
         <BIWrapperTable
-            className={styles.table}
-            columns={this.columns()}
-            dataSource={dataSource}
-            pagination={false}
-            rowClassName={this.setRowClassName}
-            loading={this.props.loading}
-            onRow={this.onClickRow}
-            rowKey={record => record.id}
-            bordered={true}
-          />
+          className={styles.table}
+          columns={this.columns()}
+          dataSource={dataSource}
+          pagination={false}
+          rowClassName={this.setRowClassName}
+          loading={this.props.loading}
+          onRow={this.onClickRow}
+          rowKey={record => record.id}
+          bordered={true}
+        />
       </div>
     );
   }

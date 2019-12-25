@@ -606,14 +606,16 @@ export const routes = [
           {
             path: '/newDetail/analyze',
             component: './newDetail/analyze',
-            // name: '创收分析页',
           }, {
             path: '/newDetail/histogram',
             component: './newDetail/histogram',
           }, {
             path: '/newDetail/incomeRank',
             component: './newDetail/incomeRank',
-            // name: '创收数据',
+          },
+          {
+            path: '/newDetail/incomeOrder',
+            component: './newDetail/incomeOrder',
           },
         ],
       },

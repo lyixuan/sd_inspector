@@ -1,6 +1,6 @@
 import {
   getIncomeCollegeList,
-  getKpiDateRange,
+  // getKpiDateRange,
   getIncomeFamilyList,
   getFamilyList,
   getIncomeFamilyGroupPk,
@@ -11,7 +11,6 @@ import {
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
-import moment from 'moment';
 
 export default {
   namespace: 'incomeRankModal',
@@ -35,21 +34,21 @@ export default {
       }
     },
     // 日期
-    *getKpiDateRange({ callback }, { call, put }) {
-      const result = yield call(getKpiDateRange);
-      if (result.code === 20000) {
-        const res = result.data;
-        if (res && res !== null) {
-          const dateRange = [ moment(res.endDate), moment(res.endDate) ]
-          yield put({ type: 'save', payload: { globalDateRange: res} });
-          if (callback && typeof callback === 'function') {
-            callback(dateRange);
-          }
-        }
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
+    // *getKpiDateRange({ callback }, { call, put }) {
+    //   const result = yield call(getKpiDateRange);
+    //   if (result.code === 20000) {
+    //     const res = result.data;
+    //     if (res && res !== null) {
+    //       const dateRange = [ moment(res.endDate), moment(res.endDate) ]
+    //       yield put({ type: 'save', payload: { globalDateRange: res} });
+    //       if (callback && typeof callback === 'function') {
+    //         callback(dateRange);
+    //       }
+    //     }
+    //   } else if (result) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
     //  家族创收对比
     *getIncomeFamilyList({ payload }, { call, put }) {
       const result = yield call(getIncomeFamilyList, payload.params);

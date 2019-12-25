@@ -10,7 +10,7 @@ import rank3 from '@/assets/xdFamily/rank3.png';
 import up from '@/assets/up.png';
 import down from '@/assets/down.png';
 import flat from '@/assets/flat.png';
-import { thousandsFormatBigger } from '@/utils/utils';
+import { companyThousandsIncome } from '@/utils/utils';
 import { Tooltip } from 'antd';
 const { Option } = BISelect;
 
@@ -138,7 +138,7 @@ class Top extends React.Component {
         width: '100px',
         render: (incomeFlowKpi, record) => {
           const percent = record.incomeFlowKpiRatio * 100 + '%';
-          const money = thousandsFormatBigger(incomeFlowKpi);
+          const money = companyThousandsIncome(incomeFlowKpi);
           return (
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <BIWrapperProgress

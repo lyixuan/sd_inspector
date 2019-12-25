@@ -74,12 +74,18 @@ class OnAppeal extends React.Component {
       pageSize: 30,
       dimensionType: (myParam&&myParam.dimensionType)?myParam.dimensionType:AuthButton.checkPathname('/scoreAppeal/onAppeal/specialNewer')?11:23
     };
-    this.initTime = {creditBeginDate:moment().subtract(6,'days').format('YYYY-MM-DD'),"creditEndDate":moment().format('YYYY-MM-DD')};
   }
   componentDidMount() {
     const {dimensionType} = this.state;
     let {params=null} = this.props.location.query;
     if(params===null){storage.removeSessonItem('score_tab2')}
+    const pNew = JSON.parse(params);
+    if(pNew && pNew.creditBeginDate && pNew.creditEndDate){
+      this.initTime = {creditBeginDate:pNew.creditBeginDate,creditEndDate:pNew.creditEndDate};
+    } else {
+      this.initTime = {creditBeginDate:moment().subtract(6,'days').format('YYYY-MM-DD'),creditEndDate:moment().format('YYYY-MM-DD')};
+    }
+
     params=JSON.stringify({...JSON.parse(params),...this.initTime})
     this.queryData(dimensionType,JSON.parse(params),null,null,1);
   }
@@ -109,22 +115,17 @@ class OnAppeal extends React.Component {
 
     const saveUrlParams =JSON.stringify(paramsUrl);
     const timeParams = JSON.stringify(this.initTime);
-    const score_tab = storage.getSessionItem('score_tab2');
+    let score_tab = storage.getSessionItem('score_tab2');
     if (score_tab) {
-      score_tab[paramsUrl.dimensionType] = saveUrlParams;
+      score_tab = saveUrlParams;
       if(flag===1){
-        score_tab[11] = timeParams;
-        score_tab[14] = timeParams;
-        score_tab[19] = timeParams;
-        score_tab[23] = timeParams;
-        score_tab[42] = timeParams;
+        score_tab = timeParams;
       }
-
       storage.setSessonItem('score_tab2',score_tab);
     } else {
-      storage.setSessonItem('score_tab2',{[paramsUrl.dimensionType]:saveUrlParams});
+      storage.setSessonItem('score_tab2',saveUrlParams);
       if(flag===1){
-        storage.setSessonItem('score_tab2', { 11:timeParams,14:timeParams,19:timeParams,23:timeParams,42:timeParams});
+        storage.setSessonItem('score_tab2', timeParams);
       }
     }
     // 请求成功后保留查询条件
@@ -261,11 +262,12 @@ class OnAppeal extends React.Component {
   };
   changeTab(dimensionType){
     const score_tab = storage.getSessionItem('score_tab2');
-    if (score_tab&&score_tab[dimensionType]) {
-      const tabParams = score_tab[dimensionType];
+    if (score_tab) {
+      const tabParams = JSON.parse(score_tab);
+      delete tabParams.creditType;
       this.setState({
         dimensionType
-      },()=>this.queryData(undefined,JSON.parse(tabParams),undefined))
+      },()=>this.queryData(undefined,tabParams,undefined))
     } else {
       this.setState({
         dimensionType
@@ -277,11 +279,12 @@ class OnAppeal extends React.Component {
   }
   changePage(dimensionType,params,pg){
     const score_tab = storage.getSessionItem('score_tab2');
-    if (score_tab&&score_tab[this.state.dimensionType]) {
-      const tabParams = score_tab[this.state.dimensionType];
+    if (score_tab) {
+      const tabParams = JSON.parse(score_tab);
+      delete tabParams.creditType;
       this.setState({
         dimensionType:this.state.dimensionType
-      },()=>this.queryData(dimensionType,JSON.parse(tabParams),pg))
+      },()=>this.queryData(dimensionType,tabParams,pg))
     } else {
       this.setState({
         dimensionType:this.state.dimensionType
