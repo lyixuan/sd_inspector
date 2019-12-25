@@ -141,6 +141,11 @@ class IndexPage extends Component {
         },
       },
     });
+    this.props.dispatch({
+      type: 'xdWorkModal/getExamYearMonth',
+      payload: {
+      },
+    });
   };
 
   getPageDom = () => {
@@ -159,11 +164,11 @@ class IndexPage extends Component {
   render() {
     const { date } = this.state;
     const { loadingTime } = this.props;
-    const { WorkbenchScore, WorkbenchIncome, WorkbenchNpsData, touchRatio} = this.props.xdWorkModal;
+    const { WorkbenchScore, WorkbenchIncome, WorkbenchNpsData, touchRatio,ExaminationTimeOfProvince} = this.props.xdWorkModal;
     if (this.getPageDom()) {
       return (
         <Spin spinning={loadingTime}>
-          <OperationEvent touchRatio={touchRatio}/>
+          <OperationEvent touchRatio={touchRatio} ExaminationTimeOfProvince={ExaminationTimeOfProvince}/>
           <ScoreIncome
             date={date}
             WorkbenchScore={WorkbenchScore}

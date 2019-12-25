@@ -19,6 +19,8 @@ import {
   getAppealData,
   getQualityData,
   touchRatio,
+  getExamYearMonth,
+  getExaminationTimeOfProvince,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -40,6 +42,7 @@ export default {
     WorkbenchImPieData: {},
     WorkbenchAppealData: {},
     WorkbenchQualityData: {},
+    ExaminationTimeOfProvince:[]
   },
   effects: {
     // l
@@ -67,10 +70,29 @@ export default {
         let touchRatio = 0;
         for(let i = 0;i<touchRatioList.length;i++) {
           if(touchRatioList[i].hightLightFlag){
-            touchRatio = touchRatioList[i].reachNumPercent
+            touchRatio = touchRatioList[i].reachNumPercent;
+            break;
           }
         }
         yield put({ type: 'save', payload: { touchRatio } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getExamYearMonth({ payload, callback }, { call, put }) {
+      const result = yield call(getExamYearMonth);
+      if (result.code === 20000 && result.data) {
+        const id = result.data[0].id;
+        yield put({ type: 'getExaminationTimeOfProvince', payload: {id} });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getExaminationTimeOfProvince({ payload, callback }, { call, put }) {
+      const result = yield call(getExaminationTimeOfProvince, payload);
+      if (result.code === 20000 && result.data) {
+        const ExaminationTimeOfProvince = result.data.list||[];
+        yield put({ type: 'save', payload: { ExaminationTimeOfProvince } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }

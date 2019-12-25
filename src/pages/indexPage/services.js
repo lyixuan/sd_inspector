@@ -62,7 +62,12 @@ export async function getWorkbenchIncome(params) {
 export async function touchRatio(data) {
   return request('/examNotice/reachNumRankList', { method: 'POST', data: data });
 }
-
+export async function getExamYearMonth() {
+  return request('/exam/examYearMonth');
+}
+export async function getExaminationTimeOfProvince(data) {
+  return request('/exam/examinationTimeOfProvince', { method: 'POST', data: data });
+}
 
 // 获取nps
 export async function getNpsData(data) {

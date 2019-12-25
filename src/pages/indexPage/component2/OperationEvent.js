@@ -2,7 +2,7 @@ import React from 'react';
 import style from './style.less';
 import Echarts from './Echart_WorkBentch';
 import stylefather from '../indexPage.less';
-import xuefen from '@/assets/newIndex/xuefen@2x.png';
+import yunying from '@/assets/newIndex/yunying@2x.png';
 import gengduo from '@/assets/newIndex/gengduo@2x.png';
 import { handleDataTrace } from '@/utils/utils';
 import { jumpGobalRouter } from '@/pages/ko/utils/utils';
@@ -27,8 +27,8 @@ class OperationEvent extends React.Component {
         </div>
         <div className={stylefather.boxCross}>
           <div className={stylefather.boxHeader}>
-            <img src={xuefen} alt=""/>
-            <span className={stylefather.headerTitle}>学分</span>
+            <img src={yunying} alt=""/>
+            <span className={stylefather.headerTitle}>报考</span>
             <img src={gengduo} alt="" onClick={()=>this.jump()}/>
           </div>
           <div className={style.operation}>
