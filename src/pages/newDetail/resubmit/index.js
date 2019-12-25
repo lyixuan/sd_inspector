@@ -34,26 +34,35 @@ class Resubmit extends React.Component {
     return [
       {
         title: '数据透视',
+        children: (
+          <></>
+        ),
+        dataTrace: '{"widgetName":"学分分析","traceName":"家族长工作台/学分分析"}',
       },
       {
-        title: '数据透视',
+        title: '创收明细',
+        children: (
+          <></>
+        )
       },
     ] 
   }
   render() {
     return (
-      <div className={styles.incomeOrder}>
-        <span className={styles.dataRange}>
-          <BIRangePicker
-            value={this.props.incomeDateRange}
-            placeholder={['选择起始时间', '选择截止时间']}
-            format='YYYY-MM-DD'
-            onChange={val => this.onFormChange(val, 'dataRange')}
-            allowClear={false}
-            disabledDate={val => disabledDate(val, this.props.globalkpiDateRange)}
-            style={{ width: 224 }}
-          />
-        </span>
+      <div className={styles.resubmit}>
+        <div className={styles.paramsQuery}>
+          <span className={styles.dataRange}>
+            <BIRangePicker
+              value={this.props.incomeDateRange}
+              placeholder={['选择起始时间', '选择截止时间']}
+              format='YYYY-MM-DD'
+              onChange={val => this.onFormChange(val, 'dataRange')}
+              allowClear={false}
+              disabledDate={val => disabledDate(val, this.props.globalkpiDateRange)}
+              style={{ width: 224 }}
+            />
+          </span>
+        </div>
         <PageTab tabs={this.getTabs()} />
       </div>
     );
