@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import PageTab from './components/pageTab';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import { disabledDate } from '@/pages/indexPage/components/utils/utils';
 import { handleDataTrace } from '@/utils/utils';
@@ -29,7 +30,16 @@ class Resubmit extends React.Component {
       payload: { date: val },
     });
   };
-
+  getTabs = () => {
+    return [
+      {
+        title: '数据透视',
+      },
+      {
+        title: '数据透视',
+      },
+    ] 
+  }
   render() {
     return (
       <div className={styles.incomeOrder}>
@@ -44,7 +54,7 @@ class Resubmit extends React.Component {
             style={{ width: 224 }}
           />
         </span>
-        
+        <PageTab tabs={this.getTabs()} />
       </div>
     );
   }
