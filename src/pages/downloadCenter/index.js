@@ -6,7 +6,7 @@ import AuthorizedButton from './components/AuthorizedButton';
 import ModalDialog from './components/Modal/Modal';
 import common from './utils/common.css';
 import storage from '@/utils/storage';
-import { columnsFn } from './components/_selfColumn';
+import { columnsFn } from '@/pages/downloadCenter/components/_selfColumn';
 import ModalContent from './components/_modalContent';
 import backTop from '@/assets/downloadCenter/backTop.svg';
 import FormFilter from './components/FormFilter';
@@ -206,7 +206,8 @@ class Index extends Component {
   render() {
     const { bottomTable = {}, loading, isLoading } = this.props;
     const { dataList = [], findAllOrg = [], totalNum = 0 } = bottomTable;
-    const columns = columnsFn(this.downLoadBTable);
+    // const columns = columnsFn(this.downLoadBTable);
+    const columns = columnsFn();
 
     return (
       <>
