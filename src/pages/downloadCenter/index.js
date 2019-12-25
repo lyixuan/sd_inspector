@@ -19,7 +19,7 @@ import packSucess from '@/assets/downloadCenter/packSucess.svg';
 import packError from '@/assets/downloadCenter/packError.svg';
 import compress from '@/assets/downloadCenter/compress.svg';
 import packing from '@/assets/downloadCenter/packing.svg';
-import DownLoad from './components/downLoad';
+import DownLoad from './components/download';
 
 const dateFormat = 'YYYY-MM-DD';
 const imgArr = [packing, packSucess, packError];
