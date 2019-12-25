@@ -498,7 +498,7 @@ class RobotTrend extends React.Component {
           type: 'line',
           stack: '总量',
           areaStyle: { normal: {} },
-          data: data4,
+          data: data1,
           color: "#52E8AF"
         },
         {
@@ -522,7 +522,7 @@ class RobotTrend extends React.Component {
           type: 'line',
           stack: '总量',
           areaStyle: {},
-          data: data1,
+          data: data4,
           color: "#FF9B7D"
         },
       ]
@@ -535,7 +535,8 @@ class RobotTrend extends React.Component {
     const { dataIsEmpty } = this.props.robotPage;
     const { interceptArr, parse1, parse2, parse3, parse4 } = dataIsEmpty
     const empty1 = interceptArr.some(item => item !== 0)
-    const empty2 = parse1.some(item => item !== 0) && parse2.some(item => item !== 0) && parse3.some(item => item !== 0) && parse4.some(item => item !== 0)
+    const empty2 = parse1.some(item => item !== 0) || parse2.some(item => item !== 0) || parse3.some(item => item !== 0) || parse4.some(item => item !== 0)
+    console.log(539, dataIsEmpty, empty2)
     return <div className={styles.sessonTrend}>
       <div className={styles.chartPie}>
         <Echart options={this.drawChart()} style={{ width: '320px', height: '220px', }}></Echart>
