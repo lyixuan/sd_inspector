@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tooltip } from 'antd';
+import { Tooltip, message } from 'antd';
 import { connect } from 'dva';
 import BITable from '@/ant_components/BITable';
 import BIWrapperTable from '.././../indexPage/components/BIWrapperTable';
@@ -288,7 +288,7 @@ class Attendance extends React.Component {
         render: (subjectId, record) => {
           return (
             <a
-              onClick={() => this.download(record.subjectId)}
+              onClick={() => this.download(record.subjectId, record.subjectName)}
               style={{ display: 'flex', justifyContent: 'center', color: '#00CCC3' }}
             >
               下载
@@ -336,12 +336,21 @@ class Attendance extends React.Component {
     // return columns || [];
   };
 
-  download = item => {
+  download = (id, name) => {
+    const { downloadParams } = this.props;
     // 下载功能
-    this.props.dispatch({
-      type: 'xdCreditModal/bottomTask',
-      payload: { params: { subjectId: item } },
-    });
+    this.props
+      .dispatch({
+        type: 'xdCreditModal/bottomTask',
+        payload: { params: { ...downloadParams, subjectId: id, subjectName: name } },
+      })
+      .then(res => {
+        if (res.code === 20000) {
+          message.success('任务已创建，请到下载中心下载');
+        } else {
+          message.success(res.msg);
+        }
+      });
   };
   setRowClassName = (r, c, b) => {
     if (this.props.dementionId === r.id) {

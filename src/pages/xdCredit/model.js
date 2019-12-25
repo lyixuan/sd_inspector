@@ -10,7 +10,7 @@ import {
   imDetailList,
   queryAppealDataPage,
   queryAttendancePage,
-  bottomTaskList,
+  bottomTaskAdd,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -174,11 +174,13 @@ export default {
 
     //  底表下载
     *bottomTask({ payload, callback }, { call, put }) {
-      const result = yield call(bottomTaskList, payload.params);
+      const result = yield call(bottomTaskAdd, payload.params);
       if (result.code === 20000 && result.data) {
         yield put({ type: 'save', payload: { bottomTaskData: result.data } });
+        return result;
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
+        return result;
       }
     },
   },
