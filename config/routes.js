@@ -619,6 +619,10 @@ export const routes = [
           },
         ],
       },
+      {
+        path: '/downloadCenter',
+        component: './downloadCenter'
+      }
     ],
   },
 ];
