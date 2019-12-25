@@ -348,7 +348,7 @@ class Attendance extends React.Component {
         if (res.code === 20000) {
           message.success('任务已创建，请到下载中心下载');
         } else {
-          message.success(res.msg);
+          message.success(res.msgDetail || res.msg);
         }
       });
   };
