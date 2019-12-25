@@ -20,13 +20,13 @@ class RobotTrend extends React.Component {
     const { pieData } = this.props;
     const datas = [{
       value: pieData.robotOnlyNum,
-      name: '机器人独立访问'
+      name: '机器人独立接待人数'
     }, {
       value: pieData.robotAndTeacherNum,
-      name: '机器人协同会话'
+      name: '机器人协同接待人数'
     }, {
       value: pieData.teacherOnlyNum,
-      name: '班主任独立会话'
+      name: '班主任独立接待人数'
     }]
     let option = {
       title: {
@@ -42,12 +42,12 @@ class RobotTrend extends React.Component {
       },
       tooltip: {
         trigger: 'item',
-        formatter: "{b} : {c}; {d}%"
+        formatter: "{b} <br> {c}<br>{d}%"
       },
       legend: {
         orient: 'vertical',
         right: 'right',
-        data: ['机器人独立访问', '机器人协同会话', '班主任独立会话'],
+        data: ['机器人独立接待人数', '机器人协同接待人数', '班主任独立接待人数'],
         top: '30%',
         itemWidth: 8,
         itemHeight: 8,
@@ -111,7 +111,7 @@ class RobotTrend extends React.Component {
       legend: {
         orient: 'vertical',
         right: 'right',
-        data: ['机器人独立访问', '机器人协同会话', '班主任独立会话'],
+        data: ['机器人独立访问', '机器人协同会话', '班主任独立接待人数'],
         top: '30%',
         itemWidth: 8,
         itemHeight: 8,
@@ -178,7 +178,7 @@ class RobotTrend extends React.Component {
       },
       tooltip: {
         trigger: 'item',
-        formatter: "{b} : {c}; {d}%"
+        formatter: "{b} <br> {c}<br>{d}%"
       },
       legend: {
         orient: 'vertical',
