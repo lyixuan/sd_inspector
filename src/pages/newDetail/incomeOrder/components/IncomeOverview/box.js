@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './styles.less';
 import Echarts from '../Echarts';
+import bingtu from '@/assets/newIndex/bingtu@2x.png';
 import {getOptionIncomeData} from '../Echarts/income_data';
 import {getOptionIncomeOrder} from '../Echarts/income_order';
 import { changeToThousandsForIncome } from '@/utils/utils';
@@ -29,7 +30,10 @@ class Box extends React.Component {
         </div>
         {type===1&&
         <div>
-          <Echarts options={optionIncomeData} style={{ height: 190,width:220,float:'left'}}/>
+          {pieData.length>0?<Echarts options={optionIncomeData} style={{ height: 190,width:220,float:'left'}}/>:
+            <img src={bingtu} alt="" style={{ height: 130,width:130,display:'block',margin: '20px auto'}}/>
+          }
+
           <div className={styles.footer}>
             {dot}
           </div>
