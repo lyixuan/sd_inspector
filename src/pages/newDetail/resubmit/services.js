@@ -5,3 +5,22 @@ export async function getIncomeCollegeList(params) {
   return request('/orgMap/findCollegeShortNameList', { method: 'get', params });
 }
 
+// 续报分析 - 学院分析
+export async function getCollegeAnalyze(params) {
+  return request('/resubmit/getCollegeAnalyze', { method: 'POST', params });
+}
+
+// 续报分析 - 家族分析
+export async function getFamilyAnalyze(params) {
+  return request('/resubmit/getFamilyAnalyze', { method: 'POST', params });
+}
+
+// 续报分析 - 续费学员生命周期分布
+export async function getCycleList(params) {
+  return request('/resubmit/getCycleList', { method: 'POST', params });
+}
+
+// 续报分析 - 转班路径
+export async function getPathList(params) {
+  return request('/resubmit/getPathList', { method: 'POST', params });
+}
