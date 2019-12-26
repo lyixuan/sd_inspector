@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import RenderRoute from '@/components/RenderRoute';
 
 @connect(({ qualityReport }) => ({
   qualityReport,
@@ -21,7 +22,10 @@ class qualityReport extends React.Component {
     });
   }
   render() {
-    return <div>{this.props.children}</div>;
+    const {startDate:beginDate, endDate } = this.props.qualityReport;
+    return <div>
+      {beginDate && endDate && <RenderRoute {...this.props} />}
+      </div>;
   }
 }
 
