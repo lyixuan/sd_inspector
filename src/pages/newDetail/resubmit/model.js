@@ -1,10 +1,5 @@
-import {
-  getKOEnumList,
-  getCollegeAnalyze,
-  getFamilyAnalyze,
-  getCycleList,
-  getPathList,
-} from '@/pages/ko/services';
+import { getKOEnumList } from '@/pages/ko/services';
+import { getCollegeAnalyze, getFamilyAnalyze, getCycleList, getPathList } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
 
