@@ -351,7 +351,7 @@ class Attendance extends React.Component {
           return;
         }
         if (res.code === 20100) {
-          this.props.isShow('5分钟内\n请勿重复提交任务');
+          this.props.isShow('5分钟内\n请勿提交重复任务');
           return;
         }
       });
