@@ -433,7 +433,7 @@ export function changeToThousandsForIncome(num,n) {
   }
   let number = Math.round(num/10000*Math.pow(10,Number(n)))/Math.pow(10,Number(n));
 
-  return thousandsFormatDot(number);
+  return thousandsFormatDot(number.toFixed(Number(n)));
 }
 
 export function companyThousandsIncome(num, n = 1) {
