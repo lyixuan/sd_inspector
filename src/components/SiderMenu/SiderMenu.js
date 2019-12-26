@@ -259,12 +259,11 @@ export default class SiderMenu extends PureComponent {
     this.setState({ openMenu: id });
   }
   render() {
-    const { logo, collapsed, menuData } = this.props;
+    const { menuData } = this.props;
     const {openKeys, selectKeys} = this.state;
     return (
       <Sider
         trigger={null}
-        // collapsible
         breakpoint="lg"
         width={152}
         className={styles.sider}>

@@ -71,6 +71,15 @@ export const PROXY_PATH = hasSelfPri => {
   return hasSelfPri ? '' : '/inspectorapis';
 }; // /inspectorapis
 
+// 下载中心服务器地址
+export const DOWNLOAD_HOST = {
+  production: 'http://h-bd.ministudy.com/exporter',
+  localhost: 'http://172.16.109.87:38083',
+  localhost2: 'http://172.16.109.87:38083',
+  development: 'http://172.16.109.87:38083',
+  development2: 'http://172.16.109.87:38083',
+}[process.env.ENV_TYPE];
+
 // =========================================== host =========
 
 // 分页配置
@@ -523,7 +532,7 @@ export const REMOVE_LOCAL_DATA = [
 ];
 // 工作台星级
 export const WB_STAR = [
-  { id: '0', name: '全部' },
+  // { id: '0', name: '全部' },
   { id: '5', name: '5星' },
   { id: '4', name: '4星' },
   { id: '3', name: '3星' },
@@ -534,7 +543,7 @@ export const WB_STAR = [
 
 // 生命周期
 export const WB_LIFE_CYCLE = [
-  { id: '0', name: '全部' },
+  // { id: '0', name: '全部' },
   { id: '7', name: '7' },
   { id: '30', name: '30' },
   { id: '60', name: '60' },

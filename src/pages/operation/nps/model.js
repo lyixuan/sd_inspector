@@ -3,25 +3,17 @@ import {
   getNpsAutonomousEvaluation,
   compareCollegeList,
   getCurrentDateRange,
-  // getHotList,
-  // packageRankList,
-  // countCreditAvgScore,
-  // countByDate,
   getOrgMapTree,
-  // getImReverseSideData,
-  // queryAppealDataPage,
   getFamilyType,
-  // reasonList,
   getUserInfo,
   getOrgMapList,
-  // kpiLevelList,
-  // groupList,
   getIncomeCollegeList,
-  // getQuestionCheckUser,
-  // postWriteQuestion,
+  getNpsData,
+  getNPSPaiData,
 } from './services';
 import { message } from 'antd/lib';
 import { msgF } from '@/utils/utils';
+import moment from 'moment';
 
 export default {
   namespace: 'xdOperation',
@@ -29,7 +21,8 @@ export default {
     npsParams: {}, //nps部分的数据
     npsList: [],
     compareCollegeListData: [],
-    getCurrentDateRangeData: null,
+    getCurrentDateRangeData: {},
+    getCurrentDateRangeData1: {},
     orgList: [],
     imDetailData: [],
     userInfo: {}, // 全局值
@@ -37,6 +30,8 @@ export default {
     // globalLevelList: [],
     globalCollegeList: [],
     globalQVisible: false, // 问卷调查是否显示
+    xdOperationNpsData: {},
+    xdOperationNpsPaiData: {},
   },
   effects: {
     //  管理层工作台的接口
@@ -100,16 +95,6 @@ export default {
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
-
-      // const result = yield call(getNpsAutonomousEvaluation, payload.params);
-      // if (result.code === 20000 && result.data) {
-      //   yield put({ type: 'save', payload: { npsParams: result.data } });
-      //   if (callback && typeof callback === 'function') {
-      //     callback(result.data);
-      //   }
-      // } else if (result) {
-      //   message.error(msgF(result.msg, result.msgDetail));
-      // }
     },
     //  获取组织架构
     *getOrgMapTree({ payload, callback }, { call, put }) {
@@ -122,28 +107,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    //  IM负面数据对比
-    // *getImReverseSideData({ payload, callback }, { call, put }) {
-    //   const result = yield call(getImReverseSideData, payload.params);
-    //   if (result.code === 20000 && result.data) {
-    //     if (callback && typeof callback === 'function') {
-    //       callback(result.data);
-    //     }
-    //   } else if (result) {
-    //     message.error(msgF(result.msg, result.msgDetail));
-    //   }
-    // },
-    //  家族学分对比柱状图部分的接口
-    // *queryAppealDataPage({ payload, callback }, { call, put }) {
-    //   const result = yield call(queryAppealDataPage, payload.params);
-    //   if (result.code === 20000 && result.data) {
-    //     if (callback && typeof callback === 'function') {
-    //       callback(result.data);
-    //     }
-    //   } else if (result) {
-    //     message.error(msgF(result.msg, result.msgDetail));
-    //   }
-    // },
+
     //  获取学院家族性质
     *getFamilyType({ payload, callback }, { call, put }) {
       const result = yield call(getFamilyType);
@@ -194,6 +158,12 @@ export default {
         yield put({
           type: 'save',
           payload: {
+            getCurrentDateRangeData1: {
+              startTime: moment(result.data.startDate).format('YYYY-MM-DD'),
+              endTime: moment(result.data.endDate).format('YYYY-MM-DD'),
+            },
+          },
+          payload: {
             getCurrentDateRangeData: result.data,
           },
         });
@@ -218,24 +188,7 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    // 获取热销榜单列表
-    // *getHotList({ payload, callback }, { call, put }) {
-    //   const result = yield call(getHotList);
-    //   if (result.code === 20000) {
-    //     return result.data;
-    //   } else if (result) {
-    //     message.error(msgF(result.msg, result.msgDetail));
-    //   }
-    // },
-    // *reasonList({ payload }, { call, put }) {
-    //   const params = payload.params;
-    //   const result = yield call(reasonList, params);
-    //   if (result.code === 20000) {
-    //     yield put({ type: 'saveTable', payload: { imDetailData: result.data } });
-    //   } else if (result) {
-    //     message.error(msgF(result.msg, result.msgDetail));
-    //   }
-    // },
+
     *getUserInfo({ callback }, { call, put }) {
       const result = yield call(getUserInfo);
       if (result.code === 20000 && result.data) {
@@ -267,32 +220,26 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    // 问卷调查获取
-    // *getQuestionCheckUser({ callback }, { call, put }) {
-    //   const result = yield call(getQuestionCheckUser);
-    //   if (result.code === 20000) {
-    //     if (callback && typeof callback === 'function') {
-    //       callback(result.data);
-    //     }
-    //     yield put({ type: 'save', payload: { globalQVisible: result.data } });
-    //   }
-    // },
-    // 问卷调查提交
-    // *postWriteQuestion({ payload, callback }, { call, put }) {
-    //   const params = payload.params;
-    //   yield put({ type: 'save', payload: { globalQVisible: false } });
-    //   const result = yield call(postWriteQuestion, params);
-    //   if (result.code === 20000) {
-    //     if (callback && typeof callback === 'function') {
-    //       callback();
-    //     }
-    //     if (!params.refuseFlag) {
-    //       message.success('提交成功！么么哒');
-    //     }
-    //   } else {
-    //     message.success('网络异常，请稍后重试');
-    //   }
-    // },
+
+    // 获取Nps数据
+    *getNpsData({ payload, callback }, { call, put }) {
+      const result = yield call(getNpsData, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { xdOperationNpsData: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
+    // 获取Nps数据
+    *getNPSPaiData({ payload, callback }, { call, put }) {
+      const result = yield call(getNPSPaiData, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { xdOperationNpsPaiData: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
   },
 
   reducers: {

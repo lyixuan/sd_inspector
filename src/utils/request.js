@@ -3,7 +3,7 @@
  */
 import { extend } from 'umi-request';
 import { routerRedux } from 'dva/router';
-import { SERVER_HOST, PROXY_PATH } from './constants';
+import { SERVER_HOST, PROXY_PATH, DOWNLOAD_HOST } from './constants';
 import { DebugConfig } from './debug';
 
 import { notification } from 'antd';
@@ -77,27 +77,41 @@ const request = extend({
 // 动态添加数据;
 request.interceptors.request.use((url, options) => {
   options.headers = Object.assign({}, options.headers, { 'X-Requested-With': 'XMLHttpRequest', authorization: storage.getToken() });
-  const hasSelfPri = url.indexOf('/apis') > -1 || url.indexOf('/shinecollege') > -1 || url.indexOf('/inspectorapis') > -1 || url.indexOf('/deskperfpcapi') > -1;
+  let hasSelfPri = url.indexOf('/apis') > -1 || url.indexOf('/shinecollege') > -1 || url.indexOf('/inspectorapis') > -1 || url.indexOf('/deskperfpcapi') > -1;
   if (url.includes('/test')) {
     // 连接本地接口
     return DebugApis(DebugConfig, url, options);
   }
+
+  let preUrl = SERVER_HOST;
+  // 如果请求的服务器不是小德服务器，做特殊处理
+  let otherServer = options.server || null;
+  switch (otherServer) {
+    case 'downloadCenter':
+      preUrl = DOWNLOAD_HOST;
+      hasSelfPri = true;
+      options.credentials = 'same-origin';
+      break;
+    default:
+
+  }
+
   return {
-    url: `${SERVER_HOST}${PROXY_PATH(hasSelfPri)}${url}`,
+    url: `${preUrl}${PROXY_PATH(hasSelfPri)}${url}`,
     options,
   };
 });
 
-// request.interceptors.response.use((response, options) => {
-//   if (!response || response.status !== 200) { return }
-//   const data = response.clone().json();
-//   data.then((res) => {
-//     if (res && res.code === 20002) {
-//       redirectToLogin();
-//     }
-//   });
-//   return response;
-// });
+request.interceptors.response.use((response, options) => {
+  const data = response.clone().json();
+  data.then((res) => {
+    if (res && res.code === 20002) {
+      redirectToLogin();
+      return
+    }
+  });
+  return response;
+});
 
 const DebugApis = (DebugConfig, url, options) => {
   return {

@@ -6,6 +6,8 @@ import ItemSort from '../component/ItemSort';
 import PersonSort from '../component/PersonSort';
 import SearchSelect from '../component/SearchSelect';
 import { handleDataTrace } from '@/utils/utils';
+import storage from '@/utils/storage';
+import moment from 'moment/moment';
 
 
 @connect(({ qualityReport, loading }) => ({
@@ -26,16 +28,23 @@ class CubePlanDetail extends React.Component {
     this.props.dispatch({
       type: 'qualityReport/getOrgMapTreeByRole',
       payload: { },
-    });
-    const that = this;
-    const { startDate:beginDate, endDate, organization } = this.props.qualityReport;
-    if (beginDate && endDate && (organization || organization==='')) {
+    }).then(()=>{
+      let beginDate,endDate,organization;
+      let {params=null} = this.props.location.query;
+      const pNew = JSON.parse(params);
+      if(pNew && pNew.beginDate && pNew.endDate && pNew.organization){
+        beginDate = pNew.beginDate;
+        endDate = pNew.endDate;
+        organization = pNew.organization;
+        this.changeDate({startDate: beginDate, endDate:endDate});
+        this.changeOrganization({organization});
+      } else {
+        beginDate = this.props.qualityReport.startDate;
+        endDate = this.props.qualityReport.endDate;
+        organization = this.props.qualityReport.organization;
+      }
       this.query({ beginDate, endDate, organization });
-    } else {
-      setTimeout(function() {
-        that.componentDidMount();
-      }, 500);
-    }
+    });
   }
 
   query = (params) => {
@@ -80,12 +89,14 @@ class CubePlanDetail extends React.Component {
   };
 
   changeDate = (params) => {
+    console.log(22,params)
     this.props.dispatch({
       type: 'qualityReport/saveTime',
       payload: { ...params },
     });
   };
   changeOrganization = (params) => {
+    console.log(11,params)
     this.props.dispatch({
       type: 'qualityReport/saveOrganization',
       payload: { ...params },
@@ -94,13 +105,26 @@ class CubePlanDetail extends React.Component {
 
   render() {
     const {isGroup} = this.state;
-    const { orgTreeList = [], surveyData,assortmentRankData, personRankData,startDate, endDate, activeStartDate, activeEndDate, startDateBak, endDateBak, organization, organizationBak } = this.props.qualityReport;
+    const { orgTreeList = [], surveyData,assortmentRankData, personRankData, activeStartDate, activeEndDate, startDateBak, endDateBak, organizationBak,startDate:beginDate, endDate,organization } = this.props.qualityReport;
+    // let beginDate, endDate,organization;
+    // let {params=null} = this.props.location.query;
+    // const pNew = JSON.parse(params);
+    // if(pNew && pNew.beginDate && pNew.endDate && pNew.organization){
+    //   beginDate = pNew.beginDate;
+    //   endDate = pNew.endDate;
+    //   organization = pNew.organization;
+    // } else {
+    //   beginDate = this.props.qualityReport.startDate;
+    //   endDate = this.props.qualityReport.endDate;
+    //   organization = this.props.qualityReport.organization;
+    // }
+
     const { headers = [], values = [], maxCount } = surveyData || {};
     return (
       <Spin spinning={this.props.loading}>
         <SearchSelect title="班主任质检报告"
                       orgList={orgTreeList}
-                      beginDate={startDate}
+                      beginDate={beginDate}
                       endDate={endDate}
                       startDateBak={startDateBak}
                       endDateBak={endDateBak}
@@ -116,7 +140,7 @@ class CubePlanDetail extends React.Component {
         <QualitySurvey headers={headers} values={values} maxCount={maxCount} traceType="班主任"/>
         {isGroup&&<ItemSort assortmentRankData={assortmentRankData}/>}
         {!isGroup&&<div style={{width:'49%',float:'left',marginBottom:20}}><ItemSort assortmentRankData={assortmentRankData} traceType="班主任"/></div>}
-        {!isGroup&&<div style={{width:'49.5%',float:'right'}}><PersonSort personRankData={personRankData} beginDate={startDate} endDate={endDate} traceType="班主任"/></div>}
+        {!isGroup&&<div style={{width:'49.5%',float:'right'}}><PersonSort personRankData={personRankData} beginDate={beginDate} endDate={endDate} traceType="班主任"/></div>}
       </Spin>
     );
   }

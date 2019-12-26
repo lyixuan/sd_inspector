@@ -10,6 +10,7 @@ import {
   imDetailList,
   queryAppealDataPage,
   queryAttendancePage,
+  bottomTaskAdd,
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -36,6 +37,7 @@ export default {
     appealAttendanceDatas: {}, //柱状图
     globalOrgList: [],
     globalUserMsg: {},
+    bottomTaskData: {},
   },
 
   effects: {
@@ -167,6 +169,18 @@ export default {
         yield put({ type: 'save', payload: { appealAttendanceDatas: result.data } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+
+    //  底表下载
+    *bottomTask({ payload, callback }, { call, put }) {
+      const result = yield call(bottomTaskAdd, payload.params);
+      if (result.code === 20000) {
+        yield put({ type: 'save', payload: { bottomTaskData: result.data } });
+        return result;
+      } else if (result.code === 20100) {
+        // msgF(result.msg, result.msgDetail);
+        return result;
       }
     },
   },

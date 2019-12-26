@@ -10,11 +10,6 @@ import { handleDataTrace } from '@/utils/utils';
 const { BIRangePicker } = BIDatePicker;
 
 class SearchSelect extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
 
   onFormChange = (value, vname) => {
     if ('dateRange' === vname) {

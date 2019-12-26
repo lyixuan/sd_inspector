@@ -203,6 +203,20 @@ export function jumpGobalRouter(path, params) {
     }
   }
 }
+
+export function jumpQualityRouter(path, params) {
+  const origin = window.location.origin;
+  if (path) {
+    const url = `${origin}${config.base}${path}`;
+    if(params){
+      const strParams = encodeURIComponent(JSON.stringify(params));
+      window.open(`${url}?p=${strParams}`);
+    }else{
+      window.open(`${url}`);
+    }
+  }
+}
+
 export function jumpGobalSelfRouter(path, params) {
   const origin = window.location.origin;
   if (path) {

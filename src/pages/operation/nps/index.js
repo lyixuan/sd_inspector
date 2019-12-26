@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './style.less';
-import Container from '@/components/BIContainer';
+import Container from '@/components/BIContainer_wen';
 import BISelect from '@/ant_components/BISelect';
 import BICascader from '@/ant_components/BICascader';
 import BIDatePicker from '@/ant_components/BIDatePicker';
@@ -11,12 +11,20 @@ import NPSLeft from './NPSLeft';
 import moment from 'moment';
 import { initTimeData } from '../../ko/utils/utils';
 import { removeTypeDuplicates } from '@babel/types';
+import Echarts from '@/components/Echart';
+import { getOption } from './npsLeftOptions.js';
+import { getOption1 } from './npscenterOptions.js';
+import NPSRight from './npsrightOptions.js';
+
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
 const { BI = {} } = window;
 @connect(({ xdOperation }) => ({
   xdOperation,
+  xdOperationNpsData: xdOperation.xdOperationNpsData,
+  getCurrentDateRangeData1: xdOperation.getCurrentDateRangeData1,
+  xdOperationNpsPaiData: xdOperation.xdOperationNpsPaiData,
   userInfo: xdOperation.userInfo,
 }))
 class NPSEvaluate extends React.Component {
@@ -53,7 +61,7 @@ class NPSEvaluate extends React.Component {
       dateArr: this.getIniDateRange(),
       userInfo: props.userInfo,
       disableEndDate: this.handleDefaultPickerValueMarkDays(),
-      star: localStorage.getItem('NPSStar') ? localStorage.getItem('NPSStar') : '0',
+      star: this.getStar(),
       cycle: localStorage.getItem('CYCLE_VALUE') ? localStorage.getItem('CYCLE_VALUE') : '0',
       npsList: [],
     };
@@ -63,31 +71,66 @@ class NPSEvaluate extends React.Component {
       type: 'xdOperation/getUserInfo',
       callback: userInfo => {
         this.getUserOrgList();
-        if (userInfo.userType == 'boss') {
-          this.state.groupId = [0];
+        let groupIds = [0];
+        if (
+          userInfo.userType == 'college' ||
+          userInfo.userType == 'family' ||
+          userInfo.userType == 'class' ||
+          userInfo.userType == 'group'
+        ) {
+          groupIds = [userInfo.collegeId, userInfo.familyId, userInfo.groupId];
         } else {
-          if (userInfo.collegeId) {
-            this.state.groupId.push(this.state.userInfo.collegeId);
-          } else if (userInfo.familyId) {
-            this.state.groupId.push(this.state.userInfo.familyId);
-          } else if (userInfo.groupId) {
-            this.state.groupId.push(this.state.userInfo.groupId);
-          }
+          groupIds = [0];
         }
         this.setState(
           {
             groupId: localStorage.getItem('NPSGroupId')
               ? JSON.parse(localStorage.getItem('NPSGroupId'))
-              : this.state.groupId,
+              : groupIds,
             userInfo,
+            star: this.getStar(),
           },
           () => {
             this.getNpsAutonomousEvaluation(0, false);
+            this.getNpsData();
+            this.getPieData();
           }
         );
       },
     });
   }
+
+  // 获取nps标签评分接口
+  getNpsData = () => {
+    const { userInfo } = this.state;
+    const datares = JSON.parse(localStorage.getItem('NPSGroupId'));
+    let params = {
+      ...this.initRecordTimeListData(this.state.dateArr),
+      collegeId: datares ? (datares[0] == 0 ? null : datares[0]) : userInfo.collegeId,
+      // (userInfo && userInfo.collegeId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[0]) ||
+      // null,
+      familyId: datares ? datares[1] : userInfo.familyId,
+      // (userInfo && userInfo.familyId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[1]) ||
+      // null,
+      groupId: datares ? datares[2] : userInfo.groupId,
+      // (userInfo && userInfo.groupId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[2]) ||
+      // null,
+      star: this.state.star === '0' ? null : Number(this.state.star),
+      cycle: this.state.cycle === '0' ? null : Number(this.state.cycle),
+    };
+    this.props.dispatch({
+      type: 'xdOperation/getNpsData',
+      payload: { params: params },
+    });
+    // this.props.dispatch({
+    //   type: 'xdOperation/getNpsData',
+    //   payload: { params: { ...this.initRecordTimeListData(this.state.dateArr) } },
+    // });
+  };
+
   getIniDateRange = () => {
     const { params } = this.props.location.query;
     const { dataRange } = params ? JSON.parse(params) : {};
@@ -96,9 +139,21 @@ class NPSEvaluate extends React.Component {
     } else if (localStorage.getItem('NPSDates')) {
       return this.localStoryDates();
     } else {
-      return [this.handleDefaultPickerValueMark(), this.handleDefaultPickerValueMarkDays()]
+      return [this.handleDefaultPickerValueMark(), this.handleDefaultPickerValueMarkDays()];
     }
-  }
+  };
+
+  getStar = () => {
+    let { params } = this.props.location.query;
+    if (params) {
+      params = JSON.parse(params);
+      if (params.star) {
+        return params.star;
+      } else {
+        return localStorage.getItem('NPSStar') ? localStorage.getItem('NPSStar') : '0';
+      }
+    }
+  };
   localStoryDates = () => {
     let startDate = moment(JSON.parse(localStorage.getItem('NPSDates'))[0]);
     let endDate = moment(JSON.parse(localStorage.getItem('NPSDates'))[1]);
@@ -119,22 +174,21 @@ class NPSEvaluate extends React.Component {
   //获取NPS自主评价的的数据接口
   getNpsAutonomousEvaluation = (pageNum, change) => {
     const { userInfo, npsList } = this.state;
-    // const { npsList } = this.props.xdOperation;
-    // const params = { id: this.id, pageSize: 10, page: page + 1 || 1, npsList };
+    const datares = JSON.parse(localStorage.getItem('NPSGroupId'));
     let params = {
       ...this.initRecordTimeListData(this.state.dateArr),
-      collegeId:
-        (userInfo && userInfo.collegeId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[0]) ||
-        null,
-      familyId:
-        (userInfo && userInfo.familyId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[1]) ||
-        null,
-      groupId:
-        (userInfo && userInfo.groupId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[2]) ||
-        null,
+      collegeId: datares ? (datares[0] == 0 ? null : datares[0]) : userInfo.collegeId,
+      // (userInfo && userInfo.collegeId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[0]) ||
+      // null,
+      familyId: datares ? datares[1] : userInfo.familyId,
+      // (userInfo && userInfo.familyId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[1]) ||
+      // null,
+      groupId: datares ? datares[2] : userInfo.groupId,
+      // (userInfo && userInfo.groupId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[2]) ||
+      // null,
       star: this.state.star === '0' ? null : Number(this.state.star),
       cycle: this.state.cycle === '0' ? null : Number(this.state.cycle),
       pageNum: pageNum ? pageNum + 1 : 1,
@@ -153,6 +207,50 @@ class NPSEvaluate extends React.Component {
       },
     });
   };
+
+  getPieData = () => {
+    const { userInfo } = this.state;
+    const datares = JSON.parse(localStorage.getItem('NPSGroupId'));
+    let params = {
+      ...this.initRecordTimeListData(this.state.dateArr),
+      collegeId: datares ? (datares[0] == 0 ? null : datares[0]) : userInfo.collegeId,
+      // (userInfo && userInfo.collegeId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[0]) ||
+      // null,
+      familyId: datares ? datares[1] : userInfo.familyId,
+      // (userInfo && userInfo.familyId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[1]) ||
+      // null,
+      groupId: datares ? datares[2] : userInfo.groupId,
+      // (userInfo && userInfo.groupId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[2]) ||
+      // null,
+      star: this.state.star === '0' ? null : Number(this.state.star),
+      cycle: this.state.cycle === '0' ? null : Number(this.state.cycle),
+    };
+
+    // let params = {
+    //   ...this.initRecordTimeListData(this.state.dateArr),
+    //   collegeId:
+    //     (userInfo && userInfo.collegeId) ||
+    //     (this.state.groupId.length > 0 && this.state.groupId[0]) ||
+    //     null,
+    //   familyId:
+    //     (userInfo && userInfo.familyId) ||
+    //     (this.state.groupId.length > 0 && this.state.groupId[1]) ||
+    //     null,
+    //   groupId:
+    //     (userInfo && userInfo.groupId) ||
+    //     (this.state.groupId.length > 0 && this.state.groupId[2]) ||
+    //     null,
+    //   star: this.state.star === '0' ? null : Number(this.state.star),
+    //   cycle: this.state.cycle === '0' ? null : Number(this.state.cycle),
+    // };
+    this.props.dispatch({
+      type: 'xdOperation/getNPSPaiData',
+      payload: { params: params },
+    });
+  };
   // 组织 - 时间
   getUserOrgList = () => {
     this.props.dispatch({
@@ -160,7 +258,7 @@ class NPSEvaluate extends React.Component {
       payload: { params: {} },
       callback: res => {
         if (res && res.length > 0) {
-          res.unshift({ id: 0, name: '全部', nodeList: '' });
+          res.unshift({ id: 0, name: '组织', nodeList: '' });
           this.setState({
             userOrgConfig: res,
           });
@@ -170,6 +268,18 @@ class NPSEvaluate extends React.Component {
   };
   // 选择组织
   onChangeSelect = (groupId, groupTypeArr) => {
+    //   collegeId:
+    //   (userInfo && userInfo.collegeId) ||
+    //   (this.state.groupId.length > 0 && this.state.groupId[0]) ||
+    //   null,
+    // familyId:
+    //   (userInfo && userInfo.familyId) ||
+    //   (this.state.groupId.length > 0 && this.state.groupId[1]) ||
+    //   null,
+    // groupId:
+    //   (userInfo && userInfo.groupId) ||
+    //   (this.state.groupId.length > 0 && this.state.groupId[2]) ||
+    //   null,
     this.setState(
       {
         groupId,
@@ -177,6 +287,8 @@ class NPSEvaluate extends React.Component {
       },
       () => {
         this.getNpsAutonomousEvaluation(0, true);
+        this.getPieData();
+        this.getNpsData();
       }
     );
     BI.traceV && BI.traceV({ widgetName: 'NPS归属筛选', traceName: '管理层工作台/NPS归属筛选' });
@@ -189,6 +301,8 @@ class NPSEvaluate extends React.Component {
       },
       () => {
         this.getNpsAutonomousEvaluation(0, true);
+        this.getPieData();
+        this.getNpsData();
       }
     );
     BI.traceV && BI.traceV({ widgetName: '星级筛选', traceName: '管理层工作台/NPS分析' });
@@ -202,6 +316,8 @@ class NPSEvaluate extends React.Component {
       },
       () => {
         this.getNpsAutonomousEvaluation(0, true);
+        this.getPieData();
+        this.getNpsData();
       }
     );
     BI.traceV &&
@@ -218,6 +334,8 @@ class NPSEvaluate extends React.Component {
       },
       () => {
         this.getNpsAutonomousEvaluation(0, true);
+        this.getPieData();
+        this.getNpsData();
       }
     );
     // this.setState({ dateArr: v }, () => this.getNpsAutonomousEvaluation(0, true));
@@ -241,15 +359,15 @@ class NPSEvaluate extends React.Component {
   };
   rightPart = () => {
     // const {collegeOptions,orgValue} = this.state
-    const { groupId = [0], userOrgConfig, dateArr, star, cycle } = this.state;
+    const { groupId = [0], userOrgConfig, dateArr, star = '0', cycle } = this.state;
     const { orgList } = this.props.xdOperation;
     orgList.length > 0 && this.getResetGroupMsg(orgList);
     return (
       <div className={styles.more}>
         <span className={styles.change}>
-         组织：
+          {/* 组织： */}
           <BICascader
-            placeholder="选择组织"
+            placeholder="请选择组织"
             changeOnSelect
             options={userOrgConfig}
             fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
@@ -262,35 +380,37 @@ class NPSEvaluate extends React.Component {
           />
         </span>
         <span className={styles.change}>
-          星级：
+          {/* 星级： */}
           <BISelect
-            placeholder="选择星级"
+            placeholder="请选择星级"
             value={star}
             onChange={this.onChangeStar}
             allowClear={false}
             style={{ width: '136px' }}
           >
+            <Option key={0}>星级</Option>
             {BiFilter('WB_STAR').map(item => (
               <Option key={item.id}>{item.name}</Option>
             ))}
           </BISelect>
         </span>
         <span className={styles.change}>
-        学员生命周期：
+          {/* 学员生命周期： */}
           <BISelect
-            placeholder="选择周期"
+            placeholder="请选择生命周期"
             value={cycle}
             onChange={this.onChangeCycle}
             allowClear={false}
             style={{ width: '136px' }}
           >
+            <Option key={0}>周期</Option>
             {BiFilter('WB_LIFE_CYCLE').map(item => (
               <Option key={item.id}>{item.name}</Option>
             ))}
           </BISelect>
         </span>
         <span className={styles.change}>
-          时间：
+          {/* 时间： */}
           <BIRangePicker
             value={dateArr}
             placeholder={['选择起始时间', '选择截止时间']}
@@ -306,24 +426,65 @@ class NPSEvaluate extends React.Component {
   };
   render() {
     const { NPSParams } = this.state;
-    const { npsList = [] } = this.props.xdOperation;
+    const { npsList = [], xdOperationNpsData, xdOperationNpsPaiData } = this.props.xdOperation;
+    const total = xdOperationNpsPaiData.total;
+    const options = getOption(xdOperationNpsPaiData.detailList);
+    const options1 = getOption1(xdOperationNpsData);
     return (
       <Container
-        title="NPS自主评价分析"
+        title="NPS详情"
         style={{ width: '100%', marginBottom: '16px' }}
         right={this.rightPart()}
       >
-        {NPSParams && (
-          <div className={styles.NPSMain}>
-            <NPSLeft
-              NPSleftParams={NPSParams}
-              npsList={npsList}
-              getCommentList={(pageNum, change) => {
-                this.getCommentList(pageNum, change);
-              }}
-            />
+        <div className={styles.NPSMainCon}>
+          <div className={styles.NPSCenter}>
+            <div className={styles.NPSCenterL}>
+              <p className={styles.title}>
+                <span></span>
+                生命周期分布
+              </p>
+              <div className={styles.NPSCenterLPie}>
+                <div className={styles.NPSCenterLTotal}>
+                  <p className={styles.total}>{total}</p>
+                  <p className={styles.totalWord}>总数量</p>
+                </div>
+                <Echarts options={options} style={{ width: '263px', height: 223 + 'px' }} />
+              </div>
+            </div>
+            <div className={styles.NPSCenterC}>
+              <p className={styles.title}>
+                <span></span>
+                NPS评分
+              </p>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Echarts
+                  options={options1}
+                  style={{ width: '243px', height: 194 + 'px', marginTop: '24px' }}
+                />
+              </div>
+            </div>
+            <div className={styles.NPSCenterR}>
+              <p className={styles.title}>
+                <span></span>
+                NPS标签
+              </p>
+              <div className={styles.NPSCenterRCon}>
+                <NPSRight cloudOptions={xdOperationNpsData.tagImageDtoList} />
+              </div>
+            </div>
           </div>
-        )}
+          {NPSParams && (
+            <div className={styles.NPSMain}>
+              <NPSLeft
+                NPSleftParams={NPSParams}
+                npsList={npsList}
+                getCommentList={(pageNum, change) => {
+                  this.getCommentList(pageNum, change);
+                }}
+              />
+            </div>
+          )}
+        </div>
       </Container>
     );
   }
