@@ -35,7 +35,8 @@ export function getAppealLeftOption(data) {
         textStyle: {
           fontSize: 26,
           color: '#282828',
-          fontFamily: 'DINCondensed-Bold, DINCondensed, Haettenschweiler',
+          fontWeight:400,
+          fontFamily: 'myDINBold, DINCondensed, Haettenschweiler',
         },
         subtextStyle: {
           fontSize: 12,
