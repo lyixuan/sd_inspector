@@ -4,6 +4,7 @@ import PageTab from './components/pageTab';
 import ParamsTop from './components/paramsTop';
 import CollegeFamily from './components/collegeFamily';
 import CyclePath from './components/cyclePath';
+import OriginIndex from './components/originIndex';
 import styles from './style.less';
 
 @connect(({ newDetailModal, resubmitModal }) => ({
@@ -38,6 +39,9 @@ class Resubmit extends React.Component {
         title: '数据透视',
         children: (
           <>
+            <div className={styles.OriginTab}>
+              <OriginIndex/>
+            </div>
             <CollegeFamily />
             <CyclePath />
           </>
@@ -50,6 +54,9 @@ class Resubmit extends React.Component {
       },
     ];
   };
+  getInitData = () => {
+
+  }
   render() {
     const { globalUserInfo } = this.props;
     return (
