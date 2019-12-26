@@ -29,7 +29,6 @@ class Appeal extends React.Component {
 
   clickEvent = item => {
     const userInfo = localStorage.getItem('admin_user');
-    debugger;
     if (
       (userInfo && JSON.parse(userInfo).userType === 'boss') ||
       JSON.parse(userInfo).userType === 'admin'
@@ -37,11 +36,11 @@ class Appeal extends React.Component {
       return;
     }
     let dimensionType = 0;
-    if (item.name == '创收') dimensionType = 11;
+    if (item.name == '创收') dimensionType = 42;
     if (item.name == 'IM') dimensionType = 14;
     if (item.name == '工单') dimensionType = 19;
     if (item.name == '底线') dimensionType = 23;
-    if (item.name == '优新') dimensionType = 42;
+    if (item.name == '优新') dimensionType = 11;
 
     handleDataTrace({
       widgetName: `学分申诉_质检${item.seriesName}`,
@@ -63,7 +62,7 @@ class Appeal extends React.Component {
         jumpGobalRouter('scoreAppeal/onAppeal', {
           creditBeginDate: getCurrentDateRangeData.startTime,
           creditEndDate: getCurrentDateRangeData.endTime,
-          statusList: ['4', '7'],
+          statusList: ['3','4', '7','11'],
           dimensionType,
         });
       } else {
@@ -71,7 +70,7 @@ class Appeal extends React.Component {
           creditBeginDate: getCurrentDateRangeData.startTime,
           creditEndDate: getCurrentDateRangeData.endTime,
           dimensionType,
-          statusList: ['2', '5', '6'],
+          statusList: ['1','2', '5', '6'],
         });
       }
     }
