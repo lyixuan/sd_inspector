@@ -1,13 +1,11 @@
-import {
-  getIncomeCollegeList,
-} from './services';
+import { getKOEnumList } from '@/pages/ko/services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
 
 export default {
   namespace: 'resubmitModal',
   state: {
-    incomeCollegeList: [],
+    collegeList: [],
     paramsQuery: {
 
     }
@@ -15,12 +13,11 @@ export default {
 
   effects: {
     // 家族-学院列表
-    *getIncomeCollegeList(_, { call, put }) {
-      const result = yield call(getIncomeCollegeList);
-      if (result.code === 20000) {
-        yield put({ type: 'save', payload: { incomeCollegeList: result.data } });
-      } else if (result && result.code !== 50000) {
-        message.error(msgF(result.msg, result.msgDetail));
+    *getCollegeList(_, { call, put }) {
+      const collegeResult = yield call(getKOEnumList, {type: 9});
+      if (collegeResult && collegeResult.code && collegeResult.code === 20000) {
+        const data = Array.isArray(collegeResult.data) ? collegeResult.data : [];
+        yield put({ type: 'save', payload: { collegeList: data[0].enumData } });
       }
     },
   },

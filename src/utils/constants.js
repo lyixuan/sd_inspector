@@ -562,6 +562,24 @@ export const Xing = [
   { id: 4, name: '好用' },
   { id: 5, name: '非常好用' },
 ];
+export const WB_PATH_LIST = [
+  { id: 1, name: '专-专' },
+  { id: 2, name: '专-本' },
+  { id: 3, name: '专-专本连读' },
+  { id: 4, name: '专-非自考' },
+  { id: 5, name: '本-专' },
+  { id: 6, name: '本-本' },
+  { id: 7, name: '本-专本连读' },
+  { id: 8, name: '本-非自考' },
+  { id: 9, name: '专本连读-专' },
+  { id: 10, name: '专本连读-本' },
+  { id: 11, name: '专本连读-专' },
+  { id: 12, name: '专本连读-非自考' },
+  { id: 13, name: '非自考-专科' },
+  { id: 14, name: '非自考-本科' },
+  { id: 15, name: '非自考-专本连读' },
+  { id: 16, name: '非自考-非自考' },
+];
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,
@@ -602,6 +620,7 @@ export default {
   WB_LIFE_CYCLE,
   DO_NOT_MENU,
   Xing,
+  WB_PATH_LIST,
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };
