@@ -5,6 +5,8 @@ import BIDatePicker from '@/ant_components/BIDatePicker';
 import { disabledDate } from '@/pages/indexPage/components/utils/utils';
 import { handleDataTrace } from '@/utils/utils';
 import styles from './style.less';
+import CollegeFamily from './components/collegeFamily';
+import CyclePath from './components/cyclePath';
 
 const { BIRangePicker } = BIDatePicker;
 
@@ -19,7 +21,11 @@ const { BIRangePicker } = BIDatePicker;
 class Resubmit extends React.Component {
   componentDidMount() {
     this.onParamsChange(this.props.globalDateMoment);
-    handleDataTrace({"widgetName":`创收_创收排名`,"traceName":`2.1/创收_创收排名`,traceType:200});
+    handleDataTrace({
+      widgetName: `创收_创收排名`,
+      traceName: `2.1/创收_创收排名`,
+      traceType: 200,
+    });
   }
 
   // select
@@ -34,18 +40,19 @@ class Resubmit extends React.Component {
       {
         title: '数据透视',
         children: (
-          <></>
+          <>
+            <CollegeFamily />
+            <CyclePath />
+          </>
         ),
         dataTrace: '{"widgetName":"学分分析","traceName":"家族长工作台/学分分析"}',
       },
       {
         title: '创收明细',
-        children: (
-          <></>
-        )
+        children: <></>,
       },
-    ] 
-  }
+    ];
+  };
   render() {
     const { paramsQuery = {} } = this.props;
     return (
@@ -55,7 +62,7 @@ class Resubmit extends React.Component {
             <BIRangePicker
               value={paramsQuery.dateRange}
               placeholder={['选择起始时间', '选择截止时间']}
-              format='YYYY-MM-DD'
+              format="YYYY-MM-DD"
               onChange={val => this.onParamsChange(val, 'dateRange')}
               allowClear={false}
               disabledDate={val => disabledDate(val, this.props.globalkpiDateRange)}
