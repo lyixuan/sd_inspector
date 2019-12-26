@@ -187,7 +187,7 @@ class FinishAppeal extends React.Component {
       delete tabParams.creditType;
       this.setState({
         dimensionType
-      },()=>this.queryData(undefined,tabParams,undefined))
+      },()=>this.queryData(dimensionType,tabParams,undefined))
     } else {
       this.setState({
         dimensionType

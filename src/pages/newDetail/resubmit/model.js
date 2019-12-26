@@ -1,5 +1,5 @@
 import { getKOEnumList } from '@/pages/ko/services';
-import { getCollegeAnalyze, getFamilyAnalyze, getCycleList, getPathList } from './services';
+import { getCollegeAnalyze, getFamilyAnalyze, getCycleList, getPathList, getOriginPackageList, getPackageList } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
 
@@ -12,6 +12,8 @@ export default {
     getFamilyAnalyzeData: {},
     getCycleListData: {},
     getPathListData: {},
+    originData: [], // 原产品包榜单
+    packageData: [] // 续报热销榜单
   },
 
   effects: {
@@ -23,7 +25,24 @@ export default {
         yield put({ type: 'saveCollege', payload: { collegeList: data[0].enumData } });
       }
     },
-
+    // 续报分析 - 原产品包榜单
+    *getOriginPackageList({ payload }, { call, put }) {
+      const result = yield call(getOriginPackageList, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { originData: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 续报分析 - 续报热销榜单
+    *getPackageList({ payload }, { call, put }) {
+      const result = yield call(getPackageList, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { packageData: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
     // 续报分析 - 学院分析
     *getCollegeAnalyze({ payload, callback }, { call, put }) {
       const result = yield call(getCollegeAnalyze, payload.params);
