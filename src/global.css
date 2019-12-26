@@ -8,11 +8,11 @@
 
 @font-face {
   font-family: "myDINBold";
-  src: url("http://bd.ministudy.com/staticFile/font/DINCondensedBold.woff2") format("woff2"),
-  url("http://bd.ministudy.com/staticFile/font/DINCondensedBold.woff") format("woff"),
-  url("http://bd.ministudy.com/staticFile/font/DINCondensedBold.ttf") format("truetype"),
-  url("http://bd.ministudy.com/staticFile/font/DINCondensedBold.eot") format("embedded-opentype"),
-  url("http://bd.ministudy.com/staticFile/font/DINCondensedBold.svg") format("svg");
+  src: url("./assets/DINCondensedBold/DIN Condensed Bold.woff2") format("woff2"),
+  url("./assets/DINCondensedBold/DIN Condensed Bold.woff") format("woff"),
+  url("./assets/DINCondensedBold/DIN Condensed Bold.ttf") format("truetype"),
+  url("./assets/DINCondensedBold/DIN Condensed Bold.eot") format("embedded-opentype"),
+  url("./assets/DINCondensedBold/DIN Condensed Bold.svg") format("svg");
   font-weight: normal;
   font-style: normal;
 }
