@@ -1,3 +1,4 @@
+@outer-layout-background: #F4F4F4;
 @header-background: #FFE300;
 @menu-background: #ffffff;
 @menu-hover-color: #FFE300;
@@ -6,12 +7,19 @@
 @menu-select-text: #282828;
 @menu-arrow-color: #B9B9B9;
 
+.outerLayout {
+  background-color: @outer-layout-background;
+  background-repeat:no-repeat;
+  background-size:1920px 480px;
+  background-position:50% 80px;
+  background-attachment:fixed;
+}
 .contentLayout {
   display:flex;
   margin:76px auto 0;
   width:1260px;
   //background:#ffffff;
-  //background:#F4F4F4;
+  background:@outer-layout-background;
 }
 .content {
   //flex:1;

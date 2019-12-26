@@ -32,11 +32,13 @@ const gradeImgGray = { // 等级
 	A: aGray,
 	S: sGray,
 }
-@connect(({ login = {}, loading }) => ({
+@connect(({ global, login = {}, loading }) => ({
 	login,
 	loading,
 	getRoleListLoading: loading.effects['login/CurrentUserListRole'],
 	roleList: login.roleList || [],
+  headerImage: global.headerImage,
+  headerBackgroundColor: global.headerBackgroundColor
 }))
 
 class SelfHeader extends PureComponent {
@@ -160,9 +162,20 @@ class SelfHeader extends PureComponent {
 	};
 	render() {
 		const { visible, certificationList } = this.state;
+		const {
+		  headerImage,
+      headerBackgroundColor} = this.props;
 		const selectedGroup = this.handleMenuList();
+
+		let headerStyle = {
+		  backgroundColor: headerBackgroundColor
+    };
+    if (headerImage !== '') {
+      headerStyle.backgroundImage = `url("${headerImage}")`
+    }
+
 		return (
-			<Header className={styles.headerWrap}>
+			<Header className={styles.headerWrap} style={headerStyle}>
 				<GlobalHeader
 					{...this.props}
 					certificationList={certificationList}

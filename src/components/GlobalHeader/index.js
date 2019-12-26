@@ -14,6 +14,9 @@ import downloadImg from '@/assets/download.png';
 import Score from '@/pages/indexPage/component2/Score';
 import { handleDataTrace } from '@/utils/utils';
 
+@connect(({global}) => ({
+  tempLogo: global.tempLogo
+}))
 class GlobalHeader extends PureComponent {
   constructor(props) {
     super(props);
@@ -52,7 +55,7 @@ class GlobalHeader extends PureComponent {
     });
   };
   goToDownload = () => {
-    router.push('/downloadCenter')
+    router.push(`/downloadCenter?_=${Math.random()}`)
   };
 
   render() {
@@ -60,13 +63,17 @@ class GlobalHeader extends PureComponent {
       currentUser = {},
       isMobile,
       onMenuClick,
-      selectedGroup } = this.props;
+      selectedGroup,
+      tempLogo } = this.props;
     const admin_user = localStorage.getItem('admin_user');
     const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
     const url = STATIC_HOST
     // const url = 'http://bi-admin.ministudy.com'
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
+        <Menu.Item>
+          <span>{currentUser.name}</span>
+        </Menu.Item>
         {selectedGroup.map(item => (
           <Menu.Item key={item.id}>
             <span style={{ display: 'inline-block', width: '20px', marginLeft: '-3px' }}>
@@ -88,7 +95,7 @@ class GlobalHeader extends PureComponent {
         ]}
 
         <img
-          src={bilogo}
+          src={tempLogo ? tempLogo : bilogo}
           alt="logo"
           className={styles.newLogo}
           onClick={this.goToIndex}/>

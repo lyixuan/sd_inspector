@@ -254,18 +254,38 @@ class BasicLayout extends React.PureComponent {
   }
 
   render() {
-    let color = '#F4F4F4';
-    const { collapsed, fetchingNotices, notices, location, children, isLoginIng } = this.props;
-    const { menuData } = this.props;
+    // let color = '#F4F4F4';
+    // if (this.props.location.pathname === '/cubePlan/list') {
+    //   color = '#fff';
+    // }
 
-    if (this.props.location.pathname === '/cubePlan/list') {
-      color = '#fff';
+    const {
+      collapsed,
+      fetchingNotices,
+      notices,
+      location,
+      children,
+      menuData,
+      isLoginIng,
+      layoutBackgroundColor,
+      layoutImage } = this.props;
+
+    let wrapStyle = {
+      backgroundColor: layoutBackgroundColor,
+    };
+    if (layoutImage !== '') {
+      wrapStyle.backgroundImage = `url("${layoutImage}")`
     }
+
+    let contentStyle = {
+      backgroundColor: layoutBackgroundColor,
+    };
+
     const currentUser = this.handleUserInfo();
     currentUser.avatar = biIcon;
     const layout = (
       <>
-        <Layout>
+        <Layout className={style.outerLayout} style={wrapStyle}>
 
           <HeaderLayout
             {...this.props}
@@ -279,7 +299,7 @@ class BasicLayout extends React.PureComponent {
             onNoticeVisibleChange={this.handleNoticeVisibleChange}
           />
 
-          <Layout className={style.contentLayout}>
+          <Layout className={style.contentLayout} style={contentStyle}>
             <SiderMenu
               logo={logo}
               menuData={menuData}
@@ -324,4 +344,8 @@ export default connect(({ global, menu, login }) => ({
   login: login,
   menuData: menu.menuData,
   collapsed: global.collapsed,
+  headerBackgroundColor: global.headerBackgroundColor,
+  layoutBackgroundColor: global.layoutBackgroundColor,
+  headerImage: global.headerImage,
+  layoutImage: global.layoutImage
 }))(BasicLayout);

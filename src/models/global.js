@@ -21,7 +21,12 @@ export default {
       'family': '家族长',
       'group': '运营长',
       'others': '无绩效岗位',
-    }
+    },
+    tempLogo: '',
+    headerBackgroundColor: '#FFE300',
+    layoutBackgroundColor: '#F4F4F4',
+    headerImage: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1577339920301&di=e3ec4d722744df275615e1dd3c97977e&imgtype=0&src=http%3A%2F%2F1802.img.pp.sohu.com.cn%2Fimages%2Fblog%2F2008%2F5%2F15%2F20%2F9%2F11a90ee902f.jpg',
+    layoutImage: 'http://img13.360buyimg.com/img/jfs/t1/92535/17/8181/251487/5e01a847E66e65495/05e9f53fdbf50410.png'
   },
 
   effects: {
@@ -128,6 +133,7 @@ export default {
     setup({ history }) {
       // Subscribe history(url) change, trigger `load` action if pathname is `/`
       return history.listen(({ pathname, search }) => {
+        document.documentElement.scrollTop = 0;
         if (typeof window.ga !== 'undefined') {
           window.ga('send', 'pageview', pathname + search);
         }
