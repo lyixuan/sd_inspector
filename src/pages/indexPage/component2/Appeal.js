@@ -8,7 +8,7 @@ import style from './style.less';
 import Echarts from '@/components/Echart';
 import { getOption } from './getAppealOptions.js';
 import { getAppealLeftOption } from './getAppealLeftOps.js';
-import { jumpGobalRouter } from '@/pages/ko/utils/utils';
+import { jumpGobalRouter, jumpQualityRouter } from '@/pages/ko/utils/utils';
 import { handleDataTrace } from '@/utils/utils';
 import { jumpGobalSelfRouter } from '@/pages/ko/utils/utils';
 
@@ -27,7 +27,15 @@ class Appeal extends React.Component {
     });
   };
 
-  clickEvent = (item) => {
+  clickEvent = item => {
+    const userInfo = localStorage.getItem('admin_user');
+    debugger;
+    if (
+      (userInfo && JSON.parse(userInfo).userType === 'boss') ||
+      JSON.parse(userInfo).userType === 'admin'
+    ) {
+      return;
+    }
     let dimensionType = 0;
     if (item.name == '创收') dimensionType = 11;
     if (item.name == 'IM') dimensionType = 14;
@@ -39,25 +47,33 @@ class Appeal extends React.Component {
       widgetName: `学分申诉_质检${item.seriesName}`,
       traceName: `学分申诉_质检${item.seriesName}`,
     });
-    if (item.name == '质检') {
-      jumpGobalRouter('qualityAppeal/qualityAppeal');
-      return;
-    }
     const { getCurrentDateRangeData } = this.props;
-    if (item.seriesName == '审核失败') {
-      jumpGobalRouter('scoreAppeal/onAppeal', {
-        creditBeginDate: getCurrentDateRangeData.startTime,
-        creditEndDate: getCurrentDateRangeData.endTime,
-        statusList: ['4', '7'],
-        dimensionType,
+
+    if (item.name == '质检') {
+      // 质检在途申诉
+      jumpQualityRouter('qualityAppeal/qualityAppeal', {
+        reduceScoreBeginDate: getCurrentDateRangeData.startTime,
+        reduceScoreEndDate: getCurrentDateRangeData.endTime,
+        // statusList: ['4', '7'],
       });
+      return;
     } else {
-      jumpGobalRouter('scoreAppeal/onAppeal', {
-        creditBeginDate: getCurrentDateRangeData.startTime,
-        creditEndDate: getCurrentDateRangeData.endTime,
-        dimensionType,
-        statusList: ['2', '5', '6'],
-      });
+      // 学分
+      if (item.seriesName == '审核失败') {
+        jumpGobalRouter('scoreAppeal/onAppeal', {
+          creditBeginDate: getCurrentDateRangeData.startTime,
+          creditEndDate: getCurrentDateRangeData.endTime,
+          statusList: ['4', '7'],
+          dimensionType,
+        });
+      } else {
+        jumpGobalRouter('scoreAppeal/onAppeal', {
+          creditBeginDate: getCurrentDateRangeData.startTime,
+          creditEndDate: getCurrentDateRangeData.endTime,
+          dimensionType,
+          statusList: ['2', '5', '6'],
+        });
+      }
     }
   };
 
@@ -81,7 +97,7 @@ class Appeal extends React.Component {
               <Echarts
                 options={options}
                 style={{ width: '280px', height: 243 + 'px' }}
-                clickEvent={(item) => this.clickEvent(item)}
+                clickEvent={item => this.clickEvent(item)}
               />
             </div>
           </div>
