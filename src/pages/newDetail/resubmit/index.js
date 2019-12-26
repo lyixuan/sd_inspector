@@ -2,8 +2,11 @@ import React from 'react';
 import { connect } from 'dva';
 import PageTab from './components/pageTab';
 import ParamsTop from './components/paramsTop';
+import OriginIndex from './components/originIndex';
+import PackageIndex from './components/packageIndex';
 import CollegeFamily from './components/collegeFamily';
 import CyclePath from './components/cyclePath';
+import { getDateObj } from '@/pages/indexPage/components/utils/utils';
 import styles from './style.less';
 
 @connect(({ newDetailModal, resubmitModal }) => ({
@@ -20,17 +23,21 @@ class Resubmit extends React.Component {
   }
   // 搜索条件值改变
   onParamsChange = (val, type = 'dateRange') => {
+    const payload = { [type]: val };
     this.props.dispatch({
       type: 'resubmitModal/saveParams',
-      payload: { [type]: val },
-    });
+      payload
+    }); // 存值
+    this.getInitData(payload); // 请求
   };
   // 时间切换 --- 清空原产品包、续报产品包
-  onDateChange = (val, type = 'dateRange') => {
+  onObjChange = (payload = {}) => {
     this.props.dispatch({
       type: 'resubmitModal/saveParams',
-      payload: { [type]: val,  originPackageName: undefined, packageName: undefined},
-    });
+      payload
+    }); // 存值
+    this.getSelectData(getDateObj(payload.dateRange)) // 参数值展示
+    this.getInitData(payload); // 列表展示
   }
   getTabs = () => {
     return [
@@ -38,6 +45,10 @@ class Resubmit extends React.Component {
         title: '数据透视',
         children: (
           <>
+            <div className={styles.OriginTab}>
+              <OriginIndex/>
+              <PackageIndex/>
+            </div>
             <CollegeFamily />
             <CyclePath />
           </>
@@ -50,6 +61,35 @@ class Resubmit extends React.Component {
       },
     ];
   };
+  // 参数基础数据
+  getSelectData = (params) => {
+    this.props.dispatch({
+      type: 'resubmitModal/getOriginPackageList',
+      payload: { params },
+    });
+    // 续报分析 - 续报热销榜单
+    this.props.dispatch({
+      type: 'resubmitModal/getPackageList',
+      payload: { params },
+    });
+  }
+  // 列表数据
+  getInitData = newQuery => {
+    const params = this.getRequestParams({...this.props.paramsQuery, ...newQuery});
+    // 续报分析 - 原产品包榜单
+    this.getSelectData(params);
+  }
+  // 请求参数
+  getRequestParams = (params = this.props.paramsQuery) => {
+    const { dateRange, orgId = [], ...others } = params;
+    const [ collegeId, familyId] = orgId;
+    return {
+      ...others,
+      ...getDateObj(dateRange),
+      collegeId,
+      familyId
+    }
+  }
   render() {
     const { globalUserInfo } = this.props;
     return (
@@ -59,7 +99,7 @@ class Resubmit extends React.Component {
             <div className={styles.paramsQuery}>
               <ParamsTop 
               onParamsChange={this.onParamsChange}
-              onDateChange={this.onDateChange}
+              onObjChange={this.onObjChange}
               />
             </div>
             <PageTab tabs={this.getTabs()} /> 
