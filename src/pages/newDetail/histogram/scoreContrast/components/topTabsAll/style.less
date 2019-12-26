@@ -1,4 +1,6 @@
 .topTab{
+  background: #fff;
+  border-radius: 20px;
   position: relative;
   .topBtn{
     position: absolute;
@@ -7,7 +9,7 @@
   }
   .topRight{
     position: absolute;
-    top:9px;
+    top: 11px;
     right:24px;
   }
   :global{
@@ -16,7 +18,7 @@
       border-bottom: 1px solid #F5F8FA;
     }
     .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-nav-container{
-      height:47px;
+      height:55px;
       display: flex;
       justify-content: flex-start;
       align-items: center;
@@ -27,35 +29,27 @@
       line-height: 22px;
       margin-right:0;
       background: none;
-      height:22px;
-      font-size: 16px;
-      color: #56595E;
+      height: 52px;
+      line-height: 52px;
+      font-size: 14px;
+      color: #999999;
+      overflow: visible;
     }
     .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab:nth-child(1){
       margin-left:8px;
     }
     .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active{
-      height:22px;
       border:1px solid #fff;
-      color: #1A1C1F;
+      color: #282828;
       font-weight:bold;
     }
-    .ant-tabs-nav .ant-tabs-tab::after {
-      content: '|';
-      position: absolute;
-      color:#D8D8D8;
-      right: -4px;
-      top:1px;
-      transform: scale(.5, .7);
-    }
-    .ant-tabs-nav .ant-tabs-tab:last-child(1)::after {
+    .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active::after {
       content: '';
+      width: 100%;
       position: absolute;
-      color:#D8D8D8;
-      right: -4px;
-      top:1px;
-      transform: scale(.5, .7);
+      left: 0;
+      bottom: 0px;
+      border: 1px solid #282828;
     }
-
   }
 }
