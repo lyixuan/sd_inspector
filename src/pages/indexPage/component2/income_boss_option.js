@@ -29,7 +29,7 @@ export function getOptionBossR(list,sumData) {
         fontWeight:400,
         align: 'center',
         color:'rgba(40,40,40,1)',
-        fontFamily:'DINCondensed-Bold,DINCondensed,Haettenschweiler',
+        fontFamily:'myDINBold,DINCondensed,Haettenschweiler',
       },
       subtextStyle: {
         fontSize: 12,
