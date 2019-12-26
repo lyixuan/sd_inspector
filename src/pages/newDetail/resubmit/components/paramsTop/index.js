@@ -19,10 +19,7 @@ const { BIRangePicker } = BIDatePicker;
 class Resubmit extends React.Component {
   componentDidMount() {
     // 初始化参数
-    this.props.dispatch({
-      type: 'resubmitModal/saveParams',
-      payload: { orgId: this.getInitOrg(), dateRange: this.props.globalDateMoment},
-    });
+    this.props.onObjChange({ orgId: this.getInitOrg(), dateRange: this.props.globalDateMoment})
   }
   // 组织初始化---角色属于什么组织默认什么组织---默认到学院家族
   getInitOrg = () => {
@@ -35,8 +32,14 @@ class Resubmit extends React.Component {
     } 
     return orgId;
   }
+  onDateChange = dateRange => {
+    const { onObjChange } = this.props;
+    if (onObjChange && typeof onObjChange === 'function') {
+      this.props.onObjChange({ dateRange, originPackageName: undefined, packageName: undefined})
+    }
+  }
   render() {
-    const { paramsQuery = {}, collegeList, onDateChange, onParamsChange } = this.props;
+    const { paramsQuery = {}, collegeList, onParamsChange } = this.props;
     return (
       <>
         <span>
@@ -86,7 +89,7 @@ class Resubmit extends React.Component {
             value={paramsQuery.dateRange}
             placeholder={['选择起始时间', '选择截止时间']}
             format='YYYY-MM-DD'
-            onChange={val => onDateChange(val, 'dateRange')}
+            onChange={this.onDateChange}
             allowClear={false}
             disabledDate={val => disabledDate(val, this.props.globalkpiDateRange)}
             style={{ width: 224 }}

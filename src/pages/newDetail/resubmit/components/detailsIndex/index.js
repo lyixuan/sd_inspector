@@ -11,9 +11,9 @@ import styles from './styles.less';
 import { Tooltip } from 'antd';
 
 @connect(({ resubmitModal }) => ({
-  packageData: resubmitModal.packageData,
+  originData: resubmitModal.originData,
 }))
-class PackageIndex extends React.Component {
+class OriginIndex extends React.Component {
   columns = () => {
     const columns = [
       {
@@ -35,29 +35,34 @@ class PackageIndex extends React.Component {
       },
       {
         ellipsis: true,
-        title: '浮动指数',
-        dataIndex: 'floatingIndex',
-        key: 'floatingIndex',
-      },
-      {
-        title: '产品包名称',
+        title: '原产品包',
         dataIndex: 'packageName',
         key: 'packageName',
-        render: text => {
+        render: (packageName, record) => {
           return (
-            <Tooltip title={text}>{text}</Tooltip>
+            <Tooltip title={packageName}>{packageName}</Tooltip>
           );
         },
       },
       {
-        title: '创收单量',
+        title: '续报单量',
         dataIndex: 'itemCount',
         key: 'itemCount',
       },
       {
-        title: '创收流水',
+        title: '续报流水',
         dataIndex: 'itemAmount',
         key: 'itemAmount',
+        width: '100px',
+        render: (incomeFlowKpi, record) => {
+          const percent = record.incomeFlowKpiRatio * 100 + '%';
+          const money = companyThousandsIncome(incomeFlowKpi);
+          return <BIWrapperProgress
+          text={money}
+          percent={percent}
+          propsStyle={{ flex: 'inherit', width: '70px', textAlign: 'right' }}
+        />
+        },
       },
     ];
     return columns || [];
@@ -65,12 +70,12 @@ class PackageIndex extends React.Component {
   render() {
     return (
       <BIContainer
-      title="续报热销榜单"
+      title="原产品包榜单"
       style={{ width: 'calc(50% - 12px)' }}
       >
         <BIScrollbarTable
           columns={this.columns()}
-          dataSource={this.props.packageData || []}
+          dataSource={this.props.originData || []}
           pagination={false}
           loading={this.props.loading}
           onRow={this.onClickRow}
@@ -82,4 +87,4 @@ class PackageIndex extends React.Component {
   }
 }
 
-export default PackageIndex;
+export default OriginIndex;
