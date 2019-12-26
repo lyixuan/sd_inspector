@@ -106,7 +106,7 @@ class NPSEvaluate extends React.Component {
     const datares = JSON.parse(localStorage.getItem('NPSGroupId'));
     let params = {
       ...this.initRecordTimeListData(this.state.dateArr),
-      collegeId: datares ? datares[0] : userInfo.collegeId,
+      collegeId: datares ? (datares[0] == 0 ? null : datares[0]) : userInfo.collegeId,
       // (userInfo && userInfo.collegeId) ||
       // (this.state.groupId.length > 0 && this.state.groupId[0]) ||
       // null,
@@ -177,7 +177,7 @@ class NPSEvaluate extends React.Component {
     const datares = JSON.parse(localStorage.getItem('NPSGroupId'));
     let params = {
       ...this.initRecordTimeListData(this.state.dateArr),
-      collegeId: datares ? datares[0] : userInfo.collegeId,
+      collegeId: datares ? (datares[0] == 0 ? null : datares[0]) : userInfo.collegeId,
       // (userInfo && userInfo.collegeId) ||
       // (this.state.groupId.length > 0 && this.state.groupId[0]) ||
       // null,
@@ -213,7 +213,7 @@ class NPSEvaluate extends React.Component {
     const datares = JSON.parse(localStorage.getItem('NPSGroupId'));
     let params = {
       ...this.initRecordTimeListData(this.state.dateArr),
-      collegeId: datares ? datares[0] : userInfo.collegeId,
+      collegeId: datares ? (datares[0] == 0 ? null : datares[0]) : userInfo.collegeId,
       // (userInfo && userInfo.collegeId) ||
       // (this.state.groupId.length > 0 && this.state.groupId[0]) ||
       // null,
