@@ -12,13 +12,13 @@ const allColumns = {
   family: { title: '家族', key: 'familyName' },
   group: { title: '小组', key: 'groupName' },
   class: { title: '班主任', key: 'cpName' },
-}
+};
 const { Option } = BISelect;
 @connect(({ newDetailModal, incomeOrderModal, loading }) => ({
   globalUserInfo: newDetailModal.globalUserInfo,
   incomeCollegeList: incomeOrderModal.incomeCollegeList,
   incomeDateRange: incomeOrderModal.incomeDateRange,
-  loading: loading.effects['incomeOrderModal/getIncomeDetailPage']
+  loading: loading.effects['incomeOrderModal/getIncomeDetailPage'],
 }))
 class Compare extends React.Component {
   constructor(props) {
@@ -29,7 +29,7 @@ class Compare extends React.Component {
       totalCount: 0,
       currentPage: 1, // 筛选条件
       pageSize: 10,
-      collegeId: this.getInitCollegeId()
+      collegeId: this.getInitCollegeId(),
     };
   }
   componentDidMount() {
@@ -43,12 +43,12 @@ class Compare extends React.Component {
   getInitCollegeId = () => {
     const { globalUserInfo } = this.props;
     if (typeof globalUserInfo.collegeId === 'number' && this.props.rankType !== 'college') {
-      return globalUserInfo.collegeId
+      return globalUserInfo.collegeId;
     } else {
       return undefined;
     }
-  }
-  getData = (others) => {
+  };
+  getData = others => {
     const { collegeId, currentPage, pageSize } = this.state;
     const initParams = {
       rankType: this.props.rankType,
@@ -56,35 +56,42 @@ class Compare extends React.Component {
       pageSize,
       page: currentPage,
       ...getDateObj(this.props.incomeDateRange),
-    }
-    const params = others ? {...initParams, ...others} : initParams;
-    this.props.dispatch({
-      type: 'incomeOrderModal/getIncomeDetailPage',
-      payload: { params },
-    }).then(res => {
-      const list = res.list;
-      const dataSourceTotal = {};
-      dataSourceTotal.totalAmountTotal = Math.max.apply(null, list.map(item => item.totalAmount));
-      dataSourceTotal.htAmountTotal = Math.max.apply(null, list.map(item => item.htAmount));
-      dataSourceTotal.xbAmountTotal = Math.max.apply(null, list.map(item => item.xbAmount));
-      dataSourceTotal.cbtAmountTotal = Math.max.apply(null, list.map(item => item.cbtAmount));
-      this.setState({
-        dataSource: list,
-        totalCount: res.total,
-        dataSourceTotal,
-        currentPage: params.page
+    };
+    const params = others ? { ...initParams, ...others } : initParams;
+    this.props
+      .dispatch({
+        type: 'incomeOrderModal/getIncomeDetailPage',
+        payload: { params },
       })
-    });
-  }
+      .then(res => {
+        if (res) {
+          const list = res.list;
+          const dataSourceTotal = {};
+          dataSourceTotal.totalAmountTotal = Math.max.apply(
+            null,
+            list.map(item => item.totalAmount)
+          );
+          dataSourceTotal.htAmountTotal = Math.max.apply(null, list.map(item => item.htAmount));
+          dataSourceTotal.xbAmountTotal = Math.max.apply(null, list.map(item => item.xbAmount));
+          dataSourceTotal.cbtAmountTotal = Math.max.apply(null, list.map(item => item.cbtAmount));
+          this.setState({
+            dataSource: list,
+            totalCount: res.total,
+            dataSourceTotal,
+            currentPage: params.page,
+          });
+        }
+      });
+  };
   // 页数改变
-  onChangeSize = (page) => {
+  onChangeSize = page => {
     this.getData({ page });
-  }
+  };
   // 学院改变
-  onChangeCollege = (collegeId) => {
+  onChangeCollege = collegeId => {
     this.setState({ collegeId }, () => this.getData({ page: 1 }));
-    handleDataTrace({"widgetName": '创收_组织筛选',"traceName": '2.1/创收_组织筛选'})
-  }
+    handleDataTrace({ widgetName: '创收_组织筛选', traceName: '2.1/创收_组织筛选' });
+  };
   columns = () => {
     const { rankType } = this.props;
     const item = allColumns[rankType];
@@ -104,7 +111,7 @@ class Compare extends React.Component {
         title: '总流水',
         dataIndex: 'totalAmount',
         key: 'totalAmount',
-        render: (text, record) => this.getProText('totalAmount', record)
+        render: (text, record) => this.getProText('totalAmount', record),
       },
       {
         title: '好推单量',
@@ -116,7 +123,7 @@ class Compare extends React.Component {
         title: '好推流水',
         dataIndex: 'htAmount',
         key: 'htAmount',
-        render: (text, record) => this.getProText('htAmount', record)
+        render: (text, record) => this.getProText('htAmount', record),
       },
       {
         title: '续报单量',
@@ -128,7 +135,7 @@ class Compare extends React.Component {
         title: '续报流水',
         dataIndex: 'xbAmount',
         key: 'xbAmount',
-        render: (text, record) => this.getProText('xbAmount', record)
+        render: (text, record) => this.getProText('xbAmount', record),
       },
       {
         title: '成本套单量',
@@ -140,34 +147,48 @@ class Compare extends React.Component {
         title: '成本套流水',
         dataIndex: 'cbtAmount',
         key: 'cbtAmount',
-        render: (text, record) => this.getProText('cbtAmount', record)
+        render: (text, record) => this.getProText('cbtAmount', record),
       },
     ];
     return columns || [];
   };
   // 进度条值
   getProText = (val, record) => {
-    const percent = record[val]/this.state.dataSourceTotal[val + 'Total'] * 100 + '%';
+    const percent = (record[val] / this.state.dataSourceTotal[val + 'Total']) * 100 + '%';
     const money = companyThousandsIncome(record[val]);
-    return <BIWrapperProgress text={money} percent={percent} />
-  }
-  setRowClassName = (record) => {
+    return <BIWrapperProgress text={money} percent={percent} />;
+  };
+  setRowClassName = record => {
     if (record.selfGroup) {
       return styles.rowLight;
     }
   };
 
   render() {
-    const { dataSource, pageSize, currentPage, totalCount, collegeId} = this.state;
+    const { dataSource, pageSize, currentPage, totalCount, collegeId } = this.state;
     return (
       <div className={styles.container}>
-        {this.props.rankType !== 'college' && <span className={styles.select}>
-          <BISelect style={{ width: 130 }} placeholder="选择组织" value={collegeId} onChange={this.onChangeCollege} allowClear>
-            {this.props.incomeCollegeList.map(item => <Option key={item.collegeId} value={item.collegeId} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
-              {item.collegeName}
-            </Option>)}
-          </BISelect>
-        </span>}
+        {this.props.rankType !== 'college' && (
+          <span className={styles.select}>
+            <BISelect
+              style={{ width: 130 }}
+              placeholder="选择组织"
+              value={collegeId}
+              onChange={this.onChangeCollege}
+              allowClear
+            >
+              {this.props.incomeCollegeList.map(item => (
+                <Option
+                  key={item.collegeId}
+                  value={item.collegeId}
+                  data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'
+                >
+                  {item.collegeName}
+                </Option>
+              ))}
+            </BISelect>
+          </span>
+        )}
         <BIWrapperTable
           className={styles.table}
           columns={this.columns()}

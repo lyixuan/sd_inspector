@@ -71,11 +71,9 @@ class NPSEvaluate extends React.Component {
       type: 'xdOperation/getUserInfo',
       callback: userInfo => {
         this.getUserOrgList();
-        this.getNpsData();
-        this.getPieData();
         let groupIds = [0];
         if (
-          userInfo.userType == 'collage' ||
+          userInfo.userType == 'college' ||
           userInfo.userType == 'family' ||
           userInfo.userType == 'class' ||
           userInfo.userType == 'group'
@@ -84,15 +82,6 @@ class NPSEvaluate extends React.Component {
         } else {
           groupIds = [0];
         }
-        // else {
-        //   if (userInfo.collegeId) {
-        //     this.state.groupId.push(this.state.userInfo.collegeId);
-        //   } else if (userInfo.familyId) {
-        //     this.state.groupId.push(this.state.userInfo.familyId);
-        //   } else if (userInfo.groupId) {
-        //     this.state.groupId.push(this.state.userInfo.groupId);
-        //   }
-        // }
         this.setState(
           {
             groupId: localStorage.getItem('NPSGroupId')
@@ -103,6 +92,8 @@ class NPSEvaluate extends React.Component {
           },
           () => {
             this.getNpsAutonomousEvaluation(0, false);
+            this.getNpsData();
+            this.getPieData();
           }
         );
       },
@@ -112,20 +103,21 @@ class NPSEvaluate extends React.Component {
   // 获取nps标签评分接口
   getNpsData = () => {
     const { userInfo } = this.state;
+    const datares = JSON.parse(localStorage.getItem('NPSGroupId'));
     let params = {
       ...this.initRecordTimeListData(this.state.dateArr),
-      collegeId:
-        (userInfo && userInfo.collegeId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[0]) ||
-        null,
-      familyId:
-        (userInfo && userInfo.familyId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[1]) ||
-        null,
-      groupId:
-        (userInfo && userInfo.groupId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[2]) ||
-        null,
+      collegeId: datares ? (datares[0] == 0 ? null : datares[0]) : userInfo.collegeId,
+      // (userInfo && userInfo.collegeId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[0]) ||
+      // null,
+      familyId: datares ? datares[1] : userInfo.familyId,
+      // (userInfo && userInfo.familyId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[1]) ||
+      // null,
+      groupId: datares ? datares[2] : userInfo.groupId,
+      // (userInfo && userInfo.groupId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[2]) ||
+      // null,
       star: this.state.star === '0' ? null : Number(this.state.star),
       cycle: this.state.cycle === '0' ? null : Number(this.state.cycle),
     };
@@ -182,22 +174,21 @@ class NPSEvaluate extends React.Component {
   //获取NPS自主评价的的数据接口
   getNpsAutonomousEvaluation = (pageNum, change) => {
     const { userInfo, npsList } = this.state;
-    // const { npsList } = this.props.xdOperation;
-    // const params = { id: this.id, pageSize: 10, page: page + 1 || 1, npsList };
+    const datares = JSON.parse(localStorage.getItem('NPSGroupId'));
     let params = {
       ...this.initRecordTimeListData(this.state.dateArr),
-      collegeId:
-        (userInfo && userInfo.collegeId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[0]) ||
-        null,
-      familyId:
-        (userInfo && userInfo.familyId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[1]) ||
-        null,
-      groupId:
-        (userInfo && userInfo.groupId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[2]) ||
-        null,
+      collegeId: datares ? (datares[0] == 0 ? null : datares[0]) : userInfo.collegeId,
+      // (userInfo && userInfo.collegeId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[0]) ||
+      // null,
+      familyId: datares ? datares[1] : userInfo.familyId,
+      // (userInfo && userInfo.familyId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[1]) ||
+      // null,
+      groupId: datares ? datares[2] : userInfo.groupId,
+      // (userInfo && userInfo.groupId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[2]) ||
+      // null,
       star: this.state.star === '0' ? null : Number(this.state.star),
       cycle: this.state.cycle === '0' ? null : Number(this.state.cycle),
       pageNum: pageNum ? pageNum + 1 : 1,
@@ -219,23 +210,42 @@ class NPSEvaluate extends React.Component {
 
   getPieData = () => {
     const { userInfo } = this.state;
+    const datares = JSON.parse(localStorage.getItem('NPSGroupId'));
     let params = {
       ...this.initRecordTimeListData(this.state.dateArr),
-      collegeId:
-        (userInfo && userInfo.collegeId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[0]) ||
-        null,
-      familyId:
-        (userInfo && userInfo.familyId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[1]) ||
-        null,
-      groupId:
-        (userInfo && userInfo.groupId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[2]) ||
-        null,
+      collegeId: datares ? (datares[0] == 0 ? null : datares[0]) : userInfo.collegeId,
+      // (userInfo && userInfo.collegeId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[0]) ||
+      // null,
+      familyId: datares ? datares[1] : userInfo.familyId,
+      // (userInfo && userInfo.familyId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[1]) ||
+      // null,
+      groupId: datares ? datares[2] : userInfo.groupId,
+      // (userInfo && userInfo.groupId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[2]) ||
+      // null,
       star: this.state.star === '0' ? null : Number(this.state.star),
       cycle: this.state.cycle === '0' ? null : Number(this.state.cycle),
     };
+
+    // let params = {
+    //   ...this.initRecordTimeListData(this.state.dateArr),
+    //   collegeId:
+    //     (userInfo && userInfo.collegeId) ||
+    //     (this.state.groupId.length > 0 && this.state.groupId[0]) ||
+    //     null,
+    //   familyId:
+    //     (userInfo && userInfo.familyId) ||
+    //     (this.state.groupId.length > 0 && this.state.groupId[1]) ||
+    //     null,
+    //   groupId:
+    //     (userInfo && userInfo.groupId) ||
+    //     (this.state.groupId.length > 0 && this.state.groupId[2]) ||
+    //     null,
+    //   star: this.state.star === '0' ? null : Number(this.state.star),
+    //   cycle: this.state.cycle === '0' ? null : Number(this.state.cycle),
+    // };
     this.props.dispatch({
       type: 'xdOperation/getNPSPaiData',
       payload: { params: params },
@@ -258,6 +268,18 @@ class NPSEvaluate extends React.Component {
   };
   // 选择组织
   onChangeSelect = (groupId, groupTypeArr) => {
+    //   collegeId:
+    //   (userInfo && userInfo.collegeId) ||
+    //   (this.state.groupId.length > 0 && this.state.groupId[0]) ||
+    //   null,
+    // familyId:
+    //   (userInfo && userInfo.familyId) ||
+    //   (this.state.groupId.length > 0 && this.state.groupId[1]) ||
+    //   null,
+    // groupId:
+    //   (userInfo && userInfo.groupId) ||
+    //   (this.state.groupId.length > 0 && this.state.groupId[2]) ||
+    //   null,
     this.setState(
       {
         groupId,
@@ -337,7 +359,7 @@ class NPSEvaluate extends React.Component {
   };
   rightPart = () => {
     // const {collegeOptions,orgValue} = this.state
-    const { groupId = ['0'], userOrgConfig, dateArr, star = '0', cycle } = this.state;
+    const { groupId = [0], userOrgConfig, dateArr, star = '0', cycle } = this.state;
     const { orgList } = this.props.xdOperation;
     orgList.length > 0 && this.getResetGroupMsg(orgList);
     return (

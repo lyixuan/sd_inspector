@@ -40,20 +40,17 @@ export async function imDetailList(data) {
   return request('/deskperfpcapi/im/detailList', { method: 'post', data });
 }
 
-
-
 //学分对比柱状图----test
 export async function queryAppealDataPage(data) {
-  return request('/credit/queryAppealDataPage',{method:'POST',data:data})
+  return request('/credit/queryAppealDataPage', { method: 'POST', data: data });
 }
 
 //直播重播柱状图---test
 export async function queryAttendancePage(data) {
-  return request('/credit/v1.9/queryAppealDataPage',{method:'POST',data:data})
+  return request('/credit/v1.9/queryAppealDataPage', { method: 'POST', data: data });
 }
 
 // 底表下载
-export async function bottomTaskList(params) {
-  return request('/bottomTask/list',{ method: 'get', params })
+export async function bottomTaskAdd(data) {
+  return request('/bottomTask/add', { method: 'POST', data, server: 'downloadCenter' });
 }
-

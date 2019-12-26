@@ -55,7 +55,7 @@ class NPSLeft extends React.Component {
         //   }
         // }
         formatter: function(params) {
-          var str = params.data.name;
+          var str = params.data.name+':'+ params.data.value;
           return str;
         },
       },

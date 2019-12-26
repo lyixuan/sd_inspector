@@ -1,11 +1,10 @@
 import React from 'react';
-import { Tooltip } from 'antd';
+import { Tooltip, message } from 'antd';
 import { connect } from 'dva';
 import BITable from '@/ant_components/BITable';
 import BIWrapperTable from '.././../indexPage/components/BIWrapperTable';
 import styles from './style.less';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
-import { thousandsFormatBigger } from '@/utils/utils';
 import {
   pathImUrl,
   jumpMarkingDetails,
@@ -288,7 +287,7 @@ class Attendance extends React.Component {
         render: (subjectId, record) => {
           return (
             <a
-              onClick={() => this.download(record.subjectId)}
+              onClick={() => this.download(record.subjectId, record.titleOne)}
               style={{ display: 'flex', justifyContent: 'center', color: '#00CCC3' }}
             >
               下载
@@ -336,12 +335,26 @@ class Attendance extends React.Component {
     // return columns || [];
   };
 
-  download = item => {
+  download = (id, name) => {
+    const { downloadParams } = this.props;
+    handleDataTrace({ widgetName: '下载中心学分表下载', traceName: '下载中心/学分底表下载' });
+
     // 下载功能
-    this.props.dispatch({
-      type: 'xdCreditModal/bottomTask',
-      payload: { params: { subjectId: item } },
-    });
+    this.props
+      .dispatch({
+        type: 'xdCreditModal/bottomTask',
+        payload: { params: { ...downloadParams, subjectId: id, subjectName: name } },
+      })
+      .then(res => {
+        if (res.code === 20000) {
+          this.props.isShow('任务已创建\n请到下载中心下载');
+          return;
+        }
+        if (res.code === 20100) {
+          this.props.isShow('5分钟内\n请勿提交重复任务');
+          return;
+        }
+      });
   };
   setRowClassName = (r, c, b) => {
     if (this.props.dementionId === r.id) {

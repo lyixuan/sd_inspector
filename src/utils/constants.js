@@ -71,6 +71,15 @@ export const PROXY_PATH = hasSelfPri => {
   return hasSelfPri ? '' : '/inspectorapis';
 }; // /inspectorapis
 
+// 下载中心服务器地址
+export const DOWNLOAD_HOST = {
+  production: '',
+  localhost: 'http://172.16.109.87:38083',
+  localhost2: 'http://172.16.109.87:38083',
+  development: 'http://172.16.109.87:38083',
+  development2: 'http://172.16.109.87:38083',
+}[process.env.ENV_TYPE];
+
 // =========================================== host =========
 
 // 分页配置

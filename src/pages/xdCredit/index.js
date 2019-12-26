@@ -63,6 +63,9 @@ class XdCredit extends React.Component {
       // isIm: false,
       loadingStatus: true,
       dimisionLoadingStatus: true,
+      downloadParams: {},
+      content: '',
+      show: false,
     };
   }
   componentDidMount() {
@@ -579,6 +582,16 @@ class XdCredit extends React.Component {
       endTime: this.state.endTime,
       ...this.getTypeId(),
     };
+    const newParams = {
+      bottomStartDate: this.state.startTime,
+      bottomEndDate: this.state.endTime,
+      type: 2,
+      familyType: this.getFamilyType(),
+      orgType: this.getGroupMsg().groupType || 'group',
+      orgId: this.getGroupMsg().groupId || this.state.allUserInfo.groupId,
+      userId: this.state.allUserInfo.id,
+    };
+    this.setState({ downloadParams: newParams });
     if (this.state.dementionId === 37 || this.state.dementionId === 38) {
       this.props.dispatch({
         type: 'xdCreditModal/queryAttendancePage',
@@ -591,8 +604,23 @@ class XdCredit extends React.Component {
       });
     }
   };
+
+  isShow(content) {
+    this.setState({ show: true, content });
+    setTimeout(() => {
+      this.setState({ show: false });
+    }, 3000);
+  }
   render() {
-    const { dementionId, groupId, extendFlag, userOrgConfig } = this.state;
+    const {
+      dementionId,
+      groupId,
+      extendFlag,
+      userOrgConfig,
+      downloadParams,
+      content,
+      show,
+    } = this.state;
     const { infoLoading, dimensionLevel = {} } = this.props;
     const value = this.getFamilyType();
     const level = dimensionLevel[dementionId];
@@ -623,9 +651,11 @@ class XdCredit extends React.Component {
             onPageChange={this.onPageChange3}
             pageSize={this.state.pageSize}
             currentPage={this.state.page}
+            downloadParams={downloadParams}
             detailsData={this.props.attendanceDeatils}
             {...this.props}
             dementionId={dementionId}
+            isShow={content => this.isShow(content)}
           />
         );
         break;
@@ -765,6 +795,7 @@ class XdCredit extends React.Component {
             </>
           )}
         </Skeleton>
+        {show && <pre className={styles.layer}>{content}</pre>}
       </div>
     );
   }
