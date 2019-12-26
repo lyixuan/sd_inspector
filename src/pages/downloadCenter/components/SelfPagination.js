@@ -10,7 +10,7 @@
 * */
 import React, { Component } from 'react';
 import { Pagination } from 'antd';
-import common from '../utils/common.css';
+import common from '../utils/common.less';
 
 class SelfPagination extends Component {
   render() {
@@ -25,7 +25,8 @@ class SelfPagination extends Component {
     } = this.props;
     const isShowPage = showPageSize ? total > showPageSize : total > 30;
     return isShowPage ? (
-      <Pagination
+      <span className="download-content">
+        <Pagination
         showQuickJumper
         className={common.paginationStyle}
         onChange={onChange}
@@ -35,6 +36,8 @@ class SelfPagination extends Component {
         defaultPageSize={defaultPageSize || 30}
         // pageSizeOptions={pageSizeOptions || ['30']}
       />
+      </span>
+
     ) : null;
   }
 }

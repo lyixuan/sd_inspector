@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Table, Button, Icon } from 'antd';
 import SelfPagination from '../SelfPagination';
 import styles from './table.less';
-import common from '../../utils/common.css';
+import common from '../../utils/common.less';
 import { saveParamsInUrl, getUrlParams, pageObj } from './saveUrlParams';
 import AuthorizedButton from '../AuthorizedButton';
 import withRouter from 'umi/withRouter';
@@ -60,7 +60,7 @@ class SelfTable extends PureComponent {
     } = this.props;
     const { pageNum } = this.state;
     return (
-      <div>
+      <div className="download-content">
         {createIncome && (
           <div className={styles.totalNum1}>
             <p>

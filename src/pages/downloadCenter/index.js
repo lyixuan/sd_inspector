@@ -4,7 +4,7 @@ import { message, Button, DatePicker } from 'antd';
 import moment from 'moment';
 import AuthorizedButton from './components/AuthorizedButton';
 import ModalDialog from './components/Modal/Modal';
-import common from './utils/common.css';
+import common from './utils/common.less';
 import storage from '@/utils/storage';
 import ModalContent from './components/_modalContent';
 import backTop from '@/assets/downloadCenter/backTop.svg';
@@ -303,7 +303,7 @@ class Index extends Component {
     const columns = this.columns;
 
     return (
-      <>
+      <div className="download-content">
         <div className={style.title}>下载中心</div>
         <div className={style.contentWrap}>
           {
@@ -344,7 +344,7 @@ class Index extends Component {
           showModal={bol => this.showModal(bol)}
           clickOK={() => this.clickModalOK()}
         />
-      </>
+      </div>
     );
   }
 }
