@@ -24,6 +24,7 @@ import {
 } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
+import {examTime} from './component2/calculate';
 import moment from 'moment';
 
 export default {
@@ -42,7 +43,7 @@ export default {
     WorkbenchImPieData: {},
     WorkbenchAppealData: {},
     WorkbenchQualityData: {},
-    ExaminationTimeOfProvince:[]
+    examinationTime:[]
   },
   effects: {
     // l
@@ -92,7 +93,9 @@ export default {
       const result = yield call(getExaminationTimeOfProvince, payload);
       if (result.code === 20000 && result.data) {
         const ExaminationTimeOfProvince = result.data.list||[];
-        yield put({ type: 'save', payload: { ExaminationTimeOfProvince } });
+        const systemTime = result.data.systemTime;
+        const examinationTime= examTime(ExaminationTimeOfProvince,systemTime);
+        yield put({ type: 'save', payload: { examinationTime } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -348,3 +351,5 @@ function getNullNodeList(data = []) {
   });
   return data;
 }
+
+

@@ -164,11 +164,11 @@ class IndexPage extends Component {
   render() {
     const { date } = this.state;
     const { loadingTime } = this.props;
-    const { WorkbenchScore, WorkbenchIncome, WorkbenchNpsData, touchRatio,ExaminationTimeOfProvince} = this.props.xdWorkModal;
+    const { WorkbenchScore, WorkbenchIncome, WorkbenchNpsData, touchRatio,examinationTime} = this.props.xdWorkModal;
     if (this.getPageDom()) {
       return (
         <Spin spinning={loadingTime}>
-          <OperationEvent touchRatio={touchRatio} ExaminationTimeOfProvince={ExaminationTimeOfProvince}/>
+          <OperationEvent touchRatio={touchRatio} provinceList={examinationTime}/>
           <ScoreIncome
             date={date}
             WorkbenchScore={WorkbenchScore}

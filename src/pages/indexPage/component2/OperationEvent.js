@@ -1,5 +1,6 @@
 import React from 'react';
 import style from './style.less';
+import ExamTime from '@/components/ExamTime';
 import Echarts from './Echart_WorkBentch';
 import stylefather from '../indexPage.less';
 import yunying from '@/assets/newIndex/yunying@2x.png';
@@ -18,7 +19,7 @@ class OperationEvent extends React.Component {
     jumpGobalRouter('examPlant/registTouch' );
   };
   render() {
-    const { touchRatio } = this.props;
+    const { touchRatio,provinceList } = this.props;
     const options = getOption(touchRatio);
     return (
       <div className={style.scoreWrap}>
@@ -36,6 +37,7 @@ class OperationEvent extends React.Component {
               <Echarts options={options} style={{ height: 140}}/>
             </div>
             <div className={style.timeMap}>
+              <ExamTime totalWidth={890} splitNumber={provinceList.length} provinceList={provinceList}/>
             </div>
           </div>
         </div>
