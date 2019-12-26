@@ -8,6 +8,8 @@ import BIDatePicker from '@/ant_components/BIDatePicker';
 import { disabledDate } from '@/pages/indexPage/components/utils/utils';
 import { handleDataTrace } from '@/utils/utils';
 import styles from './style.less';
+import CollegeFamily from './components/collegeFamily';
+import CyclePath from './components/cyclePath';
 
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
@@ -26,7 +28,11 @@ class Resubmit extends React.Component {
       type: 'resubmitModal/getCollegeList',
     });
     this.onParamsChange(this.props.globalDateMoment);
-    handleDataTrace({"widgetName":`创收_创收排名`,"traceName":`2.1/创收_创收排名`,traceType:200});
+    handleDataTrace({
+      widgetName: `创收_创收排名`,
+      traceName: `2.1/创收_创收排名`,
+      traceType: 200,
+    });
   }
   // 搜索条件值改变
   onParamsChange = (val, type = 'dateRange') => {
@@ -47,18 +53,19 @@ class Resubmit extends React.Component {
       {
         title: '数据透视',
         children: (
-          <></>
+          <>
+            <CollegeFamily />
+            <CyclePath />
+          </>
         ),
         dataTrace: '{"widgetName":"学分分析","traceName":"家族长工作台/学分分析"}',
       },
       {
         title: '创收明细',
-        children: (
-          <></>
-        )
+        children: <></>,
       },
-    ] 
-  }
+    ];
+  };
   render() {
     const { paramsQuery = {}, collegeList } = this.props;
     return (
