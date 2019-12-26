@@ -96,8 +96,9 @@ class AwaitAppeal extends React.Component {
         page: pg.page,
       });
     }
-
+    console.log(333,dimensionType)
     if (dimensionType) {
+      console.log(111,dimensionType)
       paramsUrl = { ...paramsUrl, ...{ dimensionType } };
       params = { ...params, ...{ dimensionType } };
       this.setState({
@@ -238,7 +239,7 @@ class AwaitAppeal extends React.Component {
         {
           dimensionType,
         },
-        () => this.queryData(undefined, tabParams, undefined),
+        () => this.queryData(dimensionType, tabParams, undefined),
       );
     } else {
       this.setState(
