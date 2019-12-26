@@ -1,69 +1,77 @@
 import React from 'react';
 import { connect } from 'dva';
 import PageTab from './components/pageTab';
-import BIDatePicker from '@/ant_components/BIDatePicker';
-import { disabledDate } from '@/pages/indexPage/components/utils/utils';
-import { handleDataTrace } from '@/utils/utils';
+import ParamsTop from './components/paramsTop';
+import CollegeFamily from './components/collegeFamily';
+import CyclePath from './components/cyclePath';
+import OriginIndex from './components/originIndex';
 import styles from './style.less';
 
-const { BIRangePicker } = BIDatePicker;
-
-@connect(({ newDetailModal, incomeOrderModal }) => ({
-  incomeOrderModal,
-  // globalUserInfo: newDetailModal.globalUserInfo,
-  // globalUserType: newDetailModal.globalUserType,
-  globalDateMoment: newDetailModal.globalDateMoment,
-  globalkpiDateRange: newDetailModal.globalkpiDateRange,
-  incomeDateRange: incomeOrderModal.incomeDateRange,
+@connect(({ newDetailModal, resubmitModal }) => ({
+  resubmitModal,
+  globalUserInfo: newDetailModal.globalUserInfo,
+  paramsQuery: resubmitModal.paramsQuery,
 }))
 class Resubmit extends React.Component {
   componentDidMount() {
-    const { globalDateMoment } = this.props;
-    this.onFormChange(globalDateMoment);
-    handleDataTrace({"widgetName":`创收_创收排名`,"traceName":`2.1/创收_创收排名`,traceType:200});
-  }
-
-  // select
-  onFormChange = (val) => {
+    // 搜索学院展示值
     this.props.dispatch({
-      type: 'incomeOrderModal/getIncomeDate',
-      payload: { date: val },
+      type: 'resubmitModal/getCollegeList',
+    });
+  }
+  // 搜索条件值改变
+  onParamsChange = (val, type = 'dateRange') => {
+    this.props.dispatch({
+      type: 'resubmitModal/saveParams',
+      payload: { [type]: val },
     });
   };
+  // 时间切换 --- 清空原产品包、续报产品包
+  onDateChange = (val, type = 'dateRange') => {
+    this.props.dispatch({
+      type: 'resubmitModal/saveParams',
+      payload: { [type]: val,  originPackageName: undefined, packageName: undefined},
+    });
+  }
   getTabs = () => {
     return [
       {
         title: '数据透视',
         children: (
-          <></>
+          <>
+            <div className={styles.OriginTab}>
+              <OriginIndex/>
+            </div>
+            <CollegeFamily />
+            <CyclePath />
+          </>
         ),
         dataTrace: '{"widgetName":"学分分析","traceName":"家族长工作台/学分分析"}',
       },
       {
         title: '创收明细',
-        children: (
-          <></>
-        )
+        children: <></>,
       },
-    ] 
+    ];
+  };
+  getInitData = () => {
+
   }
   render() {
+    const { globalUserInfo } = this.props;
     return (
       <div className={styles.resubmit}>
-        <div className={styles.paramsQuery}>
-          <span className={styles.dataRange}>
-            <BIRangePicker
-              value={this.props.incomeDateRange}
-              placeholder={['选择起始时间', '选择截止时间']}
-              format='YYYY-MM-DD'
-              onChange={val => this.onFormChange(val, 'dataRange')}
-              allowClear={false}
-              disabledDate={val => disabledDate(val, this.props.globalkpiDateRange)}
-              style={{ width: 224 }}
-            />
-          </span>
-        </div>
-        <PageTab tabs={this.getTabs()} />
+        {globalUserInfo && globalUserInfo.userType &&
+          <> 
+            <div className={styles.paramsQuery}>
+              <ParamsTop 
+              onParamsChange={this.onParamsChange}
+              onDateChange={this.onDateChange}
+              />
+            </div>
+            <PageTab tabs={this.getTabs()} /> 
+          </>
+        }
       </div>
     );
   }

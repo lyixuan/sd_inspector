@@ -5,14 +5,22 @@ export async function getIncomeCollegeList(params) {
   return request('/orgMap/findCollegeShortNameList', { method: 'get', params });
 }
 
-
-// 家族创收对比-小组创收对比
-export async function getIncomeDetailPage(data) {
-  return request('/income/queryDetailPage', { method: 'POST', data });
+// 续报分析 - 学院分析
+export async function getCollegeAnalyze(params) {
+  return request('/resubmit/getCollegeAnalyze', { method: 'POST', params });
 }
 
-export async function getIncomeOrder(data) {
-  return request('/income/getRankList',  { method: 'POST', data });
+// 续报分析 - 家族分析
+export async function getFamilyAnalyze(params) {
+  return request('/resubmit/getFamilyAnalyze', { method: 'POST', params });
 }
 
+// 续报分析 - 续费学员生命周期分布
+export async function getCycleList(params) {
+  return request('/resubmit/getCycleList', { method: 'POST', params });
+}
 
+// 续报分析 - 转班路径
+export async function getPathList(params) {
+  return request('/resubmit/getPathList', { method: 'POST', params });
+}

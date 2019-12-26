@@ -1,83 +1,64 @@
-import {
-  getIncomeCollegeList,
-  getIncomeDetailPage,
-  getIncomeOrder,
-} from './services';
+import { getKOEnumList } from '@/pages/ko/services';
+import { getCollegeAnalyze, getFamilyAnalyze, getCycleList, getPathList } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
-import { getWorkbenchIncome } from '@/pages/indexPage/services';
 
 export default {
-  namespace: 'incomeOrderModal',
+  namespace: 'resubmitModal',
   state: {
-    incomeCollegeList: [],
-    incomeDateRange: undefined,
-    IncomeData:{},
-    IncomeOrder:{},
-    IncomeOrderCollege:[],
-    IncomeOrderFamily:[],
-    IncomeOrderGroup:[],
+    collegeList: [],
+    paramsQuery: {},
+    getCollegeAnalyzeData: {},
+    getFamilyAnalyzeData: {},
+    getCycleListData: {},
+    getPathListData: {},
   },
 
   effects: {
     // 家族-学院列表
-    *getIncomeCollegeList(_, { call, put }) {
-      const result = yield call(getIncomeCollegeList);
-      if (result.code === 20000) {
-        yield put({ type: 'save', payload: { incomeCollegeList: result.data } });
-      } else if (result && result.code !== 50000) {
-        message.error(msgF(result.msg, result.msgDetail));
+    *getCollegeList(_, { call, put }) {
+      const collegeResult = yield call(getKOEnumList, { type: 9 });
+      if (collegeResult && collegeResult.code && collegeResult.code === 20000) {
+        const data = Array.isArray(collegeResult.data) ? collegeResult.data : [];
+        yield put({ type: 'saveCollege', payload: { collegeList: data[0].enumData } });
       }
     },
-    // 创收排名接口
-    *getIncomeDetailPage({ payload }, { call, put }) {
-      const result = yield call(getIncomeDetailPage, payload.params);
-      if (result.code === 20000) {
-        return result.data;
-      } else if (result && result.code !== 50000) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
-    // 创收排名时间储存
-    *getIncomeDate({ payload }, { call, put }) {
-      yield put({ type: 'save', payload: { incomeDateRange: payload.date } });
-    },
-    *getWorkbenchIncome({ payload, callback }, { call, put }) {
-      const result = yield call(getWorkbenchIncome, payload.params);
+
+    // 续报分析 - 学院分析
+    *getCollegeAnalyze({ payload, callback }, { call, put }) {
+      const result = yield call(getCollegeAnalyze, payload.params);
       if (result.code === 20000 && result.data) {
-        yield put({ type: 'save', payload: { IncomeData: result.data } });
+        yield put({ type: 'save', payload: { getCollegeAnalyzeData: result.data } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *getIncomeOrder({ payload, callback }, { call, put }) {
-      yield put({ type: 'getIncomeOrderCollege', payload});
-      yield put({ type: 'getIncomeOrderFamily', payload});
-      yield put({ type: 'getIncomeOrderGroup', payload});
-    },
-    *getIncomeOrderCollege({ payload, callback }, { call, put }) {
-      const params = {...{rankType:'college'},...payload.params};
-      const result = yield call(getIncomeOrder, params);
+
+    // 续报分析 - 家族分析
+    *getFamilyAnalyze({ payload, callback }, { call, put }) {
+      const result = yield call(getFamilyAnalyze, payload.params);
       if (result.code === 20000 && result.data) {
-        yield put({ type: 'save', payload: { IncomeOrderCollege: result.data } });
+        yield put({ type: 'save', payload: { getFamilyAnalyzeData: result.data } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *getIncomeOrderFamily({ payload, callback }, { call, put }) {
-      const params = {...{rankType:'family'},...payload.params};
-      const result = yield call(getIncomeOrder, params);
+
+    // 续报分析 - 续费学员生命周期分布
+    *getCycleList({ payload, callback }, { call, put }) {
+      const result = yield call(getCycleList, payload.params);
       if (result.code === 20000 && result.data) {
-        yield put({ type: 'save', payload: { IncomeOrderFamily: result.data } });
+        yield put({ type: 'save', payload: { getCycleListData: result.data } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *getIncomeOrderGroup({ payload, callback }, { call, put }) {
-      const params = {...{rankType:'group'},...payload.params};
-      const result = yield call(getIncomeOrder, params);
+
+    // 续报分析 - 转班路径
+    *getPathList({ payload, callback }, { call, put }) {
+      const result = yield call(getPathList, payload.params);
       if (result.code === 20000 && result.data) {
-        yield put({ type: 'save', payload: { IncomeOrderGroup: result.data } });
+        yield put({ type: 'save', payload: { getPathListData: result.data } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -88,14 +69,22 @@ export default {
     save(state, { payload }) {
       return { ...state, ...payload };
     },
-    saveMax(state, { payload }) {
-      const pkList = payload.data;
-      const maxValue = {};
-      for (var k in pkList[0]) {
-        maxValue[k] = Math.max.apply(null, pkList.map(item => item[k]));
-      }
-      return { ...state, [payload.key]: { maxValue, pkList } };
+    saveParams(state, { payload }) {
+      return { ...state, paramsQuery: { ...state.paramsQuery, ...payload } };
+    },
+    saveCollege(state, { payload }) {
+      return { ...state, collegeList: getNullNodeList(payload.collegeList)};
     },
   },
   subscriptions: {},
 };
+function getNullNodeList(data = [], l = 1) {
+  data.map(item => {
+    if (l === 2) {
+      item.nodeList = null;
+    } else {
+      getNullNodeList(item.nodeList, l + 1);
+    }
+  });
+  return data;
+}
