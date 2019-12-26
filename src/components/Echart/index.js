@@ -5,14 +5,13 @@ import styles from './styles.less';
 require('echarts-wordcloud');
 
 export default class EchartsComponent extends React.Component {
-
   componentDidMount() {
-    this.initChart(this.props.options)
+    this.initChart(this.props.options);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.options) !== JSON.stringify(this.props.options)) {
-      this.drawChart(nextProps)
+      this.drawChart(nextProps);
     }
 
     if (JSON.stringify(nextProps.style) !== JSON.stringify(this.props.style)) {
@@ -36,21 +35,25 @@ export default class EchartsComponent extends React.Component {
     }
     this.myChart.setOption(options);
     if (this.props.clickEvent) {
-      this.myChart.on("click", this.props.clickEvent);
+      this.myChart.off('click');
+      this.myChart.on('click', this.props.clickEvent);
     }
-    window.addEventListener("resize", () => {
+    window.addEventListener('resize', () => {
       this.myChart.resize();
     });
-
   }
 
   render() {
     const { style, isEmpty } = this.props;
     return (
       <div className={styles.echartContainer} style={{ ...style }}>
-        {isEmpty ? <span className={styles.empty}><Empty isEmpty={isEmpty} /></span> : null}
+        {isEmpty ? (
+          <span className={styles.empty}>
+            <Empty isEmpty={isEmpty} />
+          </span>
+        ) : null}
         <div ref={this.createRef} className={styles.echartDom} />
       </div>
-    )
+    );
   }
 }

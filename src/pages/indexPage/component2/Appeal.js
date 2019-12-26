@@ -27,7 +27,7 @@ class Appeal extends React.Component {
     });
   };
 
-  clickEvent = item => {
+  clickEvent = (item) => {
     let dimensionType = 0;
     if (item.name == '创收') dimensionType = 11;
     if (item.name == 'IM') dimensionType = 14;
@@ -40,19 +40,19 @@ class Appeal extends React.Component {
       traceName: `学分申诉_质检${item.seriesName}`,
     });
     if (item.name == '质检') {
-      jumpGobalSelfRouter('qualityAppeal/qualityAppeal');
+      jumpGobalRouter('qualityAppeal/qualityAppeal');
       return;
     }
     const { getCurrentDateRangeData } = this.props;
     if (item.seriesName == '审核失败') {
-      jumpGobalSelfRouter('scoreAppeal/onAppeal', {
+      jumpGobalRouter('scoreAppeal/onAppeal', {
         creditBeginDate: getCurrentDateRangeData.startTime,
         creditEndDate: getCurrentDateRangeData.endTime,
         statusList: ['4', '7'],
         dimensionType,
       });
     } else {
-      jumpGobalSelfRouter('scoreAppeal/onAppeal', {
+      jumpGobalRouter('scoreAppeal/onAppeal', {
         creditBeginDate: getCurrentDateRangeData.startTime,
         creditEndDate: getCurrentDateRangeData.endTime,
         dimensionType,
@@ -81,7 +81,7 @@ class Appeal extends React.Component {
               <Echarts
                 options={options}
                 style={{ width: '280px', height: 243 + 'px' }}
-                clickEvent={item => this.clickEvent(item)}
+                clickEvent={(item) => this.clickEvent(item)}
               />
             </div>
           </div>
