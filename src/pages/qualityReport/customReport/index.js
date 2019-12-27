@@ -24,30 +24,24 @@ class CustomReport extends React.Component {
     this.props.dispatch({
       type: 'qualityReport/getOrgMapTreeByRole',
       payload: { },
+    }).then(()=>{
+      let beginDate,endDate,organization;
+      let {params=null} = this.props.location.query;
+      const pNew = JSON.parse(params);
+      if(pNew && pNew.beginDate && pNew.endDate && pNew.organization){
+        beginDate = pNew.beginDate;
+        endDate = pNew.endDate;
+        organization = pNew.organization;
+        this.changeDate({startDate: beginDate, endDate:endDate});
+        this.changeOrganization({organization});
+      } else {
+        beginDate = this.props.qualityReport.startDate;
+        endDate = this.props.qualityReport.endDate;
+        organization = this.props.qualityReport.organization;
+      }
+      this.query({ beginDate, endDate, organization });
     });
 
-    const that = this;
-    let beginDate,endDate,organization;
-
-    let {params=null} = this.props.location.query;
-    const pNew = JSON.parse(params);
-    if(pNew && pNew.beginDate && pNew.endDate && pNew.organization){
-      beginDate = pNew.beginDate;
-      endDate = pNew.endDate;
-      organization = pNew.organization;
-    } else {
-      beginDate = this.props.qualityReport.startDate;
-      endDate = this.props.qualityReport.endDate;
-      organization = this.props.qualityReport.organization;
-    }
-
-    if (beginDate && endDate  && organization) {
-      this.query({ beginDate, endDate, organization });
-    } else {
-      setTimeout(function() {
-        that.componentDidMount();
-      }, 500);
-    }
   }
 
   query = (params) => {
@@ -93,20 +87,8 @@ class CustomReport extends React.Component {
   };
 
   render() {
-    const { orgTreeList = [], surveyData,assortmentRankData, activeStartDate, activeEndDate, startDateBak, endDateBak, organizationBak } = this.props.qualityReport;
+    const { orgTreeList = [], surveyData,assortmentRankData, activeStartDate, activeEndDate, startDateBak, endDateBak, organizationBak,startDate:beginDate, endDate,organization  } = this.props.qualityReport;
     const { headers = [], values = [], maxCount } = surveyData || {};
-    let beginDate, endDate,organization;
-    let {params=null} = this.props.location.query;
-    const pNew = JSON.parse(params);
-    if(pNew && pNew.beginDate && pNew.endDate && pNew.organization){
-      beginDate = pNew.beginDate;
-      endDate = pNew.endDate;
-      organization = pNew.organization;
-    } else {
-      beginDate = this.props.qualityReport.startDate;
-      endDate = this.props.qualityReport.endDate;
-      organization = this.props.qualityReport.organization;
-    }
 
     return (
       <Spin spinning={this.props.loading}>

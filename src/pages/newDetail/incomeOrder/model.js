@@ -1,8 +1,4 @@
-import {
-  getIncomeCollegeList,
-  getIncomeDetailPage,
-  getIncomeOrder,
-} from './services';
+import { getIncomeCollegeList, getIncomeDetailPage, getIncomeOrder } from './services';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
 import { getWorkbenchIncome } from '@/pages/indexPage/services';
@@ -12,11 +8,11 @@ export default {
   state: {
     incomeCollegeList: [],
     incomeDateRange: undefined,
-    IncomeData:{},
-    IncomeOrder:{},
-    IncomeOrderCollege:[],
-    IncomeOrderFamily:[],
-    IncomeOrderGroup:[],
+    IncomeData: {},
+    IncomeOrder: {},
+    IncomeOrderCollege: [],
+    IncomeOrderFamily: [],
+    IncomeOrderGroup: [],
   },
 
   effects: {
@@ -51,12 +47,12 @@ export default {
       }
     },
     *getIncomeOrder({ payload, callback }, { call, put }) {
-      yield put({ type: 'getIncomeOrderCollege', payload});
-      yield put({ type: 'getIncomeOrderFamily', payload});
-      yield put({ type: 'getIncomeOrderGroup', payload});
+      yield put({ type: 'getIncomeOrderCollege', payload });
+      yield put({ type: 'getIncomeOrderFamily', payload });
+      yield put({ type: 'getIncomeOrderGroup', payload });
     },
     *getIncomeOrderCollege({ payload, callback }, { call, put }) {
-      const params = {...{rankType:'college'},...payload.params};
+      const params = { ...{ rankType: 'college' }, ...payload.params };
       const result = yield call(getIncomeOrder, params);
       if (result.code === 20000 && result.data) {
         yield put({ type: 'save', payload: { IncomeOrderCollege: result.data } });
@@ -65,7 +61,7 @@ export default {
       }
     },
     *getIncomeOrderFamily({ payload, callback }, { call, put }) {
-      const params = {...{rankType:'family'},...payload.params};
+      const params = { ...{ rankType: 'family' }, ...payload.params };
       const result = yield call(getIncomeOrder, params);
       if (result.code === 20000 && result.data) {
         yield put({ type: 'save', payload: { IncomeOrderFamily: result.data } });
@@ -74,7 +70,7 @@ export default {
       }
     },
     *getIncomeOrderGroup({ payload, callback }, { call, put }) {
-      const params = {...{rankType:'group'},...payload.params};
+      const params = { ...{ rankType: 'group' }, ...payload.params };
       const result = yield call(getIncomeOrder, params);
       if (result.code === 20000 && result.data) {
         yield put({ type: 'save', payload: { IncomeOrderGroup: result.data } });

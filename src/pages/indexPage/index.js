@@ -15,6 +15,7 @@ import styles from './indexPage.less';
   xdWorkModal,
   userInfo:xdWorkModal.userInfo,
   loadingTime: loading.effects['xdWorkModal/getCurrentDateRange'],
+  examLoading: loading.effects['xdWorkModal/getExamYearMonth'],
   getCurrentDateRangeData: xdWorkModal.getCurrentDateRangeData,
 }))
 class IndexPage extends Component {
@@ -118,24 +119,13 @@ class IndexPage extends Component {
       },
     });
     const admin_user = localStorage.getItem('admin_user');
-    const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType :'';
     const userId = JSON.parse(admin_user) ? JSON.parse(admin_user).userId :'';
-    let orgType = '';
-    if(userType==='boss') {
-      orgType = 'boss'
-    }else if(userType==='college') {
-      orgType = 'college'
-    }else if(userType==='family') {
-      orgType = 'family'
-    }else if(userType==='group'||userType==='class') {
-      orgType = 'group'
-    }
     this.props.dispatch({
       type: 'xdWorkModal/getTouchRatio',
       payload: {
         params: {
           operatorId:userId,
-          orgType,
+          orgType:this.getType(),
           startDate: "2019-12-12",
           endDate: moment().subtract(1,'days').format('YYYY-MM-DD')
         },
@@ -143,8 +133,7 @@ class IndexPage extends Component {
     });
     this.props.dispatch({
       type: 'xdWorkModal/getExamYearMonth',
-      payload: {
-      },
+      payload: {},
     });
   };
 
@@ -161,14 +150,30 @@ class IndexPage extends Component {
     }
   };
 
+  getType = () =>{
+    const admin_user = localStorage.getItem('admin_user');
+    const userType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType :'';
+    let orgType = '';
+    if(userType==='boss') {
+      orgType = 'boss'
+    }else if(userType==='college') {
+      orgType = 'college'
+    }else if(userType==='family') {
+      orgType = 'family'
+    }else if(userType==='group'||userType==='class') {
+      orgType = 'group'
+    }
+    return orgType;
+  };
+
   render() {
     const { date } = this.state;
-    const { loadingTime } = this.props;
-    const { WorkbenchScore, WorkbenchIncome, WorkbenchNpsData, touchRatio,ExaminationTimeOfProvince} = this.props.xdWorkModal;
+    const { loadingTime ,examLoading} = this.props;
+    const { WorkbenchScore, WorkbenchIncome, WorkbenchNpsData, touchRatio,examinationTime} = this.props.xdWorkModal;
     if (this.getPageDom()) {
       return (
         <Spin spinning={loadingTime}>
-          <OperationEvent touchRatio={touchRatio} ExaminationTimeOfProvince={ExaminationTimeOfProvince}/>
+          <OperationEvent touchRatio={touchRatio} provinceList={examinationTime} examLoading={examLoading}/>
           <ScoreIncome
             date={date}
             WorkbenchScore={WorkbenchScore}

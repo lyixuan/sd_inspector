@@ -10,6 +10,8 @@ export function getOption(data) {
     });
   }
 
+  const max = Math.ceil(Math.max.apply(null, dataAxis));
+
   return {
     angleAxis: {
       type: 'category',
@@ -19,6 +21,7 @@ export function getOption(data) {
         //y轴刻度线
         inside: true,
       },
+
       splitLine: {
         // 网格线
         show: true,
@@ -36,6 +39,8 @@ export function getOption(data) {
     },
     tooltip: {},
     radiusAxis: {
+      min: 'dataMin',
+      max: max,
       show: false,
       nameTextStyle: {
         verticalAlign: 'center',
@@ -57,8 +62,8 @@ export function getOption(data) {
       //  },
     },
     polar: {
-      show:true,
-      center:['50%', '50%'],  
+      show: true,
+      center: ['50%', '50%'],
     },
     grid: {
       left: 200,

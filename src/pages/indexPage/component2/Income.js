@@ -2,6 +2,7 @@ import React from 'react';
 import stylefather from '../indexPage.less';
 import chuangshou from '@/assets/newIndex/chuangshou@2x.png';
 import gengduo from '@/assets/newIndex/gengduo@2x.png';
+import bingtu from '@/assets/newIndex/bingtu@2x.png';
 import Echarts from './Echart_WorkBentch';
 import { handleDataTrace, changeToThousandsForIncome } from '@/utils/utils';
 import { getOptionBossR } from './income_boss_option';
@@ -70,7 +71,7 @@ class Income extends React.Component {
             <Echarts options={optionL} style={{ height: 190}}/>
           </div>
           <div className={style.incomeRight}>
-          <Echarts options={optionR} style={{ height: 250, width:260,float:'left'}}/>
+            {pieData.length>0?<Echarts options={optionR} style={{ height: 250, width:260,float:'left'}}/>:<img src={bingtu} alt="" style={{ height: 150,width:150,display:'block',margin: '20px auto'}}/>}
           </div>
           <div className={style.footer}>
             {dot}
