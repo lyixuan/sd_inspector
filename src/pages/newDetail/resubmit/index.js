@@ -39,10 +39,10 @@ class Resubmit extends React.Component {
     }); // 存值
     this.getSelectData(getDateObj(payload.dateRange)); // 参数值展示
     this.getInitData(payload); // 列表展示
-  }
+  };
   // 参数基础数据
-  getSelectData = (params) => {
-    console.log(params, 'mmmmm')
+  getSelectData = params => {
+    console.log(params, 'mmmmm');
     this.props.dispatch({
       type: 'resubmitModal/getOriginPackageList',
       payload: { params },
@@ -60,11 +60,42 @@ class Resubmit extends React.Component {
     this.getSelectData(params);
     // 学院分析
     this.getCollegeAnalyze(params);
+    // 家族分析
+    this.getFamilyAnalyze(params);
+    // 续费学院生命周期
+    this.getCycleList(params);
+    // 转班路径分析
+    this.getPathList(params);
   };
 
+  // 学院分析
   getCollegeAnalyze = params => {
     this.props.dispatch({
       type: 'resubmitModal/getCollegeAnalyze',
+      payload: { params },
+    });
+  };
+
+  // 家族分析
+  getFamilyAnalyze = params => {
+    this.props.dispatch({
+      type: 'resubmitModal/getFamilyAnalyze',
+      payload: { params },
+    });
+  };
+
+  // 续费学院生命周期
+  getCycleList = params => {
+    this.props.dispatch({
+      type: 'resubmitModal/getCycleList',
+      payload: { params },
+    });
+  };
+
+  // 转班路径分析
+  getPathList = params => {
+    this.props.dispatch({
+      type: 'resubmitModal/getPathList',
       payload: { params },
     });
   };
@@ -77,9 +108,9 @@ class Resubmit extends React.Component {
       ...others,
       ...getDateObj(dateRange),
       collegeId,
-      familyId
-    }
-  }
+      familyId,
+    };
+  };
   getTabs = () => {
     return [
       {
@@ -87,8 +118,8 @@ class Resubmit extends React.Component {
         children: (
           <>
             <div className={styles.OriginTab}>
-              <OriginIndex/>
-              <PackageIndex/>
+              <OriginIndex />
+              <PackageIndex />
             </div>
             <CollegeFamily />
             <CyclePath />
@@ -98,7 +129,7 @@ class Resubmit extends React.Component {
       },
       {
         title: '创收明细',
-        children: <DetailsIndex/>,
+        children: <DetailsIndex />,
       },
     ];
   };
