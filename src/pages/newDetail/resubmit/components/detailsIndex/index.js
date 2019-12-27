@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Tooltip } from 'antd';
 import BIContainer from '@/components/BIContainer';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
-import styles from './styles.less';
+import styles from './style.less';
 
 @connect(({ resubmitModal }) => ({
   originData: resubmitModal.originData,

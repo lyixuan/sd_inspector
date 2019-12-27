@@ -37,12 +37,11 @@ class Resubmit extends React.Component {
       type: 'resubmitModal/saveParams',
       payload
     }); // 存值
-    this.getSelectData(getDateObj(payload.dateRange)) // 参数值展示
+    this.getSelectData({...getDateObj(payload.dateRange), flag: true}) // 参数值展示
     this.getInitData(payload); // 列表展示
   }
   // 参数基础数据
   getSelectData = (params) => {
-    console.log(params, 'mmmmm')
     this.props.dispatch({
       type: 'resubmitModal/getOriginPackageList',
       payload: { params },
