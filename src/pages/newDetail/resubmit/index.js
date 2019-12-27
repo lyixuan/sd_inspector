@@ -117,8 +117,8 @@ class Resubmit extends React.Component {
         children: (
           <>
             <div className={styles.OriginTab}>
-              <OriginIndex />
-              <PackageIndex />
+              <OriginIndex  onParamsChange={this.onParamsChange}/>
+              <PackageIndex onParamsChange={this.onParamsChange}/>
             </div>
             <CollegeFamily />
             <CyclePath />

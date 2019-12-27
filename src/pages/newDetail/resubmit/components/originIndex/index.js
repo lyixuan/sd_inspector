@@ -64,10 +64,14 @@ class OriginIndex extends React.Component {
             dataSource={this.props.originData}
             pagination={false}
             loading={this.props.loading}
-            onRow={this.onClickRow}
             rowKey={(record, index) => record.rankNum + index}
             scroll={{ y: 240 }}
             name='originIndex'
+            onRow={ record => {
+              return {
+                onClick: event => this.props.onParamsChange(record.packageName, 'originPackageName')
+              }
+            }}
           />
         </div>
       </BIContainer>

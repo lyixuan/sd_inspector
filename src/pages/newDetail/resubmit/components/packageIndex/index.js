@@ -90,10 +90,14 @@ class PackageIndex extends React.Component {
             dataSource={this.props.packageData}
             pagination={false}
             loading={this.props.loading}
-            onRow={this.onClickRow}
             rowKey={(record, index) => record.rankNum + index}
             scroll={{ y: 240 }}
             name='packageIndex'
+            onRow={ record => {
+              return {
+                onClick: event => this.props.onParamsChange(record.packageName, 'packageName')
+              }
+            }}
           />
         </div>
       </BIContainer>
