@@ -5,12 +5,12 @@ export async function getIncomeCollegeList(params) {
   return request('/orgMap/findCollegeShortNameList', { method: 'get', params });
 }
 // 续报分析 - 原产品包榜单
-export async function getOriginPackageList(params) {
-  return request('/resubmit/getOriginPackageList', { method: 'POST', params });
+export async function getOriginPackageList(data) {
+  return request('/resubmit/getOriginPackageList', { method: 'POST', data });
 }
 // 续报分析 - 续报热销榜单
-export async function getPackageList(params) {
-  return request('/resubmit/getPackageList', { method: 'POST', params });
+export async function getPackageList(data) {
+  return request('/resubmit/getPackageList', { method: 'POST', data });
 }
 
 // 续报分析 - 学院分析

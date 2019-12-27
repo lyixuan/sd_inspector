@@ -1,77 +1,76 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Tooltip } from 'antd';
 import BIContainer from '@/components/BIContainer';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
-import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
-import rank1 from '@/assets/xdFamily/rank1.png';
-import rank2 from '@/assets/xdFamily/rank2.png';
-import rank3 from '@/assets/xdFamily/rank3.png';
-import { companyThousandsIncome } from '@/utils/utils';
 import styles from './styles.less';
-import { Tooltip } from 'antd';
 
 @connect(({ resubmitModal }) => ({
   originData: resubmitModal.originData,
 }))
-class OriginIndex extends React.Component {
+class DetailsIndex extends React.Component {
   columns = () => {
     const columns = [
       {
-        title: '排名',
+        title: '学员id',
         dataIndex: 'id',
         key: 'id',
         width: '60px',
-        render: (text, record) => {
-          return (
-            <div className={`${styles.rankColumn}`}>
-              {record.id > 3 ? (
-                <span className={styles.rankSpan}>{record.id}</span>
-              ) : (
-                <img className={styles.rank} src={`rank${record.id}`} alt=''/>
-              )}
-            </div>
-          );
-        },
       },
       {
-        ellipsis: true,
-        title: '原产品包',
+        title: '学员姓名',
         dataIndex: 'packageName',
         key: 'packageName',
-        render: (packageName, record) => {
-          return (
-            <Tooltip title={packageName}>{packageName}</Tooltip>
-          );
-        },
       },
       {
-        title: '续报单量',
+        title: '周期',
         dataIndex: 'itemCount',
         key: 'itemCount',
       },
       {
-        title: '续报流水',
+        title: '报名时间',
         dataIndex: 'itemAmount',
         key: 'itemAmount',
-        width: '100px',
-        render: (incomeFlowKpi, record) => {
-          const percent = record.incomeFlowKpiRatio * 100 + '%';
-          const money = companyThousandsIncome(incomeFlowKpi);
-          return <BIWrapperProgress
-          text={money}
-          percent={percent}
-          propsStyle={{ flex: 'inherit', width: '70px', textAlign: 'right' }}
-        />
+      },
+      {
+        title: '学院',
+        dataIndex: 'itemAmount',
+        key: 'itemAmount',
+      },{
+        title: '家族',
+        dataIndex: 'itemAmount',
+        key: 'itemAmount',
+      },{
+        title: '小组',
+        dataIndex: 'itemAmount',
+        key: 'itemAmount',
+      },{
+        ellipsis: true,
+        title: '老产品包',
+        dataIndex: 'itemAmount',
+        key: 'itemAmount',
+        render: (text, record) => {
+          return (
+            <Tooltip title={text}>{text}</Tooltip>
+          );
         },
+      },{
+        title: '续费产品包',
+        dataIndex: 'itemAmount',
+        key: 'itemAmount',
+      },{
+        title: '净流水',
+        dataIndex: 'itemAmount',
+        key: 'itemAmount',
       },
     ];
     return columns || [];
   };
   render() {
     return (
-      <BIContainer
+      <BIContainer 
       title="原产品包榜单"
-      style={{ width: 'calc(50% - 12px)' }}
+      headStyle={{display: 'none'}}
       >
         <BIScrollbarTable
           columns={this.columns()}
@@ -80,11 +79,10 @@ class OriginIndex extends React.Component {
           loading={this.props.loading}
           onRow={this.onClickRow}
           rowKey={record => record.id}
-          // scroll={{ y: 288 }}
         />
     </BIContainer>
     );
   }
 }
 
-export default OriginIndex;
+export default DetailsIndex;

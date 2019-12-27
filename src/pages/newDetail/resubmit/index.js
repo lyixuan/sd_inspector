@@ -4,6 +4,7 @@ import PageTab from './components/pageTab';
 import ParamsTop from './components/paramsTop';
 import OriginIndex from './components/originIndex';
 import PackageIndex from './components/packageIndex';
+import DetailsIndex from './components/detailsIndex';
 import CollegeFamily from './components/collegeFamily';
 import CyclePath from './components/cyclePath';
 import { getDateObj } from '@/pages/indexPage/components/utils/utils';
@@ -39,30 +40,9 @@ class Resubmit extends React.Component {
     this.getSelectData(getDateObj(payload.dateRange)) // 参数值展示
     this.getInitData(payload); // 列表展示
   }
-  getTabs = () => {
-    return [
-      {
-        title: '数据透视',
-        children: (
-          <>
-            <div className={styles.OriginTab}>
-              <OriginIndex/>
-              <PackageIndex/>
-            </div>
-            <CollegeFamily />
-            <CyclePath />
-          </>
-        ),
-        dataTrace: '{"widgetName":"学分分析","traceName":"家族长工作台/学分分析"}',
-      },
-      {
-        title: '创收明细',
-        children: <></>,
-      },
-    ];
-  };
   // 参数基础数据
   getSelectData = (params) => {
+    console.log(params, 'mmmmm')
     this.props.dispatch({
       type: 'resubmitModal/getOriginPackageList',
       payload: { params },
@@ -90,6 +70,28 @@ class Resubmit extends React.Component {
       familyId
     }
   }
+  getTabs = () => {
+    return [
+      {
+        title: '数据透视',
+        children: (
+          <>
+            <div className={styles.OriginTab}>
+              <OriginIndex/>
+              <PackageIndex/>
+            </div>
+            <CollegeFamily />
+            <CyclePath />
+          </>
+        ),
+        dataTrace: '{"widgetName":"学分分析","traceName":"家族长工作台/学分分析"}',
+      },
+      {
+        title: '创收明细',
+        children: <DetailsIndex/>,
+      },
+    ];
+  };
   render() {
     const { globalUserInfo } = this.props;
     return (
