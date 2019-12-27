@@ -20,6 +20,9 @@ class RegistTouch extends React.Component {
     super(props);
     this.state = {
       orgType: 'college',
+      collegeId: null,
+      familyId: null,
+      org: null
       // startTime: '2019-12-08',
       // endTime: new Date().getTime()
     }
@@ -62,6 +65,8 @@ class RegistTouch extends React.Component {
     const startTime = this.props.examPlant.startTime || this.state.startTime
     const endTime = this.props.examPlant.endTime || this.state.endTime
     const params = {
+      collegeId: this.state.collegeId,
+      familyId: this.state.familyId,
       operatorId: operatorId,
       startDate: moment(startTime).format('YYYY-MM-DD'),
       endDate: moment(endTime).format('YYYY-MM-DD')
@@ -87,25 +92,76 @@ class RegistTouch extends React.Component {
   getDetailList = () => {
     this.getDetailData()
   }
-  getList = (type) => {
-    if (type) {
-      if (type === 1) {
+  getList = (data) => {
+    let type = ''
+    if (data.type) {
+      if (data.type === 1) {
         type = 'college'
-      } else if (type === 2) {
+        this.setState({
+          collegeId: null,
+          familyId: null
+        })
+      } else if (data.type === 2) {
         type = 'family'
+        this.setState({
+          collegeId: data.collegeId,
+          familyId: null
+        })
       } else {
         type = 'group'
+        this.setState({
+          collegeId: data.org[0],
+          familyId: data.org[1]
+        })
       }
       this.setState({
-        orgType: type
+        orgType: type,
       }, () => {
         this.getPageData();
       })
+    } else if (data.collegeId) {
+      this.setState({
+        collegeId: data.collegeId,
+      }, () => {
+        this.getPageData()
+      })
+    } else if (data.org) {
+      this.setState({
+        collegeId: data.org[0],
+        familyId: data.org[1]
+      }, () => {
+        this.getPageData()
+      })
     } else {
-      this.getPageData();
+      this.setState({
+        collegeId: null,
+        familyId: null
+      }, () => {
+        this.getPageData()
+      })
     }
 
+
   }
+  // getList = (type) => {
+  //   if (type) {
+  //     if (type === 1) {
+  //       type = 'college'
+  //     } else if (type === 2) {
+  //       type = 'family'
+  //     } else {
+  //       type = 'group'
+  //     }
+  //     this.setState({
+  //       orgType: type
+  //     }, () => {
+  //       this.getPageData();
+  //     })
+  //   } else {
+  //     this.getPageData();
+  //   }
+
+  // }
 
   render() {
     const { startTime, endTime } = this.initDate();

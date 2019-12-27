@@ -53,6 +53,7 @@ class Quality extends React.Component {
     });
   };
 
+
   render() {
     const { WorkbenchQualityData, loadingTime } = this.props;
     const options = getOptions(WorkbenchQualityData);
