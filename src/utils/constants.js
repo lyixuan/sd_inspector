@@ -421,7 +421,10 @@ export const EmptyContentLayout = [
   { path: '/xdCredit/index', name: '小德学分' },
   { path: '/indexPage', name: '小德工作台' },
   { path: '/cubePlan/list', name: '魔方计划' },
-  { path: '/xdCredit/im', name: 'im差评分析'}
+  { path: '/xdCredit/im', name: 'im差评分析'},
+  { path: '/hotQuestion/index'},
+  { path: '/hotQuestion/relationEdit'},
+  { path: '/configWords'}
 ];
 export const EmptyContentLayoutWithBread = [{ path: '/cubePlan/list/detail', name: '魔方详情' }];
 // 注册类型

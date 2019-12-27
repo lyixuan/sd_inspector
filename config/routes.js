@@ -518,6 +518,7 @@ export const routes = [
       {
         path: '/configWords',
         component: './configWords/index',
+        name: '关键词引导'
       },
       {
         path: '/examPlant',
@@ -589,14 +590,17 @@ export const routes = [
           {
             path: '/hotQuestion/index',
             component: './hotQuestion',
+            name: '热门问题'
           },
           {
             path: '/hotQuestion/guessEdit',
             component: './hotQuestion/guessEdit',
+            name: '热门问题'
           },
           {
             path: '/hotQuestion/relationEdit',
             component: './hotQuestion/relationEdit',
+            name: '热门问题'
           }
         ]
       }, {
