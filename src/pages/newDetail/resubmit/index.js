@@ -129,8 +129,8 @@ class Resubmit extends React.Component {
               <OriginIndex  onParamsChange={this.onParamsChange}/>
               <PackageIndex onParamsChange={this.onParamsChange}/>
             </div>
-            <CollegeFamily />
-            <CyclePath />
+            <CollegeFamily onParamsChange={this.onParamsChange} />
+            <CyclePath onParamsChange={this.onParamsChange} />
           </>
         ),
         dataTrace: '{"widgetName":"学分分析","traceName":"家族长工作台/学分分析"}',
