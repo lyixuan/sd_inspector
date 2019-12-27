@@ -148,7 +148,7 @@ export function getOption(listsrc) {
     xAxis: {
       data: xArr,
       name: '',
-      // type:'category',
+      // triggerEvent: true,
       silent: false,
       axisLine: {
         show: false,

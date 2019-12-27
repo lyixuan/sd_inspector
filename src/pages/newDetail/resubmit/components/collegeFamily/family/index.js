@@ -9,6 +9,17 @@ import { connect } from 'dva';
   getFamilyAnalyzeData: resubmitModal.getFamilyAnalyzeData,
 }))
 class Family extends React.Component {
+  clickEvent = item => {
+    const { getFamilyAnalyzeData } = this.props;
+    this.props.onParamsChange(
+      [
+        getFamilyAnalyzeData[item.dataIndex].collegeId,
+        getFamilyAnalyzeData[item.dataIndex].familyId,
+      ],
+      'orgId'
+    );
+  };
+
   render() {
     const { getFamilyAnalyzeData } = this.props;
     let options = getOption(getFamilyAnalyzeData);
@@ -19,7 +30,11 @@ class Family extends React.Component {
           家族分析
         </p>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Echarts options={options} style={{ width: '720px', height: '240px' }} />
+          <Echarts
+            options={options}
+            style={{ width: '720px', height: '240px' }}
+            clickEvent={item => this.clickEvent(item)}
+          />
         </div>
       </div>
     );
