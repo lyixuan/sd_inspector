@@ -2,9 +2,10 @@ import React from 'react';
 import style from './style.less';
 import ExamTime from '@/components/ExamTime';
 import Echarts from './Echart_WorkBentch';
-import stylefather from '../indexPage.less';
+import styleFather from '../indexPage.less';
 import yunying from '@/assets/newIndex/yunying@2x.png';
 import gengduo from '@/assets/newIndex/gengduo@2x.png';
+import { Spin } from 'antd';
 import { handleDataTrace } from '@/utils/utils';
 import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 import {getOption} from './operation_option';
@@ -19,17 +20,18 @@ class OperationEvent extends React.Component {
     jumpGobalRouter('examPlant/registTouch' );
   };
   render() {
-    const { touchRatio,provinceList } = this.props;
+    const { touchRatio,provinceList ,examLoading} = this.props;
     const options = getOption(touchRatio);
     return (
       <div className={style.scoreWrap}>
         <div className={style.scoreHeader}>
           <span className={style.leftLine}/> <span className={style.leftText}>运营大事件</span>
         </div>
-        <div className={stylefather.boxCross}>
-          <div className={stylefather.boxHeader}>
+        <Spin spinning={this.props.examLoading}>
+        <div className={styleFather.boxCross}>
+          <div className={styleFather.boxHeader}>
             <img src={yunying} alt=""/>
-            <span className={stylefather.headerTitle}>报考</span>
+            <span className={styleFather.headerTitle}>报考</span>
             <img src={gengduo} alt="" onClick={()=>this.jump()}/>
           </div>
           <div className={style.operation}>
@@ -41,6 +43,7 @@ class OperationEvent extends React.Component {
             </div>
           </div>
         </div>
+        </Spin>
       </div>
     );
   }

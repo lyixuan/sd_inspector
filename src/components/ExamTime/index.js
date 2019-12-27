@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Badge ,Tooltip} from 'antd';
-import { Progress } from 'antd';
 import styles from './style.less';
 import moment from 'moment/moment';
 
@@ -10,7 +9,8 @@ import moment from 'moment/moment';
   startDate: minStart,
   endDate: maxEnd,
   date: moment(minStart).date(),
-  progress:number, // 1已结束 2进行中 3未开始
+  progress:number, // 1已结束 2进行中 3未开始,
+  children:[] //折叠省份
 }*/
 class ExamTime extends Component {
   static propTypes = {
@@ -23,24 +23,31 @@ class ExamTime extends Component {
   static defaultProps = {
     totalWidth: 900,
     splitNumber: 0,
-    ratio:1,
+    ratio:2,
     color:['#C7C7C7','#FF7291','#0496FF'],
     provinceList: [],
   };
   constructor(props) {
     super(props);
     this.state = {
-      visible:false
+      visible:[]
     };
   }
-  showTool = () => {
+  showTool = (idx) => {
+    this.state.visible[idx] = true;
     this.setState({
-      visible:!this.state.visible,
+      visible:this.state.visible
     })
   };
+  hiddenTool = (idx) => {
+    this.state.visible[idx] = false;
+    this.setState({
+      visible:this.state.visible
+    })
+  };
+
   renderItem = () =>{
     const { totalWidth, splitNumber,color ,ratio,provinceList} = this.props;
-    console.log(444,provinceList)
     const wraperStyle = {
       width: `${totalWidth/splitNumber}px`,
     };
@@ -48,7 +55,6 @@ class ExamTime extends Component {
     };
 
     return provinceList.map((item,idx)=>{
-      console.log('item',item)
       const rowLine = {
         backgroundColor:color[item.progress-1]
       };
@@ -60,15 +66,19 @@ class ExamTime extends Component {
         backgroundColor:color[item.progress-1]
       };
 
+      let titleText = item.province;
+      item.children.forEach((item) => {
+        titleText += '，'+ item.province;
+      });
       return <div className={styles.wraperStyle} style={wraperStyle} key={idx}>
-        <Tooltip title={moment(item.startDate).format('MM.DD')} visible={this.state.visible} overlayClassName={styles.examOverlayClassName}>
+        <Tooltip title={titleText} visible={this.state.visible[idx]} overlayClassName={styles.examOverlayClassName}>
           <div className={styles.dateText} style={dateText}>{moment(item.startDate).format('MM.DD')}</div>
         </Tooltip>
         <div className={styles.dot} style={dot}/>
         <div className={styles.colLine} style={colLine} />
         <div className={styles.rowLine} style={rowLine} />
-        <div className={styles.province} onMouseEnter={this.showTool} onMouseLeave={this.showTool}>
-          <Badge count={`+${5}`} offset={[9,0]} style={{ backgroundColor: color,fontSize:10 }} >
+        <div className={styles.province} onMouseEnter={()=>this.showTool(idx)} onMouseLeave={()=>this.hiddenTool(idx)}>
+          <Badge count={item.children.length?`+${item.children.length}`:0} offset={[9,0]} style={{ backgroundColor: color[item.progress-1],fontSize:10 }} >
             {item.province}
           </Badge>
         </div>
