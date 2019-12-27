@@ -1,10 +1,11 @@
 let myCanvas = document.createElement('canvas');
 let ctx = myCanvas.getContext('2d');
+
 let myImage = new Image();
 let fps = 60;
 let MAX_SPEED_X, MAX_SPEED_Y, G;
 
-class something {
+class Something {
   constructor(props) {
     this.x = props.x;
     this.y = props.y;
@@ -15,7 +16,7 @@ class something {
     this.initSpeedX = Math.random() < 0.5 ? 0.005 : -0.005;
   }
 
-  updata = () => {
+  updateStatus = () => {
     let rotateDeg = Math.random() * 0.6 + 0.2;
     this.speedX += this.initSpeedX;
     if (this.speedX >= MAX_SPEED_X || this.speedX <= -MAX_SPEED_X) {
@@ -38,6 +39,7 @@ class something {
     ctx.restore();
   }
 }
+
 class ThingsFall {
   constructor(props) {
     this.things = [];
@@ -45,13 +47,19 @@ class ThingsFall {
     this.canvasHeight = props.height || window.innerHeight;
     this.addThingsInterval = props.interval || 150;
     this.recordTime = 0;
-    this.nowTime = Date.now();
+    this.startTime = Date.now();
+    this.timing = 0;
+    this.stopAnimation = false;
+    this.continueTime = props.continueTime || 0;
+    this.maxRadius = props.maxRadius || 10;
+    this.minRadius = props.minRadius || 5;
     myImage.src = props.image;
     MAX_SPEED_X = props.maxSpeedX || 1;
     MAX_SPEED_Y = props.maxSpeedY || 1;
     G = props.G || 0.01;
   }
   init = () => {
+
     window.requestAnimationFrame = window.requestAnimationFrame
       || window.webkitRequestAnimationFrame
       || window.mozRequestAnimationFrame
@@ -60,10 +68,60 @@ class ThingsFall {
       || function(callback) {
         setTimeout(callback, 1000 / fps);
       };
+
     myCanvas.width = this.canvasWidth;
     myCanvas.height = this.canvasHeight;
     myCanvas.style.cssText = 'position: fixed; top: 0; left: 0; pointer-events: none;';
     document.body.appendChild(myCanvas);
-  }
 
+    if (this.continueTime) {
+      setTimeout(() => {
+        this.stopAnimation = true
+      }, this.continueTime);
+    }
+
+    this.everyFrame();
+  };
+
+  everyFrame = () => {
+    ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+    let newTime = Date.now();
+    this.recordTime = newTime - this.startTime;
+    this.startTime = newTime;
+    this.timing += this.recordTime;
+
+    if (this.timing > this.addThingsInterval) {
+      if (!this.stopAnimation) {
+        this.things.push(new Something(
+        {
+            x: Math.random() * this.canvasWidth,
+            y: 0,
+            radius: Math.random() * (this.maxRadius - this.minRadius) + this.minRadius
+          }
+        ));
+        this.timing %= this.addThingsInterval;
+        //
+        if (this.things.length < 1) {
+          ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+          return
+        }
+      }
+    }
+
+    this.things.forEach((item, index) => {
+      item.updateStatus();
+      item.draw();
+      if (item.y > this.canvasHeight) {
+        this.things.splice(index, 1);
+      }
+    });
+
+    requestAnimationFrame(this.everyFrame);
+  };
+
+  stop = () => {
+    this.stopAnimation = true
+  }
 }
+
+export default ThingsFall;

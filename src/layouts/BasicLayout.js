@@ -23,6 +23,7 @@ import { checkoutLogin } from '@/utils/checkoutUserAuthInfo';
 import { redirectUrlParams, redirectToLogin, checkPathname } from '../utils/routeUtils';
 import Authorized from '../utils/Authorized';
 import style from './styles/basic.less';
+import ThingsFall from '@/utils/thingsFall';
 
 // import router from 'umi/router';
 const { Content, Header } = Layout;
@@ -113,6 +114,7 @@ class BasicLayout extends React.PureComponent {
   }
 
   componentDidMount() {
+    const {animation} = this.props;
     this.enquireHandler = enquireScreen(mobile => {
       this.setState({
         isMobile: mobile,
@@ -120,6 +122,13 @@ class BasicLayout extends React.PureComponent {
     });
     this.MenuData();
     this.setRedirectData(this.props.menuData);
+    let thingsFall = new ThingsFall({
+      image: animation.image,
+      continueTime: animation.continueTime,
+      minRadius: animation.minRadius,
+      maxRadius: animation.maxRadius
+    });
+    thingsFall.init();
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -344,8 +353,7 @@ export default connect(({ global, menu, login }) => ({
   login: login,
   menuData: menu.menuData,
   collapsed: global.collapsed,
-  headerBackgroundColor: global.headerBackgroundColor,
   layoutBackgroundColor: global.layoutBackgroundColor,
-  headerImage: global.headerImage,
-  layoutImage: global.layoutImage
+  layoutImage: global.layoutImage,
+  animation: global.animation
 }))(BasicLayout);
