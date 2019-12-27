@@ -290,27 +290,40 @@ class RobotTrend extends React.Component {
     const data = this.props.dayData
     let data1 = [];
     let data2 = [];
+    let data3 = [];
     if (data.length > 0) {
       data.map(item => {
         data1.push(item.interceptPercent)
         data2.push(item.date)
+        data3.push(item.robotAndTeacherPercent)
       })
     }
     let option = {
       animation: false,
       title: {
-        text: '机器人拦截率',
+        text: '机器人接待数据',
         textStyle: {
           fontSize: 16,
         }
       },
       tooltip: {
-        trigger: 'item',
+        trigger: 'axis',
         // formatter: "{b} : {c}",
-        formatter: function (parms) {
-          var str = parms.name + ': ' + (parms.value * 100).toFixed(2) + '%';
-          return str;
+        // formatter: function (parms) {
+        //   var str = parms.name + ': ' + (parms.value * 100).toFixed(2) + '%';
+        //   return str;
+        // },
+        textStyle: {
+          fontSize: 12,
         },
+        formatter: function (params) {
+          let results = '';
+          console.log(321, params)
+          for (let i = 0; i < params.length; i++) {
+            results += `<div><span style="width:6px;display:inline-block; height:6px;border-radius:100%;font-size:1px;margin-right:5px;background:${params[i].color}"></span>${params[i].seriesName}: ${(params[i].value * 100).toFixed(2)}%</div>`;
+          }
+          return results;
+        }
       },
       xAxis: {
         data: data2,
@@ -367,6 +380,7 @@ class RobotTrend extends React.Component {
       series: [
 
         {
+          name: '拦截率',
           type: 'line',
           smooth: true,
           symbolSize: 10,
@@ -396,6 +410,38 @@ class RobotTrend extends React.Component {
             },
           },
           data: data1
+        },
+        {
+          name: '协同接待率',
+          type: 'line',
+          smooth: true,
+          symbolSize: 10,
+          itemStyle: {
+            normal: {
+              color: '#FFC442'
+            }
+          },
+          areaStyle: {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                {
+                  offset: 0,
+                  color: '#FFC442', // 0% 处的颜色
+                },
+                {
+                  offset: 1,
+                  color: 'RGBA(26, 232, 206, 0)', // 100% 处的颜色
+                },
+              ],
+              global: false, // 缺省为 false
+            },
+          },
+          data: data3
         }
 
       ]
@@ -544,7 +590,7 @@ class RobotTrend extends React.Component {
       <div className={styles.chart1}>
         {
           empty1 ? <Echart options={this.chartIntercept()} style={{ width: '100%', height: '450px' }}></Echart> : <div className={styles.empty}>
-            <h4>机器人拦截率</h4>
+            <h4>机器人接待数据</h4>
             <img src={examEmpty} />
             <p>暂无数据</p>
           </div>

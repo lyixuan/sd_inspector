@@ -598,6 +598,10 @@ export const routes = [
         ]
       },
       {
+        path: '/sessionRecord/index',
+        component: './sessonRecord',
+      },
+      {
         path: '/hotQuestion',
         routes: [
           {
