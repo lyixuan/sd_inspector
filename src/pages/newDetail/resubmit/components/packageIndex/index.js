@@ -47,8 +47,8 @@ class PackageIndex extends React.Component {
         render: text => {
           const falg = text === 0 ? 0 : (text > 0 ? 1 : 2);
           return <div className={`${styles.markColumn} ${styles['markColumn' + falg]}`}>
-          <span> {text} </span>
           <img src={floats[falg]} alt=''/>
+          <span>{Math.abs(text)} </span>
         </div>
         }
       },

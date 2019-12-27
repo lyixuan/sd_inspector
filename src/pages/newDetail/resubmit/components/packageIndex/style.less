@@ -12,15 +12,24 @@
     }
   }
   .markColumn {
+    position: relative;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     padding-left: 20px;
-    > span {
-      margin-right: 8px;
-    }
     > img {
       width: 15px;
-      margin-right: 8px;
+    }
+    > span {
+      align-items: flex-end;
+      margin-bottom: -4px;
+      transform: scale(0.8);
+      margin-left: 10px;
+    }
+    ::before {
+      position: absolute;
+      content: '+';
+      top: 0px;
+      left: -9px;
     }
   }
   .markColumn0 {
@@ -31,5 +40,8 @@
   }
   .markColumn2 {
     color:#FF5959;
+    ::before {
+      content: '-';
+    }
   }
 }

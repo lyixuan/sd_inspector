@@ -14,21 +14,21 @@ export async function getPackageList(data) {
 }
 
 // 续报分析 - 学院分析
-export async function getCollegeAnalyze(params) {
-  return request('/resubmit/getCollegeAnalyze', { method: 'POST', params });
+export async function getCollegeAnalyze(data) {
+  return request('/resubmit/getCollegeAnalyze', { method: 'POST', data });
 }
 
 // 续报分析 - 家族分析
-export async function getFamilyAnalyze(params) {
-  return request('/resubmit/getFamilyAnalyze', { method: 'POST', params });
+export async function getFamilyAnalyze(data) {
+  return request('/resubmit/getFamilyAnalyze', { method: 'POST', data });
 }
 
 // 续报分析 - 续费学员生命周期分布
-export async function getCycleList(params) {
-  return request('/resubmit/getCycleList', { method: 'POST', params });
+export async function getCycleList(data) {
+  return request('/resubmit/getCycleList', { method: 'POST', data });
 }
 
 // 续报分析 - 转班路径
-export async function getPathList(params) {
-  return request('/resubmit/getPathList', { method: 'POST', params });
+export async function getPathList(data) {
+  return request('/resubmit/getPathList', { method: 'POST', data });
 }

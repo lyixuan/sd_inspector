@@ -27,7 +27,7 @@ class Resubmit extends React.Component {
     const payload = { [type]: val };
     this.props.dispatch({
       type: 'resubmitModal/saveParams',
-      payload
+      payload,
     }); // 存值
     this.getInitData(payload); // 请求
   };
@@ -35,11 +35,11 @@ class Resubmit extends React.Component {
   onObjChange = (payload = {}) => {
     this.props.dispatch({
       type: 'resubmitModal/saveParams',
-      payload
+      payload,
     }); // 存值
     this.getSelectData({...getDateObj(payload.dateRange), flag: true}) // 参数值展示
     this.getInitData(payload); // 列表展示
-  }
+  };
   // 参数基础数据
   getSelectData = (params) => {
     this.props.dispatch({
@@ -51,24 +51,65 @@ class Resubmit extends React.Component {
       type: 'resubmitModal/getPackageList',
       payload: { params },
     });
-  }
+  };
   // 列表数据
   getInitData = newQuery => {
-    const params = this.getRequestParams({...this.props.paramsQuery, ...newQuery});
+    const params = this.getRequestParams({ ...this.props.paramsQuery, ...newQuery });
     // 续报分析 - 原产品包榜单
     this.getSelectData(params);
-  }
+    // 学院分析
+    this.getCollegeAnalyze(params);
+    // 家族分析
+    this.getFamilyAnalyze(params);
+    // 续费学院生命周期
+    this.getCycleList(params);
+    // 转班路径分析
+    this.getPathList(params);
+  };
+
+  // 学院分析
+  getCollegeAnalyze = params => {
+    this.props.dispatch({
+      type: 'resubmitModal/getCollegeAnalyze',
+      payload: { params },
+    });
+  };
+
+  // 家族分析
+  getFamilyAnalyze = params => {
+    this.props.dispatch({
+      type: 'resubmitModal/getFamilyAnalyze',
+      payload: { params },
+    });
+  };
+
+  // 续费学院生命周期
+  getCycleList = params => {
+    this.props.dispatch({
+      type: 'resubmitModal/getCycleList',
+      payload: { params },
+    });
+  };
+
+  // 转班路径分析
+  getPathList = params => {
+    this.props.dispatch({
+      type: 'resubmitModal/getPathList',
+      payload: { params },
+    });
+  };
+
   // 请求参数
   getRequestParams = (params = this.props.paramsQuery) => {
     const { dateRange, orgId = [], ...others } = params;
-    const [ collegeId, familyId] = orgId;
+    const [collegeId, familyId] = orgId;
     return {
       ...others,
       ...getDateObj(dateRange),
       collegeId,
-      familyId
-    }
-  }
+      familyId,
+    };
+  };
   getTabs = () => {
     return [
       {
@@ -76,8 +117,8 @@ class Resubmit extends React.Component {
         children: (
           <>
             <div className={styles.OriginTab}>
-              <OriginIndex/>
-              <PackageIndex/>
+              <OriginIndex />
+              <PackageIndex />
             </div>
             <CollegeFamily />
             <CyclePath />
@@ -87,7 +128,7 @@ class Resubmit extends React.Component {
       },
       {
         title: '创收明细',
-        children: <DetailsIndex/>,
+        children: <DetailsIndex />,
       },
     ];
   };
@@ -95,17 +136,14 @@ class Resubmit extends React.Component {
     const { globalUserInfo } = this.props;
     return (
       <div className={styles.resubmit}>
-        {globalUserInfo && globalUserInfo.userType &&
-          <> 
+        {globalUserInfo && globalUserInfo.userType && (
+          <>
             <div className={styles.paramsQuery}>
-              <ParamsTop 
-              onParamsChange={this.onParamsChange}
-              onObjChange={this.onObjChange}
-              />
+              <ParamsTop onParamsChange={this.onParamsChange} onObjChange={this.onObjChange} />
             </div>
-            <PageTab tabs={this.getTabs()} /> 
+            <PageTab tabs={this.getTabs()} />
           </>
-        }
+        )}
       </div>
     );
   }
