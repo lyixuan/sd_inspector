@@ -37,12 +37,11 @@ class Resubmit extends React.Component {
       type: 'resubmitModal/saveParams',
       payload,
     }); // 存值
-    this.getSelectData(getDateObj(payload.dateRange)); // 参数值展示
+    this.getSelectData({...getDateObj(payload.dateRange), flag: true}) // 参数值展示
     this.getInitData(payload); // 列表展示
   };
   // 参数基础数据
-  getSelectData = params => {
-    console.log(params, 'mmmmm');
+  getSelectData = (params) => {
     this.props.dispatch({
       type: 'resubmitModal/getOriginPackageList',
       payload: { params },
@@ -118,8 +117,8 @@ class Resubmit extends React.Component {
         children: (
           <>
             <div className={styles.OriginTab}>
-              <OriginIndex />
-              <PackageIndex />
+              <OriginIndex  onParamsChange={this.onParamsChange}/>
+              <PackageIndex onParamsChange={this.onParamsChange}/>
             </div>
             <CollegeFamily onParamsChange={this.onParamsChange} />
             <CyclePath onParamsChange={this.onParamsChange} />
