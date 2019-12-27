@@ -1,5 +1,13 @@
 import { getKOEnumList } from '@/pages/ko/services';
-import { getCollegeAnalyze, getFamilyAnalyze, getCycleList, getPathList, getOriginPackageList, getPackageList } from './services';
+import { 
+  getCollegeAnalyze, 
+  getFamilyAnalyze, 
+  getCycleList, 
+  getPathList, 
+  getOriginPackageList, 
+  getPackageList,
+  getQueryStuDetailPage
+} from './services';
 import { getDateArray } from '@/pages/indexPage/components/utils/utils';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
@@ -15,8 +23,9 @@ export default {
     getPathListData: {},
     originData: [], // 原产品包榜单
     packageData: [], // 续报热销榜单
-    originSelectData: [],
-    packageSelectData: [], // 续报热销榜单
+    originSelectData: [], // 原产品下拉
+    packageSelectData: [], // 续报下拉
+    stuDetailData: {}, // 创收明细下拉
   },
 
   effects: {
@@ -91,6 +100,15 @@ export default {
       const result = yield call(getPathList, payload.params);
       if (result.code === 20000 && result.data) {
         yield put({ type: 'save', payload: { getPathListData: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 续报分析 - 创收明细
+    *getQueryStuDetailPage({ payload }, { call, put }) {
+      const result = yield call(getQueryStuDetailPage, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { stuDetailData: result.data } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }

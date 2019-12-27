@@ -32,3 +32,7 @@ export async function getCycleList(data) {
 export async function getPathList(data) {
   return request('/resubmit/getPathList', { method: 'POST', data });
 }
+// 续报分析 - 创收明细
+export async function getQueryStuDetailPage(data) {
+  return request('/income/queryStuDetailPage', { method: 'POST', data });
+}
