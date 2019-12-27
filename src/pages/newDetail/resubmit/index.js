@@ -26,7 +26,7 @@ class Resubmit extends React.Component {
     const payload = { [type]: val };
     this.props.dispatch({
       type: 'resubmitModal/saveParams',
-      payload
+      payload,
     }); // 存值
     this.getInitData(payload); // 请求
   };
@@ -34,11 +34,11 @@ class Resubmit extends React.Component {
   onObjChange = (payload = {}) => {
     this.props.dispatch({
       type: 'resubmitModal/saveParams',
-      payload
+      payload,
     }); // 存值
-    this.getSelectData(getDateObj(payload.dateRange)) // 参数值展示
+    this.getSelectData(getDateObj(payload.dateRange)); // 参数值展示
     this.getInitData(payload); // 列表展示
-  }
+  };
   getTabs = () => {
     return [
       {
@@ -46,8 +46,8 @@ class Resubmit extends React.Component {
         children: (
           <>
             <div className={styles.OriginTab}>
-              <OriginIndex/>
-              <PackageIndex/>
+              <OriginIndex />
+              <PackageIndex />
             </div>
             <CollegeFamily />
             <CyclePath />
@@ -62,7 +62,7 @@ class Resubmit extends React.Component {
     ];
   };
   // 参数基础数据
-  getSelectData = (params) => {
+  getSelectData = params => {
     this.props.dispatch({
       type: 'resubmitModal/getOriginPackageList',
       payload: { params },
@@ -72,39 +72,46 @@ class Resubmit extends React.Component {
       type: 'resubmitModal/getPackageList',
       payload: { params },
     });
-  }
+  };
   // 列表数据
   getInitData = newQuery => {
-    const params = this.getRequestParams({...this.props.paramsQuery, ...newQuery});
+    const params = this.getRequestParams({ ...this.props.paramsQuery, ...newQuery });
     // 续报分析 - 原产品包榜单
     this.getSelectData(params);
-  }
+    // 学院分析
+    this.getCollegeAnalyze(params);
+  };
+
+  getCollegeAnalyze = params => {
+    this.props.dispatch({
+      type: 'resubmitModal/getCollegeAnalyze',
+      payload: { params },
+    });
+  };
+
   // 请求参数
   getRequestParams = (params = this.props.paramsQuery) => {
     const { dateRange, orgId = [], ...others } = params;
-    const [ collegeId, familyId] = orgId;
+    const [collegeId, familyId] = orgId;
     return {
       ...others,
       ...getDateObj(dateRange),
       collegeId,
-      familyId
-    }
-  }
+      familyId,
+    };
+  };
   render() {
     const { globalUserInfo } = this.props;
     return (
       <div className={styles.resubmit}>
-        {globalUserInfo && globalUserInfo.userType &&
-          <> 
+        {globalUserInfo && globalUserInfo.userType && (
+          <>
             <div className={styles.paramsQuery}>
-              <ParamsTop 
-              onParamsChange={this.onParamsChange}
-              onObjChange={this.onObjChange}
-              />
+              <ParamsTop onParamsChange={this.onParamsChange} onObjChange={this.onObjChange} />
             </div>
-            <PageTab tabs={this.getTabs()} /> 
+            <PageTab tabs={this.getTabs()} />
           </>
-        }
+        )}
       </div>
     );
   }

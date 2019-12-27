@@ -22,7 +22,7 @@ class BIContainer extends React.Component {
       <div className={styles.container} style={this.props.style}>
         {
           this.props.head !== 'none' ? <div className={styles.head}>
-            <span className={styles.title}>
+            <span className={styles.title}> 
               {
                 this.props.toolTip ? <Tooltip placement="right" title={this.props.toolTip}>{this.props.title}</Tooltip> : this.props.title
               }
