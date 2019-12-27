@@ -31,16 +31,25 @@ class Quality extends React.Component {
   clickEvent = item => {
     const { getCurrentDateRangeData, WorkbenchQualityData } = this.props;
     const data = WorkbenchQualityData.class.detailList[item.dataIndex];
+    let organization = '';
+
+    if (data.collegeId) {
+      organization = data.collegeId + '';
+    }
+
+    if (data.familyId) {
+      organization = data.collegeId + '-' + data.familyId;
+    }
+
+    if (data.groupId) {
+      organization = data.collegeId + '-' + data.familyId + '-' + data.groupId;
+    }
+
+    // return;
     jumpGobalRouter('qualityReport/classReport', {
       beginDate: getCurrentDateRangeData.startTime,
       endDate: getCurrentDateRangeData.endTime,
-      organization: data.collegeId
-        ? '' + data.collegeId
-        : '' + data.familyId
-        ? '-' + data.familyId
-        : data.groupId
-        ? '-' + data.groupId
-        : '',
+      organization: organization,
     });
   };
 
