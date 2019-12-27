@@ -1,5 +1,4 @@
 export function getOption(listsrc) {
-  const { starList: list = [] } = listsrc || {};
   const bg1 = [];
   const bg2 = [];
   let positiveData = [];
@@ -7,27 +6,29 @@ export function getOption(listsrc) {
   const scores = [];
   const xArr = [];
   let huanbi = [];
-  list.forEach(item => {
-    scores.push(item.value);
-    xArr.push(item.name);
-    huanbi.push((item.qoqValue * 100).toFixed(2));
-    if (item.value >= 0) {
-      positiveData.push(item.value);
-      negData.push(0);
-    } else {
-      negData.push(item.value);
-      positiveData.push(0);
-    }
-  });
+  listsrc.length &&
+    listsrc.forEach(item => {
+      scores.push(item.value);
+      xArr.push(item.name);
+      huanbi.push((item.qoqValue * 100).toFixed(2));
+      if (item.value >= 0) {
+        positiveData.push(item.value);
+        negData.push(0);
+      } else {
+        negData.push(item.value);
+        positiveData.push(0);
+      }
+    });
 
   const positiveMax = Math.ceil(Math.max.apply(null, positiveData));
   const navMax = Math.floor(Math.min.apply(null, negData));
   const huanbiMax = Math.ceil(Math.max.apply(null, huanbi));
   const huanbiMin = Math.floor(Math.min.apply(null, huanbi));
-  list.forEach(item => {
-    bg1.push(positiveMax);
-    bg2.push(navMax);
-  });
+  listsrc.length &&
+    listsrc.forEach(item => {
+      bg1.push(positiveMax);
+      bg2.push(navMax);
+    });
 
   const itemStyle1 = {
     color: '#ccc',
@@ -149,15 +150,15 @@ export function getOption(listsrc) {
       name: '',
       // type:'category',
       silent: false,
-      // axisPointer: {
-      //   type: 'shadow'
-      // },
       axisLine: {
         show: false,
       },
       axisLabel: {
         rotate: 45,
-        color: '#7D90AA',
+        color: '#000000 ',
+        formatter: function(val) {
+          return val.length > 5 ? val.substr(0, 4) + '...' : val;
+        },
       },
       axisTick: {
         show: false,
@@ -224,7 +225,7 @@ export function getOption(listsrc) {
       left: 60,
       right: 20,
       top: 10,
-      bottom: 30,
+      bottom: 50,
     },
     // barGap:'-100%',
     series: [

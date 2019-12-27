@@ -75,7 +75,8 @@ class PackageIndex extends React.Component {
           loading={this.props.loading}
           onRow={this.onClickRow}
           rowKey={record => record.id}
-          // scroll={{ y: 288 }}
+          scroll={{ y: 240 }}
+          name='packageIndex'
         />
     </BIContainer>
     );

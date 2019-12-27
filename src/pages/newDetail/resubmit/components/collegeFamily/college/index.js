@@ -10,8 +10,8 @@ import { connect } from 'dva';
 }))
 class College extends React.Component {
   render() {
-    const options = getOption({});
-    console.log(this.props.getCollegeAnalyzeData, 'resubmitModal');
+    const { getCollegeAnalyzeData } = this.props;
+    let options = getOption(getCollegeAnalyzeData);
     return (
       <div className={styles.collegeWrap}>
         <p className={styles.title}>
@@ -21,7 +21,7 @@ class College extends React.Component {
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Echarts
             options={options}
-            style={{ width: '243px', height: 194 + 'px', marginTop: '24px' }}
+            style={{ width: '263px', height: '240px' }}
           />
         </div>
       </div>

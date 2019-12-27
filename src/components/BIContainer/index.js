@@ -9,6 +9,7 @@ import styles from './style.less'
 * params *
 * style-外层样式
 * right-右侧数据
+* headStyle-head样式
 * propStyle-body样式
 *
 * 用法
@@ -17,20 +18,14 @@ import styles from './style.less'
 
 class BIContainer extends React.Component {
   render() {
-
+    const { headStyle = {}, propStyle = {}, title, right} = this.props;
     return (
       <div className={styles.container} style={this.props.style}>
-        {
-          this.props.head !== 'none' ? <div className={styles.head}>
-            <span className={styles.title}> 
-              {
-                this.props.toolTip ? <Tooltip placement="right" title={this.props.toolTip}>{this.props.title}</Tooltip> : this.props.title
-              }
-            </span>
-            <div>{this.props.right}</div>
-          </div> : null
-        }
-        <div className={styles.content} style={this.props.propStyle}>{this.props.children}</div>
+        <div className={styles.head} style={headStyle}>
+          <span className={styles.title}>{title}</span>
+          <div>{right}</div>
+        </div>
+        <div className={styles.content} style={propStyle}>{this.props.children}</div>
       </div>
     );
   }

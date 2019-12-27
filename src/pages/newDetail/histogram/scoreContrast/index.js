@@ -253,7 +253,7 @@ class ScoreContrast extends React.Component {
       <Container 
         style={{ width: '100%', marginBottom: '16px' }}
         propStyle={{ padding: '0px', position: 'relative' }}
-        head="none"
+        headStyle={{display: 'none'}}
       >            
         <TopTabs 
         right={this.rightPart()}
