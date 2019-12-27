@@ -1,8 +1,13 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Tooltip } from 'antd';
+import router from 'umi/router';
 import styles from './style.less';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
+import {
+  strLen,
+} from '@/pages/ko/utils/utils';
 import { thousandsFormat } from '@/utils/utils';
 @connect(({ robotPage, loading }) => ({
   robotPage,
@@ -22,6 +27,13 @@ class RobotData extends React.Component {
         title: '家族',
         dataIndex: 'familyName',
         key: 'familyName',
+        render: (text, record) => {
+          return (
+            <Tooltip placement="right" title={text}>
+              <span>{strLen(text, 2)}</span>
+            </Tooltip>
+          );
+        }
       },
       {
         title: '学员发起会话',
@@ -179,11 +191,27 @@ class RobotData extends React.Component {
                 <BIWrapperProgress text={`${(text * 100).toFixed(2)}%`} isColor='bad' percent={percent} propsStyle={{ flex: 'inherit', width: '55px', textAlign: "left" }} />
               </div>
             }
+          }, {
+            title: '操作',
+            key: Math.random(),
+            render: (text, record) => <span className={styles.textname} onClick={this.handleCheck}>查看</span>
           }
         ]
       }
     ]
     return columns || []
+  }
+  handleCheck = () => {
+    const { initData } = this.props.robotPage
+    const params = {
+      startTime: initData.startTime,
+      endTime: initData.endTime,
+      collegeId: initData.collegeId
+    }
+    router.push({
+      pathname: '/sessionReport/sessionReport',
+      query: { ...params },
+    });
   }
 
   render() {

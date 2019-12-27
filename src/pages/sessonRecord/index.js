@@ -34,24 +34,6 @@ const degreeList = [{
   name: evaluate[4],
   id: -1
 }]
-const dataSource = [{
-  consultTime: '2019-90-09 33:2:22',
-  content: 'dfdfdfdfdfdf',
-  stuName: '学员姓名',
-  org: '后端归属',
-  evaluateTime: '2019-90-09 33:2:22',
-  starLevel: 2,
-  robot: 1
-}, {
-  consultTime: '2019-90-09 33:2:22',
-  content: 'dfdfdfdfdfdf',
-  stuName: '学员姓名',
-  org: '后端归属',
-  evaluateTime: '2019-90-09 33:2:22',
-  starLevel: 2,
-  robot: 1
-},]
-
 @connect(({ sessonRecord, loading }) => ({
   sessonRecord,
   loading: loading.effects['sessonRecord/queryPage']
@@ -59,10 +41,12 @@ const dataSource = [{
 class SessonRecord extends Component {
   constructor(props) {
     super(props);
+    const { query } = this.props.location;
+    const { collegeId, familyId } = query
     this.state = {
-      startTime: moment(new Date().getTime()).subtract(1, 'days'),
-      endTime: moment(new Date().getTime()).subtract(1, 'days'),
-      org: [],
+      startTime: moment(query.startTime) || moment(new Date().getTime()).subtract(1, 'days'),
+      endTime: moment(query.endTime) || moment(new Date().getTime()).subtract(1, 'days'),
+      org: collegeId || familyId ? [collegeId, familyId] : [],
       inputStuId: undefined,
       evaluate: undefined,
       pageSize: 15,
@@ -104,15 +88,15 @@ class SessonRecord extends Component {
   initParams = () => {
     const { query } = this.props.location;
     const params = {
-      // beginDate: moment(query.startTime || this.state.startTime).format(dateFormat),
-      // endDate: moment(query.endTime || this.state.endTime).format(dateFormat),
-      beginDate: '2019-09-10',
-      endDate: '2019-09-20',
-      collegeId: Number(query.collegeId || this.state.org[0]),
-      familyId: Number(query.familyId || this.state.org[1]) || null,
-      groupId: Number(query.groupId || this.state.org[2]) || null,
+      beginDate: moment(this.state.startTime).format(dateFormat),
+      endDate: moment(this.state.endTime).format(dateFormat),
+      // beginDate: '2019-09-10',
+      // endDate: '2019-09-20',
+      collegeId: Number(this.state.org[0]),
+      familyId: Number(this.state.org[1]) || null,
+      groupId: Number(this.state.org[2]) || null,
       evaluate: this.state.evaluate,
-      stuId: this.state.inputStuId,
+      stuId: Number(this.state.inputStuId),
       pageSize: this.state.pageSize,
       page: this.state.currentPage
     }
@@ -130,16 +114,8 @@ class SessonRecord extends Component {
     });
   }
   initDate = () => {
-    const { query } = this.props.location;
-    if (query.startTime) {
-      const startTime = moment(query.startTime)
-      const endTime = moment(query.endTime)
-      return [startTime, endTime]
-    } else {
-      const { startTime, endTime } = this.state
-      return startTime && endTime ? [startTime, endTime] : [];
-    }
-
+    const { startTime, endTime } = this.state
+    return startTime && endTime ? [startTime, endTime] : [];
   }
   // 时间控件可展示的时间范围
   disabledDate = current => {
@@ -240,8 +216,7 @@ class SessonRecord extends Component {
       key: 'robot',
     }, {
       title: '操作',
-      dataIndex: 'familyName',
-      key: 'familyName',
+      key: Math.random(),
       render: (text, record) => <span onClick={() => jumpMarkingDetails(record.stuId, { target: 'im' })} className={styles.textname}>查看</span>
     },];
     return columns || [];

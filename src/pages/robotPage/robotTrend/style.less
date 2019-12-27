@@ -1,13 +1,19 @@
 .sessonTrend{
-  background:#fff;
-  border-radius:20px;
+  // background:#fff;
+  // border-radius:20px;
   min-height:500px;
-  padding:20px;
+  // padding:20px;
   margin-bottom:20px;
   .chartPie{
     display:flex;
-    padding:20px 140px 30px 100px;
+    // padding:20px 140px 30px 100px;
     justify-content: space-between;
+    .blockContent{
+      width:50%;
+      &:first-child{
+        margin-right:24px;
+      }
+    }
   }
 }
 .empty{
@@ -24,5 +30,45 @@
   }
   img{
     width:300px;
+  }
+}
+.chart1{
+  margin:24px 0;
+}
+.blockContent{
+  border-radius:20px;
+  background:#fff;
+  min-height:310px;
+  padding:20px;
+  box-sizing:border-box;
+  .title{
+    
+    display:flex;
+    justify-content: space-between;
+    .name{
+      font-size:16px;
+      font-weight:bold;
+      &::before{
+        content:'';
+        margin-right:10px;
+        display:inline-block;
+        width:4px;
+        height:18px;
+        line-height:18px;
+        background:#FFE300;
+        position:relative;
+        top:3px;
+      }
+    }
+    .btn{
+      background:#FFE300;
+      width:116px;
+      height:32px;
+      text-align:center;
+      line-height:32px;
+      border-radius:6px;
+      cursor:pointer;
+    }
+    
   }
 }
