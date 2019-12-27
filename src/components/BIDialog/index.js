@@ -12,7 +12,6 @@ import styles from './style.less';
 
 // 评价的星星
 function Star(props) {
-  console.log(15, props)
   const evaluate = props.evaluate;
   const number = [1, 2, 3, 4];
   const starList = number.map((item, index) => (
@@ -27,7 +26,6 @@ function Star(props) {
 }
 
 function Prise(props) {
-  console.log(29, props.li)
   const { starLevel } = props.li
   // if (!props.li.evaluate && props.li.evaluate != 0) {
   //   return null;
@@ -63,7 +61,6 @@ function Prise(props) {
 }
 
 function Layout(props) {
-  console.log(64, props.dataMark)
   const layout = <section>
     <ul className={styles.behavior}>
       {props.dataMark.contentList.map((item, index) => <ListItem item={item} dataMark={props.dataMark} key={index} />)}
@@ -112,6 +109,14 @@ function TeacherOrStudent(props) {
       </li>
     );
   } else {
+    let answer = props.item.content;
+    if (answer.indexOf('answerType') > -1) {
+      answer = JSON.parse(answer.replace(/\\"/g, "").replace(/“/g, "'").replace(/”/g, "'").replace(/\\/g, "").replace(/\\"/g, "")).answer;
+    } else {
+      answer = props.item.content
+    }
+    if (!answer) { return <></> }
+
     return (
       <li className={styles.step}>
         <div className={styles.time}>
@@ -122,12 +127,12 @@ function TeacherOrStudent(props) {
             <span className={styles.dot} />
           </div>
           <div className={styles.chatRight}>
-            <div className={linkImgRouteBul(props.item.content) ? styles.chatContentImg : styles.chatContent}>
+            <div className={linkImgRouteBul(answer) ? styles.chatContentImg : styles.chatContent}>
               <span className={styles.triangle}>
                 <em />
               </span>
               {/*{props.item.content}*/}
-              <span dangerouslySetInnerHTML={{ __html: linkRoute(props.item.content, styles.linkRoute) }}></span>
+              <span dangerouslySetInnerHTML={{ __html: linkRoute(answer, styles.linkRoute) }}></span>
             </div>
             <div className={styles.avatar}>
               <img src={props.dataMark.teacherHeadUrl ? (pathImUrl + props.dataMark.teacherHeadUrl) : avatarTeacher} />

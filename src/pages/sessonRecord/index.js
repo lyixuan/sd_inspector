@@ -16,7 +16,7 @@ import styles from './style.less';
 const { BIRangePicker } = BIDatePicker;
 const { Option } = BISelect;
 const dateFormat = 'YYYY-MM-DD';
-
+const globalPage = 15
 const evaluate = ['非常满意', '满意', '一般', '不满意', '未评价']
 const degreeList = [{
   name: evaluate[0],
@@ -65,7 +65,7 @@ class SessonRecord extends Component {
       org: [],
       inputStuId: undefined,
       evaluate: undefined,
-      pageSize: 5,
+      pageSize: 15,
       currentPage: 1,
     }
   }
@@ -83,7 +83,7 @@ class SessonRecord extends Component {
   handleSearch = (val) => {
     if (val === 'search') {
       this.setState({
-        pageSize: 5,
+        pageSize: globalPage,
         currentPage: 1,
       }, () => {
         this.getPageList();
@@ -93,7 +93,7 @@ class SessonRecord extends Component {
         org: [],
         inputStuId: undefined,
         evaluate: undefined,
-        pageSize: 5,
+        pageSize: globalPage,
         currentPage: 1,
       }, () => {
         this.getPageList();
@@ -174,6 +174,7 @@ class SessonRecord extends Component {
       title: '会话时间',
       dataIndex: 'consultTime',
       key: 'consultTime',
+      width: 160,
     }, {
       title: '会话内容',
       dataIndex: 'contentList',
@@ -196,6 +197,7 @@ class SessonRecord extends Component {
       title: '评价时间',
       dataIndex: 'evaluateTime',
       key: 'evaluateTime',
+      width: 160,
     }, {
       title: '满意度',
       dataIndex: 'starLevel',
@@ -223,6 +225,15 @@ class SessonRecord extends Component {
       title: '后端归属',
       dataIndex: 'org',
       key: 'org',
+      render: (text, record) => <Tooltip
+        overlayClassName={styles.listMarkingTooltipOthers}
+        placement="right"
+        title={text}
+      >
+        <span className={styles.textEllipsis}>
+          {text}
+        </span>
+      </Tooltip>
     }, {
       title: '会话类型',
       dataIndex: 'robot',
@@ -286,13 +297,14 @@ class SessonRecord extends Component {
             columns={this.columns()}
             dataSource={sessionList.list}
             pagination={{
+              pageSize: this.state.pageSize,
               onChange: this.onChangeSize,
               current: currentPage,
               total: sessionList.total,
               hideOnSinglePage: true,
               showQuickJumper: true,
             }}
-            scroll={{ x: 0, y: 600 }}
+            scroll={{ x: 0, y: 650 }}
             loading={this.props.loading}
             rowKey={(record, index) => index}
             smalled

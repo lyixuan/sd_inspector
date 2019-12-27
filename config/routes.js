@@ -260,7 +260,7 @@ export const routes = [
         routes: [
           {
             path: '/sessionReport/sessionReport',
-            component: './ko/sessionReport',
+            component: './sessonRecord',
           },
         ],
       },

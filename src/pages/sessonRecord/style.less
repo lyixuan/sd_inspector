@@ -4,6 +4,22 @@
   display:flex;
 }
 .sessionRecord{
+  :global{
+    .ant-table-header{
+      border-radius:10px;
+    }
+    .ant-table-tbody td{
+      text-align:center;
+    }
+    .ant-table-thead > tr > th{
+      border:none;
+      text-align:center;
+    }
+    .ant-table-tbody > tr > td:first-child{
+      padding-left:10px;
+    }
+  }
+  
   .title {
     display: flex;
     align-items: center;
@@ -23,7 +39,7 @@
           margin-left:8px;
         }
         .ant-btn-primary{
-          background:#FFE300;
+          background:#ffe300;
         }
       }
     }
@@ -58,6 +74,36 @@
     }
     .ant-tooltip-content {
       opacity: 1;
+    }
+  }
+}
+
+// 表格宽度自适应
+.textEllipsis {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+// bbs nps悬浮框样式
+.listMarkingTooltipOthers {
+  max-width: 520px;
+  :global {
+    .ant-tooltip-content{
+      opacity:1;
+    }
+    .ant-tooltip-arrow {
+      border-right-color: #ffffff!important;
+      //border-color: transparent transparent #fff #fff;
+    }
+    
+    .ant-tooltip-inner {
+      padding: 14px;
+      background-color: #ffffff;
+      color: #1B1C20;
+      font-size: 13px;
     }
   }
 }
