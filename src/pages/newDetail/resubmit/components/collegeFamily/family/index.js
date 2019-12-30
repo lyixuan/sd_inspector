@@ -2,11 +2,14 @@ import React from 'react';
 import styles from './style.less';
 import Echarts from '@/components/Echart';
 import { getOption } from './familyOptions.js';
+import BIScrollbar from '@/ant_components/BIScrollbar';
+import BILoading from '@/components/BILoading';
 import { connect } from 'dva';
 
-@connect(({ resubmitModal }) => ({
+@connect(({ resubmitModal, loading }) => ({
   resubmitModal,
   getFamilyAnalyzeData: resubmitModal.getFamilyAnalyzeData,
+  loading: loading.effects['resubmitModal/getFamilyAnalyze'],
 }))
 class Family extends React.Component {
   clickEvent = item => {
@@ -21,7 +24,7 @@ class Family extends React.Component {
   };
 
   render() {
-    const { getFamilyAnalyzeData } = this.props;
+    const { getFamilyAnalyzeData, loading } = this.props;
     let options = getOption(getFamilyAnalyzeData);
     return (
       <div className={styles.familyWrap}>
@@ -29,13 +32,21 @@ class Family extends React.Component {
           <span></span>
           家族分析
         </p>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Echarts
-            options={options}
-            style={{ width: '720px', height: '240px' }}
-            clickEvent={item => this.clickEvent(item)}
-          />
-        </div>
+        <BILoading isLoading={this.props.loading}>
+          <BIScrollbar style={{ minHeight: 240 }}>
+            <Echarts
+              options={options}
+              style={{
+                height: '240px',
+                width:
+                  getFamilyAnalyzeData.length * 35 > 761
+                    ? getFamilyAnalyzeData.length * 35 + 'px'
+                    : '761px',
+              }}
+              clickEvent={item => this.clickEvent(item)}
+            />
+          </BIScrollbar>
+        </BILoading>
       </div>
     );
   }

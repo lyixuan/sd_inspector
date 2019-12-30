@@ -45,6 +45,7 @@ export default class EchartsComponent extends React.Component {
 
   render() {
     const { style, isEmpty } = this.props;
+    console.log(style, 'style');
     return (
       <div className={styles.echartContainer} style={{ ...style }}>
         {isEmpty ? (
