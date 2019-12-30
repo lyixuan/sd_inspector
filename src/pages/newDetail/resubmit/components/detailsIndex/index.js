@@ -6,49 +6,56 @@ import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import styles from './style.less';
 
 @connect(({ resubmitModal }) => ({
-  originData: resubmitModal.originData,
+  stuDetailData: resubmitModal.stuDetailData || {},
 }))
 class DetailsIndex extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      pageSize: 15,
+      current: 1,
+    }
+  }
   columns = () => {
     const columns = [
       {
         title: '学员id',
-        dataIndex: 'id',
-        key: 'id',
-        width: '60px',
+        dataIndex: 'stuId',
+        key: 'stuId',
       },
       {
         title: '学员姓名',
-        dataIndex: 'packageName',
-        key: 'packageName',
+        dataIndex: 'stuName',
+        key: 'stuName',
       },
       {
         title: '周期',
-        dataIndex: 'itemCount',
-        key: 'itemCount',
+        dataIndex: 'lifeCycle',
+        key: 'lifeCycle',
       },
       {
         title: '报名时间',
-        dataIndex: 'itemAmount',
-        key: 'itemAmount',
+        dataIndex: 'paymentTime',
+        key: 'paymentTime',
       },
       {
         title: '学院',
-        dataIndex: 'itemAmount',
-        key: 'itemAmount',
+        dataIndex: 'collegeName',
+        key: 'collegeName',
       },{
         title: '家族',
-        dataIndex: 'itemAmount',
-        key: 'itemAmount',
+        dataIndex: 'familyName',
+        key: 'familyName',
       },{
         title: '小组',
-        dataIndex: 'itemAmount',
-        key: 'itemAmount',
+        dataIndex: 'groupName',
+        key: 'groupName',
       },{
+        width: '20%',
         ellipsis: true,
         title: '老产品包',
-        dataIndex: 'itemAmount',
-        key: 'itemAmount',
+        dataIndex: 'originPackageName',
+        key: 'originPackageName',
         render: (text, record) => {
           return (
             <Tooltip title={text}>{text}</Tooltip>
@@ -56,29 +63,41 @@ class DetailsIndex extends React.Component {
         },
       },{
         title: '续费产品包',
-        dataIndex: 'itemAmount',
-        key: 'itemAmount',
+        dataIndex: 'packageName',
+        key: 'packageName',
       },{
         title: '净流水',
-        dataIndex: 'itemAmount',
-        key: 'itemAmount',
+        dataIndex: 'restAmount',
+        key: 'restAmount',
       },
     ];
     return columns || [];
   };
+  onChangeSize = current => {
+    const params = {...this.props.getRequestParams(), page: current, pageSize: this.state.pageSize}
+    this.props.getQueryStuDetailPage(params);
+    this.setState({ current });
+  }
   render() {
+    const { dataSource = [], total = 0 } = this.props.stuDetailData;
+    const { pageSize = 15, current = 1} = this.state;
     return (
       <BIContainer 
-      title="原产品包榜单"
       headStyle={{display: 'none'}}
       >
         <BIScrollbarTable
           columns={this.columns()}
-          dataSource={this.props.originData || []}
-          pagination={false}
+          dataSource={dataSource}
           loading={this.props.loading}
-          onRow={this.onClickRow}
-          rowKey={record => record.id}
+          rowKey={record => record.stuId}
+          pagination={{
+            onChange: this.onChangeSize,
+            defaultPageSize: pageSize,
+            current,
+            total,
+            hideOnSinglePage: true,
+            showQuickJumper: true,
+          }}
         />
     </BIContainer>
     );
