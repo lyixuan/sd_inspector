@@ -27,24 +27,26 @@ class Family extends React.Component {
     const { getFamilyAnalyzeData, loading } = this.props;
     let options = getOption(getFamilyAnalyzeData);
     return (
-      <div className={styles.familyWrap}>
+      <div className={styles.familyWrap} style={{ width: '761px' }}>
         <p className={styles.title}>
           <span></span>
           家族分析
         </p>
-        <BILoading isLoading={this.props.loading}>
+        <BILoading isLoading={loading}>
           <BIScrollbar style={{ minHeight: 240 }}>
-            <Echarts
-              options={options}
-              style={{
-                height: '240px',
-                width:
-                  getFamilyAnalyzeData.length * 35 > 761
-                    ? getFamilyAnalyzeData.length * 35 + 'px'
-                    : '761px',
-              }}
-              clickEvent={item => this.clickEvent(item)}
-            />
+            {!this.props.loading && (
+              <Echarts
+                options={options}
+                style={{
+                  height: '240px',
+                  width:
+                    getFamilyAnalyzeData.length * 35 > 761
+                      ? getFamilyAnalyzeData.length * 35 + 'px'
+                      : '761px',
+                }}
+                clickEvent={item => this.clickEvent(item)}
+              />
+            )}
           </BIScrollbar>
         </BILoading>
       </div>
