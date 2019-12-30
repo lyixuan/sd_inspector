@@ -36,7 +36,7 @@ function Prise(props) {
   return (
     <li className={styles.step}>
       <div className={styles.time}>
-        {props.li.evaluateTime ? props.li.evaluateTime.split(' ')[1] : ''}
+        {props.li.evaluateTime ? props.li.evaluateTime : ''}
         {/* {props.li.countDate ? props.li.countDate.split(' ')[1] : ''} */}
       </div>
       <div className={styles.content}>
@@ -109,13 +109,50 @@ function TeacherOrStudent(props) {
       </li>
     );
   } else {
+    console.log(112, props.item.content)
+    let reg = /##[\s\S]*##/g;
     let answer = props.item.content;
+    if (!answer) { return <></> }
+
+    if (answer && answer.match(/\{\{(.+?)\}\}/g)) {
+      answer = answer.replace(/\{\{(.+?)\}\}/g, 1)
+    }
     if (answer.indexOf('answerType') > -1) {
       answer = JSON.parse(answer.replace(/\\"/g, "").replace(/“/g, "'").replace(/”/g, "'").replace(/\\/g, "").replace(/\\"/g, "")).answer;
+    } else if (answer && answer.match(reg)) {
+      let media = JSON.parse(answer.match(reg)[0].replace(/##/g, "").replace(/\\"/g, '"'));
+      let content = answer.replace(reg, "##placeholder##").split(/##/g)
+      let mediaContent = [];
+      content.forEach((item, index) => {
+        if (item) {
+          if (item == "placeholder") {
+            mediaContent.push({
+              type: "media",
+              media: media
+            })
+          } else {
+            mediaContent.push({
+              type: "text",
+              content: item
+            })
+          }
+        }
+      })
+      mediaContent.map(item => {
+        if (item.type === 'media' && item.media.type === 'img') {
+          answer = item.media.arr[0].url
+        }
+      })
     } else {
       answer = props.item.content
     }
-    if (!answer) { return <></> }
+    // let answer = props.item.content;
+    // if (answer.indexOf('answerType') > -1) {
+    //   answer = JSON.parse(answer.replace(/\\"/g, "").replace(/“/g, "'").replace(/”/g, "'").replace(/\\/g, "").replace(/\\"/g, "")).answer;
+    // } else {
+    //   answer = props.item.content
+    // }
+    // if (!answer) { return <></> }
 
     return (
       <li className={styles.step}>

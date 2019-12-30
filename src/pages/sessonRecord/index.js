@@ -48,9 +48,10 @@ class SessonRecord extends Component {
     super(props);
     const query = this.props.location.query.params ? JSON.parse(this.props.location.query.params) : {};
     const { collegeId, familyId } = query
+    console.log(51, moment(new Date().getTime()).subtract(1, 'days'))
     this.state = {
-      startTime: moment(query.startTime) || moment(new Date().getTime()).subtract(1, 'days'),
-      endTime: moment(query.endTime) || moment(new Date().getTime()).subtract(1, 'days'),
+      startTime: query.startTime ? moment(query.startTime) : moment(new Date().getTime()).subtract(1, 'days'),
+      endTime: query.endTime ? moment(query.endTime) : moment(new Date().getTime()).subtract(1, 'days'),
       org: collegeId || familyId ? [collegeId, familyId] : [],
       inputStuId: undefined,
       evaluate: undefined,
