@@ -73,8 +73,8 @@ class RobotTrend extends React.Component {
       zlevel: 1,
       graphic: [{
         type: 'text',
-        left: '23%',
-        top: '47%',
+        left: '45%',
+        top: '43%',
         style: {
           text: '暂无数据',
           textAlign: 'center',
@@ -186,8 +186,8 @@ class RobotTrend extends React.Component {
       zlevel: 1,
       graphic: [{
         type: 'text',
-        left: '23%',
-        top: '47%',
+        left: '45%',
+        top: '43%',
         style: {
           text: '暂无数据',
           textAlign: 'center',
@@ -259,12 +259,18 @@ class RobotTrend extends React.Component {
         },
         formatter: function (params) {
           let results = '';
-          console.log(321, params)
           for (let i = 0; i < params.length; i++) {
             results += `<div><span style="width:6px;display:inline-block; height:6px;border-radius:100%;font-size:1px;margin-right:5px;background:${params[i].color}"></span>${params[i].seriesName}: ${(params[i].value * 100).toFixed(2)}%</div>`;
           }
           return results;
         }
+      },
+      legend: {
+        data: ['拦截率', '协同接待率'],
+        bottom: '-5px',
+        itemWidth: 8,
+        itemHeight: 8,
+
       },
       xAxis: {
         data: data2,
@@ -316,7 +322,7 @@ class RobotTrend extends React.Component {
         top: 20,
         left: 50,
         right: 60,
-        bottom: 50,
+        bottom: 70,
       },
       series: [
 
@@ -427,11 +433,18 @@ class RobotTrend extends React.Component {
         itemHeight: 8,
 
       },
+      // grid: {
+      //   top: 20,
+      //   left: '3%',
+      //   right: '4%',
+      //   bottom: 60,
+      //   containLabel: true
+      // },
       grid: {
         top: 20,
-        left: '3%',
-        right: '4%',
-        containLabel: true
+        left: 50,
+        right: 60,
+        bottom: 70,
       },
       xAxis: [
         {
