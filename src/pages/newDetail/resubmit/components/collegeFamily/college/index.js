@@ -14,11 +14,6 @@ class College extends React.Component {
   clickEvent = item => {
     const { getCollegeAnalyzeData } = this.props;
     this.props.onParamsChange([getCollegeAnalyzeData[item.dataIndex].collegeId], 'orgId');
-    // handleDataTrace({ widgetName: 'IM负面原因', traceName: item.data.name });
-    // jumpGobalRouter('xdCredit/im', {
-    //   dataRange: [getCurrentDateRangeData.startTime, getCurrentDateRangeData.endTime],
-    //   reasonTypeId: item.data.reasonTypeId || 0,
-    // });
   };
 
   render() {

@@ -9,6 +9,9 @@ import { connect } from 'dva';
   getPathListData: resubmitModal.getPathListData,
 }))
 class Path extends React.Component {
+  clickEvent = item => {
+    this.props.onParamsChange(Number(item.dataIndex) + 1, 'path');
+  };
   render() {
     const { getPathListData } = this.props;
     let options = getOption(getPathListData);
@@ -20,7 +23,11 @@ class Path extends React.Component {
           <i>(自考)</i>
         </p>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Echarts options={options} style={{ width: '720px', height: '240px' }} />
+          <Echarts
+            clickEvent={item => this.clickEvent(item)}
+            options={options}
+            style={{ width: '720px', height: '240px' }}
+          />
         </div>
       </div>
     );

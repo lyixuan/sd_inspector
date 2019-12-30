@@ -9,6 +9,10 @@ import { connect } from 'dva';
   getCycleListData: resubmitModal.getCycleListData,
 }))
 class Cycle extends React.Component {
+  clickEvent = item => {
+    this.props.onParamsChange(item.name.replace('天', ''), 'lifeCycle');
+  };
+
   render() {
     const { getCycleListData } = this.props;
     const options = getOption(getCycleListData);
@@ -20,6 +24,7 @@ class Cycle extends React.Component {
         </p>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Echarts
+            clickEvent={item => this.clickEvent(item)}
             options={options}
             style={{ width: '243px', height: 194 + 'px', marginTop: '24px' }}
           />

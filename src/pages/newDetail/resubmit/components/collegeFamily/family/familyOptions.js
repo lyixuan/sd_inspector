@@ -145,6 +145,14 @@ export function getOption(listsrc) {
         return str;
       },
     },
+    // dataZoom: [
+    //   {
+    //     type: 'slider',
+    //     xAxisIndex: [0],
+    //     start: 0, //滚动条的起始位置
+    //     end: 50, //滚动条的截止位置（按比例分割你的柱状图x轴长度）
+    //   },
+    // ],
     xAxis: {
       data: xArr,
       name: '',
