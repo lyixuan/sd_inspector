@@ -220,7 +220,7 @@ class CreditImDetials extends React.Component {
               <span
                 data-trace='{"widgetName":"不满意会话进学员档案","traceName":"小德学分/学分/不满意会话进学员档案"}'
                 onClick={() => this.handleNameClick(record.stuId)}
-                style={record.stuId ? { color: '#00CCC3', cursor: 'pointer' } : {}}
+                style={record.stuId ? { color: '#0062FF', cursor: 'pointer' } : {}}
               >
                 {strLen(text, 6)}
               </span>
@@ -277,7 +277,7 @@ class CreditImDetials extends React.Component {
         key: 'address',
         render: (text, r) => {
           return (
-            <span onClick={() => this.getAppeal(r)} style={{ color: '#00CCC3', cursor: 'pointer' }}>
+            <span onClick={() => this.getAppeal(r)} style={{ color: '#0062FF', cursor: 'pointer' }}>
               申诉
             </span>
           );

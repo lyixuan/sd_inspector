@@ -52,7 +52,7 @@ class pkDimension extends React.Component {
     groupList && groupList.map((item, index) => {
       columns.push({
         width: '12%',
-        title: <Tooltip title={item[this.getShowKey('columnOrgName')]}>
+        title: <Tooltip title={item[this.getShowKey('columnOrgName')]} placement='bottom'>
           <Paragraph ellipsis={{ rows: 1}}>
             {item[this.getShowKey('columnOrgName')]}
             {index > 0 ? <BIIcon onClick={() => this.props.handleDelete(item[pkValue])} /> : ''}

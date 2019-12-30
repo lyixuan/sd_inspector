@@ -135,9 +135,15 @@ class ScoreContrast extends React.Component {
     this.props.dispatch({
       type:'histogramModel/queryAppealDataPage',
       payload:{params: this.getQueryParams(params)},
-      callback:(res) => this.setState({
-        queryAppealDatas:res
-      })
+      callback:(res) => {
+        this.setState({
+          queryAppealDatas:res
+        }, () => {
+          if (!this.queryFlag) {
+            this.queryFlag = true;
+          }
+        }) 
+      }
     })
   }
   // 参数
@@ -202,13 +208,13 @@ class ScoreContrast extends React.Component {
           />}
         </span>
         <span>
-          <BIButton onClick={() => this.handleRouter('xdCredit/index', allTimes, '趋势')} type="online" style={{marginRight: '8px'}}>
-            <img src={qushiImg} alt='' style={{ width: 15, marginRight: 6 }}/>
+          <BIButton onClick={() => this.handleRouter('xdCredit/index', allTimes, '趋势')} type="primary" style={{marginRight: '8px'}}>
+            {/* <img src={qushiImg} alt='' style={{ width: 15, marginRight: 6 }}/> */}
             学分趋势
           </BIButton>
           { 
-            userTypes[userType] && <BIButton onClick={() => this.handleRouter('xdCreditPk/list', allTimes, 'pk')} type="online" style={{marginRight: '8px'}}>
-              <img src={pkBtnImg} alt='' style={{ width: 14, marginRight: 12,     marginTop: '-1px' }}/>
+            userTypes[userType] && <BIButton onClick={() => this.handleRouter('xdCreditPk/list', allTimes, 'pk')} type="primary" style={{marginRight: '8px'}}>
+              {/* <img src={pkBtnImg} alt='' style={{ width: 14, marginRight: 12,     marginTop: '-1px' }}/> */}
               学分PK
             </BIButton>
           } 
@@ -255,7 +261,7 @@ class ScoreContrast extends React.Component {
         propStyle={{ padding: '0px', position: 'relative' }}
         headStyle={{display: 'none'}}
       >            
-        <TopTabs 
+       {this.queryFlag && <TopTabs 
         right={this.rightPart()}
         rightStyles={{
           display: 'flex',
@@ -269,9 +275,10 @@ class ScoreContrast extends React.Component {
         propsData = {{
           ...this.state,
           allTimes: getDateObj(this.state.queryParams.dataRange),
-          queryAppealDataPage: this.queryAppealDataPage
+          queryAppealDataPage: this.queryAppealDataPage,
+          queryFlag: this.queryFlag
         }}
-        />
+        />} 
       </Container>
     );
   }

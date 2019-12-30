@@ -85,21 +85,23 @@ class DetailsIndex extends React.Component {
       <BIContainer 
       headStyle={{display: 'none'}}
       >
-        <BIScrollbarTable
-          columns={this.columns()}
-          dataSource={dataSource}
-          loading={this.props.loading}
-          rowKey={record => record.stuId}
-          pagination={{
-            onChange: this.onChangeSize,
-            defaultPageSize: pageSize,
-            current,
-            total,
-            hideOnSinglePage: true,
-            showQuickJumper: true,
-          }}
-        />
-    </BIContainer>
+        <div className={styles.detailsIndex}>
+          <BIScrollbarTable
+            columns={this.columns()}
+            dataSource={dataSource}
+            loading={this.props.loading}
+            rowKey={record => record.stuId}
+            pagination={{
+              onChange: this.onChangeSize,
+              defaultPageSize: pageSize,
+              current,
+              total,
+              hideOnSinglePage: true,
+              showQuickJumper: true,
+            }}
+          />
+        </div>
+      </BIContainer>
     );
   }
 }
