@@ -128,7 +128,6 @@ class BasicLayout extends React.PureComponent {
       minRadius: animation.minRadius,
       maxRadius: animation.maxRadius
     });
-    thingsFall.init();
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
