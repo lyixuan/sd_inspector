@@ -222,7 +222,7 @@ export function getOption(listsrc) {
       },
     ],
     grid: {
-      left: 60,
+      left: 80,
       right: 20,
       top: 10,
       bottom: 50,
