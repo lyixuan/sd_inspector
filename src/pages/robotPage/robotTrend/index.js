@@ -556,7 +556,7 @@ class RobotTrend extends React.Component {
       </div>
       <div className={styles.chart2}>
         <div className={styles.blockContent}>
-          <h4 className={styles.title}><span className={styles.name}>会话满意度</span><span className={styles.btn} onClick={this.handleCheck}>查看评价详情</span></h4>
+          <h4 className={styles.title}><span className={styles.name}>会话满意度</span><span className={styles.btn} data-trace='{"widgetName":"查看评价详情","traceName":"IM机器人会话趋势"}' onClick={this.handleCheck}>查看评价详情</span></h4>
           {
             empty2 ? <Echart options={this.chartCategory()} style={{ width: '100%', height: '450px' }}></Echart> : <div className={styles.empty}>
               <img src={examEmpty} />

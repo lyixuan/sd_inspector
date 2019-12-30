@@ -168,7 +168,7 @@ class SessonRecord extends Component {
       title: '会话学员',
       dataIndex: 'stuName',
       key: 'stuName',
-      render: (text, record) => <span onClick={() => jumpMarkingDetails(record.stuId, { target: 'hx' })} className={styles.textname}>{text}</span>
+      render: (text, record) => <span data-trace='{"widgetName":"学员姓名","traceName":"机器人/学员姓名"}' onClick={() => jumpMarkingDetails(record.stuId, { target: 'hx' })} className={styles.textname}>{text}</span>
     }, {
       title: '评价时间',
       dataIndex: 'evaluateTime',
@@ -217,7 +217,7 @@ class SessonRecord extends Component {
     }, {
       title: '操作',
       key: Math.random(),
-      render: (text, record) => <span onClick={() => jumpMarkingDetails(record.stuId, { target: 'im' })} className={styles.textname}>查看</span>
+      render: (text, record) => <span data-trace='{"widgetName":"查看更多","traceName":"机器人/查看更多"}' onClick={() => jumpMarkingDetails(record.stuId, { target: 'im' })} className={styles.textname}>查看</span>
     },];
     return columns || [];
   }
@@ -263,8 +263,8 @@ class SessonRecord extends Component {
             <div className={styles.inputBox}>
               <BIInput placeholder="输入学员ID" maxLength={10} value={inputStuId} allowClear onChange={this.onChangeInput} />
             </div>
-            <BIButton type="reset" onClick={() => { this.handleSearch('reset') }}>重置</BIButton>
-            <BIButton type="primary" onClick={() => { this.handleSearch('search') }}>搜索</BIButton>
+            <BIButton type="reset" onClick={() => { this.handleSearch('reset') }} data-trace='{"widgetName":"重置","traceName":"机器人/会话记录"}'>重置</BIButton>
+            <BIButton type="primary" onClick={() => { this.handleSearch('search') }} data-trace='{"widgetName":"查询","traceName":"机器人/会话记录"}'>搜索</BIButton>
           </div>
         </div>
         <div className={styles.tableBox}>

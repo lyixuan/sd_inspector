@@ -194,7 +194,7 @@ class RobotData extends React.Component {
           }, {
             title: '操作',
             key: Math.random(),
-            render: (text, record) => <span className={styles.textname} onClick={this.handleCheck}>查看</span>
+            render: (text, record) => <span className={styles.textname} data-trace='{"widgetName":"查看","traceName":"IM机器人会话数据"}' onClick={this.handleCheck}>查看</span>
           }
         ]
       }

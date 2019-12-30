@@ -13,7 +13,7 @@ export async function dialoguDataList(params) {
 
 // 机器人会话趋势满意度接口
 export async function getDayData(params) {
-  return request('/test/robotDialogTrend/getDayDate', { method: 'post', data: params });
+  return request('/robotDialogTrend/getDayDate', { method: 'post', data: params });
 }
 // 机器人会话趋势饼状图接口
 export async function getDialogAndEvaluateData(params) {
