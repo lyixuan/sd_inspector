@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Tooltip } from 'antd';
+import { Tooltip, Icon } from 'antd';
 import BIInput from '@/ant_components/BIInput';
 import BIButton from '@/ant_components/BIButton';
 import BIDialog from '@/components/BIDialog';
@@ -34,6 +34,11 @@ const degreeList = [{
   name: evaluate[4],
   id: -1
 }]
+// 评价的星星
+function Star(props) {
+
+}
+
 @connect(({ sessonRecord, loading }) => ({
   sessonRecord,
   loading: loading.effects['sessonRecord/queryPage']
@@ -41,7 +46,7 @@ const degreeList = [{
 class SessonRecord extends Component {
   constructor(props) {
     super(props);
-    const { query } = this.props.location;
+    const query = this.props.location.query.params ? JSON.parse(this.props.location.query.params) : {};
     const { collegeId, familyId } = query
     this.state = {
       startTime: moment(query.startTime) || moment(new Date().getTime()).subtract(1, 'days'),
@@ -86,7 +91,6 @@ class SessonRecord extends Component {
 
   }
   initParams = () => {
-    const { query } = this.props.location;
     const params = {
       beginDate: moment(this.state.startTime).format(dateFormat),
       endDate: moment(this.state.endTime).format(dateFormat),
@@ -106,11 +110,17 @@ class SessonRecord extends Component {
     this.props.dispatch({
       type: 'sessonRecord/getUserOrgList',
     }).then(() => {
-      const { collegeId } = this.props.location.query;
-      if (collegeId)
-        this.setState({
-          org: [parseInt(collegeId)],
-        })
+      if (this.props.location.query.params) {
+        const params = JSON.parse(this.props.location.query.params);
+        const { collegeId, familyId } = params;
+        if (collegeId) {
+          this.setState({
+            org: [parseInt(collegeId), parseInt(familyId)],
+          })
+        }
+
+      }
+
     });
   }
   initDate = () => {
@@ -144,6 +154,22 @@ class SessonRecord extends Component {
     this.setState({
       org: val
     })
+  }
+  star = (props) => {
+    if (props || props === 0) {
+      const number = [1, 2, 3, 4];
+      const starList = number.map((item, index) => (
+        <Icon
+          type="star"
+          theme="filled"
+          key={index}
+          className={index <= props ? '' : styles.empty}
+        />
+      ));
+      return starList;
+    } else {
+      return null
+    }
   }
   columns = () => {
     const columns = [{
@@ -179,22 +205,23 @@ class SessonRecord extends Component {
       dataIndex: 'starLevel',
       key: 'starLevel',
       render: (text, record) => {
-        switch (text) {
-          case 0:
-            return <span>{evaluate[3]}</span>
-            break;
-          case 1:
-            return <span>{evaluate[2]}</span>
-            break;
-          case 2:
-            return <span>{evaluate[1]}</span>
-            break;
-          case 3:
-            return <span>{evaluate[0]}</span>
-            break;
-          default:
-            return <span>{evaluate[4]}</span>
-        }
+        return <div className={styles.prise}>{this.star(text)}</div>
+        // switch (text) {
+        //   case 0:
+        //     return <span>{evaluate[3]}</span>
+        //     break;
+        //   case 1:
+        //     return <span>{evaluate[2]}</span>
+        //     break;
+        //   case 2:
+        //     return <span>{evaluate[1]}</span>
+        //     break;
+        //   case 3:
+        //     return <span>{evaluate[0]}</span>
+        //     break;
+        //   default:
+        //     return <span>{evaluate[4]}</span>
+        // }
 
       }
     }, {
@@ -214,10 +241,17 @@ class SessonRecord extends Component {
       title: '会话类型',
       dataIndex: 'robot',
       key: 'robot',
+      render: (text, record) => {
+        if (text === 1) {
+          return <>机器人</>
+        } else {
+          return <>班主任</>
+        }
+      }
     }, {
       title: '操作',
       key: Math.random(),
-      render: (text, record) => <span data-trace='{"widgetName":"查看更多","traceName":"机器人/查看更多"}' onClick={() => jumpMarkingDetails(record.stuId, { target: 'im' })} className={styles.textname}>查看</span>
+      render: (text, record) => <span data-trace='{"widgetName":"查看更多","traceName":"机器人/查看更多"}' onClick={() => jumpMarkingDetails(record.stuId, { target: 'im' })} className={styles.textname}>查看更多</span>
     },];
     return columns || [];
   }

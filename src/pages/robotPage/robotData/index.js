@@ -194,24 +194,27 @@ class RobotData extends React.Component {
           }, {
             title: '操作',
             key: Math.random(),
-            render: (text, record) => <span className={styles.textname} data-trace='{"widgetName":"查看","traceName":"IM机器人会话数据"}' onClick={this.handleCheck}>查看</span>
+            render: (text, record) => <span className={styles.textname} data-trace='{"widgetName":"查看","traceName":"IM机器人会话数据"}' onClick={() => { this.handleCheck(record) }}>查看</span>
           }
         ]
       }
     ]
     return columns || []
   }
-  handleCheck = () => {
+  handleCheck = (record) => {
+    // console.log(205, record); return;
     const { initData } = this.props.robotPage
     const params = {
       startTime: initData.startTime,
       endTime: initData.endTime,
-      collegeId: initData.collegeId
+      collegeId: record.collegeId,
+      familyId: record.familyId
     }
-    router.push({
-      pathname: '/sessionReport/sessionReport',
-      query: { ...params },
-    });
+    window.open(`/inspector/sessionReport/sessionReport?params=${JSON.stringify(params)}`);
+    // router.push({
+    //   pathname: '/sessionReport/sessionReport',
+    //   query: { ...params },
+    // });
   }
 
   render() {

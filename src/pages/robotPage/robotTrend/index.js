@@ -532,10 +532,11 @@ class RobotTrend extends React.Component {
       collegeId: initData.org.length > 0 ? initData.org[0] : null,
       familyId: initData.org.length > 1 ? initData.org[1] : null
     }
-    router.push({
-      pathname: '/sessionReport/sessionReport',
-      query: { ...params },
-    });
+    window.open(`/inspector/sessionReport/sessionReport?params=${JSON.stringify(params)}`);
+    // router.push({
+    //   pathname: '/sessionReport/sessionReport',
+    //   query: { ...params },
+    // });
   }
 
   render() {
