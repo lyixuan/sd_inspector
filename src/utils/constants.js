@@ -421,7 +421,23 @@ export const EmptyContentLayout = [
   { path: '/xdCredit/index', name: '小德学分' },
   { path: '/indexPage', name: '小德工作台' },
   { path: '/cubePlan/list', name: '魔方计划' },
-  { path: '/xdCredit/im', name: 'im差评分析'}
+  { path: '/xdCredit/im', name: 'im差评分析'},
+  { path: '/hotQuestion/index', name: '热门问题'},
+  { path: '/hotQuestion/relationEdit'},
+  { path: '/configWords'},
+  { path: '/knowledge/knowledge', name: '知识库' },
+  { path: '/sessionReport/sessionReport', name: '会话记录' },
+  { path: '/allReport', name: '报考信息系统' },
+  { path: '/examPlant/admissionTicket', name: '准考证填写' },
+  { path: '/examPlant/registTouch', name: '报考触达' },
+  { path: '/operateActivity/index', name: '运营活动' },
+  { path: '/classQuality/qualityType/1', name: '客诉质检手册' },
+  { path: '/classQuality/qualityType/2', name: '班主任质检手册' },
+  { path: '/xdCreditPk/list', name: '学分PK' },
+  { path: '/downloadCenter', name: '下载中心' },
+  { path: '/newDetail/analyze', name: '创收产品包' },
+  { path: '/newDetail/incomeRank', name: '创收对比' },
+  { path: '/newDetail/incomeOrder', name: '创收排名' }
 ];
 export const EmptyContentLayoutWithBread = [{ path: '/cubePlan/list/detail', name: '魔方详情' }];
 // 注册类型
