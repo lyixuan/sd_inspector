@@ -6,7 +6,7 @@ export function getOptions(data) {
   let newName = [];
   let newdata = [];
   let contentData = [];
-  let dataX = [];
+  // let dataX = [];
   let data1 = [];
   let data2 = [];
   let data3 = [];
@@ -21,7 +21,7 @@ export function getOptions(data) {
   if (data && data.class && data.class.detailList) {
     data.class.detailList.map((item, index) => {
       newName.push(item.name);
-      dataX.push(item.value);
+      // dataX.push(item.value);
       if (item.status) {
         data1.push(Number(item.status.preAppealNum));
         data2.push(Number(item.status.oneSopPreAppealNum));
@@ -51,7 +51,7 @@ export function getOptions(data) {
   }
 
   const maxData =
-    Number(Math.max.apply(Math, dataX)) +
+    // Number(Math.max.apply(Math, dataX)) +
     Number(Math.max.apply(Math, data1)) +
     Number(Math.max.apply(Math, data2)) +
     Number(Math.max.apply(Math, data3)) +
@@ -147,7 +147,7 @@ export function getOptions(data) {
       },
       // trigger: 'axis',
       formatter: function(p, index) {
-        if (p.seriesIndex == 12) return;
+        if (p.seriesIndex == 11) return;
         return p.name + '<br>' + p.seriesName + ':' + p.value;
       },
       extraCssText: 'box-shadow: 0 0 5px rgba(0, 0, 0, 0.1)',
@@ -193,19 +193,19 @@ export function getOptions(data) {
       },
     ],
     series: [
+      // {
+      //   barWidth: 16,
+      //   name: 'value',
+      //   type: 'bar',
+      //   stack: '2',
+      //   itemStyle: itemStyle,
+      //   data: dataX,
+      // },
       {
         barWidth: 16,
-        name: 'value',
+        name: '待申诉',
         type: 'bar',
-        stack: '广告',
-        itemStyle: itemStyle,
-        data: dataX,
-      },
-      {
-        barWidth: 16,
-        name: '待申诉	',
-        type: 'bar',
-        stack: '广告',
+        stack: '2',
         itemStyle: itemStyle1,
         data: data1,
       },
@@ -213,7 +213,7 @@ export function getOptions(data) {
         barWidth: 16,
         name: '一次SOP待审核',
         type: 'bar',
-        stack: '广告',
+        stack: '2',
         itemStyle: itemStyle2,
         data: data2,
       },
@@ -221,7 +221,7 @@ export function getOptions(data) {
         barWidth: 16,
         name: '二次SOP待审核',
         type: 'bar',
-        stack: '广告',
+        stack: '2',
         itemStyle: itemStyle3,
         data: data3,
       },
@@ -229,7 +229,7 @@ export function getOptions(data) {
         barWidth: 16,
         name: '一次SOP已驳回',
         type: 'bar',
-        stack: '广告',
+        stack: '2',
         itemStyle: itemStyle4,
         data: data4,
       },
@@ -237,7 +237,7 @@ export function getOptions(data) {
         barWidth: 16,
         name: '二次SOP已驳回',
         type: 'bar',
-        stack: '广告',
+        stack: '2',
         itemStyle: itemStyle5,
         data: data5,
       },
@@ -245,7 +245,7 @@ export function getOptions(data) {
         barWidth: 16,
         name: '一次申诉失败',
         type: 'bar',
-        stack: '广告',
+        stack: '2',
         itemStyle: itemStyle6,
         data: data6,
       },
@@ -253,7 +253,7 @@ export function getOptions(data) {
         barWidth: 16,
         name: '二次申诉失败',
         type: 'bar',
-        stack: '广告',
+        stack: '2',
         itemStyle: itemStyle7,
         data: data7,
       },
@@ -261,7 +261,7 @@ export function getOptions(data) {
         barWidth: 16,
         name: '一次质检主管待审核',
         type: 'bar',
-        stack: '广告',
+        stack: '2',
         itemStyle: itemStyle8,
         data: data8,
       },
@@ -269,7 +269,7 @@ export function getOptions(data) {
         barWidth: 16,
         name: '二次质检主管待审核',
         type: 'bar',
-        stack: '广告',
+        stack: '2',
         itemStyle: itemStyle9,
         data: data9,
       },
@@ -277,7 +277,7 @@ export function getOptions(data) {
         barWidth: 16,
         name: '一次申诉超时',
         type: 'bar',
-        stack: '广告',
+        stack: '2',
         itemStyle: itemStyle10,
         data: data10,
       },
@@ -285,7 +285,7 @@ export function getOptions(data) {
         barWidth: 16,
         name: '二次申诉超时',
         type: 'bar',
-        stack: '广告',
+        stack: '2',
         itemStyle: itemStyle11,
         data: data11,
       },

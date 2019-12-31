@@ -14,6 +14,13 @@ export function getOption(data) {
       data1.push(item.failCount);
     });
   }
+  let maxData = Number(Math.max.apply(Math, data1)) + Number(Math.max.apply(Math, data2));
+  let maxDataArr = [];
+  if (data && data.detailList) {
+    data.detailList.map(item => {
+      maxDataArr.push(maxData);
+    });
+  }
 
   const itemStyle1 = {
     normal: {
@@ -141,7 +148,7 @@ export function getOption(data) {
           },
         },
         z: -10,
-        data: ['1000', '1000', '1000', '1000', '1000', '1000'],
+        data: maxDataArr,
       },
     ],
     // },] [
