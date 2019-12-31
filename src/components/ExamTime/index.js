@@ -72,7 +72,7 @@ class ExamTime extends Component {
       });
       return <div className={styles.wraperStyle} style={wraperStyle} key={idx}>
         <Tooltip title={titleText} visible={this.state.visible[idx]} overlayClassName={styles.examOverlayClassName}>
-          <div className={styles.dateText} style={dateText}>{moment(item.startDate).format('MM.DD')}</div>
+          <div className={styles.dateText} style={dateText}>{moment(item.startDate).format('M.D')}</div>
         </Tooltip>
         <div className={styles.dot} style={dot}/>
         <div className={styles.colLine} style={colLine} />
