@@ -9,6 +9,16 @@ class SmallProgress extends React.Component {
       return styles.leftRed;
     } else if (isColor === 'blue') {
       return styles.blue;
+    } else if (isColor === 'qing') {
+      return styles.qing;
+    } else if (isColor === 's') {
+      return styles.s;
+    } else if (isColor === 'normal') {
+      return styles.normal;
+    } else if (isColor === 'good') {
+      return styles.good;
+    } else if (isColor === 'bad') {
+      return styles.bad;
     } else {
       return styles.progressRed;
     }

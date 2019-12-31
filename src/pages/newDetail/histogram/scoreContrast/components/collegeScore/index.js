@@ -12,13 +12,13 @@ import { jumpGobalSelfRouter } from '@/pages/ko/utils/utils';
   loading: loading.effects['histogramModel/queryAppealDataPage'],
 }))
 class CollegeScore extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      queryAppealDatas:{},
-      familyName:[]
-    }
-  }
+  // constructor(props) {
+  //   super(props)
+  //   this.state = {
+  //     queryAppealDatas:{},
+  //     familyName:[]
+  //   }
+  // }
   getItemStyle = v =>{
     if (v > 0) {
       return {

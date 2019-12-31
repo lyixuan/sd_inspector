@@ -10,7 +10,7 @@ class TreeNames extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      dimensionId: ''
+      dimensionId: 1
     }
   }
   componentDidMount() {
@@ -25,17 +25,11 @@ class TreeNames extends React.Component {
       dimensionId: tag.dimensionId
     })
     BI.traceV && BI.traceV({ "widgetName": tag.name, "traceName": `${this.state.traceName}工作台${tag.name}` });
-    this.props.clickTag({dimensionId:tag.dimensionId});
-  }
-  getInit = dimensions => {
-    if (!this.state.dimensionId && dimensions.length > 0) { // dimensionId
-      this.setState({dimensionId: dimensions[0].dimensionId });
-    }
-    return this.state.dimensionId;
+    this.props.clickTag({dimensionId: tag.dimensionId});
   }
   render() {
     const { dimensions = [] } = this.props;
-    const dimensionId = this.getInit(dimensions);
+    const { dimensionId } = this.state;
     return (
       <div className={styles.treeMain}>
         {

@@ -34,7 +34,7 @@ class TopTabs extends React.Component {
             return (
               <TabPane tab={item.name} key={key}>
                 <div keye={key}>
-                  <CollegeScore {...propsData} />
+                  {propsData.queryFlag && <CollegeScore {...propsData} />}
                 </div>
               </TabPane>
             )
