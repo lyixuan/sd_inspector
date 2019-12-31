@@ -31,8 +31,8 @@ export default {
   * 皮肤相关
   */
   theme: {
-    'primary-color': '#00CCC3',
-    'link-color': '#00CCC3',
+    'primary-color': '#FFE300',
+    'link-color': '#0062FF',
     'warning-color': '#FF4A53',
     'heading-color': '#1A1C1F',
     'text-color': '#56595E',

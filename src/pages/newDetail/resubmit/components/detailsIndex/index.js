@@ -1,90 +1,109 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Tooltip } from 'antd';
 import BIContainer from '@/components/BIContainer';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
-import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
-import rank1 from '@/assets/xdFamily/rank1.png';
-import rank2 from '@/assets/xdFamily/rank2.png';
-import rank3 from '@/assets/xdFamily/rank3.png';
-import { companyThousandsIncome } from '@/utils/utils';
-import styles from './styles.less';
-import { Tooltip } from 'antd';
+import styles from './style.less';
 
 @connect(({ resubmitModal }) => ({
-  originData: resubmitModal.originData,
+  stuDetailData: resubmitModal.stuDetailData || {},
 }))
-class OriginIndex extends React.Component {
+class DetailsIndex extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      pageSize: 15,
+      current: 1,
+    }
+  }
   columns = () => {
     const columns = [
       {
-        title: '排名',
-        dataIndex: 'id',
-        key: 'id',
-        width: '60px',
+        title: '学员id',
+        dataIndex: 'stuId',
+        key: 'stuId',
+      },
+      {
+        title: '学员姓名',
+        dataIndex: 'stuName',
+        key: 'stuName',
+      },
+      {
+        title: '周期',
+        dataIndex: 'lifeCycle',
+        key: 'lifeCycle',
+      },
+      {
+        title: '报名时间',
+        dataIndex: 'paymentTime',
+        key: 'paymentTime',
+      },
+      {
+        title: '学院',
+        dataIndex: 'collegeName',
+        key: 'collegeName',
+      },{
+        title: '家族',
+        dataIndex: 'familyName',
+        key: 'familyName',
+      },{
+        title: '小组',
+        dataIndex: 'groupName',
+        key: 'groupName',
+      },{
+        width: '20%',
+        ellipsis: true,
+        title: '老产品包',
+        dataIndex: 'originPackageName',
+        key: 'originPackageName',
         render: (text, record) => {
           return (
-            <div className={`${styles.rankColumn}`}>
-              {record.id > 3 ? (
-                <span className={styles.rankSpan}>{record.id}</span>
-              ) : (
-                <img className={styles.rank} src={`rank${record.id}`} alt=''/>
-              )}
-            </div>
+            <Tooltip title={text}>{text}</Tooltip>
           );
         },
-      },
-      {
-        ellipsis: true,
-        title: '原产品包',
+      },{
+        title: '续费产品包',
         dataIndex: 'packageName',
         key: 'packageName',
-        render: (packageName, record) => {
-          return (
-            <Tooltip title={packageName}>{packageName}</Tooltip>
-          );
-        },
-      },
-      {
-        title: '续报单量',
-        dataIndex: 'itemCount',
-        key: 'itemCount',
-      },
-      {
-        title: '续报流水',
-        dataIndex: 'itemAmount',
-        key: 'itemAmount',
-        width: '100px',
-        render: (incomeFlowKpi, record) => {
-          const percent = record.incomeFlowKpiRatio * 100 + '%';
-          const money = companyThousandsIncome(incomeFlowKpi);
-          return <BIWrapperProgress
-          text={money}
-          percent={percent}
-          propsStyle={{ flex: 'inherit', width: '70px', textAlign: 'right' }}
-        />
-        },
+      },{
+        title: '净流水',
+        dataIndex: 'restAmount',
+        key: 'restAmount',
       },
     ];
     return columns || [];
   };
+  onChangeSize = current => {
+    const params = {...this.props.getRequestParams(), page: current, pageSize: this.state.pageSize}
+    this.props.getQueryStuDetailPage(params);
+    this.setState({ current });
+  }
   render() {
+    const { dataSource = [], total = 0 } = this.props.stuDetailData;
+    const { pageSize = 15, current = 1} = this.state;
     return (
-      <BIContainer
-      title="原产品包榜单"
-      style={{ width: 'calc(50% - 12px)' }}
+      <BIContainer 
+      headStyle={{display: 'none'}}
       >
-        <BIScrollbarTable
-          columns={this.columns()}
-          dataSource={this.props.originData || []}
-          pagination={false}
-          loading={this.props.loading}
-          onRow={this.onClickRow}
-          rowKey={record => record.id}
-          // scroll={{ y: 288 }}
-        />
-    </BIContainer>
+        <div className={styles.detailsIndex}>
+          <BIScrollbarTable
+            columns={this.columns()}
+            dataSource={dataSource}
+            loading={this.props.loading}
+            rowKey={record => record.stuId}
+            pagination={{
+              onChange: this.onChangeSize,
+              defaultPageSize: pageSize,
+              current,
+              total,
+              hideOnSinglePage: true,
+              showQuickJumper: true,
+            }}
+          />
+        </div>
+      </BIContainer>
     );
   }
 }
 
-export default OriginIndex;
+export default DetailsIndex;

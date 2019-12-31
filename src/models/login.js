@@ -119,6 +119,7 @@ export default {
         // storage.removeItem('NPSGroupId');
         storage.removeItem('incomeFamilyLocal');
         storage.removeItem('incomeGroupLocal');
+        storage.removeItem('resubmit_query');
         yield put({
           type: 'menu/getMenu',
           payload: { routeData: response.privilegeList },

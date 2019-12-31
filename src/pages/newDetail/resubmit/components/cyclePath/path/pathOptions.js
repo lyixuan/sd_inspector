@@ -148,7 +148,7 @@ export function getOption(listsrc) {
     xAxis: {
       data: xArr,
       name: '',
-      // triggerEvent: true,
+      // type:'category',
       silent: false,
       axisLine: {
         show: false,
@@ -222,7 +222,7 @@ export function getOption(listsrc) {
       },
     ],
     grid: {
-      left: 65,
+      left: 60,
       right: 20,
       top: 10,
       bottom: 50,

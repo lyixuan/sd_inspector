@@ -1,25 +1,31 @@
 import React from 'react';
 import { connect } from 'dva';
+import moment from 'moment';
 import { BiFilter } from '@/utils/utils';
 import BISelect from '@/ant_components/BISelect';
 import BICascader from '@/ant_components/BICascader';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import { disabledDate } from '@/pages/indexPage/components/utils/utils';
-import { handleDataTrace } from '@/utils/utils';
 
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 @connect(({ newDetailModal, resubmitModal }) => ({
+  resubmitModal,
   globalUserInfo: newDetailModal.globalUserInfo,
   globalDateMoment: newDetailModal.globalDateMoment,
   globalkpiDateRange: newDetailModal.globalkpiDateRange,
-  paramsQuery: resubmitModal.paramsQuery,
-  collegeList: resubmitModal.collegeList
 }))
 class Resubmit extends React.Component {
   componentDidMount() {
     // 初始化参数
-    this.props.onObjChange({ orgId: this.getInitOrg(), dateRange: this.props.globalDateMoment})
+    const resubmit_query = localStorage.getItem('resubmit_query');
+    if (resubmit_query) {
+      const query = JSON.parse(resubmit_query) || {};
+      query.dateRange = [moment(query.dateRange[0]), moment(query.dateRange[1])];
+      this.props.onObjChange(query);
+    } else {
+      this.props.onObjChange({ orgId: this.getInitOrg(), dateRange: this.props.globalDateMoment})
+    }
   }
   // 组织初始化---角色属于什么组织默认什么组织---默认到学院家族
   getInitOrg = () => {
@@ -39,7 +45,8 @@ class Resubmit extends React.Component {
     }
   }
   render() {
-    const { paramsQuery = {}, collegeList, onParamsChange } = this.props;
+    const { onParamsChange } = this.props;
+    const { paramsQuery = {}, collegeList, originSelectData = [], packageSelectData = [] } = this.props.resubmitModal;
     return (
       <>
         <span>
@@ -57,28 +64,28 @@ class Resubmit extends React.Component {
           />
         </span>
         <span>
-          <BISelect style={{ width: 136 }} placeholder="全部" value={paramsQuery.originPackageName} onChange={val => onParamsChange(val, 'originPackageName')} allowClear>
-            {collegeList.map(item => <Option key={item.id} value={item.id} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
-              {item.name}
+          <BISelect style={{ width: 136 }} placeholder="原产品包" value={paramsQuery.originPackageName} onChange={val => onParamsChange(val, 'originPackageName')} allowClear>
+            {originSelectData.map(item => <Option key={item.packageName} value={item.packageName} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
+              {item.packageName}
             </Option>)}
           </BISelect>
         </span>
         <span>
-          <BISelect style={{ width: 136 }} placeholder="全部" value={paramsQuery.packageName} onChange={val => onParamsChange(val, 'packageName')} allowClear>
-            {collegeList.map(item => <Option key={item.id} value={item.id} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
-              {item.name}
+          <BISelect style={{ width: 136 }} placeholder="续报产品包" value={paramsQuery.packageName} onChange={val => onParamsChange(val, 'packageName')} allowClear>
+            {packageSelectData.map(item => <Option key={item.packageName} value={item.packageName} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
+              {item.packageName}
             </Option>)}
           </BISelect>
         </span>
         <span>
-          <BISelect style={{ width: 90 }} placeholder="全部" value={paramsQuery.path} onChange={val => onParamsChange(val, 'path')} allowClear>
+          <BISelect style={{ width: 90 }} placeholder="续报路径" value={paramsQuery.path} onChange={val => onParamsChange(val, 'path')} allowClear>
             {BiFilter('WB_PATH_LIST').map(item => <Option key={item.id} value={item.id} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
               {item.name}
             </Option>)}
           </BISelect>
         </span>
         <span>
-          <BISelect style={{ width: 90 }} placeholder="全部" value={paramsQuery.lifeCycle} onChange={val => onParamsChange(val, 'lifeCycle')} allowClear>
+          <BISelect style={{ width: 90 }} placeholder="周期" value={paramsQuery.lifeCycle} onChange={val => onParamsChange(val, 'lifeCycle')} allowClear>
             {BiFilter('WB_LIFE_CYCLE').map(item => <Option key={item.id} value={item.id} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
               {item.name}
             </Option>)}

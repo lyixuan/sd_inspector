@@ -59,6 +59,7 @@ export function getOption(data) {
       },
       // trigger: 'axis',
       formatter: function(p, index) {
+        if (p.seriesIndex == 2) return;
         return p.name + '<br>' + p.seriesName + ':' + p.value;
       },
       extraCssText: 'box-shadow: 0 0 5px rgba(0, 0, 0, 0.1)',
@@ -108,7 +109,7 @@ export function getOption(data) {
         name: '审核失败',
         stack: '2',
         // label: _label,
-        barGap: '-100%',
+        // barGap: '-100%',
         legendHoverLink: false,
         barWidth: 16,
         itemStyle: itemStyle1,
@@ -118,7 +119,7 @@ export function getOption(data) {
         type: 'bar',
         name: '审核中',
         stack: '2',
-        barGap: '-100%',
+        // barGap: '-100%',
         legendHoverLink: false,
         barWidth: 16,
         // label: _label,
@@ -132,8 +133,11 @@ export function getOption(data) {
         barWidth: 16,
         itemStyle: {
           normal: {
-            color: '#ccc',
+            color: '#F6F6F4',
             barBorderRadius: [0, 20, 20, 0],
+          },
+          emphasis: {
+            color: '#F6F6F4',
           },
         },
         z: -10,

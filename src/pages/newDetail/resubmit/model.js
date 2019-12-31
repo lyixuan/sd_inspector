@@ -1,5 +1,14 @@
 import { getKOEnumList } from '@/pages/ko/services';
-import { getCollegeAnalyze, getFamilyAnalyze, getCycleList, getPathList, getOriginPackageList, getPackageList } from './services';
+import { 
+  getCollegeAnalyze, 
+  getFamilyAnalyze, 
+  getCycleList, 
+  getPathList, 
+  getOriginPackageList, 
+  getPackageList,
+  getQueryStuDetailPage
+} from './services';
+import { getDateArray } from '@/pages/indexPage/components/utils/utils';
 import { message } from 'antd/lib/index';
 import { msgF } from '@/utils/utils';
 
@@ -13,7 +22,10 @@ export default {
     getCycleListData: {},
     getPathListData: {},
     originData: [], // 原产品包榜单
-    packageData: [] // 续报热销榜单
+    packageData: [], // 续报热销榜单
+    originSelectData: [], // 原产品下拉
+    packageSelectData: [], // 续报下拉
+    stuDetailData: {}, // 创收明细下拉
   },
 
   effects: {
@@ -27,18 +39,28 @@ export default {
     },
     // 续报分析 - 原产品包榜单
     *getOriginPackageList({ payload }, { call, put }) {
-      const result = yield call(getOriginPackageList, payload.params);
+      const { flag, ...others} = payload.params;
+      const result = yield call(getOriginPackageList, others);
       if (result.code === 20000 && result.data) {
-        yield put({ type: 'save', payload: { originData: result.data } });
+        if (flag) {
+          yield put({ type: 'save', payload: { originSelectData: result.data } });
+        } else {
+          yield put({ type: 'save', payload: { originData: result.data } });
+        }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
     // 续报分析 - 续报热销榜单
     *getPackageList({ payload }, { call, put }) {
-      const result = yield call(getPackageList, payload.params);
+      const { flag, ...others} = payload.params;
+      const result = yield call(getPackageList, others);
       if (result.code === 20000 && result.data) {
-        yield put({ type: 'save', payload: { packageData: result.data } });
+        if (flag) {
+          yield put({ type: 'save', payload: { packageSelectData: result.data } });
+        } else {
+          yield put({ type: 'save', payload: { packageData: result.data } });
+        }
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -82,6 +104,15 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
+    // 续报分析 - 创收明细
+    *getQueryStuDetailPage({ payload }, { call, put }) {
+      const result = yield call(getQueryStuDetailPage, payload.params);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { stuDetailData: result.data } });
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
   },
 
   reducers: {
@@ -89,7 +120,9 @@ export default {
       return { ...state, ...payload };
     },
     saveParams(state, { payload }) {
-      return { ...state, paramsQuery: { ...state.paramsQuery, ...payload } };
+      const paramsQuery = { ...state.paramsQuery, ...payload };
+      localStorage.setItem('resubmit_query', JSON.stringify({...paramsQuery, dateRange: getDateArray(paramsQuery.dateRange) }));
+      return { ...state, paramsQuery };
     },
     saveCollege(state, { payload }) {
       return { ...state, collegeList: getNullNodeList(payload.collegeList)};
