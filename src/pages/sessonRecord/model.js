@@ -10,14 +10,16 @@ export default {
   namespace: 'sessonRecord',
   state: {
     orgList: [],
-    sessionList: []
+    sessionList: [],
+    orgList: []
   },
   effects: {
     *getUserOrgList({ payload, callback }, { call, put }) {
       const result = yield call(getUserOrgList);
       if (result.code === 20000) {
         const res = result.data;
-        yield put({ type: 'save', payload: { orgList: res } });
+        yield put({ type: 'saveOrg', payload: { listObj: res } });
+        // yield put({ type: 'save', payload: { orgList: res } });
         if (callback && typeof callback === 'function') {
           callback(res);
         }
@@ -43,6 +45,24 @@ export default {
     save(state, { payload }) {
       return { ...state, ...payload };
     },
+    saveOrg(state, { payload }) {
+      const orgList = getNullNodeList(payload.listObj);
+      return { ...state, orgList };
+    },
 
   }
+}
+
+function getNullNodeList(data = []) {
+  data.map(item => {
+    if (item.nodeList instanceof Array) {
+      const l = item.nodeList.length;
+      if (l === 0) {
+        item.nodeList = null;
+      } else if (l > 0) {
+        getNullNodeList(item.nodeList);
+      }
+    }
+  });
+  return data;
 }
