@@ -109,7 +109,6 @@ function TeacherOrStudent(props) {
       </li>
     );
   } else {
-    console.log(112, props.item.content)
     let reg = /##[\s\S]*##/g;
     let answer = props.item.content;
     if (!answer) { return <></> }
@@ -117,9 +116,7 @@ function TeacherOrStudent(props) {
     if (answer && answer.match(/\{\{(.+?)\}\}/g)) {
       answer = answer.replace(/\{\{(.+?)\}\}/g, 1)
     }
-    if (answer.indexOf('answerType') > -1) {
-      answer = JSON.parse(answer.replace(/\\"/g, "").replace(/“/g, "'").replace(/”/g, "'").replace(/\\/g, "").replace(/\\"/g, "")).answer;
-    } else if (answer && answer.match(reg)) {
+    if (answer && answer.match(reg)) {
       let media = JSON.parse(answer.match(reg)[0].replace(/##/g, "").replace(/\\"/g, '"'));
       let content = answer.replace(reg, "##placeholder##").split(/##/g)
       let mediaContent = [];
@@ -143,6 +140,8 @@ function TeacherOrStudent(props) {
           answer = item.media.arr[0].url
         }
       })
+    } else if (answer.indexOf('answerType') > -1) {
+      answer = JSON.parse(answer.replace(/\\"/g, "").replace(/“/g, "'").replace(/”/g, "'").replace(/\\/g, "").replace(/\\"/g, "")).answer;
     } else {
       answer = props.item.content
     }
