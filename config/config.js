@@ -35,7 +35,7 @@ export default {
     'link-color': '#0062FF',
     'warning-color': '#FF4A53',
     'heading-color': '#1A1C1F',
-    'text-color': '#56595E',
+    'text-color': '#56595E',// #56595E
     'font-size-base': '13px',
     'border-radius-base': '6px', // 组件浮层圆角
     'border-color-base': '#E8EBED',
