@@ -600,10 +600,12 @@ export const routes = [
           {
             path: '/robotPage/data',
             component: './robotPage/robotData',
+            name: '机器人会话数据'
           },
           {
             path: '/robotPage/trend',
             component: './robotPage/robotTrend',
+            name: '机器人会话趋势'
           }
         ]
       },
