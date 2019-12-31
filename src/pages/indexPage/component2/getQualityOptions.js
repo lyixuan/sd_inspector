@@ -143,7 +143,7 @@ export function getOptions(data) {
   };
   const itemStyle10 = {
     normal: {
-      color: '#E2E2EB',
+      color: '#DA43FF',
     },
   };
   const itemStyle11 = {
