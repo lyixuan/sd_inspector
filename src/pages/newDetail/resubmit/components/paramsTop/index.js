@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
+import { Tooltip } from 'antd';
 import { BiFilter } from '@/utils/utils';
 import BISelect from '@/ant_components/BISelect';
 import BICascader from '@/ant_components/BICascader';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import { disabledDate } from '@/pages/indexPage/components/utils/utils';
+import styles from './style.less';
 
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
@@ -15,7 +17,7 @@ const { BIRangePicker } = BIDatePicker;
   globalDateMoment: newDetailModal.globalDateMoment,
   globalkpiDateRange: newDetailModal.globalkpiDateRange,
 }))
-class Resubmit extends React.Component {
+class ParamsTop extends React.Component {
   componentDidMount() {
     // 初始化参数
     const resubmit_query = localStorage.getItem('resubmit_query');
@@ -66,26 +68,39 @@ class Resubmit extends React.Component {
         <span>
           <BISelect style={{ width: 136 }} placeholder="原产品包" value={paramsQuery.originPackageName} onChange={val => onParamsChange(val, 'originPackageName')} allowClear>
             {originSelectData.map(item => <Option key={item.packageName} value={item.packageName} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
-              {item.packageName}
+              <Tooltip title={item.packageName}>{item.packageName}</Tooltip>
             </Option>)}
           </BISelect>
         </span>
         <span>
           <BISelect style={{ width: 136 }} placeholder="续报产品包" value={paramsQuery.packageName} onChange={val => onParamsChange(val, 'packageName')} allowClear>
             {packageSelectData.map(item => <Option key={item.packageName} value={item.packageName} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
-              {item.packageName}
+              <Tooltip title={item.packageName}>{item.packageName}</Tooltip>
             </Option>)}
           </BISelect>
         </span>
         <span>
-          <BISelect style={{ width: 90 }} placeholder="续报路径" value={paramsQuery.path} onChange={val => onParamsChange(val, 'path')} allowClear>
+          <BISelect 
+          style={{ width: 90 }} 
+          placeholder="续报路径" 
+          value={paramsQuery.path} 
+          onChange={val => onParamsChange(val, 'path')} 
+          allowClear
+          dropdownClassName={styles.path}
+          >
             {BiFilter('WB_PATH_LIST').map(item => <Option key={item.id} value={item.id} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
               {item.name}
             </Option>)}
           </BISelect>
         </span>
         <span>
-          <BISelect style={{ width: 90 }} placeholder="周期" value={paramsQuery.lifeCycle} onChange={val => onParamsChange(val, 'lifeCycle')} allowClear>
+          <BISelect 
+          style={{ width: 90 }} 
+          placeholder="周期" 
+          value={paramsQuery.lifeCycle}
+          onChange={val => onParamsChange(val, 'lifeCycle')} 
+          allowClear
+          >
             {BiFilter('WB_LIFE_CYCLE').map(item => <Option key={item.id} value={item.id} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
               {item.name}
             </Option>)}
@@ -107,4 +122,4 @@ class Resubmit extends React.Component {
   }
 }
 
-export default Resubmit;
+export default ParamsTop;
