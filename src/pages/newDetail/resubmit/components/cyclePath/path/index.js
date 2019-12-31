@@ -20,7 +20,7 @@ class Path extends React.Component {
         <p className={styles.title}>
           <span></span>
           转班路径
-          <i>(自考)</i>
+          {/* <i>(自考)</i> */}
         </p>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Echarts

@@ -6,6 +6,7 @@ import zhijian from '@/assets/zhijian@2x.png';
 import gengduo from '@/assets/newIndex/gengduo@2x.png';
 import zheng1 from '@/assets/newIndex/zheng1@2x.png';
 import fu1 from '@/assets/newIndex/fu1@2x.png';
+import zhutu from '@/assets/zhutu@2x.png';
 import style from './style.less';
 import Echarts from '@/components/Echart';
 import { getOptions } from './getQualityOptions.js';
@@ -22,10 +23,7 @@ import { jumpGobalRouter, jumpQualityRouter } from '@/pages/ko/utils/utils';
 class Quality extends React.Component {
   jump = () => {
     handleDataTrace({ widgetName: '质检_进入质检报告', traceName: '2.0/质检_进入质检报告' });
-    // const { getCurrentDateRangeData } = this.props;
-    jumpGobalRouter('qualityReport/classReport', {
-      // dataRange: [getCurrentDateRangeData.startTime, getCurrentDateRangeData.endTime],
-    });
+    jumpGobalRouter('qualityReport/classReport', {});
   };
 
   clickEvent = item => {
@@ -37,20 +35,8 @@ class Quality extends React.Component {
       return;
     }
     const { getCurrentDateRangeData, WorkbenchQualityData } = this.props;
-    const data = WorkbenchQualityData.class.detailList[item.dataIndex];
-    // let organization = '';
+    // const data = WorkbenchQualityData.class.detailList[item.dataIndex];
 
-    // if (data.collegeId) {
-    //   organization = data.collegeId + '';
-    // }
-
-    // if (data.familyId) {
-    //   organization = data.collegeId + '-' + data.familyId;
-    // }
-
-    // if (data.groupId) {
-    //   organization = data.collegeId + '-' + data.familyId + '-' + data.groupId;
-    // }
     let status = null;
     let type = '1';
     switch (item.seriesName) {
@@ -99,20 +85,6 @@ class Quality extends React.Component {
         type = '2';
         break;
     }
-
-    // { id: 1, name: '待申诉', type: 1 },
-    // { id: 2, name: '一次SOP待审核', type: 1 }, // 1
-    // { id: 3, name: '一次SOP已驳回', type: 1 },
-    // { id: 4, name: '一次质检主管待审核', type: 1 }, //
-    // { id: 5, name: '一次申诉失败', type: 1 },
-    // { id: 6, name: '二次SOP待审核', type: 1 }, //
-    // { id: 7, name: '二次SOP已驳回', type: 1 },
-    // { id: 8, name: '二次质检主管待审核', type: 1 }, //2
-    // { id: 9, name: '一次申诉成功', type: 2 },
-    // { id: 10, name: '一次申诉超时', type: 2 },
-    // { id: 11, name: '二次申诉成功', type: 2 },
-    // { id: 12, name: '二次申诉失败', type: 2 },
-    // { id: 13, name: '二次申诉超时', type: 2 },
 
     jumpQualityRouter('qualityAppeal/qualityAppeal', {
       reduceScoreBeginDate: getCurrentDateRangeData.startTime,
@@ -235,11 +207,18 @@ class Quality extends React.Component {
                 </div>
               </div>
               <div className={style.qualityRight}>
-                <Echarts
-                  options={options}
-                  style={{ width: '300px', height: 253 + 'px' }}
-                  clickEvent={item => this.clickEvent(item)}
-                />
+                {!WorkbenchQualityData.class.detailList.length && (
+                  <div>
+                    <img src={zhutu} style={{ width: '193px' }} />
+                  </div>
+                )}
+                {WorkbenchQualityData.class.detailList.length > 0 && (
+                  <Echarts
+                    options={options}
+                    style={{ width: '300px', height: 253 + 'px' }}
+                    clickEvent={item => this.clickEvent(item)}
+                  />
+                )}
               </div>
             </div>
           </Spin>

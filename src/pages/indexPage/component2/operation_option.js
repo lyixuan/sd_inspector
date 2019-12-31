@@ -22,7 +22,7 @@ export function getOption(touchRatio) {
   return  {
     // color: ['#FF7291', '#EAEEF5'],
     title: {
-      text: touchRatio*100+'%',
+      text: Math.round(touchRatio*10000)/100+'%',
       subtext: `触达率`,
       textStyle: {
         fontSize: 18,
@@ -48,7 +48,7 @@ export function getOption(touchRatio) {
         type:'pie',
         hoverAnimation:false,
         animationType:'scale',
-        radius: ['55%', '70%'],
+        radius: ['58%', '70%'],
         center: ['50%', '50%'],
         // startAngle: '135',
         label: {

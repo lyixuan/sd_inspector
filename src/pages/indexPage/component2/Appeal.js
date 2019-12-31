@@ -11,6 +11,8 @@ import { getAppealLeftOption } from './getAppealLeftOps.js';
 import { jumpGobalRouter, jumpQualityRouter } from '@/pages/ko/utils/utils';
 import { handleDataTrace } from '@/utils/utils';
 import { jumpGobalSelfRouter } from '@/pages/ko/utils/utils';
+import zhutu from '@/assets/zhutu@2x.png';
+import bingtu from '@/assets/bingtu@2x.png';
 
 @connect(({ xdWorkModal, loading }) => ({
   WorkbenchAppealData: xdWorkModal.WorkbenchAppealData,
@@ -62,7 +64,7 @@ class Appeal extends React.Component {
         jumpGobalRouter('scoreAppeal/onAppeal', {
           creditBeginDate: getCurrentDateRangeData.startTime,
           creditEndDate: getCurrentDateRangeData.endTime,
-          statusList: ['3','4', '7','11'],
+          statusList: ['3', '4', '7', '11'],
           dimensionType,
         });
       } else {
@@ -70,7 +72,7 @@ class Appeal extends React.Component {
           creditBeginDate: getCurrentDateRangeData.startTime,
           creditEndDate: getCurrentDateRangeData.endTime,
           dimensionType,
-          statusList: ['1','2', '5', '6'],
+          statusList: ['1', '2', '5', '6'],
         });
       }
     }
@@ -78,6 +80,16 @@ class Appeal extends React.Component {
 
   render() {
     const { WorkbenchQualityData, WorkbenchAppealData, loadingTime } = this.props;
+    let data1 = [];
+    let data2 = [];
+    if (WorkbenchAppealData && WorkbenchAppealData.detailList) {
+      WorkbenchAppealData.detailList.map((item, index) => {
+        data2.push(item.appealCount);
+        data1.push(item.failCount);
+      });
+    }
+    let maxData = Number(Math.max.apply(Math, data1)) + Number(Math.max.apply(Math, data2));
+
     const options = getOption(WorkbenchAppealData);
     const options1 = getAppealLeftOption(WorkbenchAppealData);
     return (
@@ -89,25 +101,33 @@ class Appeal extends React.Component {
         </div>
         <Spin spinning={loadingTime}>
           <div className={style.appealContent}>
-            <div className={style.appealLeft} style={{ width: '230px' }}>
-              <Echarts options={options1} style={{ width: '230px', height: 213 + 'px' }} />
+            <div className={style.appealLeft} style={{ width: '230px', textAlign: 'center' }}>
+              {!maxData && <img src={bingtu} style={{ width: '150px' }} />}
+              {maxData > 0 && (
+                <Echarts options={options1} style={{ width: '230px', height: 213 + 'px' }} />
+              )}
             </div>
-            <div className={style.appealRight} style={{ width: '260px' }}>
-              <Echarts
-                options={options}
-                style={{ width: '280px', height: 243 + 'px' }}
-                clickEvent={item => this.clickEvent(item)}
-              />
+            <div className={style.appealRight} style={{ width: '260px', textAlign: 'center' }}>
+              {!maxData && <img src={zhutu} style={{ width: '193px' }} />}
+              {maxData > 0 && (
+                <Echarts
+                  options={options}
+                  style={{ width: '280px', height: 243 + 'px' }}
+                  clickEvent={item => this.clickEvent(item)}
+                />
+              )}
             </div>
           </div>
-          <div className={style.appealContentDot}>
-            <span>
-              <i className={style.yellow}></i>审核中
-            </span>
-            <span>
-              <i className={style.purple}></i>申诉失败
-            </span>
-          </div>
+          {maxData > 0 && (
+            <div className={style.appealContentDot}>
+              <span>
+                <i className={style.yellow}></i>审核中
+              </span>
+              <span>
+                <i className={style.purple}></i>申诉失败
+              </span>
+            </div>
+          )}
         </Spin>
       </div>
     );
