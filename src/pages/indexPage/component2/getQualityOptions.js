@@ -18,7 +18,28 @@ export function getOptions(data) {
   let data9 = [];
   let data10 = [];
   let data11 = [];
+
+  const ownData = {
+    name: '',
+    status: {
+      oneFailAppealNum: 0,
+      oneMasterPreAppealNum: 0,
+      oneSopPreAppealNum: 0,
+      oneSopRejectedNum: 0,
+      oneTimeOutAppealNum: 0,
+      preAppealNum: 0,
+      twoFailAppealNum: 0,
+      twoMasterPreAppealNum: 0,
+      twoSopPreAppealNum: 0,
+      twoSopRejectedNum: 0,
+      twoTimeOutAppealNum: 0,
+    },
+    value: 0,
+  };
   if (data && data.class && data.class.detailList) {
+    if (data.class.detailList.length === 1) {
+      data.class.detailList = [ownData, ownData, data.class.detailList[0], ownData, ownData];
+    }
     data.class.detailList.map((item, index) => {
       newName.push(item.name);
       // dataX.push(item.value);
