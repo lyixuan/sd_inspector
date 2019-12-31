@@ -9,10 +9,10 @@ import fu1 from '@/assets/newIndex/fu1@2x.png';
 import style from './style.less';
 import Echarts from '@/components/Echart';
 import { getOptions } from './getQualityOptions.js';
-import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 import { Tooltip } from 'antd';
 import { Popover, Button } from 'antd';
 import { handleDataTrace } from '@/utils/utils';
+import { jumpGobalRouter, jumpQualityRouter } from '@/pages/ko/utils/utils';
 
 @connect(({ xdWorkModal, loading }) => ({
   WorkbenchQualityData: xdWorkModal.WorkbenchQualityData,
@@ -29,30 +29,98 @@ class Quality extends React.Component {
   };
 
   clickEvent = item => {
+    const userInfo = localStorage.getItem('admin_user');
+    if (
+      (userInfo && JSON.parse(userInfo).userType === 'boss') ||
+      JSON.parse(userInfo).userType === 'admin'
+    ) {
+      return;
+    }
     const { getCurrentDateRangeData, WorkbenchQualityData } = this.props;
     const data = WorkbenchQualityData.class.detailList[item.dataIndex];
-    let organization = '';
+    // let organization = '';
 
-    if (data.collegeId) {
-      organization = data.collegeId + '';
+    // if (data.collegeId) {
+    //   organization = data.collegeId + '';
+    // }
+
+    // if (data.familyId) {
+    //   organization = data.collegeId + '-' + data.familyId;
+    // }
+
+    // if (data.groupId) {
+    //   organization = data.collegeId + '-' + data.familyId + '-' + data.groupId;
+    // }
+    let status = null;
+    let type = '1';
+    switch (item.seriesName) {
+      case '待申诉':
+        status = '1';
+        type = '1';
+        break;
+      case '一次SOP待审核':
+        status = '2';
+        type = '1';
+        break;
+      case '一次SOP已驳回':
+        status = '3';
+        type = '1';
+        break;
+      case '一次质检主管待审核':
+        status = '4';
+        type = '1';
+        break;
+      case '一次申诉失败':
+        status = '5';
+        type = '1';
+        break;
+      case '二次SOP待审核':
+        status = '6';
+        type = '1';
+        break;
+      case '二次SOP已驳回':
+        status = '7';
+        type = '1';
+        break;
+      case '二次质检主管待审核':
+        status = '8';
+        type = '1';
+        break;
+      case '二次申诉失败':
+        status = '12';
+        type = '2';
+        break;
+      case '一次申诉超时':
+        status = '10';
+        type = '2';
+        break;
+      case '二次申诉超时':
+        status = '13';
+        type = '2';
+        break;
     }
 
-    if (data.familyId) {
-      organization = data.collegeId + '-' + data.familyId;
-    }
+    // { id: 1, name: '待申诉', type: 1 },
+    // { id: 2, name: '一次SOP待审核', type: 1 }, // 1
+    // { id: 3, name: '一次SOP已驳回', type: 1 },
+    // { id: 4, name: '一次质检主管待审核', type: 1 }, //
+    // { id: 5, name: '一次申诉失败', type: 1 },
+    // { id: 6, name: '二次SOP待审核', type: 1 }, //
+    // { id: 7, name: '二次SOP已驳回', type: 1 },
+    // { id: 8, name: '二次质检主管待审核', type: 1 }, //2
+    // { id: 9, name: '一次申诉成功', type: 2 },
+    // { id: 10, name: '一次申诉超时', type: 2 },
+    // { id: 11, name: '二次申诉成功', type: 2 },
+    // { id: 12, name: '二次申诉失败', type: 2 },
+    // { id: 13, name: '二次申诉超时', type: 2 },
 
-    if (data.groupId) {
-      organization = data.collegeId + '-' + data.familyId + '-' + data.groupId;
-    }
-
-    // return;
-    jumpGobalRouter('qualityReport/classReport', {
-      beginDate: getCurrentDateRangeData.startTime,
-      endDate: getCurrentDateRangeData.endTime,
-      organization: organization,
+    jumpQualityRouter('qualityAppeal/qualityAppeal', {
+      reduceScoreBeginDate: getCurrentDateRangeData.startTime,
+      reduceScoreEndDate: getCurrentDateRangeData.endTime,
+      tabType: type,
+      status: status,
     });
   };
-
 
   render() {
     const { WorkbenchQualityData, loadingTime } = this.props;
