@@ -45,32 +45,34 @@ class DetailsIndex extends React.Component {
         key: 'paymentTime',
       },
       {
-        width: '10%',
-        ellipsis: true,
+        // width: '10%',
+        // ellipsis: true,
         title: '学院',
         dataIndex: 'collegeName',
         key: 'collegeName',
-        render: text => <Tooltip title={text}>{text}</Tooltip>
-      },{
-        width: '10%',
-        ellipsis: true,
-        title: '家族',
-        dataIndex: 'familyName',
-        key: 'familyName',
-        render: text => <Tooltip title={text}>{text}</Tooltip>
-      },{
+        // render: text => <Tooltip title={text}>{text}</Tooltip>
+      },
+      // {
+      //   width: '10%',
+      //   ellipsis: true,
+      //   title: '家族',
+      //   dataIndex: 'familyName',
+      //   key: 'familyName',
+      //   render: text => <Tooltip title={text}>{text}</Tooltip>
+      // },
+      {
         title: '小组',
         dataIndex: 'groupName',
         key: 'groupName',
       },{
-        width: '15%',
+        width: '20%',
         ellipsis: true,
         title: '老产品包',
         dataIndex: 'originPackageName',
         key: 'originPackageName',
         render: text => <Tooltip title={text}>{text}</Tooltip>
       },{
-        width: '15%',
+        width: '20%',
         ellipsis: true,
         title: '续费产品包',
         dataIndex: 'packageName',
