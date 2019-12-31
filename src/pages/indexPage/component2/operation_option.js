@@ -48,7 +48,7 @@ export function getOption(touchRatio) {
         type:'pie',
         hoverAnimation:false,
         animationType:'scale',
-        radius: ['55%', '70%'],
+        radius: ['58%', '70%'],
         center: ['50%', '50%'],
         // startAngle: '135',
         label: {

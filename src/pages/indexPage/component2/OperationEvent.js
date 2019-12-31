@@ -36,7 +36,7 @@ class OperationEvent extends React.Component {
           </div>
           <div className={style.operation}>
             <div className={style.echartPie} onClick={this.jump2}>
-              <Echarts options={options} style={{ height: 140}}/>
+              <Echarts options={options} style={{ height: 160}}/>
             </div>
             <div className={style.timeMap}>
               <ExamTime totalWidth={890} splitNumber={provinceList.length} provinceList={provinceList}/>
