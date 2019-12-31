@@ -53,12 +53,12 @@
   width: 100%;
   color: #7e7d82;
   span:nth-child(1) {
-    font-family: DINCondensed-Bold, DINCondensed, Haettenschweiler !important;
+    font-family: myDINBold, DINCondensed, Haettenschweiler !important;
     font-size: 32px;
     color: rgba(40, 40, 40, 1);
   }
   span:nth-child(2) {
-    font-family: DINCondensed-Bold, DINCondensed, Haettenschweiler !important;
+    font-family: myDINBold, DINCondensed, Haettenschweiler !important;
     font-size: 20px;
     color: rgba(40, 40, 40, 1);
   }
@@ -70,7 +70,7 @@
     float: left;
     text-align: center;
     > div:nth-child(1) {
-      font-family: DINCondensed-Bold, DINCondensed, Haettenschweiler !important;
+      font-family: myDINBold, DINCondensed, Haettenschweiler !important;
       font-size: 32px;
       color: rgba(40, 40, 40, 1);
     }
@@ -127,7 +127,7 @@
 .dataItem div:nth-child(2) {
   font-size: 21px;
   color: rgba(40, 40, 40, 1);
-  font-family: DINCondensed-Bold, DINCondensed, Haettenschweiler !important;
+  font-family: myDINBold, DINCondensed, Haettenschweiler !important;
 }
 
 .dataItem div:nth-child(3) {
@@ -206,7 +206,7 @@
       }
 
       .items {
-        font-family: DINCondensed-Bold, DINCondensed, Haettenschweiler !important;
+        font-family: myDINBold, DINCondensed, Haettenschweiler !important;
         margin-top: 43px;
         display: flex;
         justify-content: center;
@@ -233,7 +233,11 @@
   }
   .imContentRight {
     width: 275px;
-    height: 100%;
+    height: 253px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .imContentDot {
     margin-top: -37px;
@@ -260,11 +264,17 @@
   justify-content: flex-end;
   .npsRight {
     margin-left: 30px;
+    width: 243px;
+    height: 223px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
 .appealContent {
   // padding: 10px;
+  height: 253px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -334,15 +344,34 @@
       width: 39px;
       height: 32px;
       font-size: 32px;
-      font-family: DINCondensed-Bold, DINCondensed, Haettenschweiler !important;
-      font-weight: bold;
+      font-family: myDINBold, DINCondensed, Haettenschweiler !important;
       color: rgba(40, 40, 40, 1);
       line-height: 38px;
     }
   }
   img {
     width: 16px;
+    margin-top: -3px;
   }
 }
 
 // end
+
+.operation {
+  padding-top: 15px;
+  .echartPie {
+    width: 134px;
+    float: left;
+    cursor: pointer;
+  }
+}
+
+.timeMap {
+  float: left;
+  padding: 10px 20px;
+  width: 930px;
+  height: 146px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 114, 145, 0.1) 100%);
+  border-radius: 20px;
+  //opacity:0.1;
+}

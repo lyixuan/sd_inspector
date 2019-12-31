@@ -5,7 +5,6 @@ import BITable from '@/ant_components/BITable';
 import BIWrapperTable from '.././../indexPage/components/BIWrapperTable';
 import styles from './style.less';
 import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
-import { thousandsFormatBigger } from '@/utils/utils';
 import {
   pathImUrl,
   jumpMarkingDetails,
@@ -288,8 +287,8 @@ class Attendance extends React.Component {
         render: (subjectId, record) => {
           return (
             <a
-              onClick={() => this.download(record.subjectId, record.subjectName)}
-              style={{ display: 'flex', justifyContent: 'center', color: '#00CCC3' }}
+              onClick={() => this.download(record.subjectId, record.titleOne)}
+              style={{ display: 'flex', justifyContent: 'center', color: '#0062FF' }}
             >
               下载
             </a>
@@ -338,6 +337,8 @@ class Attendance extends React.Component {
 
   download = (id, name) => {
     const { downloadParams } = this.props;
+    handleDataTrace({ widgetName: '下载中心学分表下载', traceName: '下载中心/学分底表下载' });
+
     // 下载功能
     this.props
       .dispatch({
@@ -346,9 +347,12 @@ class Attendance extends React.Component {
       })
       .then(res => {
         if (res.code === 20000) {
-          message.success('任务已创建，请到下载中心下载');
-        } else {
-          message.success(res.msgDetail || res.msg);
+          this.props.isShow('任务已创建\n请到下载中心下载');
+          return;
+        }
+        if (res.code === 20100) {
+          this.props.isShow('5分钟内\n请勿提交重复任务');
+          return;
         }
       });
   };

@@ -143,9 +143,9 @@ class HotQuestion extends React.Component {
               title
             }
           </div>
-          <div className={style.edit} onClick={this.goToEditRelationQuestionPage}>
+          <a className={style.edit} onClick={this.goToEditRelationQuestionPage}>
             <Icon type="edit"/>&nbsp;&nbsp;编辑
-          </div>
+          </a>
         </div>
         <div className={style.content}>
           <QuestionTable

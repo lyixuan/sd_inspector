@@ -175,11 +175,11 @@ export default {
     //  底表下载
     *bottomTask({ payload, callback }, { call, put }) {
       const result = yield call(bottomTaskAdd, payload.params);
-      if (result.code === 20000 && result.data) {
+      if (result.code === 20000) {
         yield put({ type: 'save', payload: { bottomTaskData: result.data } });
         return result;
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
+      } else if (result.code === 20100) {
+        // msgF(result.msg, result.msgDetail);
         return result;
       }
     },

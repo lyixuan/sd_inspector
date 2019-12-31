@@ -31,13 +31,21 @@ export default {
   * 皮肤相关
   */
   theme: {
-    'primary-color': '#00CCC3',
-    'link-color': '#00CCC3',
+    'primary-color': '#FFE300',
+    'link-color': '#0062FF',
     'warning-color': '#FF4A53',
     'heading-color': '#1A1C1F',
-    'text-color': '#56595E',
+    'text-color': '#56595E',// #56595E
     'font-size-base': '13px',
     'border-radius-base': '6px', // 组件浮层圆角
     'border-color-base': '#E8EBED',
+    'btn-primary-color': '#282828',
+    'btn-height-lg': '32px',
+    'btn-height-base': '28px',
+    'btn-height-sm': '24px',
+    'btn-font-size-lg': '14px',
+    'tabs-ink-bar-color': '#282828', // 选中线颜色
+    'tabs-hover-color': '#999999',
+    'tabs-highlight-color': '#282828' // 选中颜色
   },
 }

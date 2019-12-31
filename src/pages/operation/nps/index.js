@@ -73,7 +73,7 @@ class NPSEvaluate extends React.Component {
         this.getUserOrgList();
         let groupIds = [0];
         if (
-          userInfo.userType == 'collage' ||
+          userInfo.userType == 'college' ||
           userInfo.userType == 'family' ||
           userInfo.userType == 'class' ||
           userInfo.userType == 'group'
@@ -106,7 +106,7 @@ class NPSEvaluate extends React.Component {
     const datares = JSON.parse(localStorage.getItem('NPSGroupId'));
     let params = {
       ...this.initRecordTimeListData(this.state.dateArr),
-      collegeId: datares ? datares[0] : userInfo.collegeId,
+      collegeId: datares ? (datares[0] == 0 ? null : datares[0]) : userInfo.collegeId,
       // (userInfo && userInfo.collegeId) ||
       // (this.state.groupId.length > 0 && this.state.groupId[0]) ||
       // null,
@@ -174,22 +174,21 @@ class NPSEvaluate extends React.Component {
   //获取NPS自主评价的的数据接口
   getNpsAutonomousEvaluation = (pageNum, change) => {
     const { userInfo, npsList } = this.state;
-    // const { npsList } = this.props.xdOperation;
-    // const params = { id: this.id, pageSize: 10, page: page + 1 || 1, npsList };
+    const datares = JSON.parse(localStorage.getItem('NPSGroupId'));
     let params = {
       ...this.initRecordTimeListData(this.state.dateArr),
-      collegeId:
-        (userInfo && userInfo.collegeId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[0]) ||
-        null,
-      familyId:
-        (userInfo && userInfo.familyId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[1]) ||
-        null,
-      groupId:
-        (userInfo && userInfo.groupId) ||
-        (this.state.groupId.length > 0 && this.state.groupId[2]) ||
-        null,
+      collegeId: datares ? (datares[0] == 0 ? null : datares[0]) : userInfo.collegeId,
+      // (userInfo && userInfo.collegeId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[0]) ||
+      // null,
+      familyId: datares ? datares[1] : userInfo.familyId,
+      // (userInfo && userInfo.familyId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[1]) ||
+      // null,
+      groupId: datares ? datares[2] : userInfo.groupId,
+      // (userInfo && userInfo.groupId) ||
+      // (this.state.groupId.length > 0 && this.state.groupId[2]) ||
+      // null,
       star: this.state.star === '0' ? null : Number(this.state.star),
       cycle: this.state.cycle === '0' ? null : Number(this.state.cycle),
       pageNum: pageNum ? pageNum + 1 : 1,
@@ -214,7 +213,7 @@ class NPSEvaluate extends React.Component {
     const datares = JSON.parse(localStorage.getItem('NPSGroupId'));
     let params = {
       ...this.initRecordTimeListData(this.state.dateArr),
-      collegeId: datares ? datares[0] : userInfo.collegeId,
+      collegeId: datares ? (datares[0] == 0 ? null : datares[0]) : userInfo.collegeId,
       // (userInfo && userInfo.collegeId) ||
       // (this.state.groupId.length > 0 && this.state.groupId[0]) ||
       // null,
@@ -360,7 +359,7 @@ class NPSEvaluate extends React.Component {
   };
   rightPart = () => {
     // const {collegeOptions,orgValue} = this.state
-    const { groupId = ['0'], userOrgConfig, dateArr, star = '0', cycle } = this.state;
+    const { groupId = [0], userOrgConfig, dateArr, star = '0', cycle } = this.state;
     const { orgList } = this.props.xdOperation;
     orgList.length > 0 && this.getResetGroupMsg(orgList);
     return (

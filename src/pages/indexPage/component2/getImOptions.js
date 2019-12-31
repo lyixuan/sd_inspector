@@ -47,7 +47,7 @@ export function getOption(data) {
         subtext: '总量',
         textStyle: {
           fontSize: 26,
-          fontFamily: 'DINCondensed-Bold, DINCondensed, Haettenschweiler',
+          fontFamily: 'myDINBold',
           color: '#282828',
         },
         subtextStyle: {

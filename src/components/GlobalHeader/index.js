@@ -74,6 +74,9 @@ class GlobalHeader extends PureComponent {
         <Menu.Item>
           <span>{currentUser.name}</span>
         </Menu.Item>
+        <Menu.Item className={styles.userName}>
+          <span>{currentUser.name}</span>
+        </Menu.Item>
         {selectedGroup.map(item => (
           <Menu.Item key={item.id}>
             <span style={{ display: 'inline-block', width: '20px', marginLeft: '-3px' }}>

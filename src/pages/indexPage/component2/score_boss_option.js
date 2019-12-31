@@ -19,7 +19,7 @@ export function getOptionBoss(list) {
     }
   });
 
-  const positiveMax = Math.ceil(Math.max.apply(null, positiveData));
+  const positiveMax = Math.ceil(Math.max.apply(null, positiveData)) || 1;
   const navMax = Math.floor(Math.min.apply(null, negData));
   const huanbiMax = Math.ceil(Math.max.apply(null, huanbi));
   const huanbiMin = Math.floor(Math.min.apply(null, huanbi));

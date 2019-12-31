@@ -10,6 +10,7 @@ import { getOption } from './getNpsOptions.js';
 import NpsLeft from './npsLeft.js';
 import { handleDataTrace } from '@/utils/utils';
 import { jumpGobalRouter } from '@/pages/ko/utils/utils';
+import zhutu from '@/assets/zhutu@2x.png';
 
 @connect(({ xdWorkModal, loading }) => ({
   WorkbenchNpsData: xdWorkModal.WorkbenchNpsData,
@@ -27,7 +28,6 @@ class Nps extends React.Component {
 
   clickEvent = item => {
     const { getCurrentDateRangeData } = this.props;
-    console.log(item, 'item');
     jumpGobalRouter('nps', {
       dataRange: [getCurrentDateRangeData.startTime, getCurrentDateRangeData.endTime],
       star: item.name.replace('星', ''),
@@ -37,6 +37,13 @@ class Nps extends React.Component {
   render() {
     const { WorkbenchNpsData, loadingTime } = this.props;
     const options = getOption(WorkbenchNpsData);
+    const { starList = [] } = WorkbenchNpsData;
+    let total = 0;
+    if (starList.length) {
+      starList.map(item => {
+        total += item.value;
+      });
+    }
     return (
       <div className={stylefather.boxRight}>
         <div className={stylefather.boxHeader}>
@@ -49,12 +56,15 @@ class Nps extends React.Component {
             <div className={style.npsLeft}>
               <NpsLeft cloudOptions={WorkbenchNpsData.tagImageDtoList} />
             </div>
-            <div className={style.npsRight}>
-              <Echarts
-                options={options}
-                style={{ width: '243px', height: 223 + 'px' }}
-                clickEvent={item => this.clickEvent(item)}
-              />
+            <div className={style.npsRight} style={{ width: '243px', height: 223 + 'px' }}>
+              {!total && <img src={zhutu} style={{ width: '193px' }} />}
+              {total > 0 && (
+                <Echarts
+                  options={options}
+                  style={{ width: '243px', height: 223 + 'px' }}
+                  clickEvent={item => this.clickEvent(item)}
+                />
+              )}
             </div>
           </div>
         </Spin>

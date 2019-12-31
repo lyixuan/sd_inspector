@@ -121,7 +121,7 @@ class NPSLeft extends React.Component {
       <Container
         title="创收学院对比"
         style={{ width: 'calc(100%)' }}
-        head="none"
+        headStyle={{display: 'none'}}
         propStyle={{ padding: 0 }}
       >
         <Spin spinning={loading} style={{ width: '100%' }}>

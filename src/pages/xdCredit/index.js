@@ -64,6 +64,8 @@ class XdCredit extends React.Component {
       loadingStatus: true,
       dimisionLoadingStatus: true,
       downloadParams: {},
+      content: '',
+      show: false,
     };
   }
   componentDidMount() {
@@ -585,9 +587,9 @@ class XdCredit extends React.Component {
       bottomEndDate: this.state.endTime,
       type: 2,
       familyType: this.getFamilyType(),
-      groupType: this.getGroupMsg().groupType || 'group',
+      orgType: this.getGroupMsg().groupType || 'group',
       orgId: this.getGroupMsg().groupId || this.state.allUserInfo.groupId,
-      userId:this.state.allUserInfo.id
+      userId: this.state.allUserInfo.id,
     };
     this.setState({ downloadParams: newParams });
     if (this.state.dementionId === 37 || this.state.dementionId === 38) {
@@ -602,8 +604,23 @@ class XdCredit extends React.Component {
       });
     }
   };
+
+  isShow(content) {
+    this.setState({ show: true, content });
+    setTimeout(() => {
+      this.setState({ show: false });
+    }, 3000);
+  }
   render() {
-    const { dementionId, groupId, extendFlag, userOrgConfig, downloadParams } = this.state;
+    const {
+      dementionId,
+      groupId,
+      extendFlag,
+      userOrgConfig,
+      downloadParams,
+      content,
+      show,
+    } = this.state;
     const { infoLoading, dimensionLevel = {} } = this.props;
     const value = this.getFamilyType();
     const level = dimensionLevel[dementionId];
@@ -638,6 +655,7 @@ class XdCredit extends React.Component {
             detailsData={this.props.attendanceDeatils}
             {...this.props}
             dementionId={dementionId}
+            isShow={content => this.isShow(content)}
           />
         );
         break;
@@ -777,6 +795,7 @@ class XdCredit extends React.Component {
             </>
           )}
         </Skeleton>
+        {show && <pre className={styles.layer}>{content}</pre>}
       </div>
     );
   }

@@ -73,7 +73,7 @@ export const PROXY_PATH = hasSelfPri => {
 
 // 下载中心服务器地址
 export const DOWNLOAD_HOST = {
-  production: '',
+  production: 'http://h-bd.ministudy.com/exporter',
   localhost: 'http://172.16.109.87:38083',
   localhost2: 'http://172.16.109.87:38083',
   development: 'http://172.16.109.87:38083',
@@ -421,7 +421,25 @@ export const EmptyContentLayout = [
   { path: '/xdCredit/index', name: '小德学分' },
   { path: '/indexPage', name: '小德工作台' },
   { path: '/cubePlan/list', name: '魔方计划' },
-  { path: '/xdCredit/im', name: 'im差评分析'}
+  { path: '/xdCredit/im', name: 'im差评分析'},
+  { path: '/hotQuestion/index', name: '热门问题'},
+  { path: '/hotQuestion/relationEdit'},
+  { path: '/configWords'},
+  { path: '/knowledge/knowledge', name: '知识库' },
+  { path: '/sessionReport/sessionReport', name: '会话记录' },
+  { path: '/allReport', name: '报考信息系统' },
+  { path: '/examPlant/admissionTicket', name: '准考证填写' },
+  { path: '/examPlant/registTouch', name: '报考触达' },
+  { path: '/operateActivity/index', name: '运营活动' },
+  { path: '/classQuality/qualityType/1', name: '客诉质检手册' },
+  { path: '/classQuality/qualityType/2', name: '班主任质检手册' },
+  { path: '/xdCreditPk/list', name: '学分PK' },
+  { path: '/downloadCenter', name: '下载中心' },
+  { path: '/newDetail/analyze', name: '创收产品包' },
+  { path: '/newDetail/incomeRank', name: '创收对比' },
+  { path: '/newDetail/incomeOrder', name: '创收排名' },
+  { path: '/robotPage/data', name: '机器人会话数据' },
+  { path: '/robotPage/trend', name: '机器人会话趋势' }
 ];
 export const EmptyContentLayoutWithBread = [{ path: '/cubePlan/list/detail', name: '魔方详情' }];
 // 注册类型
@@ -571,6 +589,24 @@ export const Xing = [
   { id: 4, name: '好用' },
   { id: 5, name: '非常好用' },
 ];
+export const WB_PATH_LIST = [
+  { id: 1, name: '专-专' },
+  { id: 2, name: '专-本' },
+  { id: 3, name: '专-专本连读' },
+  { id: 4, name: '专-非自考' },
+  { id: 5, name: '本-专' },
+  { id: 6, name: '本-本' },
+  { id: 7, name: '本-专本连读' },
+  { id: 8, name: '本-非自考' },
+  { id: 9, name: '专本连读-专' },
+  { id: 10, name: '专本连读-本' },
+  { id: 11, name: '专本连读-专' },
+  { id: 12, name: '专本连读-非自考' },
+  { id: 13, name: '非自考-专科' },
+  { id: 14, name: '非自考-本科' },
+  { id: 15, name: '非自考-专本连读' },
+  { id: 16, name: '非自考-非自考' },
+];
 // 需要用于global filter 进行数据筛选的，必须加到default里
 export default {
   ORDER_STATE,
@@ -611,6 +647,7 @@ export default {
   WB_LIFE_CYCLE,
   DO_NOT_MENU,
   Xing,
+  WB_PATH_LIST,
 };
 // 质检审核-审核状态
 export const CHECKSTATUS = { '1': '创建', '2': '通过', '3': '撤销', '4': '驳回' };

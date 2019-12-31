@@ -8,7 +8,7 @@
 * */
 import React from 'react';
 import { Modal, Input, Button } from 'antd';
-import common from '../../utils/common.css';
+import common from '../../utils/common.less';
 import styles from './Modal.css';
 
 class ModalDemo extends React.Component {
@@ -62,7 +62,7 @@ class ModalDemo extends React.Component {
       </div>
     );
     return !visible ? null : (
-      <div>
+      <div className="download-content">
         <Modal
           title={title}
           maskClosable={maskClosable || false}
