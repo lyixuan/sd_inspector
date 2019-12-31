@@ -127,7 +127,7 @@ class IndexPage extends Component {
           operatorId:userId,
           orgType:this.getType(),
           startDate: "2019-12-12",
-          endDate: moment().subtract(1,'days').format('YYYY-MM-DD')
+          endDate: "2019-12-26" //moment().subtract(1,'days').format('YYYY-MM-DD')
         },
       },
     });

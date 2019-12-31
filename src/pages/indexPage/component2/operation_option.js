@@ -1,6 +1,6 @@
 export function getOption(touchRatio) {
   const list = [
-    {value:touchRatio*10000,name:'触达率',
+    {value:touchRatio*100,name:'触达率',
       itemStyle: {
         normal: {
           color: '#FF7291'
@@ -9,7 +9,7 @@ export function getOption(touchRatio) {
           color: '#FF7291'
         }
       }},
-    {value:100-touchRatio*10000,name:'未触达率',
+    {value:100-touchRatio*100,name:'未触达率',
       itemStyle: {
         normal: {
           color: '#EAEEF5'
