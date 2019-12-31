@@ -7,7 +7,7 @@ function getStartEnd(item) {
   const endList = [];
   categoryList.forEach((val)=>{
     if (item[val].start) startList.push(new Date(moment(item[val].start).format('YYYY-MM-DD')).getTime());
-    if (item[val].end) endList.push(new Date(moment(item[val].end).format('YYYY-MM-DD')).getTime());
+    if (item[val].end) endList.push(item[val].end);
   });
   let minStart =Math.min.apply(null, startList);
   let maxEnd =Math.max.apply(null, endList);
