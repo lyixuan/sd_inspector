@@ -45,7 +45,7 @@ const getMoemnt = function (date) {
   return moment(date).format('YYYY.MM.DD')
 }
 @connect(({ global, classQualityModel, loading }) => ({
-  globalCollapsed: global.collapsed,// 左侧二级下单是否打 
+  // globalCollapsed: global.collapsed,// 左侧二级下单是否打 
   flatTreeList: classQualityModel.flatTreeList,
   logTreeList: classQualityModel.logTreeList,
   dateRange: classQualityModel.dateRange,
@@ -202,7 +202,7 @@ class ClassQuality extends React.Component {
   }
   render() {
     const { funTypeSelected, setFixed, rulesObj, typeName, oneLoding} = this.state;
-    const {  dateRange = {}, globalCollapsed, loading, logTreeList = [], flatTreeList = [] } = this.props;
+    const {  dateRange = {}, loading, logTreeList = [], flatTreeList = [] } = this.props;
     const isLoading = loading && oneLoding ? true : false;
     const flagNoData = !isLoading && flatTreeList.length === 0 ? true : false;
     return (

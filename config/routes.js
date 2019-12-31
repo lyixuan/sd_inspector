@@ -251,6 +251,7 @@ export const routes = [
           {
             path: '/knowledge/knowledge',
             component: './ko/knowledge',
+            name: '知识库'
           },
         ],
       },
@@ -261,6 +262,7 @@ export const routes = [
           {
             path: '/sessionReport/sessionReport',
             component: './ko/sessionReport',
+            name: '会话记录'
           },
         ],
       },
@@ -398,6 +400,7 @@ export const routes = [
           {
             path: '/allReport/:siteKey',
             component: './allReport',
+            name: '报考信息系统'
           },
         ],
       },
@@ -518,6 +521,7 @@ export const routes = [
       {
         path: '/configWords',
         component: './configWords/index',
+        name: '关键词引导'
       },
       {
         path: '/examPlant',
@@ -530,10 +534,12 @@ export const routes = [
           {
             path: '/examPlant/admissionTicket',
             component: './examPlant/admissionTicket',
+            name: '准考证填写'
           },
           {
             path: '/examPlant/registTouch',
             component: './examPlant/registTouch',
+            name: '报考触达'
           },
         ],
       },
@@ -543,6 +549,7 @@ export const routes = [
           {
             path: '/operateActivity/index',
             component: './operateActivity',
+            name: '运营活动'
           },
           {
             path: '/operateActivity/configActivity',
@@ -574,14 +581,17 @@ export const routes = [
       {
         path: '/classQuality/qualityType/1', // 客诉
         component: './classQuality/index',
+        name: '客诉质检手册'
       },
       {
         path: '/classQuality/qualityType/2', // 班主任
         component: './classQuality/index',
+        name: '班主任质检手册'
       },
       {
         path: '/xdCreditPk/list', // 小德学分PK
         component: './xdCreditPk/index',
+        name: '学分PK'
       },
       {
         path: '/robotPage',
@@ -590,10 +600,12 @@ export const routes = [
           {
             path: '/robotPage/data',
             component: './robotPage/robotData',
+            name: '机器人会话数据'
           },
           {
             path: '/robotPage/trend',
             component: './robotPage/robotTrend',
+            name: '机器人会话趋势'
           }
         ]
       },
@@ -603,14 +615,17 @@ export const routes = [
           {
             path: '/hotQuestion/index',
             component: './hotQuestion',
+            name: '热门问题'
           },
           {
             path: '/hotQuestion/guessEdit',
             component: './hotQuestion/guessEdit',
+            name: '热门问题'
           },
           {
             path: '/hotQuestion/relationEdit',
             component: './hotQuestion/relationEdit',
+            name: '热门问题'
           }
         ]
       }, {
@@ -620,16 +635,19 @@ export const routes = [
           {
             path: '/newDetail/analyze',
             component: './newDetail/analyze',
+            name: '创收产品包'
           }, {
             path: '/newDetail/histogram',
             component: './newDetail/histogram',
           }, {
             path: '/newDetail/incomeRank',
             component: './newDetail/incomeRank',
+            name: '创收对比'
           },
           {
             path: '/newDetail/incomeOrder',
             component: './newDetail/incomeOrder',
+            name: '创收排名'
           },
           {
             path: '/newDetail/resubmit',
@@ -639,7 +657,8 @@ export const routes = [
       },
       {
         path: '/downloadCenter',
-        component: './downloadCenter'
+        component: './downloadCenter',
+        name: '下载中心'
       }
     ],
   },

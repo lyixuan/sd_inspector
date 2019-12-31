@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Tooltip } from 'antd';
+import { Link } from 'dva/router';
 import BIContainer from '@/components/BIContainer';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import styles from './style.less';
@@ -19,19 +20,24 @@ class DetailsIndex extends React.Component {
   columns = () => {
     const columns = [
       {
-        title: '学员id',
+        title: '学员ID',
         dataIndex: 'stuId',
         key: 'stuId',
       },
       {
+        width: '8%',
+        ellipsis: true,
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
+        render: (text, record) => <Tooltip title={text}><Link to={`/ko/behaviorPath?params=${encodeURIComponent(JSON.stringify({ userId: record.stuId, target: 'draw' }))}`} target='_black'>邓静雷{text}</Link></Tooltip>
       },
       {
+        width: '6%',
         title: '周期',
         dataIndex: 'lifeCycle',
         key: 'lifeCycle',
+        render: text => text + '天'
       },
       {
         title: '报名时间',
@@ -39,32 +45,39 @@ class DetailsIndex extends React.Component {
         key: 'paymentTime',
       },
       {
+        width: '12%',
+        // ellipsis: true,
         title: '学院',
         dataIndex: 'collegeName',
         key: 'collegeName',
-      },{
-        title: '家族',
-        dataIndex: 'familyName',
-        key: 'familyName',
-      },{
+        // render: text => <Tooltip title={text}>{text}</Tooltip>
+      },
+      // {
+      //   width: '10%',
+      //   ellipsis: true,
+      //   title: '家族',
+      //   dataIndex: 'familyName',
+      //   key: 'familyName',
+      //   render: text => <Tooltip title={text}>{text}</Tooltip>
+      // },
+      {
         title: '小组',
         dataIndex: 'groupName',
         key: 'groupName',
       },{
-        width: '20%',
+        width: '18%',
         ellipsis: true,
         title: '老产品包',
         dataIndex: 'originPackageName',
         key: 'originPackageName',
-        render: (text, record) => {
-          return (
-            <Tooltip title={text}>{text}</Tooltip>
-          );
-        },
+        render: text => <Tooltip title={text}>{text}</Tooltip>
       },{
+        width: '18%',
+        ellipsis: true,
         title: '续费产品包',
         dataIndex: 'packageName',
         key: 'packageName',
+        render: text => <Tooltip title={text}>{text}</Tooltip>
       },{
         title: '净流水',
         dataIndex: 'restAmount',
@@ -79,7 +92,7 @@ class DetailsIndex extends React.Component {
     this.setState({ current });
   }
   render() {
-    const { dataSource = [], total = 0 } = this.props.stuDetailData;
+    const { list = [], total = 0 } = this.props.stuDetailData;
     const { pageSize = 15, current = 1} = this.state;
     return (
       <BIContainer 
@@ -88,7 +101,7 @@ class DetailsIndex extends React.Component {
         <div className={styles.detailsIndex}>
           <BIScrollbarTable
             columns={this.columns()}
-            dataSource={dataSource}
+            dataSource={list}
             loading={this.props.loading}
             rowKey={record => record.stuId}
             pagination={{
