@@ -22,7 +22,7 @@ export function getOption(touchRatio) {
   return  {
     // color: ['#FF7291', '#EAEEF5'],
     title: {
-      text: (touchRatio*10000)/100+'%',
+      text: Math.round(touchRatio*10000)/100+'%',
       subtext: `触达率`,
       textStyle: {
         fontSize: 18,
