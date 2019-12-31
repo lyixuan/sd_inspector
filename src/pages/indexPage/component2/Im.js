@@ -14,6 +14,7 @@ import { getOption } from './getImOptions';
 import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 import { handleDataTrace } from '@/utils/utils';
 import { jumpGobalSelfRouter } from '@/pages/ko/utils/utils';
+import bingtu from '@/assets/bingtu@2x.png';
 
 @connect(({ xdWorkModal, loading }) => ({
   WorkbenchImNegativeData: xdWorkModal.WorkbenchImNegativeData,
@@ -73,6 +74,12 @@ class Im extends React.Component {
             {item.reasonTypeName.replace('方向', '')}
           </span>
         );
+      });
+    }
+    let total = 0;
+    if (WorkbenchImPieData.length) {
+      WorkbenchImPieData.map(item => {
+        total += item.noStatisticNum;
       });
     }
 
@@ -154,15 +161,20 @@ class Im extends React.Component {
           </Spin>
           <Spin spinning={loadingTime}>
             <div className={style.imContentRight}>
-              <Echarts
-                options={options}
-                style={{ height: 235 + 'px', top: '-10px' }}
-                clickEvent={item => this.clickEvent(item)}
-              />
+              {!total && <img src={bingtu} style={{ width: '150px', marginTop: '-26px' }} />}
+              {total > 0 && (
+                <Echarts
+                  options={options}
+                  style={{ width: '275px', height: 235 + 'px', top: '-10px' }}
+                  clickEvent={item => this.clickEvent(item)}
+                />
+              )}
             </div>
-            <div className={style.imContentDot}>
-              <div className={style.imContentDotCon}>{dot}</div>
-            </div>
+            {total > 0 && (
+              <div className={style.imContentDot}>
+                <div className={style.imContentDotCon}>{dot}</div>
+              </div>
+            )}
           </Spin>
         </div>
       </div>
