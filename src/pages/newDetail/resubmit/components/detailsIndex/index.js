@@ -30,7 +30,7 @@ class DetailsIndex extends React.Component {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        render: (text, record) => <Tooltip title={text}><Link to={`/ko/behaviorPath?params=${encodeURIComponent(JSON.stringify({ userId: record.stuId }))}`} target='_black'>{text}</Link></Tooltip>
+        render: (text, record) => <Tooltip title={text}><Link to={`/ko/behaviorPath?params=${encodeURIComponent(JSON.stringify({ userId: record.stuId, target: 'draw' }))}`} target='_black'>邓静雷{text}</Link></Tooltip>
       },
       {
         width: '6%',
@@ -45,7 +45,7 @@ class DetailsIndex extends React.Component {
         key: 'paymentTime',
       },
       {
-        // width: '10%',
+        width: '12%',
         // ellipsis: true,
         title: '学院',
         dataIndex: 'collegeName',
@@ -65,14 +65,14 @@ class DetailsIndex extends React.Component {
         dataIndex: 'groupName',
         key: 'groupName',
       },{
-        width: '20%',
+        width: '18%',
         ellipsis: true,
         title: '老产品包',
         dataIndex: 'originPackageName',
         key: 'originPackageName',
         render: text => <Tooltip title={text}>{text}</Tooltip>
       },{
-        width: '20%',
+        width: '18%',
         ellipsis: true,
         title: '续费产品包',
         dataIndex: 'packageName',
