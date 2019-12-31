@@ -39,6 +39,13 @@ export default {
     'font-size-base': '13px',
     'border-radius-base': '6px', // 组件浮层圆角
     'border-color-base': '#E8EBED',
-    'btn-primary-color': '#282828'
+    'btn-primary-color': '#282828',
+    'btn-height-lg': '32px',
+    'btn-height-base': '28px',
+    'btn-height-sm': '24px',
+    'btn-font-size-lg': '14px',
+    'tabs-ink-bar-color': '#282828', // 选中线颜色
+    'tabs-hover-color': '#999999',
+    'tabs-highlight-color': '#282828' // 选中颜色
   },
 }

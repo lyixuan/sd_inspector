@@ -23,6 +23,7 @@ const floats = {
   2: float2,
 }
 @connect(({ resubmitModal, loading }) => ({
+  paramsQuery: resubmitModal.paramsQuery || {},
   packageData: resubmitModal.packageData || [],
   loading: loading.effects['resubmitModal/getPackageList'],
 }))
@@ -78,6 +79,14 @@ class PackageIndex extends React.Component {
     ];
     return columns || [];
   };
+  onRowHandle = record => {
+    return {
+      onClick: () => {
+        const flag = this.props.paramsQuery.packageName === record.packageName;
+        this.props.onParamsChange(flag ? undefined : record.packageName, 'packageName')
+      },
+    }
+  }
   render() {
     return (
       <BIContainer
@@ -93,11 +102,7 @@ class PackageIndex extends React.Component {
             rowKey={(record, index) => record.rankNum + index}
             scroll={{ y: 240 }}
             name='packageIndex'
-            onRow={ record => {
-              return {
-                onClick: event => this.props.onParamsChange(record.packageName, 'packageName')
-              }
-            }}
+            onRow={record => this.onRowHandle(record)}
           />
         </div>
       </BIContainer>

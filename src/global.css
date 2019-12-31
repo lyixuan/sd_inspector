@@ -228,4 +228,12 @@ body > a {
 }
 
 
+/* 统一修改tabs颜色 */
+:global .ant-tabs-nav {
+  color: #999999;
+} 
+:global .ant-tabs-nav .ant-tabs-tab-active {
+  font-weight: bold;
+} 
+
 
