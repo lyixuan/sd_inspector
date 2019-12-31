@@ -113,6 +113,7 @@ class EntityWords extends React.Component{
           <div></div>
           <Button
             className={styles.config}
+            type="primary"
             icon='plus'
             onClick={this.AddConfigWords}>配置实体词</Button>
         </div>

@@ -39,5 +39,6 @@ export default {
     'font-size-base': '13px',
     'border-radius-base': '6px', // 组件浮层圆角
     'border-color-base': '#E8EBED',
+    'btn-primary-color': '#282828'
   },
 }

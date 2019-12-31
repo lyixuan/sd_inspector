@@ -26,7 +26,7 @@ class InputComponent extends React.Component{
           onPressEnter={this.onInputEnter}
           ref={this.myInput}/>
         <Button className={styles['reset']} onClick={this.resetSearchResult}>重置</Button>
-        <Button className={styles['search']} onClick={this.onInputEnter}>搜索</Button>
+        <Button className={styles['search']} type="primary" onClick={this.onInputEnter}>搜索</Button>
         {
           showSearchRecord
             ? <span className={styles.text}>
