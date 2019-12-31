@@ -15,6 +15,7 @@ const ranks = {
   3: rank3,
 }
 @connect(({ resubmitModal, loading }) => ({
+  paramsQuery: resubmitModal.paramsQuery || {},
   originData: resubmitModal.originData || [],
   loading: loading.effects['resubmitModal/getOriginPackageList'],
 }))
@@ -52,6 +53,14 @@ class OriginIndex extends React.Component {
     ];
     return columns || [];
   };
+  onRowHandle = record => {
+    return {
+      onClick: () => {
+        const flag = this.props.paramsQuery.originPackageName === record.packageName;
+        this.props.onParamsChange(flag ? undefined : record.packageName, 'originPackageName')
+      },
+    }
+  }
   render() {
     return (
       <BIContainer
@@ -67,11 +76,7 @@ class OriginIndex extends React.Component {
             rowKey={(record, index) => record.rankNum + index}
             scroll={{ y: 240 }}
             name='originIndex'
-            onRow={ record => {
-              return {
-                onClick: event => this.props.onParamsChange(record.packageName, 'originPackageName')
-              }
-            }}
+            onRow={record => this.onRowHandle(record)}
           />
         </div>
       </BIContainer>
