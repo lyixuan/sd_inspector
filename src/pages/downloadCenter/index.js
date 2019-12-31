@@ -116,7 +116,7 @@ class Index extends Component {
                 <AuthorizedButton authority="/bottomTable/downloadBottomTable">
                   <div
                     style={{
-                      color: '#52C9C2',
+                      color: '#0062FF',
                       cursor: 'pointer',
                       display: 'flex',
                       justifyContent: 'space-around',
