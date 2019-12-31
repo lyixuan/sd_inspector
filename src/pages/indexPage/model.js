@@ -65,14 +65,19 @@ export default {
     },
 
     *getTouchRatio({ payload, callback }, { call, put }) {
+      const {orgType} = payload.params;
       const result = yield call(touchRatio, payload.params);
       if (result.code === 20000 && result.data) {
         const touchRatioList = result.data;
         let touchRatio = 0;
-        for(let i = 0;i<touchRatioList.length;i++) {
-          if(touchRatioList[i].hightLightFlag){
-            touchRatio = touchRatioList[i].reachNumPercent;
-            break;
+        if(orgType==='boss'){
+          touchRatio=touchRatioList[0].reachNumPercent;
+        } else {
+          for(let i = 0;i<touchRatioList.length;i++) {
+            if(touchRatioList[i].hightLightFlag){
+              touchRatio = touchRatioList[i].reachNumPercent;
+              break;
+            }
           }
         }
         yield put({ type: 'save', payload: { touchRatio } });
