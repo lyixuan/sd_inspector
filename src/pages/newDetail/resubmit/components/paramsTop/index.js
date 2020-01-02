@@ -89,7 +89,7 @@ class ParamsTop extends React.Component {
           dropdownClassName={styles.path}
           >
             {BiFilter('WB_PATH_LIST').map(item => <Option key={item.id} value={item.id} data-trace='{"widgetName":"家族筛选","traceName":"管理层工作台/家族筛选"}'>
-              {item.name}
+              <Tooltip title={item.name}>{item.name}</Tooltip>
             </Option>)}
           </BISelect>
         </span>
