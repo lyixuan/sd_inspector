@@ -260,7 +260,7 @@ export const routes = [
         routes: [
           {
             path: '/sessionReport/sessionReport',
-            component: './ko/sessionReport',
+            component: './sessonRecord',
           },
         ],
       },
@@ -596,6 +596,10 @@ export const routes = [
             component: './robotPage/robotTrend',
           }
         ]
+      },
+      {
+        path: '/sessionRecord/index',
+        component: './sessonRecord',
       },
       {
         path: '/hotQuestion',

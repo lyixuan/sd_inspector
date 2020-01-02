@@ -182,7 +182,7 @@ export function initTimeData(params) {
 //
 export const emptyValue = 9999;
 export function getArrLastValue(arr = []) {
-  const val = arr.length > 0 ? arr[arr.length -1].value : undefined;
+  const val = arr.length > 0 ? arr[arr.length - 1].value : undefined;
   if (val === emptyValue) {
     return 0;
   } else {
@@ -195,10 +195,10 @@ export function jumpGobalRouter(path, params) {
   const origin = window.location.origin;
   if (path) {
     const url = `${origin}${config.base}${path}`;
-    if(params){
+    if (params) {
       const strParams = encodeURIComponent(JSON.stringify(params));
       window.open(`${url}?params=${strParams}`);
-    }else{
+    } else {
       window.open(`${url}`);
     }
   }
