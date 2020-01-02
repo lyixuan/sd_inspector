@@ -12,7 +12,11 @@ class Cycle extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bflag: false,
+      bflag:
+        JSON.parse(localStorage.getItem('resubmit_query')).lifeCycle &&
+        JSON.parse(localStorage.getItem('resubmit_query')).lifeCycle.length > 0
+          ? true
+          : false,
     };
   }
   clickEvent = item => {

@@ -12,7 +12,11 @@ class Path extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bflag: false,
+      bflag:
+        JSON.parse(localStorage.getItem('resubmit_query')).path &&
+        JSON.parse(localStorage.getItem('resubmit_query')).path.length > 0
+          ? true
+          : false,
     };
   }
   clickEvent = item => {
