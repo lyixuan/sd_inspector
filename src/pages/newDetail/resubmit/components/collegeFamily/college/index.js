@@ -6,14 +6,29 @@ import { connect } from 'dva';
 import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 import { handleDataTrace } from '@/utils/utils';
 
+let index = 0;
 @connect(({ resubmitModal }) => ({
   resubmitModal,
   getCollegeAnalyzeData: resubmitModal.getCollegeAnalyzeData,
 }))
 class College extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      bflag: false,
+    };
+  }
   clickEvent = item => {
     const { getCollegeAnalyzeData } = this.props;
-    this.props.onParamsChange([getCollegeAnalyzeData[item.dataIndex].collegeId], 'orgId');
+    let { bflag } = this.state;
+    bflag = !bflag;
+
+    if (bflag) {
+      this.props.onParamsChange([getCollegeAnalyzeData[item.dataIndex].collegeId], 'orgId');
+    } else {
+      this.props.onParamsChange([undefined], 'orgId');
+    }
+    this.setState({ bflag });
   };
 
   render() {

@@ -9,8 +9,22 @@ import { connect } from 'dva';
   getPathListData: resubmitModal.getPathListData,
 }))
 class Path extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      bflag: false,
+    };
+  }
   clickEvent = item => {
-    this.props.onParamsChange(Number(item.dataIndex) + 1, 'path');
+    let { bflag } = this.state;
+    bflag = !bflag;
+
+    if (bflag) {
+      this.props.onParamsChange(Number(item.dataIndex) + 1, 'path');
+    } else {
+      this.props.onParamsChange(undefined, 'path');
+    }
+    this.setState({ bflag });
   };
   render() {
     const { getPathListData } = this.props;

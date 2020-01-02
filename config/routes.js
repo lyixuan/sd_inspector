@@ -287,19 +287,19 @@ export const routes = [
             path: '/qualityMarking/im',
             component: './ko/qualityMarking/im',
             commonPath: true, // 继承父页面
-            name: 'IM会话标注',
+            name: '质检标注',
           },
           {
             path: '/qualityMarking/bbs',
             component: './ko/qualityMarking/bbs',
             commonPath: true, // 继承父页面
-            name: 'BBS标注',
+            name: '质检标注',
           },
           {
             path: '/qualityMarking/nps',
             component: './ko/qualityMarking/nps',
             commonPath: true, // 继承父页面
-            name: 'NPS标注',
+            name: '质检标注',
           },
         ],
       },
