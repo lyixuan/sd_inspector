@@ -175,6 +175,7 @@ export function getOptions(data) {
     },
     grid: {
       left: 3,
+      top: 20,
       right: 0,
       bottom: 0,
       containLabel: true,
@@ -189,6 +190,9 @@ export function getOptions(data) {
         },
         axisLabel: {
           rotate: 60,
+          formatter: function(val) {
+            return val.length > 5 ? val.substr(0, 4) + '...' : val;
+          },
         },
         splitLine: { show: false },
         splitArea: { show: false },

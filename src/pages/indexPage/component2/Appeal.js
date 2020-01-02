@@ -112,7 +112,7 @@ class Appeal extends React.Component {
               {maxData > 0 && (
                 <Echarts
                   options={options}
-                  style={{ width: '280px', height: 243 + 'px' }}
+                  style={{ width: '280px', height: 230 + 'px' }}
                   clickEvent={item => this.clickEvent(item)}
                 />
               )}
