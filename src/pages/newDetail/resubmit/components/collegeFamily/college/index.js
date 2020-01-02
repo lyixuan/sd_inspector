@@ -9,33 +9,19 @@ import zhutu from '@/assets/zhutu@2x.png';
 
 @connect(({ resubmitModal }) => ({
   resubmitModal,
+  paramsQuery: resubmitModal.paramsQuery || {},
   getCollegeAnalyzeData: resubmitModal.getCollegeAnalyzeData,
 }))
 class College extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      bflag:
-        JSON.parse(localStorage.getItem('resubmit_query')) &&
-        JSON.parse(localStorage.getItem('resubmit_query')).orgId &&
-        JSON.parse(localStorage.getItem('resubmit_query')).orgId.length > 0
-          ? true
-          : false,
-    };
-  }
   clickEvent = item => {
     const { getCollegeAnalyzeData } = this.props;
     if (!getCollegeAnalyzeData[item.dataIndex].value) return;
-    debugger;
-    let { bflag } = this.state;
-    bflag = !bflag;
-
-    if (bflag) {
-      this.props.onParamsChange([getCollegeAnalyzeData[item.dataIndex].collegeId], 'orgId');
-    } else {
-      this.props.onParamsChange([], 'orgId');
+    const orgId = this.props.paramsQuery.orgId;
+    let orgIdVal = [getCollegeAnalyzeData[item.dataIndex].collegeId];
+    if (orgId && orgId.length && orgId[0] == getCollegeAnalyzeData[item.dataIndex].collegeId) {
+      orgIdVal = [];
     }
-    this.setState({ bflag });
+    this.props.onParamsChange(orgIdVal, 'orgId');
   };
 
   render() {

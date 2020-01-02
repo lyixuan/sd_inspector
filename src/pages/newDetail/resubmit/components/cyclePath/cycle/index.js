@@ -7,30 +7,17 @@ import bingtu from '@/assets/bingtu@2x.png';
 
 @connect(({ resubmitModal }) => ({
   resubmitModal,
+  paramsQuery: resubmitModal.paramsQuery || {},
   getCycleListData: resubmitModal.getCycleListData,
 }))
 class Cycle extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      bflag:
-        JSON.parse(localStorage.getItem('resubmit_query')) &&
-        JSON.parse(localStorage.getItem('resubmit_query')).lifeCycle &&
-        JSON.parse(localStorage.getItem('resubmit_query')).lifeCycle.length > 0
-          ? true
-          : false,
-    };
-  }
   clickEvent = item => {
-    let { bflag } = this.state;
-    bflag = !bflag;
-
-    if (bflag) {
-      this.props.onParamsChange(item.name.replace('天', ''), 'lifeCycle');
-    } else {
-      this.props.onParamsChange(undefined, 'lifeCycle');
+    const cycle = this.props.paramsQuery.lifeCycle;
+    let val = item.name.replace('天', '');
+    if (cycle && cycle.length && cycle == item.name.replace('天', '')) {
+      val = undefined;
     }
-    this.setState({ bflag });
+    this.props.onParamsChange(val, 'lifeCycle');
   };
 
   render() {

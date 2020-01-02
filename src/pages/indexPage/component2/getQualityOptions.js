@@ -208,6 +208,9 @@ export function getOptions(data) {
         splitLine: { show: false },
         splitArea: { show: false },
         type: 'value',
+        // splitNumber : 5,
+        // min: 0,
+        // max: maxDataArr,
       },
     ],
     series: [
