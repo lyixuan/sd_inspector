@@ -67,7 +67,6 @@ class Family extends React.Component {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  width: '761px',
                   height: '240px',
                 }}
               >
@@ -85,10 +84,7 @@ class Family extends React.Component {
                     options={options}
                     style={{
                       height: '240px',
-                      width:
-                        getFamilyAnalyzeData.length * 35 > 761
-                          ? getFamilyAnalyzeData.length * 35 + 'px'
-                          : '761px',
+                      width: '761px',
                     }}
                     clickEvent={item => this.clickEvent(item)}
                   />

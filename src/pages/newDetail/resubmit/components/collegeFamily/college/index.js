@@ -26,6 +26,7 @@ class College extends React.Component {
   clickEvent = item => {
     const { getCollegeAnalyzeData } = this.props;
     if (!getCollegeAnalyzeData[item.dataIndex].value) return;
+    debugger;
     let { bflag } = this.state;
     bflag = !bflag;
 
@@ -55,7 +56,6 @@ class College extends React.Component {
         <div
           style={{
             display: 'flex',
-            justifyContent: 'center',
             justifyContent: 'center',
             alignItems: 'center',
             width: '300px',

@@ -6,6 +6,10 @@ export function getOption(listsrc) {
   const scores = [];
   const xArr = [];
   let huanbi = [];
+  let barWidth = 10;
+  if (listsrc.length <= 15) {
+    barWidth = 17;
+  }
   listsrc.length &&
     listsrc.forEach(item => {
       scores.push(item.value);
@@ -234,7 +238,7 @@ export function getOption(listsrc) {
         type: 'bar',
         barGap: '-100%',
         // barCategoryGap:'40%',
-        barWidth: 17,
+        barWidth,
         data: bg1,
         animation: false,
         itemStyle: itemStyleBg1,
@@ -243,7 +247,7 @@ export function getOption(listsrc) {
         name: '正面',
         type: 'bar',
         stack: 'one',
-        barWidth: 17,
+        barWidth,
         itemStyle: itemStyle1,
         data: positiveData,
       },
@@ -252,7 +256,7 @@ export function getOption(listsrc) {
         type: 'bar',
         barGap: '-100%',
         // barCategoryGap:'40%',
-        barWidth: 17,
+        barWidth,
         data: bg2,
         itemStyle: itemStyleBg2,
         animation: false,
@@ -261,7 +265,7 @@ export function getOption(listsrc) {
         name: '负面',
         type: 'bar',
         stack: 'one',
-        barWidth: 17,
+        barWidth,
         itemStyle: itemStyle2,
         data: negData,
       },
