@@ -19,26 +19,26 @@ export function getOptions(data) {
   let data10 = [];
   let data11 = [];
 
-  const ownData = {
-    name: '',
-    status: {
-      oneFailAppealNum: 0,
-      oneMasterPreAppealNum: 0,
-      oneSopPreAppealNum: 0,
-      oneSopRejectedNum: 0,
-      oneTimeOutAppealNum: 0,
-      preAppealNum: 0,
-      twoFailAppealNum: 0,
-      twoMasterPreAppealNum: 0,
-      twoSopPreAppealNum: 0,
-      twoSopRejectedNum: 0,
-      twoTimeOutAppealNum: 0,
-    },
-    value: 0,
-  };
   const maxData = [];
   if (data && data.class && data.class.detailList) {
     if (data.class.detailList.length === 1) {
+      const ownData = {
+        name: '',
+        status: {
+          oneFailAppealNum: 0,
+          oneMasterPreAppealNum: 0,
+          oneSopPreAppealNum: 0,
+          oneSopRejectedNum: 0,
+          oneTimeOutAppealNum: 0,
+          preAppealNum: 0,
+          twoFailAppealNum: 0,
+          twoMasterPreAppealNum: 0,
+          twoSopPreAppealNum: 0,
+          twoSopRejectedNum: 0,
+          twoTimeOutAppealNum: 0,
+        },
+        value: data.class.detailList[0].value,
+      };
       data.class.detailList = [ownData, ownData, data.class.detailList[0], ownData, ownData];
     }
 
