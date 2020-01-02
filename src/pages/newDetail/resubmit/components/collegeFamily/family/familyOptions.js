@@ -141,7 +141,7 @@ export function getOption(listsrc) {
       //   }
       // }
       formatter: function(params) {
-        var str = params[1].name + '</br>' + '创收流水：' + params[1].value + '</br>';
+        var str = params[1].name + '</br>' + '创收流水：' + params[1].value.toFixed(1) + '</br>';
         return str;
       },
     },
