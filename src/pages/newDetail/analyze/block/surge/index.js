@@ -10,12 +10,13 @@ import rank3 from '@/assets/xdFamily/rank3.png';
 import up from '@/assets/up.png';
 import down from '@/assets/down.png';
 import flat from '@/assets/flat.png';
+import { getDateObj } from '@/pages/indexPage/components/utils/utils';
 import { companyThousandsIncome } from '@/utils/utils';
 import { Tooltip } from 'antd';
 const { Option } = BISelect;
 
-@connect(newDetailModal => ({
-  newDetailModal,
+@connect(({ analyzeModel }) => ({
+  dateRange: analyzeModel.dateRange,
 }))
 class Top extends React.Component {
   constructor(props) {
@@ -27,6 +28,11 @@ class Top extends React.Component {
 
   componentDidMount() {
     this.getData();
+  }
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (JSON.stringify(nextProps.dateRange) !== JSON.stringify(this.props.dateRange)) {
+      this.getData(getDateObj(nextProps.dateRange));
+    }
   }
 
   getData() {

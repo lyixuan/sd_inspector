@@ -7,13 +7,14 @@ import BIWrapperProgress from '@/pages/indexPage/components/BIWrapperProgress';
 import rank1 from '@/assets/xdFamily/rank1.png';
 import rank2 from '@/assets/xdFamily/rank2.png';
 import rank3 from '@/assets/xdFamily/rank3.png';
-import moment from 'moment';
+import { getDateObj } from '@/pages/indexPage/components/utils/utils';
 import { companyThousandsIncome } from '@/utils/utils';
 import { Tooltip } from 'antd';
 const { Option } = BISelect;
 const { BI = {} } = window;
 
-@connect(({ newDetailModal }) => ({
+@connect(({ newDetailModal, analyzeModel }) => ({
+  dateRange: analyzeModel.dateRange,
   newDetailModal,
 }))
 class Top extends React.Component {
@@ -62,7 +63,6 @@ class Top extends React.Component {
       dataSource: [],
     };
   }
-
   componentDidMount() {
     let newcollegeId = localStorage.getItem('orgValue') || this.props.userInfo.collegeId || '0';
     let { orgValue } = this.state;
@@ -82,27 +82,28 @@ class Top extends React.Component {
         }
       });
   }
-
-  getData(collegeId) {
-    const { date } = this.props;
-    let { orgValue } = this.state;
-    if (collegeId === 'undefined') {
-      orgValue = 0;
-    } else {
-      orgValue = String(collegeId);
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (JSON.stringify(nextProps.dateRange) !== JSON.stringify(this.props.dateRange)) {
+      const { orgValue } = this.state;
+      this.getData(orgValue === 0 ? 'undefined' : orgValue, getDateObj(nextProps.dateRange));
     }
+  }
+
+  getData(collegeId, dateObj) {
+    const date = dateObj ? dateObj : getDateObj(this.props.dateRange);
     this.props
       .dispatch({
         type: 'newDetailModal/getPackageRankList',
         payload: {
           params: {
-            beginDate: moment(date.startDate).format('YYYY-MM-DD'),
-            endDate: moment(date.endDate).format('YYYY-MM-DD'),
+            beginDate: date.startTime,
+            endDate: date.endTime,
             collegeId: collegeId !== 'undefined' ? collegeId : '0',
           },
         },
       })
       .then(res => {
+        const orgValue = collegeId === 'undefined' ? 0 : String(collegeId);
         this.setState({ dataSource: res, orgValue });
       });
   }

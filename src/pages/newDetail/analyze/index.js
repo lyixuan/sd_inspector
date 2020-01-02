@@ -1,23 +1,52 @@
 import React from 'react';
-// import styles from './styles.less';
 import { connect } from 'dva';
+import BIDatePicker from '@/ant_components/BIDatePicker';
 import Top from './block/top';
 import Surge from './block/surge';
+import { disabledDate } from '@/pages/indexPage/components/utils/utils';
+import styles from './style.less';
 
-@connect(({ newDetailModal }) => ({
+const { BIRangePicker } = BIDatePicker;
+
+@connect(({ newDetailModal, analyzeModel }) => ({
+  dateRange: analyzeModel.dateRange,
   globalUserInfo: newDetailModal.globalUserInfo,
   globalDate: newDetailModal.globalDate,
+  globalDateMoment: newDetailModal.globalDateMoment,
+  globalkpiDateRange: newDetailModal.globalkpiDateRange,
 }))
 class IncomeCompare extends React.Component {
+  componentDidMount() {
+    this.onFormChange(this.props.globalDateMoment);
+  }
+  // 时间
+  onFormChange = (val) => {
+    this.props.dispatch({
+      type: 'analyzeModel/saveDate',
+      payload: { dateRange: val },
+    });
+  };
+
   render() {
-    const { globalUserInfo, globalDate } = this.props;
+    const { globalUserInfo, globalDate, dateRange} = this.props;
     return (
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '24px' }}>
-        {globalDate && globalDate.startDate && (
-          <Top date={globalDate} userInfo={globalUserInfo} />
-        )}
-        {globalDate && globalDate.startDate && (
-          <Surge date={globalDate} userInfo={globalUserInfo} />
+      <div className={styles.analyze}>
+        <span className={styles.dataRange}>
+          <BIRangePicker
+            value={dateRange}
+            placeholder={['选择起始时间', '选择截止时间']}
+            format='YYYY-MM-DD'
+            onChange={val => this.onFormChange(val, 'dataRange')}
+            allowClear={false}
+            disabledDate={val => disabledDate(val, this.props.globalkpiDateRange)}
+            style={{ width: 224 }}
+          />
+        </span>
+        {dateRange && dateRange.length > 0 && (
+          <>
+            <Top date={globalDate} userInfo={globalUserInfo} />
+            <Surge date={globalDate} userInfo={globalUserInfo} />
+          </>
         )}
       </div>
     );
