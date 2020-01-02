@@ -21,6 +21,8 @@ import compress from '@/assets/downloadCenter/compress.svg';
 import packing from '@/assets/downloadCenter/packing.svg';
 import DownLoad from './components/download';
 
+import BIButton from '@/ant_components/BIButton';
+
 const dateFormat = 'YYYY-MM-DD';
 const imgArr = [packing, packSucess, packError];
 
@@ -308,9 +310,9 @@ class Index extends Component {
         <div className={style.contentWrap}>
           {
             <AuthorizedButton authority="/bottomTable/addBottomTable">
-              <Button onClick={this.addTasks} type="primary" className={common.createButton}>
+              <BIButton onClick={this.addTasks} type="primary">
                 学分底表
-              </Button>
+              </BIButton>
             </AuthorizedButton>
           }
           {
