@@ -127,11 +127,10 @@ class IndexPage extends Component {
           operatorId:userId,
           orgType:this.getType(),
           startDate: "2019-12-12",
-          endDate: "2019-12-26" //moment().subtract(1,'days').format('YYYY-MM-DD')
+          endDate: moment().subtract(1,'days').format('YYYY-MM-DD')
         },
       },
     });
-    // todo
     this.props.dispatch({
       type: 'xdWorkModal/getExamYearMonth',
       payload: {},
