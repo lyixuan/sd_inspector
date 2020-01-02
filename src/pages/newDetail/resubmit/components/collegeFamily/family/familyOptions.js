@@ -141,7 +141,7 @@ export function getOption(listsrc) {
       //   }
       // }
       formatter: function(params) {
-        var str = params[1].name + '</br>' + '数量：' + params[1].value + '</br>';
+        var str = params[1].name + '</br>' + '创收流水：' + params[1].value + '</br>';
         return str;
       },
     },

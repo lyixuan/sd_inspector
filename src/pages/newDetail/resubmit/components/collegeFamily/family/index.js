@@ -12,15 +12,29 @@ import { connect } from 'dva';
   loading: loading.effects['resubmitModal/getFamilyAnalyze'],
 }))
 class Family extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      bflag: false,
+    };
+  }
   clickEvent = item => {
     const { getFamilyAnalyzeData } = this.props;
-    this.props.onParamsChange(
-      [
-        getFamilyAnalyzeData[item.dataIndex].collegeId,
-        getFamilyAnalyzeData[item.dataIndex].familyId,
-      ],
-      'orgId'
-    );
+    let { bflag } = this.state;
+    bflag = !bflag;
+
+    if (bflag) {
+      this.props.onParamsChange(
+        [
+          getFamilyAnalyzeData[item.dataIndex].collegeId,
+          getFamilyAnalyzeData[item.dataIndex].familyId,
+        ],
+        'orgId'
+      );
+    } else {
+      this.props.onParamsChange([undefined, undefined], 'orgId');
+    }
+    this.setState({ bflag });
   };
 
   render() {
