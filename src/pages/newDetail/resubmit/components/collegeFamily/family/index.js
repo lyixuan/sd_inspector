@@ -15,7 +15,11 @@ class Family extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bflag: false,
+      bflag:
+        JSON.parse(localStorage.getItem('resubmit_query')).orgId &&
+        JSON.parse(localStorage.getItem('resubmit_query')).orgId.length > 0
+          ? true
+          : false,
     };
   }
   clickEvent = item => {
@@ -32,7 +36,7 @@ class Family extends React.Component {
         'orgId'
       );
     } else {
-      this.props.onParamsChange([undefined, undefined], 'orgId');
+      this.props.onParamsChange([getFamilyAnalyzeData[item.dataIndex].collegeId], 'orgId');
     }
     this.setState({ bflag });
   };
