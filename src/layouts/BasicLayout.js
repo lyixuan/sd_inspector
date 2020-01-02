@@ -193,16 +193,17 @@ class BasicLayout extends React.PureComponent {
       title = `${currRouterData.title} - 小德`;
     }
 
-    if (pathname.indexOf('koDaily') > 0) {
+    // 有iframe标签页面的title特殊处理
+    if (pathname.indexOf('/allReport/koDaily') !== -1) {
       title = 'KO日报 - 小德'
     }
-    if (pathname.indexOf('qualityReport') > 0) {
+    if (pathname.indexOf('/allReport/qualityReport') !== -1) {
       title = '质检报表 - 小德'
     }
-    if (pathname.indexOf('examReadOnly') > 0) {
+    if (pathname.indexOf('/allReport/examReadOnly') !== -1) {
       title = '报考信息系统 - 小德'
     }
-    if (pathname.indexOf('/allReport/freeStudy') > 0) {
+    if (pathname.indexOf('/allReport/freeStudy') !== -1) {
       title = '运营数据 - 小德'
     }
 

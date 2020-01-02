@@ -196,6 +196,8 @@ export function getOptions(data) {
     ],
     yAxis: [
       {
+        min: 0,
+        max: Math.max.apply(Math, maxData),
         axisLine: {
           show: false,
         },
@@ -209,8 +211,6 @@ export function getOptions(data) {
         splitArea: { show: false },
         type: 'value',
         // splitNumber : 5,
-        // min: 0,
-        // max: maxDataArr,
       },
     ],
     series: [
