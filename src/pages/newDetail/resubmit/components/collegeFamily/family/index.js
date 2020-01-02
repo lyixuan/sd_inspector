@@ -32,7 +32,7 @@ class Family extends React.Component {
         'orgId'
       );
     } else {
-      this.props.onParamsChange([], 'orgId');
+      this.props.onParamsChange([getFamilyAnalyzeData[item.dataIndex].collegeId], 'orgId');
     }
     this.setState({ bflag });
   };
