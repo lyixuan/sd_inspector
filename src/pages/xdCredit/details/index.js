@@ -188,7 +188,7 @@ class CreditImDetials extends React.Component {
           } else if (titleFour === '操作') {
             return (
               <Tooltip overlayClassName={styles.listMarkingTooltip2} placement="top" title={text}>
-                <span style={{ color: "#00CCC3" }}>查看</span>
+                <span style={{ color: "#0062FF" }}>查看</span>
               </Tooltip>
             );
           } else {
@@ -215,14 +215,14 @@ class CreditImDetials extends React.Component {
   };
   getAactionContent = (titleFive, r) => {
     const content = r.contentList ? <Layout dataMark={r}></Layout> : r.content;
-    const shensu = <span onClick={() => this.getAppeal(r)} style={{ color: "#00CCC3", cursor: 'pointer', marginLeft: titleFive === '操作' ? '8px' : '0px' }}>申诉</span>;
+    const shensu = <span onClick={() => this.getAppeal(r)} style={{ color: "#0062FF", cursor: 'pointer', marginLeft: titleFive === '操作' ? '8px' : '0px' }}>申诉</span>;
     const check = <Tooltip overlayClassName={styles.listMarkingTooltip} placement="right" title={content}>
-      <span style={{ color: "#00CCC3" }}>查看</span>
+      <span style={{ color: "#0062FF" }}>查看</span>
     </Tooltip>;
     if (titleFive === '质检申诉') {
       return <span 
       style={{ 
-        color: "#00CCC3", 
+        color: "#0062FF", 
         cursor: 'pointer', 
       }}
       onClick={() => this.getAppeal(r)} >

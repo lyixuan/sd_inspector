@@ -15,11 +15,15 @@ const headObj = {
   '/newDetail/incomeOrder': {
     title: '创收排名',
     falg: false,
-  }
-}
+  },
+  '/newDetail/resubmit': {
+    title: '续报分析',
+    falg: false,
+  },
+};
 
 @connect(({ newDetailModal }) => ({
-  globalDate: newDetailModal.globalDate
+  globalDate: newDetailModal.globalDate,
 }))
 class NewDetail extends Component {
   componentDidMount() {
@@ -37,17 +41,26 @@ class NewDetail extends Component {
       type: 'newDetailModal/getKpiDateRange',
     });
   }
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: 'newDetailModal/saveUserInfo',
+    });
+  }
   render() {
     const { globalDate, location = {} } = this.props;
     const item = headObj[location.pathname];
     return (
       <>
-        {
-          item && <div className={styles.title}>
+        {item && (
+          <div className={styles.title}>
             <span>{item.title}</span>
-            {item.falg && <span>{globalDate.startDate} ~ {globalDate.endDate}</span>}
+            {item.falg && (
+              <span>
+                {globalDate.startDate} ~ {globalDate.endDate}
+              </span>
+            )}
           </div>
-        }
+        )}
         {globalDate && globalDate.startDate && <RenderRoute {...this.props} />}
       </>
     );

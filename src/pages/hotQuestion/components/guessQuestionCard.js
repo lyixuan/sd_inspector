@@ -16,11 +16,11 @@ class GuessQuestionCard extends React.Component{
       <div className={styles['guess-card']}>
         <div className={styles.title}>
           <div className={styles.text}>{cardData.cardName}</div>
-          <div
+          <a
             className={styles.edit}
             onClick={this.onEdit}>
             <Icon type="edit" style={{marginRight: 8}}/> 编辑
-          </div>
+          </a>
         </div>
         <div className={styles.content}>
           <QuestionTable

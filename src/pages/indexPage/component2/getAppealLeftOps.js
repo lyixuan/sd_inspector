@@ -74,32 +74,6 @@ export function getAppealLeftOption(data) {
         },
 
         data: newData,
-        // name: '申诉',
-        // type: 'pie',
-        // center: ['50%', '50%'],
-        // radius: ['40%', '65%'],
-        // clockwise: false, //饼图的扇区是否是顺时针排布
-        // avoidLabelOverlap: false,
-        // label: {
-        //   normal: {
-        //     // position: 'inside',
-        //     // formatter: function(params) {
-        //     //   return params.data.value;
-        //     // },
-        //   },
-        // },
-        // textStyle: {
-        //   fontSize: '12',
-        //   textAlign: 'center',
-        // },
-        // labelLine: {
-        //   normal: {
-        //     length: 5,
-        //     length2: 3,
-        //     smooth: true,
-        //   },
-        // },
-        // data: newData,
       },
     ],
   };

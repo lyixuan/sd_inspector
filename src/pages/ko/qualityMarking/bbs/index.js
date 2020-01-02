@@ -91,7 +91,7 @@ class bbsPage extends React.Component {
         key: 'action',
         render: (text, record) => (
           <div>
-            <a href="javascript:;" onClick={() => this.handleEdit(record.id)}>编辑</a>
+            <span className={styles.textname} onClick={() => this.handleEdit(record.id)}>编辑</span>
           </div>
         ),
       });

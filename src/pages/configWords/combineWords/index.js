@@ -129,6 +129,7 @@ class CombineWords extends React.Component{
             onReset={this.handleSearchReset}/>
           <Button
             className={styles.config}
+            type="primary"
             icon='plus'
             onClick={this.AddConfigWords}>配置组合词</Button>
         </div>

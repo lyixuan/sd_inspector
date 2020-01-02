@@ -11,6 +11,7 @@ import {
   linkRoute, linkImgRouteBul,
   emptyValue, getArrLastValue
 } from '@/pages/ko/utils/utils';
+import BIRouteText from '@/ant_components/BIRouteText';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 import AuthButton from '@/components/AuthButton';
@@ -107,7 +108,7 @@ class imPage extends React.Component {
         key: 'action',
         render: (text, record) => (
           <div>
-            <span style={{ color: '#52c9c2', cursor: 'pointer' }} onClick={() => this.handleEdit(record.id)}>编辑</span>
+            <BIRouteText onClick={() => this.handleEdit(record.id)}>编辑</BIRouteText>
           </div>
         ),
       });

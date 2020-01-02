@@ -119,6 +119,7 @@ class Keywords extends React.Component{
             onSearch={this.handleSearch}
             onReset={this.handleSearchReset}/>
           <Button
+            type="primary"
             className={styles.config}
             icon='plus'
             onClick={this.AddConfigWords}>配置关键词</Button>

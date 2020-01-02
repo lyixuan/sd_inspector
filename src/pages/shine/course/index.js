@@ -16,17 +16,29 @@ const confirm = BIModal.confirm;
 const columns = [
   {
     title: '课程名称',
+    ellipsis: true,
     dataIndex: 'videoName',
+    render: (text) => {
+      return (
+        <>
+          <Tooltip placement="topLeft" title={text}>
+            {text}
+          </Tooltip>
+        </>
+      )
+    }
   },
   {
     title: '课程简介',
     dataIndex: 'videoDesc',
+    ellipsis: true,
     render: (text, record) => {
       return (
         <>
           {/* Tooltip */}
-          <Tooltip placement="top" title={text}>
-            <BIButtonInTable>{text}</BIButtonInTable>
+          <Tooltip placement="topLeft" title={text}>
+            {/*<BIButtonInTable>{text}</BIButtonInTable>*/}
+            {text}
           </Tooltip>
         </>
       );
@@ -222,10 +234,13 @@ class Course extends React.Component {
       {
         title: '课程分类',
         dataIndex: 'videoType',
+        ellipsis: true,
         render: (text, record) => {
           return (
             <>
-              {<div style={{cursor: 'pointer'}} onClick={()=>this.showSortModal(record)}>{text}</div>}
+              <Tooltip placement="topLeft" title={text}>
+                {<span style={{cursor: 'pointer'}} onClick={()=>this.showSortModal(record)}>{text}</span>}
+              </Tooltip>
             </>
           );
         },
