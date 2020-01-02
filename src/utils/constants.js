@@ -435,9 +435,7 @@ export const EmptyContentLayout = [
   { path: '/classQuality/qualityType/2', name: '班主任质检手册' },
   { path: '/xdCreditPk/list', name: '学分PK' },
   { path: '/downloadCenter', name: '下载中心' },
-  { path: '/newDetail/analyze', name: '创收产品包' },
-  { path: '/newDetail/incomeRank', name: '创收对比' },
-  { path: '/newDetail/incomeOrder', name: '创收排名' },
+  { path: '/newDetail', name: '创收产品包' },
   { path: '/robotPage/data', name: '机器人会话数据' },
   { path: '/robotPage/trend', name: '机器人会话趋势' }
 ];
