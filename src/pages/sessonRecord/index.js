@@ -5,6 +5,7 @@ import BIInput from '@/ant_components/BIInput';
 import BIButton from '@/ant_components/BIButton';
 import BIDialog from '@/components/BIDialog';
 import BIWrapperTable from '@/components/BIWrapperTable';
+import BITable from '@/ant_components/BITable';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import BICascader from '@/ant_components/BICascader';
 import BISelect from '@/ant_components/BISelect';
@@ -16,7 +17,7 @@ import styles from './style.less';
 const { BIRangePicker } = BIDatePicker;
 const { Option } = BISelect;
 const dateFormat = 'YYYY-MM-DD';
-const globalPage = 15
+const globalPage = 10
 const evaluate = ['非常满意', '满意', '一般', '不满意', '未评价']
 const degreeList = [{
   name: evaluate[0],
@@ -48,14 +49,13 @@ class SessonRecord extends Component {
     super(props);
     const query = this.props.location.query.params ? JSON.parse(this.props.location.query.params) : {};
     const { collegeId, familyId } = query
-    console.log(51, moment(new Date().getTime()).subtract(1, 'days'))
     this.state = {
       startTime: query.startTime ? moment(query.startTime) : moment(new Date().getTime()).subtract(1, 'days'),
       endTime: query.endTime ? moment(query.endTime) : moment(new Date().getTime()).subtract(1, 'days'),
       org: collegeId || familyId ? [collegeId, familyId] : [],
       inputStuId: undefined,
       evaluate: undefined,
-      pageSize: 15,
+      pageSize: 10,
       currentPage: 1,
     }
   }
@@ -304,7 +304,7 @@ class SessonRecord extends Component {
         </div>
         <div className={styles.tableBox}>
           <div className={styles.total}>共{sessionList.total || 0}条</div>
-          <BIWrapperTable
+          <BITable
             columns={this.columns()}
             dataSource={sessionList.list}
             pagination={{
@@ -315,10 +315,8 @@ class SessonRecord extends Component {
               hideOnSinglePage: true,
               showQuickJumper: true,
             }}
-            scroll={{ x: 0, y: 650 }}
             loading={this.props.loading}
             rowKey={(record, index) => index}
-            smalled
           />
         </div>
       </div>
