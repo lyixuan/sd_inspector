@@ -37,7 +37,7 @@ export function getOption(data) {
     },
     tooltip: {},
     radiusAxis: {
-      min: 'dataMin',
+      min: 0,
       max: max,
       show: false,
       nameTextStyle: {
