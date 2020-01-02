@@ -12,7 +12,11 @@ class Cycle extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bflag: false,
+      bflag:
+        JSON.parse(localStorage.getItem('resubmit_query')).lifeCycle &&
+        JSON.parse(localStorage.getItem('resubmit_query')).lifeCycle.length > 0
+          ? true
+          : false,
     };
   }
   clickEvent = item => {
@@ -34,7 +38,7 @@ class Cycle extends React.Component {
       <div className={styles.collegeWrap}>
         <p className={styles.title}>
           <span></span>
-          续费学员生命周期分布
+          续报学员生命周期分布
         </p>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Echarts

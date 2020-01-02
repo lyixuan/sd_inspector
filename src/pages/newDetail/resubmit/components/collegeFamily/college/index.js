@@ -15,7 +15,11 @@ class College extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bflag: false,
+      bflag:
+        JSON.parse(localStorage.getItem('resubmit_query')).orgId &&
+        JSON.parse(localStorage.getItem('resubmit_query')).orgId.length > 0
+          ? true
+          : false,
     };
   }
   clickEvent = item => {
@@ -26,7 +30,7 @@ class College extends React.Component {
     if (bflag) {
       this.props.onParamsChange([getCollegeAnalyzeData[item.dataIndex].collegeId], 'orgId');
     } else {
-      this.props.onParamsChange([undefined], 'orgId');
+      this.props.onParamsChange([], 'orgId');
     }
     this.setState({ bflag });
   };

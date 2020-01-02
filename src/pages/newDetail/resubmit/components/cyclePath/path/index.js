@@ -12,7 +12,11 @@ class Path extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bflag: false,
+      bflag:
+        JSON.parse(localStorage.getItem('resubmit_query')).path &&
+        JSON.parse(localStorage.getItem('resubmit_query')).path.length > 0
+          ? true
+          : false,
     };
   }
   clickEvent = item => {
@@ -33,7 +37,7 @@ class Path extends React.Component {
       <div className={styles.familyWrap}>
         <p className={styles.title}>
           <span></span>
-          转班路径
+          续报路径
           {/* <i>(自考)</i> */}
         </p>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
