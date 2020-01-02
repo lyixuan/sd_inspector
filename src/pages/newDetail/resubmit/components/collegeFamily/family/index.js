@@ -25,6 +25,7 @@ class Family extends React.Component {
   }
   clickEvent = item => {
     const { getFamilyAnalyzeData } = this.props;
+    if (!getFamilyAnalyzeData[item.dataIndex].value) return;
     let { bflag } = this.state;
     bflag = !bflag;
 

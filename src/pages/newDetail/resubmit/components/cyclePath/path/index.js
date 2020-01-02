@@ -21,7 +21,9 @@ class Path extends React.Component {
     };
   }
   clickEvent = item => {
+    const { getPathListData } = this.props;
     let { bflag } = this.state;
+    if (!getPathListData[item.dataIndex].value) return;
     bflag = !bflag;
 
     if (bflag) {
