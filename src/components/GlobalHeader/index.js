@@ -71,9 +71,6 @@ class GlobalHeader extends PureComponent {
     // const url = 'http://bi-admin.ministudy.com'
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
-        <Menu.Item>
-          <span>{currentUser.name}</span>
-        </Menu.Item>
         <Menu.Item className={styles.userName}>
           <span>{currentUser.name}</span>
         </Menu.Item>
