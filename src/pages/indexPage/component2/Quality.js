@@ -90,6 +90,7 @@ class Quality extends React.Component {
       reduceScoreBeginDate: getCurrentDateRangeData.startTime,
       reduceScoreEndDate: getCurrentDateRangeData.endTime,
       tabType: type,
+      type: type,
       status: status,
     });
   };
