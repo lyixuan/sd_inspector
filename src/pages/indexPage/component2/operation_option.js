@@ -34,6 +34,7 @@ export function getOption(touchRatio) {
       subtextStyle: {
         fontSize: 10,
         color:'#092058',
+        verticalAlign:'top'
       },
       x: 'center',
       y: '35%',
@@ -48,8 +49,8 @@ export function getOption(touchRatio) {
         type:'pie',
         hoverAnimation:false,
         animationType:'scale',
-        radius: ['58%', '70%'],
-        center: ['50%', '50%'],
+        radius: ['55%', '65%'],
+        center: ['50%', '48%'],
         // startAngle: '135',
         label: {
           normal: {

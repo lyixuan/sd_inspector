@@ -30,14 +30,14 @@ class DetailsIndex extends React.Component {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        render: (text, record) => <Tooltip title={text}><Link to={`/ko/behaviorPath?params=${encodeURIComponent(JSON.stringify({ userId: record.stuId, target: 'draw' }))}`} target='_black'>邓静雷{text}</Link></Tooltip>
+        render: (text, record) => <Tooltip title={text}><Link to={`/ko/behaviorPath?params=${encodeURIComponent(JSON.stringify({ userId: record.stuId, target: 'draw' }))}`} target='_black'>{text}</Link></Tooltip>
       },
       {
         width: '6%',
         title: '周期',
         dataIndex: 'lifeCycle',
         key: 'lifeCycle',
-        render: text => text + '天'
+        render: text => text ? text + '天' : ''
       },
       {
         title: '报名时间',
