@@ -8,31 +8,23 @@ import zhutu from '@/assets/zhutu@2x.png';
 @connect(({ resubmitModal }) => ({
   resubmitModal,
   getPathListData: resubmitModal.getPathListData,
+  paramsQuery: resubmitModal.paramsQuery || {},
 }))
 class Path extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bflag:
-        JSON.parse(localStorage.getItem('resubmit_query')) &&
-        JSON.parse(localStorage.getItem('resubmit_query')).path &&
-        JSON.parse(localStorage.getItem('resubmit_query')).path.length > 0
-          ? true
-          : false,
+      bflag: false,
     };
   }
   clickEvent = item => {
     const { getPathListData } = this.props;
-    let { bflag } = this.state;
-    if (!getPathListData[item.dataIndex].value) return;
-    bflag = !bflag;
-
-    if (bflag) {
-      this.props.onParamsChange(Number(item.dataIndex) + 1, 'path');
-    } else {
-      this.props.onParamsChange(undefined, 'path');
+    const pathVal = this.props.paramsQuery.path;
+    let val = Number(item.dataIndex) + 1;
+    if (pathVal && pathVal == val) {
+      val = undefined;
     }
-    this.setState({ bflag });
+    this.props.onParamsChange(val, 'path');
   };
   render() {
     const { getPathListData } = this.props;

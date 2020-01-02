@@ -10,38 +10,28 @@ import zhutu from '@/assets/zhutu@2x.png';
 @connect(({ resubmitModal, loading }) => ({
   resubmitModal,
   getFamilyAnalyzeData: resubmitModal.getFamilyAnalyzeData,
+  paramsQuery: resubmitModal.paramsQuery || {},
   loading: loading.effects['resubmitModal/getFamilyAnalyze'],
 }))
 class Family extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bflag:
-        JSON.parse(localStorage.getItem('resubmit_query')) &&
-        JSON.parse(localStorage.getItem('resubmit_query')).orgId &&
-        JSON.parse(localStorage.getItem('resubmit_query')).orgId.length > 0
-          ? true
-          : false,
+      bflag: false,
     };
   }
   clickEvent = item => {
     const { getFamilyAnalyzeData } = this.props;
     if (!getFamilyAnalyzeData[item.dataIndex].value) return;
-    let { bflag } = this.state;
-    bflag = !bflag;
-
-    if (bflag) {
-      this.props.onParamsChange(
-        [
-          getFamilyAnalyzeData[item.dataIndex].collegeId,
-          getFamilyAnalyzeData[item.dataIndex].familyId,
-        ],
-        'orgId'
-      );
-    } else {
-      this.props.onParamsChange([getFamilyAnalyzeData[item.dataIndex].collegeId], 'orgId');
+    const orgId = this.props.paramsQuery.orgId;
+    let orgIdVal = [
+      getFamilyAnalyzeData[item.dataIndex].collegeId,
+      getFamilyAnalyzeData[item.dataIndex].familyId,
+    ];
+    if (orgId && orgId.length && orgId[1] == getFamilyAnalyzeData[item.dataIndex].familyId) {
+      orgIdVal = [getFamilyAnalyzeData[item.dataIndex].collegeId];
     }
-    this.setState({ bflag });
+    this.props.onParamsChange(orgIdVal, 'orgId');
   };
 
   render() {

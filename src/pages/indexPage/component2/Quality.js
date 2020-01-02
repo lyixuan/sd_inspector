@@ -84,7 +84,6 @@ class Quality extends React.Component {
         type = '2';
         break;
     }
-    console.log(WorkbenchQualityData, 'WorkbenchQualityData');
     let collegeIdList = [];
     let familyIdList = [];
     let groupIdList = [];
