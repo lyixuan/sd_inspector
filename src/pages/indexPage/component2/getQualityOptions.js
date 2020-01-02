@@ -106,32 +106,32 @@ export function getOptions(data) {
   };
   const itemStyle4 = {
     normal: {
-      color: '#B5E1F9',
+      color: '#FFC442',
     },
   };
   const itemStyle5 = {
     normal: {
-      color: '#0064FF',
+      color: '#4A5F75',
     },
   };
   const itemStyle6 = {
     normal: {
-      color: '#FFC442',
+      color: '#0496FF',
     },
   };
   const itemStyle7 = {
     normal: {
-      color: '#4A5F75',
+      color: '#AEB89F',
     },
   };
   const itemStyle8 = {
     normal: {
-      color: '#0496FF',
+      color: '#B5E1F9',
     },
   };
   const itemStyle9 = {
     normal: {
-      color: '#AEB89F',
+      color: '#0064FF',
     },
   };
   const itemStyle10 = {
