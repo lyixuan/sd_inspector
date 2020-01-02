@@ -90,9 +90,21 @@ class Quality extends React.Component {
     let groupIdList = [];
     let data = WorkbenchQualityData.class.detailList[item.dataIndex];
     if (data) {
-      collegeIdList = data.collegeId ? [`a-${data.collegeId}`] : [];
-      familyIdList = data.familyId ? [`b-${data.familyId}`] : [];
-      groupIdList = data.groupId ? [`c-${data.groupId}`] : [];
+      if (data.collegeId) {
+        collegeIdList = data.collegeId ? [`a-${data.collegeId}`] : [];
+        familyIdList = [];
+        groupIdList = [];
+        if (data.familyId) {
+          collegeIdList = [];
+          familyIdList = data.familyId ? [`b-${data.familyId}`] : [];
+          groupIdList = [];
+          if (data.groupId) {
+            collegeIdList = [];
+            familyIdList = [];
+            groupIdList = data.groupId ? [`c-${data.groupId}`] : [];
+          }
+        }
+      }
     }
 
     jumpQualityRouter('qualityAppeal/qualityAppeal', {
