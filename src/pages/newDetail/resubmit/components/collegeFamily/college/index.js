@@ -6,6 +6,7 @@ import { connect } from 'dva';
 import { jumpGobalRouter } from '@/pages/ko/utils/utils';
 import { handleDataTrace } from '@/utils/utils';
 
+let index = 0;
 @connect(({ resubmitModal }) => ({
   resubmitModal,
   getCollegeAnalyzeData: resubmitModal.getCollegeAnalyzeData,
