@@ -156,6 +156,18 @@ class Quality extends React.Component {
       );
     }
 
+    let value = 0;
+    if (
+      WorkbenchQualityData &&
+      WorkbenchQualityData.class &&
+      WorkbenchQualityData.class.detailList &&
+      WorkbenchQualityData.class.detailList.length > 0
+    ) {
+      WorkbenchQualityData.class.detailList.map(item => {
+        value += item.value;
+      });
+    }
+
     return (
       <div className={stylefather.boxLeft}>
         <div className={stylefather.boxHeader}>
@@ -231,12 +243,12 @@ class Quality extends React.Component {
                 </div>
               </div>
               <div className={style.qualityRight}>
-                {!WorkbenchQualityData.class.detailList.length && (
+                {!value && (
                   <div>
                     <img src={zhutu} style={{ width: '193px' }} />
                   </div>
                 )}
-                {WorkbenchQualityData.class.detailList.length > 0 && (
+                {value > 0 && (
                   <Echarts
                     options={options}
                     style={{ width: '300px', height: 253 + 'px' }}
