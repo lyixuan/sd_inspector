@@ -7,9 +7,17 @@ import PackageIndex from './components/packageIndex';
 import DetailsIndex from './components/detailsIndex';
 import CollegeFamily from './components/collegeFamily';
 import CyclePath from './components/cyclePath';
+import { handleDataTrace } from '@/utils/utils';
 import { getDateObj } from '@/pages/indexPage/components/utils/utils';
 import styles from './style.less';
 
+const traceName = {
+  orgId: '后端归属',
+  originPackageName: '原产品包',
+  packageName: '续报产品包',
+  path: '续报路径',
+  lifeCycle: '生命周期',
+}
 @connect(({ newDetailModal, resubmitModal }) => ({
   resubmitModal,
   globalUserInfo: newDetailModal.globalUserInfo,
@@ -21,10 +29,12 @@ class Resubmit extends React.Component {
     this.props.dispatch({
       type: 'resubmitModal/getCollegeList',
     });
+    handleDataTrace({"widgetName": '创收_透视分析',"traceName": '2.2/创收_透视分析', traceType:200});
   }
   // 搜索条件值改变
   onParamsChange = (val, type = 'dateRange') => {
     const payload = { [type]: val };
+    handleDataTrace({ widgetName: `创收_${traceName[type]}筛选`, traceName: `2.2/创收_${traceName[type]}筛选` })
     this.props.dispatch({
       type: 'resubmitModal/saveParams',
       payload,
@@ -33,6 +43,7 @@ class Resubmit extends React.Component {
   };
   // 时间切换 --- 清空原产品包、续报产品包
   onObjChange = (payload = {}) => {
+    handleDataTrace({ widgetName: '创收_时间筛选', traceName: '2.2/创收_时间筛选' })
     this.props.dispatch({
       type: 'resubmitModal/saveParams',
       payload,
@@ -133,11 +144,12 @@ class Resubmit extends React.Component {
             <CyclePath onParamsChange={this.onParamsChange} />
           </>
         ),
-        dataTrace: '{"widgetName":"学分分析","traceName":"家族长工作台/学分分析"}',
+        dataTrace: '{"widgetName":"创收_数据透视","traceName":"2.2/创收_数据透视"}',
       },
       {
         title: '创收明细',
         children: <DetailsIndex getQueryStuDetailPage={this.getQueryStuDetailPage} getRequestParams={this.getRequestParams}/>,
+        dataTrace: '{"widgetName":"创收_创收明细","traceName":"2.2/创收_创收明细"}',
       },
     ];
   };
