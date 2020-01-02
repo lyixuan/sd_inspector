@@ -90,6 +90,7 @@ export const routes = [
             path: '/qualityAppeal/qualityNewSheet/create',
             component: './qualityAppeal/qualityNewSheet/create',
             name: '创建质检单',
+            // title: '新质检单管理',
             bread: {
               name: '新质检单管理',
               path: '/qualityAppeal/qualityNewSheet',
@@ -399,8 +400,7 @@ export const routes = [
         routes: [
           {
             path: '/allReport/:siteKey',
-            component: './allReport',
-            name: '报考信息系统'
+            component: './allReport'
           },
         ],
       },
@@ -566,13 +566,12 @@ export const routes = [
             path: '/cubePlan/list',
             component: './cubePlan/home/index',
             name: '首页',
-            title: '魔方 - 小德'
+            title: '魔方'
           },
           {
             path: '/cubePlan/list/detail',
             component: './cubePlan/detail/index',
             name: '查看详情',
-            title: '魔方 - 小德',
             bread: {
               name: '首页',
               path: '/cubePlan/list',
