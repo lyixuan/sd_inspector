@@ -24,5 +24,5 @@ export async function packageRankList(data) {
 
 // 学分—日期
 export async function getKpiDateRange(params) {
-  return request('/deskperfpcapi/credit/dimension/kpiDateRange', { method: 'get', params });
+  return request('/income/getDateRange', { method: 'get', params });
 }

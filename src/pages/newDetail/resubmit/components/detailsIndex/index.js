@@ -77,7 +77,7 @@ class DetailsIndex extends React.Component {
       },{
         width: '18%',
         ellipsis: true,
-        title: '续费产品包',
+        title: '续报产品包',
         dataIndex: 'packageName',
         key: 'packageName',
         render: text => <Tooltip title={text}>{text}</Tooltip>
