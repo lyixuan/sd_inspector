@@ -263,6 +263,7 @@ export const routes = [
           {
             path: '/sessionReport/sessionReport',
             component: './sessonRecord',
+            name: '会话记录'
           },
         ],
       },
