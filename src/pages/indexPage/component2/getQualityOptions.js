@@ -19,26 +19,26 @@ export function getOptions(data) {
   let data10 = [];
   let data11 = [];
 
-  const ownData = {
-    name: '',
-    status: {
-      oneFailAppealNum: 0,
-      oneMasterPreAppealNum: 0,
-      oneSopPreAppealNum: 0,
-      oneSopRejectedNum: 0,
-      oneTimeOutAppealNum: 0,
-      preAppealNum: 0,
-      twoFailAppealNum: 0,
-      twoMasterPreAppealNum: 0,
-      twoSopPreAppealNum: 0,
-      twoSopRejectedNum: 0,
-      twoTimeOutAppealNum: 0,
-    },
-    value: 0,
-  };
   const maxData = [];
   if (data && data.class && data.class.detailList) {
     if (data.class.detailList.length === 1) {
+      const ownData = {
+        name: '',
+        status: {
+          oneFailAppealNum: 0,
+          oneMasterPreAppealNum: 0,
+          oneSopPreAppealNum: 0,
+          oneSopRejectedNum: 0,
+          oneTimeOutAppealNum: 0,
+          preAppealNum: 0,
+          twoFailAppealNum: 0,
+          twoMasterPreAppealNum: 0,
+          twoSopPreAppealNum: 0,
+          twoSopRejectedNum: 0,
+          twoTimeOutAppealNum: 0,
+        },
+        value: data.class.detailList[0].value,
+      };
       data.class.detailList = [ownData, ownData, data.class.detailList[0], ownData, ownData];
     }
 
@@ -106,32 +106,32 @@ export function getOptions(data) {
   };
   const itemStyle4 = {
     normal: {
-      color: '#B5E1F9',
+      color: '#FFC442',
     },
   };
   const itemStyle5 = {
     normal: {
-      color: '#0064FF',
+      color: '#4A5F75',
     },
   };
   const itemStyle6 = {
     normal: {
-      color: '#FFC442',
+      color: '#0496FF',
     },
   };
   const itemStyle7 = {
     normal: {
-      color: '#4A5F75',
+      color: '#AEB89F',
     },
   };
   const itemStyle8 = {
     normal: {
-      color: '#0496FF',
+      color: '#B5E1F9',
     },
   };
   const itemStyle9 = {
     normal: {
-      color: '#AEB89F',
+      color: '#0064FF',
     },
   };
   const itemStyle10 = {

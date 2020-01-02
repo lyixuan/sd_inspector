@@ -3,6 +3,7 @@ import Echarts from '@/components/Echart';
 import styles from './style.less';
 import { getOption } from './cycleOptions.js';
 import { connect } from 'dva';
+import bingtu from '@/assets/bingtu@2x.png';
 
 @connect(({ resubmitModal }) => ({
   resubmitModal,
@@ -13,6 +14,7 @@ class Cycle extends React.Component {
     super(props);
     this.state = {
       bflag:
+        JSON.parse(localStorage.getItem('resubmit_query')) &&
         JSON.parse(localStorage.getItem('resubmit_query')).lifeCycle &&
         JSON.parse(localStorage.getItem('resubmit_query')).lifeCycle.length > 0
           ? true
@@ -33,6 +35,12 @@ class Cycle extends React.Component {
 
   render() {
     const { getCycleListData } = this.props;
+    let value = 0;
+    if (getCycleListData && getCycleListData.length > 0) {
+      getCycleListData.map(item => {
+        value += item.value;
+      });
+    }
     const options = getOption(getCycleListData);
     return (
       <div className={styles.collegeWrap}>
@@ -40,12 +48,30 @@ class Cycle extends React.Component {
           <span></span>
           续报学员生命周期分布
         </p>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Echarts
-            clickEvent={item => this.clickEvent(item)}
-            options={options}
-            style={{ width: '243px', height: 194 + 'px', marginTop: '24px' }}
-          />
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '240px',
+          }}
+        >
+          {!value && (
+            <img
+              src={bingtu}
+              style={{
+                width: '150px',
+                height: '150px',
+              }}
+            />
+          )}
+          {value > 0 && (
+            <Echarts
+              clickEvent={item => this.clickEvent(item)}
+              options={options}
+              style={{ width: '243px', height: 194 + 'px', marginTop: '24px' }}
+            />
+          )}
         </div>
       </div>
     );

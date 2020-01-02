@@ -96,7 +96,7 @@ export default {
       if (result.code === 20000) {
         const res = result.data;
         if (res && res !== null) {
-          yield put({ type: 'save', payload: { globalkpiDateRange: res } });
+          yield put({ type: 'save', payload: { globalkpiDateRange: {startDate: res.beginDate ,endDate: res.endDate} } });
           if (callback && typeof callback === 'function') {
             callback(res);
           }
@@ -110,6 +110,9 @@ export default {
   reducers: {
     save(state, { payload }) {
       return { ...state, ...payload };
+    },
+    saveUserInfo(state, { payload }) {
+      return { ...state, globalUserInfo: {} };
     },
   },
   subscriptions: {},

@@ -35,7 +35,6 @@ class Quality extends React.Component {
       return;
     }
     const { getCurrentDateRangeData, WorkbenchQualityData } = this.props;
-    // const data = WorkbenchQualityData.class.detailList[item.dataIndex];
 
     let status = null;
     let type = '1';
@@ -85,6 +84,16 @@ class Quality extends React.Component {
         type = '2';
         break;
     }
+    console.log(WorkbenchQualityData, 'WorkbenchQualityData');
+    let collegeIdList = [];
+    let familyIdList = [];
+    let groupIdList = [];
+    let data = WorkbenchQualityData.class.detailList[item.dataIndex];
+    if (data) {
+      collegeIdList = data.collegeId ? [`a-${data.collegeId}`] : [];
+      familyIdList = data.familyId ? [`b-${data.familyId}`] : [];
+      groupIdList = data.groupId ? [`c-${data.groupId}`] : [];
+    }
 
     jumpQualityRouter('qualityAppeal/qualityAppeal', {
       reduceScoreBeginDate: getCurrentDateRangeData.startTime,
@@ -92,6 +101,9 @@ class Quality extends React.Component {
       tabType: type,
       type: type,
       status: status,
+      collegeIdList,
+      familyIdList,
+      groupIdList,
     });
   };
 
