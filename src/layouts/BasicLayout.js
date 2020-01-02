@@ -202,6 +202,9 @@ class BasicLayout extends React.PureComponent {
     if (pathname.indexOf('examReadOnly') > 0) {
       title = '报考信息系统 - 小德'
     }
+    if (pathname.indexOf('/allReport/freeStudy')) {
+      title = '运营数据 - 小德'
+    }
 
     return title;
   }
