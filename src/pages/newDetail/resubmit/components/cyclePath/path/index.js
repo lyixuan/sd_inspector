@@ -33,7 +33,7 @@ class Path extends React.Component {
       <div className={styles.familyWrap}>
         <p className={styles.title}>
           <span></span>
-          转班路径
+          续报路径
           {/* <i>(自考)</i> */}
         </p>
         <div style={{ display: 'flex', justifyContent: 'center' }}>

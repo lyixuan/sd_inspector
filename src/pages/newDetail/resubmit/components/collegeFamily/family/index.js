@@ -32,7 +32,7 @@ class Family extends React.Component {
         'orgId'
       );
     } else {
-      this.props.onParamsChange([undefined, undefined], 'orgId');
+      this.props.onParamsChange([], 'orgId');
     }
     this.setState({ bflag });
   };
