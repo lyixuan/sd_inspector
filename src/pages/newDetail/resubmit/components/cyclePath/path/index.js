@@ -13,6 +13,7 @@ class Path extends React.Component {
     super(props);
     this.state = {
       bflag:
+        JSON.parse(localStorage.getItem('resubmit_query')) &&
         JSON.parse(localStorage.getItem('resubmit_query')).path &&
         JSON.parse(localStorage.getItem('resubmit_query')).path.length > 0
           ? true

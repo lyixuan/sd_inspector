@@ -13,6 +13,7 @@ class Cycle extends React.Component {
     super(props);
     this.state = {
       bflag:
+        JSON.parse(localStorage.getItem('resubmit_query')) &&
         JSON.parse(localStorage.getItem('resubmit_query')).lifeCycle &&
         JSON.parse(localStorage.getItem('resubmit_query')).lifeCycle.length > 0
           ? true
