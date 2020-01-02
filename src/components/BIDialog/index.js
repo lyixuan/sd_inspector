@@ -7,6 +7,7 @@ import {
 } from '@/pages/ko/utils/utils';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
+import robort2 from '@/assets/robort2.png';
 import styles from './style.less';
 
 
@@ -171,7 +172,8 @@ function TeacherOrStudent(props) {
               <span dangerouslySetInnerHTML={{ __html: linkRoute(answer, styles.linkRoute) }}></span>
             </div>
             <div className={styles.avatar}>
-              <img src={props.dataMark.teacherHeadUrl ? (pathImUrl + props.dataMark.teacherHeadUrl) : avatarTeacher} />
+              <img src={robort2} />
+              {/* <img src={props.dataMark.teacherHeadUrl ? (pathImUrl + props.dataMark.teacherHeadUrl) : avatarTeacher} /> */}
               <p>{getSubStringValue(props.dataMark.teacherName, 3)}</p>
             </div>
           </div>

@@ -303,7 +303,7 @@ class SessonRecord extends Component {
           </div>
         </div>
         <div className={styles.tableBox}>
-          <div className={styles.total}>共{sessionList.total}条</div>
+          <div className={styles.total}>共{sessionList.total || 0}条</div>
           <BIWrapperTable
             columns={this.columns()}
             dataSource={sessionList.list}
