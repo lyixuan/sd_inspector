@@ -15,7 +15,7 @@ class Family extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bflag: false,
+      bflag: JSON.parse(localStorage.getItem('resubmit_query')).orgId.length > 0 ? true : false,
     };
   }
   clickEvent = item => {
