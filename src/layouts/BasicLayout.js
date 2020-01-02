@@ -88,7 +88,7 @@ class BasicLayout extends React.PureComponent {
     const that = this;
     for (let i = 0; i < routes.length; i++) {
       if (routes[i].path) {
-        routesData[routes[i].path] = { name: routes[i].name, bread: routes[i].bread };
+        routesData[routes[i].path] = { name: routes[i].name, bread: routes[i].bread, title: routes[i].title };
         if (routes[i].routes) {
           that.routerFlat(routes[i].routes);
         }
@@ -189,6 +189,23 @@ class BasicLayout extends React.PureComponent {
     if (currRouterData && currRouterData.name) {
       title = `${currRouterData.name} - 小德`;
     }
+    if (currRouterData && currRouterData.title) {
+      title = `${currRouterData.title} - 小德`;
+    }
+
+    if (pathname.indexOf('koDaily') > 0) {
+      title = 'KO日报 - 小德'
+    }
+    if (pathname.indexOf('qualityReport') > 0) {
+      title = '质检报表 - 小德'
+    }
+    if (pathname.indexOf('examReadOnly') > 0) {
+      title = '报考信息系统 - 小德'
+    }
+    if (pathname.indexOf('/allReport/freeStudy') > 0) {
+      title = '运营数据 - 小德'
+    }
+
     return title;
   }
 

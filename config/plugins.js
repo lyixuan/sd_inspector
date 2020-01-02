@@ -6,7 +6,7 @@ export const plugins = [['umi-plugin-react', {
     webpackChunkName: true,
     loadingComponent: '../src/components/PageLoading/index.js'
   },
-  title: 'sd_inspector_admin',
+  // title: '督学平台',
   chunks: ['vendors', 'umi'],
   dll: true,
   metas: [
