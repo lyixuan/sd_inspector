@@ -41,6 +41,11 @@ class Resubmit extends React.Component {
       traceType: 200,
     });
   }
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: 'resubmitModal/saveClearParams',
+    });
+  }
   // 搜索条件值改变
   onParamsChange = (val, type = 'dateRange', bflag) => {
     const payload = { [type]: val };
