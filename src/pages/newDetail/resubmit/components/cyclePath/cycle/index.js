@@ -9,8 +9,22 @@ import { connect } from 'dva';
   getCycleListData: resubmitModal.getCycleListData,
 }))
 class Cycle extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      bflag: false,
+    };
+  }
   clickEvent = item => {
-    this.props.onParamsChange(item.name.replace('天', ''), 'lifeCycle');
+    let { bflag } = this.state;
+    bflag = !bflag;
+
+    if (bflag) {
+      this.props.onParamsChange(item.name.replace('天', ''), 'lifeCycle');
+    } else {
+      this.props.onParamsChange(undefined, 'lifeCycle');
+    }
+    this.setState({ bflag });
   };
 
   render() {

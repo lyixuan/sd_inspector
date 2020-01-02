@@ -45,7 +45,7 @@ class DetailsIndex extends React.Component {
         key: 'paymentTime',
       },
       {
-        width: '12%',
+        width: '8%',
         // ellipsis: true,
         title: '学院',
         dataIndex: 'collegeName',
@@ -61,9 +61,12 @@ class DetailsIndex extends React.Component {
       //   render: text => <Tooltip title={text}>{text}</Tooltip>
       // },
       {
+        width: '10%',
+        ellipsis: true,
         title: '小组',
         dataIndex: 'groupName',
         key: 'groupName',
+        render: text => <Tooltip title={text}>{text}</Tooltip>
       },{
         width: '18%',
         ellipsis: true,
@@ -79,9 +82,10 @@ class DetailsIndex extends React.Component {
         key: 'packageName',
         render: text => <Tooltip title={text}>{text}</Tooltip>
       },{
-        title: '净流水',
+        title: '净流水（元）',
         dataIndex: 'restAmount',
         key: 'restAmount',
+        render: text => text.toFixed(1)
       },
     ];
     return columns || [];
