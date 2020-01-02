@@ -2,6 +2,9 @@ import { queryNotices } from '@/services/user';
 import { msgF } from '@/utils/utils';
 import { message } from 'antd/lib/index';
 import { getBasicInfo } from '@/pages/ko/behaviorPath/services';
+import ditu from '@/assets/holiday/ditu.png';
+import logo from '@/assets/holiday/logo.png';
+import toubu from '@/assets/holiday/toubu@2x.png';
 
 export default {
   namespace: 'global',
@@ -22,16 +25,14 @@ export default {
       'group': '运营长',
       'others': '无绩效岗位',
     },
-    tempLogo: '',
-    headerBackgroundColor: '#FFE300',
-    layoutBackgroundColor: '#282828',
-    // headerImage: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1577339920301&di=e3ec4d722744df275615e1dd3c97977e&imgtype=0&src=http%3A%2F%2F1802.img.pp.sohu.com.cn%2Fimages%2Fblog%2F2008%2F5%2F15%2F20%2F9%2F11a90ee902f.jpg',
-    // layoutImage: 'http://img13.360buyimg.com/img/jfs/t1/92535/17/8181/251487/5e01a847E66e65495/05e9f53fdbf50410.png',
-    headerImage: '',
-    layoutImage: '',
+    tempLogo: logo,
+    headerBackgroundColor: '#F14031',
+    layoutBackgroundColor: '',
+    headerImage: toubu,
+    layoutImage: ditu,
     animation: {
       image: 'https://www.deanhan.cn/wp-content/uploads/2017/12/snow.png',
-      continueTime: 20000,
+      continueTime: 10000,
       minRadius: 5,
       maxRadius: 10
     }
