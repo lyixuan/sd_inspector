@@ -4,6 +4,7 @@ import { Tooltip } from 'antd';
 import { Link } from 'dva/router';
 import BIContainer from '@/components/BIContainer';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
+import float3 from '@/assets/resubmit/float3.png';
 import styles from './style.less';
 
 @connect(({ resubmitModal }) => ({
@@ -30,14 +31,16 @@ class DetailsIndex extends React.Component {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        render: (text, record) => <Tooltip title={text}><Link to={`/ko/behaviorPath?params=${encodeURIComponent(JSON.stringify({ userId: record.stuId, target: 'draw' }))}`} target='_black'>{text}</Link></Tooltip>
+        render: (text, record) => text ? 
+        <Tooltip title={text}><Link to={`/ko/behaviorPath?params=${encodeURIComponent(JSON.stringify({ userId: record.stuId, target: 'draw' }))}`} target='_black'>{text}</Link></Tooltip>
+        : <img style={{width: '15px'}} src={float3} alt=""/>
       },
       {
         width: '6%',
         title: '周期',
         dataIndex: 'lifeCycle',
         key: 'lifeCycle',
-        render: text => text ? text + '天' : ''
+        render: text => text ? text + '天' : <img style={{width: '15px'}} src={float3} alt=""/>
       },
       {
         title: '报名时间',

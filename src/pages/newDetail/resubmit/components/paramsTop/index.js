@@ -21,7 +21,6 @@ class ParamsTop extends React.Component {
   componentDidMount() {
     // 初始化参数
     const resubmit_query = localStorage.getItem('resubmit_query');
-    console.log('resubmit_query', 'mmmmmmm', this.props.globalUserInfo)
     if (resubmit_query) {
       const query = JSON.parse(resubmit_query) || {};
       query.dateRange = [moment(query.dateRange[0]), moment(query.dateRange[1])];
