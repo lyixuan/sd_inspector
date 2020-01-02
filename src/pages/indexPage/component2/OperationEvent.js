@@ -35,12 +35,12 @@ class OperationEvent extends React.Component {
             <img src={gengduo} alt="" onClick={()=>this.jump()}/>
           </div>
           <div className={style.operation}>
-            <div className={style.echartPie} onClick={this.jump2}>
-              <Echarts options={options} style={{ height: 160}}/>
-              <div className={style.over}></div>
-            </div>
+            {/*<div className={style.echartPie} onClick={this.jump2}>*/}
+              {/*<Echarts options={options} style={{ height: 160}}/>*/}
+              {/*<div className={style.over}></div>*/}
+            {/*</div>*/}
             <div className={style.timeMap}>
-              <ExamTime totalWidth={890} splitNumber={provinceList.length} provinceList={provinceList}/>
+              <ExamTime totalWidth={990} splitNumber={provinceList.length} provinceList={provinceList}/>
             </div>
           </div>
         </div>
