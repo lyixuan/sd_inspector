@@ -31,6 +31,7 @@
   float: right;
 }
 
+
 .ScoreLeft,
 .ScoreRight {
   width: 50%;
@@ -62,6 +63,10 @@
     font-size: 20px;
     color: rgba(40, 40, 40, 1);
   }
+}
+.ScoreLeft>img {
+  display: block;
+  margin: 30px 160px;
 }
 .incomeTotal {
   width: 100%;
@@ -363,6 +368,15 @@
     width: 134px;
     float: left;
     cursor: pointer;
+    position: relative;
+    .over {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      top: 20%;
+      background: transparent;
+      cursor: pointer;
+    }
   }
 }
 
