@@ -119,7 +119,6 @@ class ImPage extends React.Component {
     });
   }
   getResetGroupMsg = (orgList = this.props.globalOrgList) => {
-    console.log(this.state.globalUserType, 'ppppp')
     if (orgList && orgList.length > 0 && this.state.globalUserType !== 'boss' && this.state.globalUserType !== 'admin') {
       const item = orgList[0];
       return { groupId: [item.id], groupTypes: [item], familyType: item.familyType.length > 1 ? 0 : Number(item.familyType) };
@@ -234,7 +233,6 @@ class ImPage extends React.Component {
   render() {
     const { dataRange, groupId, familyType, globalUserType } = this.state;
     const { globalOrgList } = this.props;
-    console.log(globalOrgList, groupId, familyType, 'kkkkk' )
     return (
         <div className={styles.imPage}>
           <BIContainer
