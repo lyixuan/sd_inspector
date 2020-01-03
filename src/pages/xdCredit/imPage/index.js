@@ -163,7 +163,7 @@ class ImPage extends React.Component {
       return { orgId: groupId[index], groupType: groupTypes[index].groupType };
     } else if (this.props.globalUserInfo) {
       const { collegeId, familyId, groupId, userType} = this.props.globalUserInfo;
-      return { orgId: groupId || familyId || collegeId, groupType: userType }
+      return { orgId: groupId || familyId || collegeId, groupType: userType === 'class' ? 'group': userType }
     } else {
       return { };
     }
