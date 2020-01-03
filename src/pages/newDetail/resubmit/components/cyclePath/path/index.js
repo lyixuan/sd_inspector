@@ -19,6 +19,7 @@ class Path extends React.Component {
   }
   clickEvent = item => {
     const { getPathListData } = this.props;
+    if (!getPathListData[item.dataIndex].value) return;
     const pathVal = this.props.paramsQuery.path;
     let val = Number(item.dataIndex) + 1;
     if (pathVal && pathVal == val) {
