@@ -128,7 +128,7 @@ class DetailsIndex extends React.Component {
             columns={this.columns()}
             dataSource={list}
             loading={this.props.loading}
-            rowKey={(record, index) => record.stuId + '' + index}
+            rowKey={(record, index) => index}
             pagination={{
               onChange: this.onChangeSize,
               defaultPageSize: pageSize,
