@@ -50,7 +50,7 @@ class ParamsTop extends React.Component {
   }
   render() {
     const { onParamsChange } = this.props;
-    const { paramsQuery = {}, collegeList, originSelectData = [], packageSelectData = [] } = this.props.npsAnalyzeModel;
+    const { paramsQuery = {}, collegeList, reasonList = [], evaluateList = [] } = this.props.npsAnalyzeModel;
     return (
       <>
         <span>
@@ -69,8 +69,8 @@ class ParamsTop extends React.Component {
         </span>
         <span>
           <BISelect style={{ width: 100 }} placeholder="自主评价" value={paramsQuery.evaluateType} onChange={val => onParamsChange(val, 'evaluateType')} allowClear>
-            {originSelectData.map(item => <Option key={item.packageName} value={item.packageName}>
-              <Tooltip title={item.packageName}>{item.packageName}</Tooltip>
+            {evaluateList.map((item, index) => <Option key={item.id} value={item.id}>
+              <Tooltip title={item.name}>{item.name}</Tooltip>
             </Option>)}
           </BISelect>
         </span>
@@ -78,7 +78,7 @@ class ParamsTop extends React.Component {
           <BICascader
             placeholder="原因分类"
             changeOnSelect
-            options={collegeList}
+            options={reasonList}
             fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
             getPopupContainer={triggerNode => triggerNode.parentNode}
             displayRender={this.renderCascader}
@@ -110,7 +110,7 @@ class ParamsTop extends React.Component {
           onChange={val => onParamsChange(val, 'star')} 
           allowClear
           >
-            {BiFilter('WB_PATH_LIST').map(item => <Option key={item.id} value={item.id}>
+            {BiFilter('WB_STAR').map(item => <Option key={item.id} value={item.id}>
               {item.name}
             </Option>)}
           </BISelect>

@@ -25,6 +25,10 @@ class Resubmit extends React.Component {
     this.props.dispatch({
       type: 'npsAnalyzeModel/getCollegeList',
     });
+    // 搜索原因分类展示值
+    this.props.dispatch({
+      type: 'npsAnalyzeModel/getReasonTypeTree',
+    });
     // handleDataTrace({"widgetName": '创收_透视分析',"traceName": '2.2/创收_透视分析', traceType:200});
   }
   // 搜索条件值改变
