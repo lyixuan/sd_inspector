@@ -4,18 +4,21 @@ import { Spin } from 'antd';
 import DetailIm from './components/im';
 import DetailBbs from './components/bbs';
 import DetailNps from './components/nps';
+import DetailFeedBack from './components/feedBack';
 import DataClassfy from './components/dataClassfy';
 import PageHead from '@/components/PageHead/pageHead';
 import styles from './style.less';
 
 function Detail(props) {
   if (props.pageData) {
-    if (props.type == 1) {
+    if (props.type === 1) {
       return <DetailIm {...props}></DetailIm>
-    } else if (props.type == 2) {
+    } else if (props.type === 2) {
       return <DetailBbs {...props}></DetailBbs>
-    } else {
+    } else if (props.type === 3) {
       return <DetailNps {...props}></DetailNps>
+    } else {
+      return <DetailFeedBack {...props}></DetailFeedBack>
     }
   } else {
     return null
@@ -101,11 +104,16 @@ class AiDetail extends React.Component {
       tabType = 'IM';
     } else if (this.state.type == 2) {
       tabType = 'BBS';
-    } else {
+    } else if (this.state.type === 3) {
       tabType = 'NPS';
+    } else {
+      tabType = 'appFeedback';
     }
     const { type, id, scrollHeight } = this.state
-    const routerData = { name: `${tabType}会话`, bread: { name: "质检标注", path: `/qualityMarking/${tabType.toLowerCase}` }, path: "/koUserOperation/userGroupAdd" }
+    let routerData = { name: `${tabType}会话`, bread: { name: "质检标注", path: `/qualityMarking/${tabType.toLowerCase}` }, path: "/koUserOperation/userGroupAdd" }
+    if (this.state.type === 4) {
+      routerData = { name: '意见反馈', bread: { name: "质检标注", path: `/qualityMarking/${tabType}` }, path: "/koUserOperation/userGroupAdd" }
+    }
     const pageData = this.props.pageData;
 
     return (

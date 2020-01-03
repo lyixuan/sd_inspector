@@ -36,9 +36,8 @@ function Content(props) {
     return null
   }
 
-
 }
-class DetailBbs extends React.Component {
+class DetailFeedBack extends React.Component {
   constructor(props) {
     super(props);
 
@@ -47,11 +46,12 @@ class DetailBbs extends React.Component {
     };
   }
   handleNameClick = (id) => {
-    jumpMarkingDetails(id, { target: 'bbs' })
+    console.log(49, id)
+    jumpMarkingDetails(id, { target: 'feedBack' })
   }
 
   render() {
-    const { item } = this.props.pageData;
+    const { item = {} } = this.props.pageData;
     return (
       <>
         <ul className={styles.userInfo}>
@@ -67,31 +67,34 @@ class DetailBbs extends React.Component {
           </li>
           <li className={styles.flex}>
             <div className={styles.row}>
-              <span className={styles.label}>主贴id：</span>
+              <span className={styles.label}>反馈id：</span>
+              <span className={styles.name}>{item.itemId}</span>
+            </div>
+            <div className={styles.row}>
+              <span className={styles.label}>后端归属：</span>
               <span className={styles.name}>{item.itemId}</span>
             </div>
           </li>
           <li className={styles.flex}>
             <div className={styles.row}>
-              <span className={styles.label}>发帖时间：</span>
+              <span className={styles.label}>反馈时间：</span>
               <span className={styles.name}>{item.date}</span>
             </div>
           </li>
           <li className={styles.flex}>
             <div className={styles.row}>
-              <span className={styles.label}>关&nbsp;键&nbsp;词：</span>
+              <span className={styles.label}>意见分类：</span>
               <span className={styles.name + " " + styles.labels}>
-                <Keywords list={item.keywordList}></Keywords>
+                dfdf
+                {/* <Keywords list={item.keywordList}></Keywords> */}
               </span>
             </div>
           </li>
           <li className={styles.flex}>
             <div className={styles.row}>
-              <span className={styles.label}>帖子详情：</span>
+              <span className={styles.label}>意见内容：</span>
               <span className={styles.name}>
-                <Content content={item.content} keyWord={item.keywords}></Content>
-                {/* {item.content} */}
-                {/* 上课时希望老师<i className={styles.keyword}>不靠谱</i>打比方的 */}
+                {/* <Content content={item.content} keyWord={item.keywords}></Content> */}
               </span>
             </div>
           </li>
@@ -101,5 +104,5 @@ class DetailBbs extends React.Component {
   }
 }
 
-export default DetailBbs;
+export default DetailFeedBack;
 

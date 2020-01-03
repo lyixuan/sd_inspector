@@ -26,7 +26,6 @@ const { Option } = BISelect;
 class DataClassfy extends React.Component {
   constructor(props) {
     super(props);
-    console.log(27, this.props.id)
     this.state = {
       // id: props.id,
       // idList: this.props.idList,
@@ -136,21 +135,8 @@ class DataClassfy extends React.Component {
     }
     this.setState({ action });
 
-
-    // if (this.props.type == 1) {
-    //   this.setState({
-    //     tabType: 'im'
-    //   })
-    // } else if (this.props.type == 2) {
-    //   this.setState({
-    //     tabType: 'bbs'
-    //   })
-    // } else {
-    //   this.setState({
-    //     tabType: 'nps'
-    //   })
-    // }
     if (action === 2) { // 提交, 下一条，提交数据后请求上或下一条的详情
+
       let params = {
         type: this.props.type,
         itemId: this.props.pageData.item.itemId,
@@ -199,9 +185,16 @@ class DataClassfy extends React.Component {
   handleOk = () => {
     const { type } = this.props;
     const tabType = type == 3 ? 'nps' : (type == 2 ? 'bbs' : 'im');
-    router.push({
-      pathname: `/qualityMarking/${tabType}`,
-    });
+    if (type === 4) {
+      router.push({
+        pathname: `/qualityMarking/appFeedback`,
+      });
+    } else {
+      router.push({
+        pathname: `/qualityMarking/${tabType}`,
+      });
+    }
+
   }
 
   render() {
@@ -216,7 +209,7 @@ class DataClassfy extends React.Component {
         <div className={styles.consultContent}>
           <ul className={styles.consultInput}>
             {
-              type != 1 && orderList && orderList.length != 1 ?
+              type !== 1 && type !== 4 && orderList && orderList.length != 1 ?
                 <>
                   <li>
                     <label>选择订单：</label>
@@ -237,7 +230,7 @@ class DataClassfy extends React.Component {
                 : null
             }
             {
-              type != 1 && orderList && orderList.length == 1 ?
+              type != 1 && type !== 4 && orderList && orderList.length == 1 ?
                 <>
                   <li>
                     <label>选择订单：</label>
