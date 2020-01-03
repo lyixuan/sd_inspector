@@ -7,41 +7,71 @@ import PackageIndex from './components/packageIndex';
 import DetailsIndex from './components/detailsIndex';
 import CollegeFamily from './components/collegeFamily';
 import CyclePath from './components/cyclePath';
+import { handleDataTrace } from '@/utils/utils';
 import { getDateObj } from '@/pages/indexPage/components/utils/utils';
 import styles from './style.less';
 
+const traceName = {
+  orgId: '后端归属',
+  originPackageName: '原产品包',
+  packageName: '续报产品包',
+  path: '续报路径',
+  lifeCycle: '生命周期',
+};
 @connect(({ newDetailModal, resubmitModal }) => ({
   resubmitModal,
   globalUserInfo: newDetailModal.globalUserInfo,
   paramsQuery: resubmitModal.paramsQuery,
 }))
 class Resubmit extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      bflag: false,
+    };
+  }
   componentDidMount() {
     // 搜索学院展示值
     this.props.dispatch({
       type: 'resubmitModal/getCollegeList',
     });
+    handleDataTrace({
+      widgetName: '创收_透视分析',
+      traceName: '2.2/创收_透视分析',
+      traceType: 200,
+    });
+  }
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: 'resubmitModal/saveClearParams',
+    });
   }
   // 搜索条件值改变
-  onParamsChange = (val, type = 'dateRange') => {
+  onParamsChange = (val, type = 'dateRange', bflag) => {
     const payload = { [type]: val };
+    handleDataTrace({
+      widgetName: `创收_${traceName[type]}筛选`,
+      traceName: `2.2/创收_${traceName[type]}筛选`,
+    });
     this.props.dispatch({
       type: 'resubmitModal/saveParams',
       payload,
     }); // 存值
     this.getInitData(payload); // 请求
+    this.setState({ bflag });
   };
   // 时间切换 --- 清空原产品包、续报产品包
   onObjChange = (payload = {}) => {
+    handleDataTrace({ widgetName: '创收_时间筛选', traceName: '2.2/创收_时间筛选' });
     this.props.dispatch({
       type: 'resubmitModal/saveParams',
       payload,
     }); // 存值
-    this.getSelectData({...getDateObj(payload.dateRange), flag: true}) // 参数值展示
+    this.getSelectData({ ...getDateObj(payload.dateRange), flag: true }); // 参数值展示
     this.getInitData(payload); // 列表展示
   };
   // 参数基础数据
-  getSelectData = (params) => {
+  getSelectData = params => {
     this.props.dispatch({
       type: 'resubmitModal/getOriginPackageList',
       payload: { params },
@@ -66,7 +96,7 @@ class Resubmit extends React.Component {
     // 转班路径分析
     this.getPathList(params);
     // 创收明细
-    this.getQueryStuDetailPage(params)
+    this.getQueryStuDetailPage(params);
   };
 
   // 学院分析
@@ -102,7 +132,7 @@ class Resubmit extends React.Component {
   };
   // 创收明细
   getQueryStuDetailPage = params => {
-    const query = !params.pageSize ? {...params, pageSize: 15, page: 1} : params
+    const query = !params.pageSize ? { ...params, pageSize: 15, page: 1 } : params;
     this.props.dispatch({
       type: 'resubmitModal/getQueryStuDetailPage',
       payload: { params: query },
@@ -126,18 +156,24 @@ class Resubmit extends React.Component {
         children: (
           <>
             <div className={styles.OriginTab}>
-              <OriginIndex  onParamsChange={this.onParamsChange}/>
-              <PackageIndex onParamsChange={this.onParamsChange}/>
+              <OriginIndex onParamsChange={this.onParamsChange} />
+              <PackageIndex onParamsChange={this.onParamsChange} />
             </div>
             <CollegeFamily onParamsChange={this.onParamsChange} />
             <CyclePath onParamsChange={this.onParamsChange} />
           </>
         ),
-        dataTrace: '{"widgetName":"学分分析","traceName":"家族长工作台/学分分析"}',
+        dataTrace: '{"widgetName":"创收_数据透视","traceName":"2.2/创收_数据透视"}',
       },
       {
         title: '创收明细',
-        children: <DetailsIndex getQueryStuDetailPage={this.getQueryStuDetailPage} getRequestParams={this.getRequestParams}/>,
+        children: (
+          <DetailsIndex
+            getQueryStuDetailPage={this.getQueryStuDetailPage}
+            getRequestParams={this.getRequestParams}
+          />
+        ),
+        dataTrace: '{"widgetName":"创收_创收明细","traceName":"2.2/创收_创收明细"}',
       },
     ];
   };

@@ -286,12 +286,12 @@ class Attendance extends React.Component {
         key: 'subjectId',
         render: (subjectId, record) => {
           return (
-            <a
+            <span
               onClick={() => this.download(record.subjectId, record.titleOne)}
               style={{ display: 'flex', justifyContent: 'center', color: '#0062FF' }}
             >
               下载
-            </a>
+            </span>
           );
         },
       },

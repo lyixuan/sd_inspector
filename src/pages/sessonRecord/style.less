@@ -1,0 +1,131 @@
+
+
+.titleRight{
+  display:flex;
+}
+.sessionRecord{
+  .prise {
+    display: flex;
+    padding-left: 30px;
+    color: #FFE300;
+  }
+  .prise .empty {
+    color: #e8e8e8;
+  }
+  :global{
+    .ant-table-header{
+      border-radius:10px;
+    }
+    .ant-table-tbody td{
+      text-align:center;
+    }
+    .ant-table-thead > tr > th{
+      border:none;
+      text-align:center;
+    }
+    .ant-table-tbody > tr > td:first-child{
+      padding-left:10px;
+    }
+  }
+  
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 66px;
+    margin-bottom: 24px;
+    padding: 0 20px;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    > span:nth-child(1) {
+      color: #202224;
+      font-size: 22px;
+    }
+    .titleRight{
+      :global{
+        .ant-btn{
+          margin-left:8px;
+        }
+        .ant-btn-primary{
+          background:#ffe300;
+          color:#000;
+        }
+      }
+    }
+
+  }
+  .tableBox{
+    min-height:700px;
+    background:#fff;
+    border-radius:20px;
+    padding:20px;
+    .total{
+      text-align:right;
+      padding:0 10px 14px 0;
+
+    }
+    .textname{
+      color:#0062FF;
+      cursor:pointer;
+    }
+  }
+  .inputBox{
+    width:136px;
+  }
+}
+// IM悬浮框样式
+.listMarkingTooltip {
+  max-width: 520px;
+  width: 520px;
+  :global {
+    .ant-tooltip-arrow {
+      border-right-color: #ffffff!important;
+      //border-color: transparent transparent #fff #fff;
+    }
+    .ant-tooltip-arrow::before{
+      background:#fff;
+    }
+    .ant-tooltip-inner {
+      padding: 20px 10px 20px 0px;
+      background-color: #ffffff;
+    }
+    .ant-tooltip-content {
+      opacity: 1;
+    }
+  }
+}
+
+// 表格宽度自适应
+.textEllipsis {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  position:relative;
+  top:3px;
+}
+
+// bbs nps悬浮框样式
+.listMarkingTooltipOthers {
+  max-width: 520px;
+  :global {
+    .ant-tooltip-content{
+      opacity:1;
+    }
+    .ant-tooltip-arrow {
+      border-right-color: #ffffff!important;
+    }
+    .ant-tooltip-arrow::before{
+      background:#fff;
+    }
+    
+    .ant-tooltip-inner {
+      padding: 14px;
+      background-color: #ffffff;
+      color: #1B1C20;
+      font-size: 13px;
+    }
+  }
+}
+

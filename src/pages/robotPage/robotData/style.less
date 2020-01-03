@@ -3,6 +3,10 @@
   border-radius:20px;
   min-height:500px;
   padding:20px;
+  .textname{
+    color:#0062FF;
+    cursor:pointer;
+  }
   :global{
     .ant-table-thead > tr > th{
       border:1px solid #eee;
@@ -15,7 +19,7 @@
       border-radius:0;
       border:none;
       padding-left:0;
-      width:110px;
+      // width:110px;
     }
     .ant-table-thead > tr:not(:last-child) > th[colspan]{
       border-top:none;
@@ -25,13 +29,13 @@
       // border:none;
       border-top:none;
     }
-    // .ant-table-tbody > tr > td{
-    //   white-space: nowrap;
-    // }
+    .ant-table-tbody > tr > td{
+      text-align:center;
+    }
     .ant-table-tbody > tr > td:first-child{
       padding-left:10px;
       white-space: nowrap;
-      width: 110px;
+      // width: 110px;
     }
   }
 }

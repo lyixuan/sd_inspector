@@ -232,10 +232,10 @@ class ImPage extends React.Component {
           >
             <div className={styles.form}>
               <span className={styles.option}>
-                选择时间：
+                {/* 选择时间： */}
                 <BIRangePicker
                   value={dataRange}
-                  placeholder={['选择起始时间', '选择截止时间']}
+                  placeholder="选择时间"
                   format={dateFormat}
                   onChange={this.onChangeDate}
                   allowClear={false}
@@ -244,7 +244,7 @@ class ImPage extends React.Component {
                 />
               </span>
               {globalOrgList && globalOrgList.length > 0 && <span className={styles.option}>
-                选择组织：
+                {/* 选择组织： */}
                 <BICascader
                   placeholder="选择组织"
                   changeOnSelect
@@ -261,10 +261,10 @@ class ImPage extends React.Component {
               </span> }
               {
                 this.getCollegeFlag() && <span className={styles.option}>
-                  学院类型：
+                  {/* 学院类型： */}
                   <BISelect
                     value={familyType}
-                    placeholder="请选择学院类型"
+                    placeholder="学院类型"
                     style={{ width: '136px' }}
                     onChange={this.onChangeSelect}
                   >

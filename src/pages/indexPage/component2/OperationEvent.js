@@ -12,11 +12,11 @@ import {getOption} from './operation_option';
 
 class OperationEvent extends React.Component {
   jump = () =>{
-    // handleDataTrace({"widgetName":`创收_进入详情`,"traceName":`2.0/创收_进入详情`});
+    handleDataTrace({"widgetName":`跳转报考大盘`,"traceName":`工作台运营大事件`});
     jumpGobalRouter('examPlant/index' );
   };
   jump2 = () =>{
-    // handleDataTrace({"widgetName":`创收_进入详情`,"traceName":`2.0/创收_进入详情`});
+    handleDataTrace({"widgetName":`跳转触达率`,"traceName":`工作台运营大事件`});
     jumpGobalRouter('examPlant/registTouch' );
   };
   render() {
@@ -35,11 +35,12 @@ class OperationEvent extends React.Component {
             <img src={gengduo} alt="" onClick={()=>this.jump()}/>
           </div>
           <div className={style.operation}>
-            <div className={style.echartPie} onClick={this.jump2}>
-              <Echarts options={options} style={{ height: 160}}/>
-            </div>
+            {/*<div className={style.echartPie} onClick={this.jump2}>*/}
+              {/*<Echarts options={options} style={{ height: 160}}/>*/}
+              {/*<div className={style.over}></div>*/}
+            {/*</div>*/}
             <div className={style.timeMap}>
-              <ExamTime totalWidth={890} splitNumber={provinceList.length} provinceList={provinceList}/>
+              <ExamTime totalWidth={990} splitNumber={provinceList.length} provinceList={provinceList}/>
             </div>
           </div>
         </div>

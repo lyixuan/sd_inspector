@@ -31,6 +31,7 @@
   float: right;
 }
 
+
 .ScoreLeft,
 .ScoreRight {
   width: 50%;
@@ -62,6 +63,10 @@
     font-size: 20px;
     color: rgba(40, 40, 40, 1);
   }
+}
+.ScoreLeft>img {
+  display: block;
+  margin: 30px 182px;
 }
 .incomeTotal {
   width: 100%;
@@ -363,14 +368,24 @@
     width: 134px;
     float: left;
     cursor: pointer;
+    position: relative;
+    .over {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      top: 20%;
+      background: transparent;
+      cursor: pointer;
+    }
   }
 }
 
 .timeMap {
   float: left;
   padding: 10px 20px;
-  width: 930px;
+  width: 1030px;
   height: 146px;
+  margin-left: 25px;
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 114, 145, 0.1) 100%);
   border-radius: 20px;
   //opacity:0.1;

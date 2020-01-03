@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import RenderRoute from '@/components/RenderRoute';
 import { connect } from 'dva';
-import { getDateObj } from '@/pages/indexPage/components/utils/utils';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import BICascader from '@/ant_components/BICascader';
 import BISelect from '@/ant_components/BISelect';
 import moment from 'moment';
-import { initTimeData } from '@/pages/ko/utils/utils';
 import styles from './style.less';
 
 const { BIRangePicker } = BIDatePicker;
@@ -39,6 +37,7 @@ class RobotPage extends Component {
   }
   initPage = (pro) => {
     this.getOrgList();
+    this.initData();
     if (pro.location.pathname == '/robotPage/data') {
       this.dialoguDataList();
     } else {
@@ -80,6 +79,21 @@ class RobotPage extends Component {
       type: 'robotPage/getDialogAndEvaluateData',
       payload: { params },
     });
+
+  }
+  initData = () => {
+    const params = {
+      collegeId: this.state.collegeId,
+      startTime: this.state.startTime.format(dateFormat),
+      endTime: this.state.endTime.format(dateFormat),
+      startTime1: this.state.startTime1.format(dateFormat),
+      endTime1: this.state.endTime1.format(dateFormat),
+      org: this.state.org
+    }
+    this.props.dispatch({
+      type: 'robotPage/updateRouteData',
+      payload: { params },
+    });
   }
   getDayData = () => {
     const { startTime1, endTime1, org } = this.state;
@@ -101,6 +115,7 @@ class RobotPage extends Component {
         startTime: v[0],
         endTime: v[1],
       }, () => {
+        this.initData();
         this.dialoguDataList();
       })
     } else {
@@ -108,6 +123,7 @@ class RobotPage extends Component {
         startTime1: v[0],
         endTime1: v[1],
       }, () => {
+        this.initData();
         this.getDayData();
         this.getDialogAndEvaluateData();
       })
@@ -134,6 +150,7 @@ class RobotPage extends Component {
     this.setState({
       collegeId: val,
     }, () => {
+      this.initData();
       this.dialoguDataList();
     })
   }
@@ -141,6 +158,7 @@ class RobotPage extends Component {
     this.setState({
       org: val,
     }, () => {
+      this.initData();
       this.getDayData();
       this.getDialogAndEvaluateData();
     })

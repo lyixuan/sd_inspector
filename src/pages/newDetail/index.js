@@ -41,7 +41,11 @@ class NewDetail extends Component {
       type: 'newDetailModal/getKpiDateRange',
     });
   }
-
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: 'newDetailModal/saveUserInfo',
+    });
+  }
   render() {
     const { globalDate, location = {} } = this.props;
     const item = headObj[location.pathname];

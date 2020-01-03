@@ -90,6 +90,7 @@ export const routes = [
             path: '/qualityAppeal/qualityNewSheet/create',
             component: './qualityAppeal/qualityNewSheet/create',
             name: '创建质检单',
+            // title: '新质检单管理',
             bread: {
               name: '新质检单管理',
               path: '/qualityAppeal/qualityNewSheet',
@@ -221,7 +222,7 @@ export const routes = [
       {
         path: '/nps',
         component: './operation/nps',
-        name: 'nps',
+        name: 'NPS分析',
       },
       {
         path: '/koUserOperation',
@@ -261,7 +262,7 @@ export const routes = [
         routes: [
           {
             path: '/sessionReport/sessionReport',
-            component: './ko/sessionReport',
+            component: './sessonRecord',
             name: '会话记录'
           },
         ],
@@ -312,7 +313,7 @@ export const routes = [
           {
             path: '/scoreAppeal/awaitAppeal',
             component: './scoreAppeal/awaitAppeal',
-            name: '待申诉',
+            name: '学分待申诉',
           },
           {
             path: '/scoreAppeal/awaitAppeal/detail',
@@ -336,7 +337,7 @@ export const routes = [
           {
             path: '/scoreAppeal/onAppeal',
             component: './scoreAppeal/onAppeal',
-            name: '在途申诉',
+            name: '在途学分申诉',
           },
           {
             path: '/scoreAppeal/onAppeal/appeal',
@@ -369,7 +370,7 @@ export const routes = [
           {
             path: '/scoreAppeal/finishAppeal',
             component: './scoreAppeal/finishAppeal',
-            name: '结案申诉',
+            name: '结案学分申诉',
           },
           {
             path: '/scoreAppeal/finishAppeal/detail',
@@ -399,8 +400,7 @@ export const routes = [
         routes: [
           {
             path: '/allReport/:siteKey',
-            component: './allReport',
-            name: '报考信息系统'
+            component: './allReport'
           },
         ],
       },
@@ -412,7 +412,7 @@ export const routes = [
           {
             path: '/config/report',
             component: './config/report',
-            name: '周报',
+            name: '周报发送',
           },
         ],
       },
@@ -509,12 +509,12 @@ export const routes = [
           {
             path: '/xdCredit/index',
             component: './xdCredit',
-            name: '小德学分',
+            name: '学分详情',
           },
           {
             path: '/xdCredit/im',
             component: './xdCredit/imPage',
-            name: 'im差评分析',
+            name: 'im负面分析',
           },
         ],
       },
@@ -566,6 +566,7 @@ export const routes = [
             path: '/cubePlan/list',
             component: './cubePlan/home/index',
             name: '首页',
+            title: '魔方'
           },
           {
             path: '/cubePlan/list/detail',
@@ -610,6 +611,10 @@ export const routes = [
         ]
       },
       {
+        path: '/sessionRecord/index',
+        component: './sessonRecord',
+      },
+      {
         path: '/hotQuestion',
         routes: [
           {
@@ -639,6 +644,7 @@ export const routes = [
           }, {
             path: '/newDetail/histogram',
             component: './newDetail/histogram',
+            name: '学分排名'
           }, {
             path: '/newDetail/incomeRank',
             component: './newDetail/incomeRank',
@@ -652,6 +658,7 @@ export const routes = [
           {
             path: '/newDetail/resubmit',
             component: './newDetail/resubmit',
+            name: '续报分析'
           },
         ],
       },

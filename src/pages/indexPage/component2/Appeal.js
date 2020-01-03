@@ -104,7 +104,10 @@ class Appeal extends React.Component {
             <div className={style.appealLeft} style={{ width: '230px', textAlign: 'center' }}>
               {!maxData && <img src={bingtu} style={{ width: '150px' }} />}
               {maxData > 0 && (
-                <Echarts options={options1} style={{ width: '230px', height: 213 + 'px' }} />
+                <Echarts
+                  options={options1}
+                  style={{ width: '230px', marginTop: '-20px', height: 213 + 'px' }}
+                />
               )}
             </div>
             <div className={style.appealRight} style={{ width: '260px', textAlign: 'center' }}>
@@ -112,7 +115,7 @@ class Appeal extends React.Component {
               {maxData > 0 && (
                 <Echarts
                   options={options}
-                  style={{ width: '280px', height: 243 + 'px' }}
+                  style={{ width: '280px', height: 230 + 'px' }}
                   clickEvent={item => this.clickEvent(item)}
                 />
               )}

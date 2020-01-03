@@ -134,6 +134,7 @@ class SelfHeader extends PureComponent {
 			type: 'login/changeRole',
 			payload: roleList.find(item => item.userId === roleSelected) || {},
 		});
+		storage.removeItem('resubmit_query');
 		this.setState({ visible: false });
 	};
 	handleMenuList = () => {

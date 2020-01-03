@@ -4,6 +4,7 @@ import { Tooltip } from 'antd';
 import { Link } from 'dva/router';
 import BIContainer from '@/components/BIContainer';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
+import float3 from '@/assets/resubmit/float3.png';
 import styles from './style.less';
 
 @connect(({ resubmitModal }) => ({
@@ -30,14 +31,16 @@ class DetailsIndex extends React.Component {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        render: (text, record) => <Tooltip title={text}><Link to={`/ko/behaviorPath?params=${encodeURIComponent(JSON.stringify({ userId: record.stuId, target: 'draw' }))}`} target='_black'>{text}</Link></Tooltip>
+        render: (text, record) => text ? 
+        <Tooltip title={text}><Link to={`/ko/behaviorPath?params=${encodeURIComponent(JSON.stringify({ userId: record.stuId, target: 'draw' }))}`} target='_black'>{text}</Link></Tooltip>
+        : <img style={{width: '15px'}} src={float3} alt=""/>
       },
       {
         width: '6%',
         title: '周期',
         dataIndex: 'lifeCycle',
         key: 'lifeCycle',
-        render: text => text ? text + '天' : ''
+        render: text => text ? text + '天' : <img style={{width: '15px'}} src={float3} alt=""/>
       },
       {
         title: '报名时间',
@@ -45,7 +48,7 @@ class DetailsIndex extends React.Component {
         key: 'paymentTime',
       },
       {
-        width: '12%',
+        width: '8%',
         // ellipsis: true,
         title: '学院',
         dataIndex: 'collegeName',
@@ -61,9 +64,12 @@ class DetailsIndex extends React.Component {
       //   render: text => <Tooltip title={text}>{text}</Tooltip>
       // },
       {
+        width: '10%',
+        ellipsis: true,
         title: '小组',
         dataIndex: 'groupName',
         key: 'groupName',
+        render: text => <Tooltip title={text}>{text}</Tooltip>
       },{
         width: '18%',
         ellipsis: true,
@@ -74,14 +80,15 @@ class DetailsIndex extends React.Component {
       },{
         width: '18%',
         ellipsis: true,
-        title: '续费产品包',
+        title: '续报产品包',
         dataIndex: 'packageName',
         key: 'packageName',
         render: text => <Tooltip title={text}>{text}</Tooltip>
       },{
-        title: '净流水',
+        title: '净流水（元）',
         dataIndex: 'restAmount',
         key: 'restAmount',
+        render: text => text.toFixed(1)
       },
     ];
     return columns || [];

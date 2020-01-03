@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import Echart from '@/components/Echart';
 import examEmpty from '@/assets/examEmpty.png';
 import styles from './style.less';
+import router from 'umi/router';
 
 @connect(({ robotPage }) => ({
   robotPage,
@@ -29,26 +30,14 @@ class RobotTrend extends React.Component {
       name: '班主任独立接待人数'
     }]
     let option = {
-      title: {
-        text: '会话类型',
-        x: 'center',
-        bottom: 0,
-        left: '20%',
-        textStyle: {
-          color: '#282828',
-          fontSize: 14,
-          fontWeight: 'normal'
-        }
-      },
       tooltip: {
         trigger: 'item',
         formatter: "{b} <br> {c}<br>{d}%"
       },
       legend: {
-        orient: 'vertical',
-        right: 'right',
+        bottom: 0,
+        left: 'center',
         data: ['机器人独立接待人数', '机器人协同接待人数', '班主任独立接待人数'],
-        top: '30%',
         itemWidth: 8,
         itemHeight: 8,
         itemGap: 20,
@@ -61,8 +50,8 @@ class RobotTrend extends React.Component {
       series: [
         {
           type: 'pie',
-          radius: '75%',
-          center: ['30%', '48%'],
+          radius: '70%',
+          center: ['50%', '44%'],
           color: ["#33D195", "#FFC442", "#3CB3FC"],
           data: datas,
           hoverOffset: 0,
@@ -81,22 +70,11 @@ class RobotTrend extends React.Component {
     let optionEmpty = {
       animation: false,
       silent: true,
-      title: {
-        text: '会话类型',
-        x: 'center',
-        bottom: 0,
-        left: '20%',
-        textStyle: {
-          color: '#282828',
-          fontSize: 14,
-          fontWeight: 'normal'
-        }
-      },
       zlevel: 1,
       graphic: [{
         type: 'text',
-        left: '23%',
-        top: '47%',
+        left: '45%',
+        top: '43%',
         style: {
           text: '暂无数据',
           textAlign: 'center',
@@ -109,10 +87,9 @@ class RobotTrend extends React.Component {
         }
       }],
       legend: {
-        orient: 'vertical',
-        right: 'right',
-        data: ['机器人独立访问', '机器人协同会话', '班主任独立接待人数'],
-        top: '30%',
+        bottom: 0,
+        left: 'center',
+        data: ['机器人独立接待人数', '机器人协同接待人数', '班主任独立接待人数'],
         itemWidth: 8,
         itemHeight: 8,
         itemGap: 20,
@@ -125,8 +102,8 @@ class RobotTrend extends React.Component {
       series: [
         {
           type: 'pie',
-          radius: '75%',
-          center: ['30%', '48%'],
+          radius: '70%',
+          center: ['50%', '44%'],
           color: ["#F2F2F2", "#F2F2F2", "#F2F2F2"],
           data: datas,
           hoverOffset: 0,
@@ -165,26 +142,14 @@ class RobotTrend extends React.Component {
       name: '不满意'
     }]
     let option = {
-      title: {
-        text: '会话满意度',
-        x: 'center',
-        bottom: 0,
-        left: '20%',
-        textStyle: {
-          color: '#282828',
-          fontSize: 14,
-          fontWeight: 'normal'
-        }
-      },
       tooltip: {
         trigger: 'item',
         formatter: "{b} <br> {c}<br>{d}%"
       },
       legend: {
-        orient: 'vertical',
-        right: 'right',
+        bottom: 0,
+        left: 'center',
         data: ['非常满意', '满意', '一般', '不满意'],
-        top: '30%',
         itemWidth: 8,
         itemHeight: 8,
         itemGap: 20,
@@ -198,8 +163,8 @@ class RobotTrend extends React.Component {
         {
           name: '访问来源',
           type: 'pie',
-          radius: '75%',
-          center: ['30%', '48%'],
+          radius: '70%',
+          center: ['50%', '44%'],
           color: ["#33D195", "#33D1BB", "#FFC442", "#FF602F"],
           data: datas,
           hoverOffset: 0,
@@ -218,22 +183,11 @@ class RobotTrend extends React.Component {
     let optionEmpty = {
       animation: false,
       silent: true,
-      title: {
-        text: '会话满意度',
-        x: 'center',
-        bottom: 0,
-        left: '20%',
-        textStyle: {
-          color: '#282828',
-          fontSize: 14,
-          fontWeight: 'normal'
-        }
-      },
       zlevel: 1,
       graphic: [{
         type: 'text',
-        left: '23%',
-        top: '47%',
+        left: '45%',
+        top: '43%',
         style: {
           text: '暂无数据',
           textAlign: 'center',
@@ -246,10 +200,9 @@ class RobotTrend extends React.Component {
         }
       }],
       legend: {
-        orient: 'vertical',
-        right: 'right',
+        bottom: 0,
+        left: 'center',
         data: ['非常满意', '满意', '一般', '不满意'],
-        top: '30%',
         itemWidth: 8,
         itemHeight: 8,
         itemGap: 20,
@@ -262,8 +215,8 @@ class RobotTrend extends React.Component {
       series: [
         {
           type: 'pie',
-          radius: '75%',
-          center: ['30%', '48%'],
+          radius: '70%',
+          center: ['50%', '44%'],
           color: ["#F2F2F2", "#F2F2F2", "#F2F2F2", "#F2F2F2"],
           data: datas,
           hoverOffset: 0,
@@ -290,27 +243,34 @@ class RobotTrend extends React.Component {
     const data = this.props.dayData
     let data1 = [];
     let data2 = [];
+    let data3 = [];
     if (data.length > 0) {
       data.map(item => {
         data1.push(item.interceptPercent)
         data2.push(item.date)
+        data3.push(item.robotAndTeacherPercent)
       })
     }
     let option = {
-      animation: false,
-      title: {
-        text: '机器人拦截率',
+      tooltip: {
+        trigger: 'axis',
         textStyle: {
-          fontSize: 16,
+          fontSize: 12,
+        },
+        formatter: function (params) {
+          let results = '';
+          for (let i = 0; i < params.length; i++) {
+            results += `<div><span style="width:6px;display:inline-block; height:6px;border-radius:100%;font-size:1px;margin-right:5px;background:${params[i].color}"></span>${params[i].seriesName}: ${(params[i].value * 100).toFixed(2)}%</div>`;
+          }
+          return results;
         }
       },
-      tooltip: {
-        trigger: 'item',
-        // formatter: "{b} : {c}",
-        formatter: function (parms) {
-          var str = parms.name + ': ' + (parms.value * 100).toFixed(2) + '%';
-          return str;
-        },
+      legend: {
+        data: ['拦截率', '协同接待率'],
+        bottom: '-5px',
+        itemWidth: 8,
+        itemHeight: 8,
+
       },
       xAxis: {
         data: data2,
@@ -359,14 +319,15 @@ class RobotTrend extends React.Component {
         },
       },
       grid: {
-        top: 50,
+        top: 20,
         left: 50,
         right: 60,
-        bottom: 50,
+        bottom: 70,
       },
       series: [
 
         {
+          name: '拦截率',
           type: 'line',
           smooth: true,
           symbolSize: 10,
@@ -396,6 +357,38 @@ class RobotTrend extends React.Component {
             },
           },
           data: data1
+        },
+        {
+          name: '协同接待率',
+          type: 'line',
+          smooth: true,
+          symbolSize: 10,
+          itemStyle: {
+            normal: {
+              color: '#FFC442'
+            }
+          },
+          areaStyle: {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                {
+                  offset: 0,
+                  color: '#FFC442', // 0% 处的颜色
+                },
+                {
+                  offset: 1,
+                  color: 'RGBA(255, 196, 66, 0)', // 100% 处的颜色
+                },
+              ],
+              global: false, // 缺省为 false
+            },
+          },
+          data: data3
         }
 
       ]
@@ -420,12 +413,6 @@ class RobotTrend extends React.Component {
       })
     }
     let option = {
-      title: {
-        text: '会话满意度',
-        textStyle: {
-          fontSize: 16,
-        }
-      },
       tooltip: {
         trigger: 'axis',
         textStyle: {
@@ -446,11 +433,18 @@ class RobotTrend extends React.Component {
         itemHeight: 8,
 
       },
+      // grid: {
+      //   top: 20,
+      //   left: '3%',
+      //   right: '4%',
+      //   bottom: 60,
+      //   containLabel: true
+      // },
       grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '8%',
-        containLabel: true
+        top: 20,
+        left: 50,
+        right: 60,
+        bottom: 70,
       },
       xAxis: [
         {
@@ -530,6 +524,20 @@ class RobotTrend extends React.Component {
 
     return option
   }
+  handleCheck = () => {
+    const { initData } = this.props.robotPage
+    const params = {
+      startTime: initData.startTime1,
+      endTime: initData.endTime1,
+      collegeId: initData.org.length > 0 ? initData.org[0] : null,
+      familyId: initData.org.length > 1 ? initData.org[1] : null
+    }
+    window.open(`/inspector/sessionReport/sessionReport?params=${JSON.stringify(params)}`);
+    // router.push({
+    //   pathname: '/sessionReport/sessionReport',
+    //   query: { ...params },
+    // });
+  }
 
   render() {
     const { dataIsEmpty } = this.props.robotPage;
@@ -538,26 +546,38 @@ class RobotTrend extends React.Component {
     const empty2 = parse1.some(item => item !== 0) || parse2.some(item => item !== 0) || parse3.some(item => item !== 0) || parse4.some(item => item !== 0)
     return <div className={styles.sessonTrend}>
       <div className={styles.chartPie}>
-        <Echart options={this.drawChart()} style={{ width: '320px', height: '220px', }}></Echart>
-        <Echart options={this.drawChart2()} style={{ width: '320px', height: '220px' }}></Echart>
+        <div className={styles.blockContent}>
+          <h4 className={styles.title}><span className={styles.name}>会话类型</span></h4>
+          <Echart options={this.drawChart()} style={{ width: '100%', height: '240px', }}></Echart>
+        </div>
+        <div className={styles.blockContent}>
+          <h4 className={styles.title}><span className={styles.name}>会话满意度</span></h4>
+          <Echart options={this.drawChart2()} style={{ width: '100%', height: '240px' }}></Echart>
+        </div>
+
+
       </div>
       <div className={styles.chart1}>
-        {
-          empty1 ? <Echart options={this.chartIntercept()} style={{ width: '100%', height: '450px' }}></Echart> : <div className={styles.empty}>
-            <h4>机器人拦截率</h4>
-            <img src={examEmpty} />
-            <p>暂无数据</p>
-          </div>
-        }
+        <div className={styles.blockContent}>
+          <h4 className={styles.title}><span className={styles.name}>机器人接待数据</span></h4>
+          {
+            empty1 ? <Echart options={this.chartIntercept()} style={{ width: '100%', height: '450px' }}></Echart> : <div className={styles.empty}>
+              <img src={examEmpty} />
+              <p>暂无数据</p>
+            </div>
+          }
+        </div>
       </div>
       <div className={styles.chart2}>
-        {
-          empty2 ? <Echart options={this.chartCategory()} style={{ width: '100%', height: '450px' }}></Echart> : <div className={styles.empty}>
-            <h4>会话满意度</h4>
-            <img src={examEmpty} />
-            <p>暂无数据</p>
-          </div>
-        }
+        <div className={styles.blockContent}>
+          <h4 className={styles.title}><span className={styles.name}>会话满意度</span><span className={styles.btn} data-trace='{"widgetName":"查看评价详情","traceName":"IM机器人会话趋势"}' onClick={this.handleCheck}>查看评价详情</span></h4>
+          {
+            empty2 ? <Echart options={this.chartCategory()} style={{ width: '100%', height: '450px' }}></Echart> : <div className={styles.empty}>
+              <img src={examEmpty} />
+              <p>暂无数据</p>
+            </div>
+          }
+        </div>
       </div>
     </div>
   }

@@ -10,6 +10,7 @@ import rank3 from '@/assets/xdFamily/rank3.png';
 import float1 from '@/assets/up.png';
 import float2 from '@/assets/down.png';
 import float0 from '@/assets/flat.png';
+import float3 from '@/assets/resubmit/float3.png';
 import styles from './style.less';
 
 const ranks = {
@@ -21,6 +22,7 @@ const floats = {
   0: float0,
   1: float1,
   2: float2,
+  3: float3
 }
 @connect(({ resubmitModal, loading }) => ({
   paramsQuery: resubmitModal.paramsQuery || {},
@@ -46,11 +48,13 @@ class PackageIndex extends React.Component {
         dataIndex: 'floatingIndex',
         key: 'floatingIndex',
         render: text => {
-          const falg = text === 0 ? 0 : (text > 0 ? 1 : 2);
-          return <div className={`${styles.markColumn} ${styles['markColumn' + falg]}`}>
-          <img src={floats[falg]} alt=''/>
-          <span>{Math.abs(text)} </span>
-        </div>
+          const falg = text === 0 ? 0 : (!text ? 3 : (text > 0 ? 1 : 2));
+          return (
+            <div className={`${styles.markColumn} ${styles['markColumn' + falg]}`}>
+              <img src={floats[falg]} alt=''/>
+              { falg === 3 ? '' : <span>{Math.abs(text)} </span>}
+            </div>
+          )
         }
       },
       {

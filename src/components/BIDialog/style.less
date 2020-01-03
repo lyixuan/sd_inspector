@@ -1,54 +1,3 @@
-@base-blue: #61B8FF;
-@base-yellow: #FFBC00;
-@base-color: #282828;
-@base-white: rgba(255, 255, 255, 1);
-
-.tabGroupContainer {
-  background-color: #FFFFFF;
-  padding-left: 20px;
-  :global {
-    .ant-tabs-bar {
-      border-bottom: 1px solid #FFFFFF;
-      margin: 0;
-    }
-  }
-}
-
-
-// 导出按钮样式
-.exportBtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  img {width: 14px;margin-right: 6px;}
-}
-.exportBtn:hover, .exportBtn:focus {
-  color: @base-white;
-  background-color: @base-yellow;
-  border-color: @base-yellow!important;
-}
-
-// IM悬浮框样式
-.listMarkingTooltip {
-  max-width: 520px;
-  width: 520px;
-  :global {
-    .ant-tooltip-arrow {
-      border-right-color: #ffffff!important;
-      //border-color: transparent transparent #fff #fff;
-    }
-    .ant-tooltip-arrow::before{
-      background:#fff;
-    }
-    .ant-tooltip-inner {
-      padding: 20px 10px 20px 0px;
-      background-color: #ffffff;
-    }
-    .ant-tooltip-content {
-      opacity: 1;
-    }
-  }
-}
 // 悬浮框对话样式
 .behavior {
   padding: 0px;
@@ -74,7 +23,7 @@
   color: #1B1C20;
 }
 .step .content {
-  //border-left: 1px solid #00CCC3;
+  //border-left: 1px solid #FFE300;
   padding-left: 10px;
   position: relative;
   padding-bottom: 5px;
@@ -85,7 +34,7 @@
   position: absolute;
   left: 0px;
   top: 10px;
-  border-left: 1px solid #00CCC3;
+  border-left: 1px solid #FFE300;
   height: 100%;
 }
 .step:last-child .content:after {
@@ -99,7 +48,7 @@
 .step .content .bigDot {
   width: 12px;
   height: 12px;
-  background: #00CCC3;
+  background: #FFE300;
   border-radius: 50px;
   position: absolute;
   left: -6px;
@@ -124,7 +73,7 @@
   width: 17px;
   height: 17px;
   background: #fff;
-  border: 2px solid #48c2ba;
+  border: 2px solid #FFE300;
   left: -8px;
   box-sizing: border-box;
   cursor: pointer;
@@ -136,7 +85,7 @@
   top: -8px;
   font-size: 18px;
   font-weight: bold;
-  color: #48c2ba;
+  color: #FFE300;
 }
 .behavior .title .plus .dot::before {
   content: '+';
@@ -144,7 +93,7 @@
   left: 2px;
   top: -5px;
   font-size: 14px;
-  color: #48c2ba;
+  color: #FFE300;
 }
 .behavior .title .plus .dot {
   width: 8px;
@@ -240,17 +189,17 @@
 }
 .behavior .chatRight .chatContent {
   max-width: 240px;
-  background-color: #00CCC3;
-  //border: 1px solid #00CCC3;
+  background-color: #FFE300;
+  //border: 1px solid #FFE300;
   border-radius: 5px;
   // margin-right: 15px;
   padding: 6px 10px;
-  color: #ffffff;
+  color: #1A1C1F;
   box-sizing: border-box;
   position: relative;
   word-break: break-all;
   .linkRoute {
-    color: #fff;
+    color: #1A1C1F;
     text-decoration: underline;
   }
 }
@@ -276,7 +225,7 @@
 }
 .behavior .chatRight .miniApp, .behavior .chatLeft .miniApp{
   background:#fff;
-  border: 1px solid #48c2ba;
+  border: 1px solid #FFE300;
   color:#000;
   padding-top:10px;
   padding-bottom:10px;
@@ -290,7 +239,7 @@
   height: 0;
   border-width: 5px 0 5px 5px;
   border-style: solid;
-  border-color: transparent transparent transparent #00CCC3;
+  border-color: transparent transparent transparent #FFE300;
   position: absolute;
   top: 10px;
   right: -5px;
@@ -301,7 +250,7 @@
   height: 0;
   border-width: 5px 0 5px 5px;
   border-style: solid;
-  border-color: transparent transparent transparent #00CCC3;
+  border-color: transparent transparent transparent #FFE300;
   position: absolute;
   top: -5px;
   right: 2px;
@@ -309,8 +258,12 @@
 .step .prise {
   display: flex;
   padding-left: 30px;
-  color: #52c9c2;
+  color: #FFE300;
   padding-bottom: 20px;
+  margin-top:8px;
+}
+.stars .empty {
+  color: #e8e8e8;
 }
 .step .prise .stars {
   padding-left: 10px;
@@ -329,9 +282,6 @@
       border-right-color: #ffffff!important;
       //border-color: transparent transparent #fff #fff;
     }
-    .ant-tooltip-arrow::before{
-      background:#fff;
-    }
     .ant-tooltip-inner {
       padding: 14px;
       background-color: #ffffff;
@@ -342,56 +292,4 @@
       opacity: 1;
     }
   }
-}
-.behaviorOthers {
-  margin-bottom: 0;
-  max-height: 352px;
-  overflow-y: auto;
-}
-// 表格宽度自适应
-.textEllipsis {
-  display: inline-block;
-  max-width: 100%;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-@media screen and (min-width: 0) and (max-width: 1200px) {
-  .textorg {
-    width: 120px;
-  }
-  .textname {
-    width: 60px;
-  }
-}
-@media screen and (min-width: 1200px) and (max-width: 1500px) {
-  .textorg {
-    width: 180px;
-  }
-  .textname {
-    width: 60px;
-  }
-}
-@media screen and (min-width: 1500px) and (max-width: 3000px) {
-  .textname {
-    width: 100px;
-  }
-}
-.textEllipsisContent {
-  width: 180px;
-  height: 26px;
-  line-height: 26px;
-  border-radius: 6px;
-  background-color: #F6F7FA;
-  color: #1B1C20;
-  padding: 0 6px;
-  vertical-align: middle; 
-}
-.textname {
-  color: #0062FF;
-  cursor: pointer;
-}
-// 星星的颜色
-.shapeMargin {
-  margin: 0 2px;
 }

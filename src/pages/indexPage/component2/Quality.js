@@ -35,7 +35,6 @@ class Quality extends React.Component {
       return;
     }
     const { getCurrentDateRangeData, WorkbenchQualityData } = this.props;
-    // const data = WorkbenchQualityData.class.detailList[item.dataIndex];
 
     let status = null;
     let type = '1';
@@ -85,12 +84,37 @@ class Quality extends React.Component {
         type = '2';
         break;
     }
+    let collegeIdList = [];
+    let familyIdList = [];
+    let groupIdList = [];
+    let data = WorkbenchQualityData.class.detailList[item.dataIndex];
+    if (data) {
+      if (data.collegeId) {
+        collegeIdList = data.collegeId ? [`a-${data.collegeId}`] : [];
+        familyIdList = [];
+        groupIdList = [];
+        if (data.familyId) {
+          collegeIdList = [];
+          familyIdList = data.familyId ? [`b-${data.familyId}`] : [];
+          groupIdList = [];
+          if (data.groupId) {
+            collegeIdList = [];
+            familyIdList = [];
+            groupIdList = data.groupId ? [`c-${data.groupId}`] : [];
+          }
+        }
+      }
+    }
 
     jumpQualityRouter('qualityAppeal/qualityAppeal', {
       reduceScoreBeginDate: getCurrentDateRangeData.startTime,
       reduceScoreEndDate: getCurrentDateRangeData.endTime,
       tabType: type,
+      type: type,
       status: status,
+      collegeIdList,
+      familyIdList,
+      groupIdList,
     });
   };
 
@@ -130,6 +154,18 @@ class Quality extends React.Component {
           {Math.abs(qoqPersonCount)}%
         </span>
       );
+    }
+
+    let value = 0;
+    if (
+      WorkbenchQualityData &&
+      WorkbenchQualityData.class &&
+      WorkbenchQualityData.class.detailList &&
+      WorkbenchQualityData.class.detailList.length > 0
+    ) {
+      WorkbenchQualityData.class.detailList.map(item => {
+        value += item.value;
+      });
     }
 
     return (
@@ -207,12 +243,12 @@ class Quality extends React.Component {
                 </div>
               </div>
               <div className={style.qualityRight}>
-                {!WorkbenchQualityData.class.detailList.length && (
+                {!value && (
                   <div>
                     <img src={zhutu} style={{ width: '193px' }} />
                   </div>
                 )}
-                {WorkbenchQualityData.class.detailList.length > 0 && (
+                {value > 0 && (
                   <Echarts
                     options={options}
                     style={{ width: '300px', height: 253 + 'px' }}
