@@ -198,46 +198,7 @@ class DetailIm extends React.Component {
 
           <ul className={styles.behavior}>
             <SessionContent stuHeadUrl={item.stuHeadUrl} teacherHeadUrl={item.teacherHeadUrl} li={item.contentList}></SessionContent>
-            {/* <li className={styles.step}>
-              <div className={styles.time}>20：00：00</div>
-              <div className={styles.content}>
-                <div className={styles.bigDot}>
-                  <span className={styles.dot}></span>
-                </div>
-                <div className={`${styles.chat} ${styles.chatRight}`}>
-                  <div className={styles.chatContent}>
-                    <span className={styles.striangle}><em></em></span>
-                    报考科目有哪些报考科目有哪些报考科目有哪些报考科目有哪些
-                  </div>
-                  <div className={styles.avatar}>
-                    <img src="http://img1.imgtn.bdimg.com/it/u=1393987749,3422146058&fm=26&gp=0.jpg" />
-                    <p>尚德学员</p>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li className={styles.step}>
-              <div className={styles.time}>20：00：00</div>
-              <div className={styles.content}>
-                <div className={styles.bigDot}>
-                  <span className={styles.dot}></span>
-                </div>
-                <div className={`${styles.chat} ${styles.chatLeft}`}>
-                  <div className={styles.avatar}>
-                    <img src="http://img1.imgtn.bdimg.com/it/u=1393987749,3422146058&fm=26&gp=0.jpg" />
-                    <p>尚德学员</p>
-                  </div>
-                  <div className={styles.chatContent}>
-                    <span className={styles.triangle}><em></em></span>
-                    报考科目有哪些
-					      	</div>
-                </div>
-              </div>
-            </li> */}
-
           </ul>
-
-
         </div>
       </>
     );

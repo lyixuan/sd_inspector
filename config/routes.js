@@ -298,7 +298,12 @@ export const routes = [
             component: './ko/qualityMarking/nps',
             commonPath: true, // 继承父页面
             name: 'NPS标注',
-          },
+          },{
+            path: '/qualityMarking/appFeedback',
+            component: './ko/qualityMarking/appFeedback',
+            commonPath: true, // 继承父页面
+            name: 'app意见反馈',
+          }
         ],
       },
       {

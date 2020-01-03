@@ -16,6 +16,9 @@ const tabGroup = [{
 }, {
   tab: 'NPS',
   key: '/qualityMarking/nps',
+},{
+  tab: 'app意见反馈',
+  key: '/qualityMarking/appFeedback',
 }];
 @connect(({ workTableModel }) => ({
   workTableModel,
@@ -55,6 +58,7 @@ class aiWorktable extends React.Component {
     return defaultKey
   }
   onChangeTab = (key) => {
+    console.log(61,key)
     this.setState({
       defaultKey: key,
     }, () => this.jumpTo(key));
