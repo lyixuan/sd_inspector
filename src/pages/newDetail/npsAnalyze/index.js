@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import PageTab from './components/pageTab';
 import ParamsTop from './components/paramsTop';
+import DetailsIndex from './components/detailsIndex';
 import { handleDataTrace } from '@/utils/utils';
 import { getDateObj } from '@/pages/indexPage/components/utils/utils';
 import styles from './style.less';
@@ -31,6 +32,14 @@ class Resubmit extends React.Component {
     });
     // handleDataTrace({"widgetName": '创收_透视分析',"traceName": '2.2/创收_透视分析', traceType:200});
   }
+  // 学员明细
+  getQueryStuDetailPage = params => {
+    const query = !params.pageSize ? {...params, pageSize: 15, page: 1} : params
+    this.props.dispatch({
+      type: 'npsAnalyzeModel/getQueryStuDetailPage',
+      payload: { params: query },
+    });
+  };
   // 搜索条件值改变
   onParamsChange = (val, type = 'dateRange') => {
     const payload = { [type]: val };
@@ -66,17 +75,19 @@ class Resubmit extends React.Component {
   // 列表数据
   getInitData = newQuery => {
     const params = this.getRequestParams({ ...this.props.paramsQuery, ...newQuery });
+    console.log(params, 'mmmmm')
   };
 
   // 请求参数
   getRequestParams = (params = this.props.paramsQuery) => {
     const { dateRange, orgId = [], ...others } = params;
-    const [collegeId, familyId] = orgId;
+    const [collegeId, familyId, groupId] = orgId;
     return {
       ...others,
       ...getDateObj(dateRange),
       collegeId,
       familyId,
+      groupId
     };
   };
   getTabs = () => {
@@ -88,12 +99,12 @@ class Resubmit extends React.Component {
             
           </>
         ),
-        dataTrace: '{"widgetName":"创收_数据透视","traceName":"2.2/创收_数据透视"}',
+        // dataTrace: '{"widgetName":"创收_数据透视","traceName":"2.2/创收_数据透视"}',
       },
       {
-        title: '创收明细',
-        children: <></>,
-        dataTrace: '{"widgetName":"创收_创收明细","traceName":"2.2/创收_创收明细"}',
+        title: '学员明细',
+        children: <DetailsIndex getQueryStuDetailPage={this.getQueryStuDetailPage} getRequestParams={this.getRequestParams}/>,
+        // dataTrace: '{"widgetName":"创收_创收明细","traceName":"2.2/创收_创收明细"}',
       },
     ];
   };
