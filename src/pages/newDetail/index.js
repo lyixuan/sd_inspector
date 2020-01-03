@@ -20,6 +20,10 @@ const headObj = {
     title: '续报分析',
     falg: false,
   },
+  '/newDetail/npsAnalyze': {
+    title: 'NPS分析',
+    falg: false,
+  }
 };
 
 @connect(({ newDetailModal }) => ({

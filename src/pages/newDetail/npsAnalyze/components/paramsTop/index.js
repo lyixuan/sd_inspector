@@ -11,8 +11,8 @@ import styles from './style.less';
 
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
-@connect(({ newDetailModal, resubmitModal }) => ({
-  resubmitModal,
+@connect(({ newDetailModal, npsAnalyzeModel }) => ({
+  npsAnalyzeModel,
   globalUserInfo: newDetailModal.globalUserInfo,
   globalDateMoment: newDetailModal.globalDateMoment,
   globalkpiDateRange: newDetailModal.globalkpiDateRange,
@@ -20,9 +20,9 @@ const { BIRangePicker } = BIDatePicker;
 class ParamsTop extends React.Component {
   componentDidMount() {
     // 初始化参数
-    const resubmit_query = localStorage.getItem('resubmit_query');
-    if (resubmit_query) {
-      const query = JSON.parse(resubmit_query) || {};
+    const nps_analyze_query = localStorage.getItem('nps_analyze_query');
+    if (nps_analyze_query) {
+      const query = JSON.parse(nps_analyze_query) || {};
       query.dateRange = [moment(query.dateRange[0]), moment(query.dateRange[1])];
       this.props.onObjChange(query);
     } else {
@@ -31,24 +31,26 @@ class ParamsTop extends React.Component {
   }
   // 组织初始化---角色属于什么组织默认什么组织---默认到学院家族
   getInitOrg = () => {
-    const { collegeId, familyId } = this.props.globalUserInfo;
+    const { collegeId, familyId, groupId } = this.props.globalUserInfo;
     const orgId = [];
-    if (collegeId && familyId) {
+    if (collegeId && familyId && groupId) {
+      orgId.push(collegeId, familyId, groupId);
+    } else if (collegeId) {
       orgId.push(collegeId, familyId);
     } else if (collegeId) {
       orgId.push(collegeId);
-    } 
+    }
     return orgId;
   }
   onDateChange = dateRange => {
     const { onObjChange } = this.props;
-    if (onObjChange && typeof onObjChange === 'function') {
-      this.props.onObjChange({ dateRange, originPackageName: undefined, packageName: undefined})
-    }
+    // if (onObjChange && typeof onObjChange === 'function') {
+    //   this.props.onObjChange({ dateRange, originPackageName: undefined, packageName: undefined})
+    // }
   }
   render() {
     const { onParamsChange } = this.props;
-    const { paramsQuery = {}, collegeList, originSelectData = [], packageSelectData = [] } = this.props.resubmitModal;
+    const { paramsQuery = {}, collegeList, originSelectData = [], packageSelectData = [] } = this.props.npsAnalyzeModel;
     return (
       <>
         <span>
@@ -66,27 +68,47 @@ class ParamsTop extends React.Component {
           />
         </span>
         <span>
-          <BISelect style={{ width: 136 }} placeholder="原产品包" value={paramsQuery.originPackageName} onChange={val => onParamsChange(val, 'originPackageName')} allowClear>
+          <BISelect style={{ width: 100 }} placeholder="自主评价" value={paramsQuery.evaluateType} onChange={val => onParamsChange(val, 'evaluateType')} allowClear>
             {originSelectData.map(item => <Option key={item.packageName} value={item.packageName}>
               <Tooltip title={item.packageName}>{item.packageName}</Tooltip>
             </Option>)}
           </BISelect>
         </span>
         <span>
-          <BISelect style={{ width: 136 }} placeholder="续报产品包" value={paramsQuery.packageName} onChange={val => onParamsChange(val, 'packageName')} allowClear>
-            {packageSelectData.map(item => <Option key={item.packageName} value={item.packageName}>
-              <Tooltip title={item.packageName}>{item.packageName}</Tooltip>
-            </Option>)}
-          </BISelect>
+          <BICascader
+            placeholder="原因分类"
+            changeOnSelect
+            options={collegeList}
+            fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
+            getPopupContainer={triggerNode => triggerNode.parentNode}
+            displayRender={this.renderCascader}
+            value={paramsQuery.reasonType}
+            onChange={val => onParamsChange(val, 'reasonType')}
+            allowClear
+            style={{ width: 90 }}
+          />
+        </span>
+        <span>
+          <BICascader
+            placeholder="NPS标签"
+            changeOnSelect
+            options={collegeList}
+            fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
+            getPopupContainer={triggerNode => triggerNode.parentNode}
+            displayRender={this.renderCascader}
+            value={paramsQuery.tagId}
+            onChange={val => onParamsChange(val, 'tagId')}
+            allowClear
+            style={{ width: 90 }}
+          />
         </span>
         <span>
           <BISelect 
-          style={{ width: 104 }} 
-          placeholder="续报路径" 
-          value={paramsQuery.path} 
-          onChange={val => onParamsChange(val, 'path')} 
+          style={{ width: 90 }} 
+          placeholder="星级" 
+          value={paramsQuery.star} 
+          onChange={val => onParamsChange(val, 'star')} 
           allowClear
-          dropdownClassName={styles.path}
           >
             {BiFilter('WB_PATH_LIST').map(item => <Option key={item.id} value={item.id}>
               {item.name}
@@ -97,11 +119,11 @@ class ParamsTop extends React.Component {
           <BISelect 
           style={{ width: 90 }} 
           placeholder="周期" 
-          value={paramsQuery.lifeCycle}
-          onChange={val => onParamsChange(val, 'lifeCycle')} 
+          value={paramsQuery.cycle}
+          onChange={val => onParamsChange(val, 'cycle')} 
           allowClear
           >
-            {BiFilter('WB_LIFE_CYCLE').map(item => <Option key={item.id} value={item.id} >
+            {BiFilter('WB_LIFE_CYCLE').map(item => <Option key={item.id} value={item.id}>
               {item.name}
             </Option>)}
           </BISelect>

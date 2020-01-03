@@ -653,6 +653,10 @@ export const routes = [
             path: '/newDetail/resubmit',
             component: './newDetail/resubmit',
           },
+          {
+            path: '/newDetail/npsAnalyze',
+            component: './newDetail/npsAnalyze',
+          },
         ],
       },
       {
