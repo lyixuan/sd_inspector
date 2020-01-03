@@ -2,9 +2,8 @@ import { queryNotices } from '@/services/user';
 import { msgF } from '@/utils/utils';
 import { message } from 'antd/lib/index';
 import { getBasicInfo } from '@/pages/ko/behaviorPath/services';
-import ditu from '@/assets/holiday/ditu.png';
-import logo from '@/assets/holiday/logo.png';
-import toubu from '@/assets/holiday/toubu@2x.png';
+import {getThemeData} from '@/services/api';
+
 
 export default {
   namespace: 'global',
@@ -25,17 +24,12 @@ export default {
       'group': '运营长',
       'others': '无绩效岗位',
     },
-    tempLogo: logo,
-    headerBackgroundColor: '#F14031',
-    layoutBackgroundColor: '',
-    headerImage: toubu,
-    layoutImage: ditu,
-    animation: {
-      image: 'https://www.deanhan.cn/wp-content/uploads/2017/12/snow.png',
-      continueTime: 10000,
-      minRadius: 5,
-      maxRadius: 10
-    }
+    tempLogo: null,
+    headerBackgroundColor: null,
+    layoutBackgroundColor: null,
+    headerImage: null,
+    layoutImage: null,
+    animation: null
   },
 
   effects: {
@@ -115,6 +109,16 @@ export default {
         window.open(`/inspector/ko/behaviorPath?params=${JSON.stringify(params1)}`);
       }
     },
+    *getThemeInfo({payload}, {call, put}) {
+      let res = yield call(getThemeData);
+      if (res && res.code === 20000) {
+        let data = res.data;
+        yield put({
+          type: 'saveThemeData',
+          payload: data
+        })
+      } else {}
+    }
   },
 
   reducers: {
@@ -136,6 +140,12 @@ export default {
         notices: state.notices.filter(item => item.type !== payload),
       };
     },
+    saveThemeData(state, {payload}) {
+      return {
+        ...state,
+        ...payload
+      }
+    }
   },
 
   subscriptions: {

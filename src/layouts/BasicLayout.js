@@ -114,7 +114,6 @@ class BasicLayout extends React.PureComponent {
   }
 
   componentDidMount() {
-    const {animation} = this.props;
     this.enquireHandler = enquireScreen(mobile => {
       this.setState({
         isMobile: mobile,
@@ -122,11 +121,8 @@ class BasicLayout extends React.PureComponent {
     });
     this.MenuData();
     this.setRedirectData(this.props.menuData);
-    let thingsFall = new ThingsFall({
-      image: animation.image,
-      continueTime: animation.continueTime,
-      minRadius: animation.minRadius,
-      maxRadius: animation.maxRadius
+    this.props.dispatch({
+      type: 'global/getThemeInfo'
     });
   }
 
@@ -280,10 +276,6 @@ class BasicLayout extends React.PureComponent {
   }
 
   render() {
-    // let color = '#F4F4F4';
-    // if (this.props.location.pathname === '/cubePlan/list') {
-    //   color = '#fff';
-    // }
 
     const {
       collapsed,
@@ -294,8 +286,21 @@ class BasicLayout extends React.PureComponent {
       menuData,
       isLoginIng,
       layoutBackgroundColor,
-      layoutImage } = this.props;
+      layoutImage,
+      pmsdkImage,
+      animation } = this.props;
 
+    // 动态设置全屏动效
+    if (animation && animation.image) {
+      let thingsFall = new ThingsFall({
+        image: animation.image,
+        continueTime: animation.continueTime,
+        minRadius: animation.minRadius,
+        maxRadius: animation.maxRadius
+      });
+    }
+
+    // 动态设置layout的背景色和背景图
     let wrapStyle = {
       backgroundColor: layoutBackgroundColor,
     };
@@ -303,9 +308,11 @@ class BasicLayout extends React.PureComponent {
       wrapStyle.backgroundImage = `url("${layoutImage}")`
     }
 
-    let contentStyle = {
-      backgroundColor: layoutBackgroundColor,
-    };
+    // 动态设置小德反馈入口的图片
+    if (pmsdkImage) {
+      let pmDom = document.getElementsByClassName('seven_entry_mini')[0];
+      pmDom.src = pmsdkImage;
+    }
 
     const currentUser = this.handleUserInfo();
     currentUser.avatar = biIcon;
@@ -325,7 +332,7 @@ class BasicLayout extends React.PureComponent {
             onNoticeVisibleChange={this.handleNoticeVisibleChange}
           />
 
-          <Layout className={style.contentLayout} style={contentStyle}>
+          <Layout className={style.contentLayout}>
             <SiderMenu
               logo={logo}
               menuData={menuData}
@@ -372,5 +379,6 @@ export default connect(({ global, menu, login }) => ({
   collapsed: global.collapsed,
   layoutBackgroundColor: global.layoutBackgroundColor,
   layoutImage: global.layoutImage,
+  pmsdkImage: global.pmsdkImage,
   animation: global.animation
 }))(BasicLayout);
