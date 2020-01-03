@@ -18,6 +18,10 @@ class NPSLeft extends React.Component {
   optionsDraw = () => {
     // let  JosnList = [];
     const { cloudOptions = [] } = this.props;
+    let sizeRange = [9, 30];
+    if (cloudOptions.length <= 5) {
+      sizeRange = [15, 30];
+    }
     const colorArr = ['#FC5B5C', '#00B27B', '#F5A623', '#FF57D5', '#4A90E2', '#8B572A', '#4AE2BD'];
     const worldCloudoption = {
       title: {
@@ -31,23 +35,24 @@ class NPSLeft extends React.Component {
       //   show: true,
       // },
       tooltip: {
-        backgroundColor:'#fff',
-        borderColor:'#eee',
-        borderWidth:1,
-        borderRadius:10,
+        backgroundColor: '#fff',
+        borderColor: '#eee',
+        borderWidth: 1,
+        borderRadius: 10,
         shadowBlur: 10,
         shadowOffsetX: 1,
         shadowOffsetY: 0,
         shadowColor: 'rgba(0,0,0,0.8)',
-        textStyle:{
-          color:'#666',
-          fontSize:12,
+        textStyle: {
+          color: '#666',
+          fontSize: 12,
         },
         // trigger: 'axis',
-        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-          type : 'none'        // 默认为直线，可选为：'line' | 'shadow'
+        axisPointer: {
+          // 坐标轴指示器，坐标轴触发有效
+          type: 'none', // 默认为直线，可选为：'line' | 'shadow'
         },
-        animation:false,
+        animation: false,
         // formatter: function (params) {
         //   if(params[0]) {
         //     return "学分均分：" + (params[1]?params[1].value:params[3].value) +"分"+
@@ -55,7 +60,7 @@ class NPSLeft extends React.Component {
         //   }
         // }
         formatter: function(params) {
-          var str = params.data.name+':'+ params.data.value;
+          var str = params.data.name + ':' + params.data.value;
           return str;
         },
       },
@@ -109,7 +114,36 @@ class NPSLeft extends React.Component {
           borderRadius: '20px',
         }}
       >
-        <Echart options={this.optionsDraw()} style={{ height: '213px', width: '226px' }} />
+        {cloudOptions && !cloudOptions.length && (
+          <div
+            style={{
+              width: ' 226px',
+              height: '213px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <span
+              style={{
+                width: '80px',
+                height: '37px',
+                background: 'rgba(249,249,249,1)',
+                display: 'inline-block',
+                textAlign: 'center',
+                lineHeight: '37px',
+                fontSize: '10px',
+                fontWeight: '400',
+                color: '#999',
+              }}
+            >
+              暂无数据
+            </span>
+          </div>
+        )}
+        {cloudOptions && cloudOptions.length > 0 && (
+          <Echart options={this.optionsDraw()} style={{ height: '213px', width: '226px' }} />
+        )}
       </div>
     );
   }

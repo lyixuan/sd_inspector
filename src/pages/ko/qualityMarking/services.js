@@ -18,7 +18,7 @@ export async function getTableList(data) {
 }
 // 导出数据
 export async function exportData(data) {
-  return request('/workbench/export', { method: 'post', data, responseType:'blob',getResponse: true });
+  return request('/workbench/export', { method: 'post', data, responseType: 'blob', getResponse: true });
 }
 // 工作台 - 获取操作人列表
 export async function getOperatorList(data) {

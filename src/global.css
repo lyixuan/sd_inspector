@@ -76,7 +76,7 @@
 }
 a,
 a:hover {
-  color: #52c9c2;
+  color: #0062FF;
 }
 .ant-radio-checked .ant-radio-inner {
   border-color: #52c9c2;
@@ -226,3 +226,14 @@ body > a {
 :global .ant-tooltip-content {
   opacity: 0.8;
 }
+
+
+/* 统一修改tabs颜色 */
+:global .ant-tabs-nav {
+  color: #999999;
+} 
+:global .ant-tabs-nav .ant-tabs-tab-active {
+  font-weight: bold;
+} 
+
+

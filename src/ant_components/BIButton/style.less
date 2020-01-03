@@ -3,22 +3,25 @@
   display: inline-block;
   :global {
     .ant-btn {
-      height: 28px;
+      // height: 28px;
       min-width: 76px;
-      font-size: 13px;
+      // font-size: 13px;
       -webkit-box-shadow: none;
       box-shadow: none;
       padding: 0 12px;
     }
+    .ant-btn:hover, .ant-btn:focus {
+      color: #282828;
+      border: 1px solid #d9d9d9;
+    }
     .ant-btn-lg {
-      height: 32px;
-      line-height: 30px;
+      // line-height: 30px;
       min-width: 80px;
-      font-size: 14px;
+      // font-size: 14px;
       padding: 0 14px;
     }
     .ant-btn-sm {
-      height: 24px;
+      // height: 24px;
       min-width: 68px;
       font-size: 12px;
       padding: 0 10px;
@@ -39,8 +42,8 @@
       text-shadow: none;
     }
     .ant-btn-primary-disabled, .ant-btn-primary.disabled, .ant-btn-primary[disabled], .ant-btn-primary-disabled:hover, .ant-btn-primary.disabled:hover, .ant-btn-primary[disabled]:hover, .ant-btn-primary-disabled:focus, .ant-btn-primary.disabled:focus, .ant-btn-primary[disabled]:focus, .ant-btn-primary-disabled:active, .ant-btn-primary.disabled:active, .ant-btn-primary[disabled]:active, .ant-btn-primary-disabled.active, .ant-btn-primary.disabled.active, .ant-btn-primary[disabled].active {
-      color: @base-new-color;
-      background-color: rgba(0, 204, 195, .4);
+      // color: @base-new-color;
+      background-color: rgba(255, 227, 0, .4);
     }
     // danger
     .ant-btn-danger {
@@ -87,11 +90,11 @@
       border: 1px solid @primary-color!important;
     }
     .ant-btn-online:hover {
-      background-color: #E5F9F9;
+      background-color: rgba(255, 227, 0, .2);
     }
     .ant-btn-online-disabled, .ant-btn-online.disabled, .ant-btn-online[disabled], .ant-btn-online-disabled:hover, .ant-btn-online.disabled:hover, .ant-btn-online[disabled]:hover, .ant-btn-online-disabled:focus, .ant-btn-online.disabled:focus, .ant-btn-online[disabled]:focus, .ant-btn-online-disabled:active, .ant-btn-online.disabled:active, .ant-btn-online[disabled]:active, .ant-btn-online-disabled.active, .ant-btn-online.disabled.active, .ant-btn-online[disabled].active {
-      color: #B2F0ED;
-      border: 1px solid #B2F0ED!important;
+      color: rgba(255, 227, 0, .6);
+      border: 1px solid rgba(255, 227, 0, .6)!important;
     }
   }
 

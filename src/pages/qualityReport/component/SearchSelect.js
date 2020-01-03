@@ -51,9 +51,9 @@ class SearchSelect extends React.Component {
 
     return (
       <div className={style.topSelect}>
-        <div className={style.title}>{title}</div>
+        <div className={style.title}></div>
         <div>
-          <span className={style.sel}>选择组织：</span>
+          <span className={style.sel}></span>
           <span className={style.sel}>
             <BITreeSelect
               style={{ width: 230 }}
@@ -67,7 +67,7 @@ class SearchSelect extends React.Component {
             />
           </span>
 
-          <span className={style.sel}>选择时间：</span>
+          <span className={style.sel}></span>
           <span className={style.sel}>
             <BIRangePicker
               style={{ width: 230 }}

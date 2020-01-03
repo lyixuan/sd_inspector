@@ -1,4 +1,4 @@
-const colorArr = ['#FFC442', '#6665DD'];
+// const colorArr = ['#FFC442', '#6665DD'];
 
 export function getOption(data) {
   let newName = [];
@@ -6,7 +6,7 @@ export function getOption(data) {
   let contentData = [];
   let data1 = [];
   let data2 = [];
-  let nameArr = ['审核失败', '审核中'];
+  // let nameArr = ['审核失败', '审核中'];
   if (data && data.detailList) {
     data.detailList.map((item, index) => {
       newName.push(item.name);
@@ -14,7 +14,39 @@ export function getOption(data) {
       data1.push(item.failCount);
     });
   }
+  let maxData = Number(Math.max.apply(Math, data1)) + Number(Math.max.apply(Math, data2));
+  let maxDataArr = [];
+  if (data && data.detailList) {
+    data.detailList.map(item => {
+      maxDataArr.push(maxData);
+    });
+  }
 
+  const itemStyle1 = {
+    normal: {
+      color: '#6665DD',
+    },
+    emphasis: {
+      barBorderWidth: 1,
+      shadowBlur: 10,
+      shadowOffsetX: 0,
+      shadowOffsetY: 0,
+      shadowColor: 'rgba(0,0,0,0.1)',
+    },
+  };
+
+  const itemStyle2 = {
+    normal: {
+      color: '#FFC442',
+    },
+    emphasis: {
+      barBorderWidth: 1,
+      shadowBlur: 10,
+      shadowOffsetX: 0,
+      shadowOffsetY: 0,
+      shadowColor: 'rgba(0,0,0,0.1)',
+    },
+  };
   return {
     grid: {
       containLabel: true,
@@ -34,7 +66,8 @@ export function getOption(data) {
       },
       // trigger: 'axis',
       formatter: function(p, index) {
-        return  p.name + '<br>' + p.seriesName + ':' + p.value;
+        if (p.seriesIndex == 2) return;
+        return p.name + '<br>' + p.seriesName + ':' + p.value;
       },
       extraCssText: 'box-shadow: 0 0 5px rgba(0, 0, 0, 0.1)',
     },
@@ -83,35 +116,39 @@ export function getOption(data) {
         name: '审核失败',
         stack: '2',
         // label: _label,
+        // barGap: '-100%',
         legendHoverLink: false,
         barWidth: 16,
-        itemStyle: {
-          normal: {
-            color: '#6665DD',
-          },
-          emphasis: {
-            color: '#6665DD',
-          },
-        },
+        itemStyle: itemStyle1,
         data: data1,
       },
       {
         type: 'bar',
         name: '审核中',
         stack: '2',
+        // barGap: '-100%',
         legendHoverLink: false,
         barWidth: 16,
         // label: _label,
+        itemStyle: itemStyle2,
+        data: data2,
+      },
+      {
+        // 灰色背景柱状图
+        type: 'bar',
+        barGap: '-100%',
+        barWidth: 16,
         itemStyle: {
-          barBorderRadius: [10, 10, 10, 10],
           normal: {
-            color: '#FFC442',
+            color: '#F6F6F4',
+            barBorderRadius: [0, 20, 20, 0],
           },
           emphasis: {
-            color: '#FFC442',
+            color: '#F6F6F4',
           },
         },
-        data: data2,
+        z: -10,
+        data: maxDataArr,
       },
     ],
     // },] [

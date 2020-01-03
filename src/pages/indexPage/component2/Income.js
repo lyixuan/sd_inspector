@@ -71,7 +71,7 @@ class Income extends React.Component {
             <Echarts options={optionL} style={{ height: 190}}/>
           </div>
           <div className={style.incomeRight}>
-            {pieData.length>0?<Echarts options={optionR} style={{ height: 250, width:260,float:'left'}}/>:<img src={bingtu} alt="" style={{ height: 150,width:150,display:'block',margin: '20px auto'}}/>}
+            {pieData.length>0?<Echarts options={optionR} style={{ height: 250, width:260,float:'left'}}/>:<img src={bingtu} alt="" style={{ height: 150,width:150,display:'block',margin: '60px auto 0'}}/>}
           </div>
           <div className={style.footer}>
             {dot}

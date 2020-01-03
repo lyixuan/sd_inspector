@@ -90,6 +90,7 @@ export const routes = [
             path: '/qualityAppeal/qualityNewSheet/create',
             component: './qualityAppeal/qualityNewSheet/create',
             name: '创建质检单',
+            // title: '新质检单管理',
             bread: {
               name: '新质检单管理',
               path: '/qualityAppeal/qualityNewSheet',
@@ -221,7 +222,7 @@ export const routes = [
       {
         path: '/nps',
         component: './operation/nps',
-        name: 'nps',
+        name: 'NPS分析',
       },
       {
         path: '/koUserOperation',
@@ -251,6 +252,7 @@ export const routes = [
           {
             path: '/knowledge/knowledge',
             component: './ko/knowledge',
+            name: '知识库'
           },
         ],
       },
@@ -260,7 +262,8 @@ export const routes = [
         routes: [
           {
             path: '/sessionReport/sessionReport',
-            component: './ko/sessionReport',
+            component: './sessonRecord',
+            name: '会话记录'
           },
         ],
       },
@@ -285,20 +288,20 @@ export const routes = [
             path: '/qualityMarking/im',
             component: './ko/qualityMarking/im',
             commonPath: true, // 继承父页面
-            name: 'IM会话标注',
+            name: '质检标注',
           },
           {
             path: '/qualityMarking/bbs',
             component: './ko/qualityMarking/bbs',
             commonPath: true, // 继承父页面
-            name: 'BBS标注',
+            name: '质检标注',
           },
           {
             path: '/qualityMarking/nps',
             component: './ko/qualityMarking/nps',
             commonPath: true, // 继承父页面
             name: 'NPS标注',
-          },{
+          }, {
             path: '/qualityMarking/appFeedback',
             component: './ko/qualityMarking/appFeedback',
             commonPath: true, // 继承父页面
@@ -315,7 +318,7 @@ export const routes = [
           {
             path: '/scoreAppeal/awaitAppeal',
             component: './scoreAppeal/awaitAppeal',
-            name: '待申诉',
+            name: '学分待申诉',
           },
           {
             path: '/scoreAppeal/awaitAppeal/detail',
@@ -339,7 +342,7 @@ export const routes = [
           {
             path: '/scoreAppeal/onAppeal',
             component: './scoreAppeal/onAppeal',
-            name: '在途申诉',
+            name: '在途学分申诉',
           },
           {
             path: '/scoreAppeal/onAppeal/appeal',
@@ -372,7 +375,7 @@ export const routes = [
           {
             path: '/scoreAppeal/finishAppeal',
             component: './scoreAppeal/finishAppeal',
-            name: '结案申诉',
+            name: '结案学分申诉',
           },
           {
             path: '/scoreAppeal/finishAppeal/detail',
@@ -402,7 +405,7 @@ export const routes = [
         routes: [
           {
             path: '/allReport/:siteKey',
-            component: './allReport',
+            component: './allReport'
           },
         ],
       },
@@ -414,7 +417,7 @@ export const routes = [
           {
             path: '/config/report',
             component: './config/report',
-            name: '周报',
+            name: '周报发送',
           },
         ],
       },
@@ -511,18 +514,19 @@ export const routes = [
           {
             path: '/xdCredit/index',
             component: './xdCredit',
-            name: '小德学分',
+            name: '学分详情',
           },
           {
             path: '/xdCredit/im',
             component: './xdCredit/imPage',
-            name: 'im差评分析',
+            name: 'im负面分析',
           },
         ],
       },
       {
         path: '/configWords',
         component: './configWords/index',
+        name: '关键词引导'
       },
       {
         path: '/examPlant',
@@ -535,10 +539,12 @@ export const routes = [
           {
             path: '/examPlant/admissionTicket',
             component: './examPlant/admissionTicket',
+            name: '准考证填写'
           },
           {
             path: '/examPlant/registTouch',
             component: './examPlant/registTouch',
+            name: '报考触达'
           },
         ],
       },
@@ -548,6 +554,7 @@ export const routes = [
           {
             path: '/operateActivity/index',
             component: './operateActivity',
+            name: '运营活动'
           },
           {
             path: '/operateActivity/configActivity',
@@ -564,6 +571,7 @@ export const routes = [
             path: '/cubePlan/list',
             component: './cubePlan/home/index',
             name: '首页',
+            title: '魔方'
           },
           {
             path: '/cubePlan/list/detail',
@@ -579,14 +587,17 @@ export const routes = [
       {
         path: '/classQuality/qualityType/1', // 客诉
         component: './classQuality/index',
+        name: '客诉质检手册'
       },
       {
         path: '/classQuality/qualityType/2', // 班主任
         component: './classQuality/index',
+        name: '班主任质检手册'
       },
       {
         path: '/xdCreditPk/list', // 小德学分PK
         component: './xdCreditPk/index',
+        name: '学分PK'
       },
       {
         path: '/robotPage',
@@ -595,12 +606,18 @@ export const routes = [
           {
             path: '/robotPage/data',
             component: './robotPage/robotData',
+            name: '机器人会话数据'
           },
           {
             path: '/robotPage/trend',
             component: './robotPage/robotTrend',
+            name: '机器人会话趋势'
           }
         ]
+      },
+      {
+        path: '/sessionRecord/index',
+        component: './sessonRecord',
       },
       {
         path: '/hotQuestion',
@@ -608,14 +625,17 @@ export const routes = [
           {
             path: '/hotQuestion/index',
             component: './hotQuestion',
+            name: '热门问题'
           },
           {
             path: '/hotQuestion/guessEdit',
             component: './hotQuestion/guessEdit',
+            name: '热门问题'
           },
           {
             path: '/hotQuestion/relationEdit',
             component: './hotQuestion/relationEdit',
+            name: '热门问题'
           }
         ]
       }, {
@@ -625,22 +645,32 @@ export const routes = [
           {
             path: '/newDetail/analyze',
             component: './newDetail/analyze',
+            name: '创收产品包'
           }, {
             path: '/newDetail/histogram',
             component: './newDetail/histogram',
+            name: '学分排名'
           }, {
             path: '/newDetail/incomeRank',
             component: './newDetail/incomeRank',
+            name: '创收对比'
           },
           {
             path: '/newDetail/incomeOrder',
             component: './newDetail/incomeOrder',
+            name: '创收排名'
+          },
+          {
+            path: '/newDetail/resubmit',
+            component: './newDetail/resubmit',
+            name: '续报分析'
           },
         ],
       },
       {
         path: '/downloadCenter',
-        component: './downloadCenter'
+        component: './downloadCenter',
+        name: '下载中心'
       }
     ],
   },
