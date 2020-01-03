@@ -1,11 +1,12 @@
 import React from 'react';
 import { Tooltip } from 'antd';
 import { connect } from 'dva/index';
-import { 
-  getSubStringValue, 
+import {
+  getSubStringValue,
   jumpMarkingDetails,
   handleDefaultPickerValueMark,
-  getArrLastValue
+  getArrLastValue,
+  emptyValue
 } from '@/pages/ko/utils/utils';
 import AuthButton from '@/components/AuthButton';
 import ModalTip from '../components/modalTip';
@@ -22,7 +23,7 @@ const shapeArr = Array.from(Array(5), (v,k) =>k);
   currentPage: workTableModel.pageParams[markType] || 1,
   searchParams: workTableModel.searchParams[markType] || {},
   collegeList: [{ id: 0, name: '空', nodeList: [] }].concat(workTableModel.collegeList),
-  consultList: workTableModel.consultList,
+  consultList: [{ id: emptyValue, name: '空', nodeList: [] }].concat(workTableModel.consultList),// NPS
   reasonList: workTableModel.reasonList,
   evaluateList: workTableModel.evaluateList,
   idList: workTableModel.idList,
@@ -95,6 +96,12 @@ class bbsPage extends React.Component {
         key: 'updateTime',
       },
       {
+        title: '咨询类型',
+        dataIndex: 'consult',
+        key: 'consult',
+        render: text => getSubStringValue(text, 6),
+      },
+      {
         title: '原因分类',
         dataIndex: 'reason',
         key: 'reason',
@@ -116,8 +123,8 @@ class bbsPage extends React.Component {
   };
   handleEdit = (id) => {
     const { choiceTime, reasonType = [], ...others } = this.state.searchParams;
-    jumpMarkingDetails(id, { 
-      type: markType, 
+    jumpMarkingDetails(id, {
+      type: markType,
       reasonType: getArrLastValue(reasonType),
       ...others
      });
@@ -138,9 +145,9 @@ class bbsPage extends React.Component {
     this.props.dispatch({
       type: 'workTableModel/getTableList',
       payload: { params: {
-         ...searchParams, 
-         page: currentPage, 
-         type: markType, 
+         ...searchParams,
+         page: currentPage,
+         type: markType,
       } },
     });
   };

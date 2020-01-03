@@ -5,15 +5,12 @@ import BIDialog from '@/components/BIDialog';
 import { connect } from 'dva/index';
 import {
   handleDefaultPickerValueMark,
-  pathImUrl,
   getSubStringValue,
   jumpMarkingDetails,
-  linkRoute, linkImgRouteBul,
-  emptyValue, getArrLastValue
+  emptyValue,
+  getArrLastValue
 } from '@/pages/ko/utils/utils';
 import BIRouteText from '@/ant_components/BIRouteText';
-import avatarTeacher from '@/assets/avatarTeacher.png';
-import avatarStudent from '@/assets/avatarStudent.png';
 import AuthButton from '@/components/AuthButton';
 import ModalTip from '../components/modalTip';
 import MarkForm from '../components/form';

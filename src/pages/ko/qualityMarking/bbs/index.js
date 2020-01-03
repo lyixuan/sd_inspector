@@ -1,11 +1,12 @@
 import React from 'react';
 import { Tooltip } from 'antd';
 import { connect } from 'dva/index';
-import { 
-  handleDefaultPickerValueMark, 
-  getArrLastValue, 
-  jumpMarkingDetails, 
-  getSubStringValue 
+import {
+  handleDefaultPickerValueMark,
+  getArrLastValue,
+  jumpMarkingDetails,
+  getSubStringValue,
+  emptyValue
 } from '@/pages/ko/utils/utils';
 import ModalTip from '../components/modalTip';
 import MarkForm from '../components/form';
@@ -19,7 +20,8 @@ const markType = 2; //im bbs nps 对应的type值为1， 2， 3
   currentPage: workTableModel.pageParams[markType],
   searchParams: workTableModel.searchParams[markType] || {},
   collegeList: [{ id: 0, name: '空' }].concat(workTableModel.collegeList),
-  consultList: workTableModel.consultList,
+  // consultList: workTableModel.consultList,
+  consultList: [{ id: emptyValue, name: '空', nodeList: [] }].concat(workTableModel.consultList),// BBS
   reasonList: workTableModel.reasonList,
   idList: workTableModel.idList,
   operatorList: workTableModel.operatorList,// im bbs nps
@@ -79,6 +81,12 @@ class bbsPage extends React.Component {
         key: 'updateTime',
       },
       {
+        title: '咨询类型',
+        dataIndex: 'consult',
+        key: 'consult',
+        render: text => getSubStringValue(text, 6),
+      },
+      {
         title: '原因分类',
         dataIndex: 'reason',
         key: 'reason',
@@ -100,10 +108,10 @@ class bbsPage extends React.Component {
   };
   handleEdit = (id) => {
     const { choiceTime, reasonType = [], ...others } = this.state.searchParams;
-    jumpMarkingDetails(id, { 
-      type: markType, 
+    jumpMarkingDetails(id, {
+      type: markType,
       reasonType: getArrLastValue(reasonType),
-      ...others 
+      ...others
     });
   };
   onSearchChange = (searchParams) => {
@@ -121,9 +129,9 @@ class bbsPage extends React.Component {
     const { searchParams, currentPage } = this.state;
     this.props.dispatch({
       type: 'workTableModel/getTableList',
-      payload: { params: { 
-        ...searchParams, 
-        page: currentPage, 
+      payload: { params: {
+        ...searchParams,
+        page: currentPage,
         type: markType,
        } },
     });
