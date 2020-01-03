@@ -29,6 +29,7 @@ export default {
     layoutBackgroundColor: null,
     headerImage: null,
     layoutImage: null,
+    pmsdkImage: null,
     animation: null
   },
 

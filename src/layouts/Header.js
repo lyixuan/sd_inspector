@@ -168,8 +168,9 @@ class SelfHeader extends PureComponent {
       headerBackgroundColor} = this.props;
 		const selectedGroup = this.handleMenuList();
 
+		// 动态设置头部背景色和背景图片
 		let headerStyle = {
-		  backgroundColor: headerBackgroundColor
+		  backgroundColor: headerBackgroundColor || ''
     };
     if (headerImage !== '') {
       headerStyle.backgroundImage = `url("${headerImage}")`
