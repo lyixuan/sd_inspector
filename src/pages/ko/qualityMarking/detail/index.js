@@ -38,6 +38,7 @@ class AiDetail extends React.Component {
     };
   }
   componentDidMount() {
+    console.log(41, JSON.parse(this.props.location.query.params))
     this.getConsultTree();//获取咨询分类树形结构
     this.getResonTree();//获取原因分类树形结构
     this.getPageData(); //获取页面数据

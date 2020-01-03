@@ -13,13 +13,14 @@ const { BIRangePicker } = BIDatePicker;
 const { Option } = BISelect;
 const dateFormat = 'YYYY.MM.DD';
 const robotData = [
-  {id: 0, name: '班主任会话'},
-  {id: 2, name: '客诉会话'},
-  {id: 1, name: '机器人会话'},
+  { id: 0, name: '班主任会话' },
+  { id: 2, name: '客诉会话' },
+  { id: 1, name: '机器人会话' },
 ]
-@connect(({ koPlan, loading }) => ({
+@connect(({ koPlan, workTableModel, loading }) => ({
   koPlanPageParams: koPlan.pageParams,
   currentServiceTime: koPlan.currentServiceTime,
+  globalOrgList: workTableModel.globalOrgList,
   loading: loading.effects['workTableModel/getBasicData'] || loading.effects['koPlan/getCurrentTime'],
 }))
 class AiForm extends React.Component {
@@ -41,7 +42,7 @@ class AiForm extends React.Component {
   }
   // 时间间隔不超过四十天
   getChangeTime = (c) => {
-    if (c.length === 0 || (c.length === 2 && c[1].diff(c[0], 'day') > 39) ) {
+    if (c.length === 0 || (c.length === 2 && c[1].diff(c[0], 'day') > 39)) {
       message.error('请选择 ≤ 40 天的时间范围');
       return false
     }
@@ -84,28 +85,38 @@ class AiForm extends React.Component {
     }
     const [beginDate, endDate] = this.checkoutParamsType('choiceTime', searchParams.choiceTime);
     this.props.form.resetFields();
-    this.props.onSearchChange({...searchParams, beginDate, endDate});
+    this.props.onSearchChange({ ...searchParams, beginDate, endDate });
   };
   //操作ID
   onChangeTime = (value, flag) => {
     if (!this.getChangeTime(value)) return;
     const [beginDate, endDate] = this.checkoutParamsType('choiceTime', value);
+    if (this.props.markType === 4) {
+      this.getUserOrgList({ startTime: beginDate, endTime: endDate });
+    }
     this.props.dispatch({
       type: 'workTableModel/getOperatorList',
       payload: { params: { beginDate, endDate, type: this.props.markType } },
       callback: () => {
-        console.log(97,this.props.markType)
+
         if (this.props.changeOperatorId && flag) {
           this.props.changeOperatorId('operatorId');
-          this.props.form.setFieldsValue({operatorId: undefined});
+          this.props.form.setFieldsValue({ operatorId: undefined });
         }
       }
     });
   }
+  getUserOrgList = (params) => {
+    this.props.dispatch({
+      type: 'workTableModel/getUserOrgList',
+      payload: { params },
+    });
+  }
 
   render() {
+    console.log(117, this.props)
     const { getFieldDecorator } = this.props.form;
-    const { markType, searchParams, collegeList, consultList, reasonList, evaluateList, operatorList, evaluationList=[] } = this.props;
+    const { markType, searchParams, collegeList, consultList, reasonList, evaluateList, operatorList, evaluationList = [], globalOrgList = [] } = this.props;
     const { loading } = this.props;
     return (
       <div className={`${formStyles.formStyle} ${styles.formCotainer}`}>
@@ -130,21 +141,40 @@ class AiForm extends React.Component {
                   )}
                 </Form.Item>
               </div>
-              <div className={styles.itemCls}>
-                <Form.Item label='后端归属：'>
-                  {getFieldDecorator('collegeId', {
-                    initialValue: searchParams.collegeId,
-                  })(
-                    <BISelect
-                      placeholder="请选择"
-                      dropdownClassName={styles.popupClassName}
-                      getPopupContainer={triggerNode => triggerNode.parentNode}
-                      allowClear>
-                      {collegeList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
-                    </BISelect>,
-                  )}
-                </Form.Item>
-              </div>
+              {
+                markType !== 4 && <div className={styles.itemCls}>
+                  <Form.Item label='后端归属：'>
+                    {getFieldDecorator('collegeId', {
+                      initialValue: searchParams.collegeId,
+                    })(
+                      <BISelect
+                        placeholder="请选择"
+                        dropdownClassName={styles.popupClassName}
+                        getPopupContainer={triggerNode => triggerNode.parentNode}
+                        allowClear>
+                        {collegeList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                      </BISelect>,
+                    )}
+                  </Form.Item>
+                </div>
+              }
+              {
+                markType === 4 && <div className={styles.itemCls}>
+                  <Form.Item label='后端归属：'>
+                    {getFieldDecorator('collegeId', {
+                      initialValue: searchParams.collegeId,
+                    })(
+                      <BICascader
+                        placeholder="选择组织"
+                        changeOnSelect
+                        options={globalOrgList}
+                        fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
+                        allowClear
+                      />
+                    )}
+                  </Form.Item>
+                </div>
+              }
               {(markType === 1 || markType === 4) && <div className={styles.itemCls}>
                 <Form.Item label='咨询类型：'>
                   {getFieldDecorator('consultType', {
@@ -164,20 +194,20 @@ class AiForm extends React.Component {
                 </Form.Item>
               </div>
               {markType == 3 && <div className={styles.itemCls}>
-                  <Form.Item label='自主评价：'>
-                    {getFieldDecorator('evaluateType', {
-                      initialValue: searchParams.evaluateType,
-                    })(
-                      <BISelect
-                        placeholder="请选择"
-                        dropdownClassName={styles.popupClassName}
-                        getPopupContainer={triggerNode => triggerNode.parentNode}
-                        allowClear>
-                        {evaluateList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
-                      </BISelect>,
-                    )}
-                  </Form.Item>
-                </div>
+                <Form.Item label='自主评价：'>
+                  {getFieldDecorator('evaluateType', {
+                    initialValue: searchParams.evaluateType,
+                  })(
+                    <BISelect
+                      placeholder="请选择"
+                      dropdownClassName={styles.popupClassName}
+                      getPopupContainer={triggerNode => triggerNode.parentNode}
+                      allowClear>
+                      {evaluateList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                    </BISelect>,
+                  )}
+                </Form.Item>
+              </div>
               }
             </div>
             <div className={styles.rowWrap}>
@@ -255,9 +285,9 @@ class AiForm extends React.Component {
                     initialValue: searchParams.evaluationNature,
                   })(
                     <BISelect placeholder="请选择"
-                              dropdownClassName={styles.popupClassName}
-                              getPopupContainer={triggerNode => triggerNode.parentNode}
-                              allowClear>
+                      dropdownClassName={styles.popupClassName}
+                      getPopupContainer={triggerNode => triggerNode.parentNode}
+                      allowClear>
                       {evaluationList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
                     </BISelect>,
                   )}

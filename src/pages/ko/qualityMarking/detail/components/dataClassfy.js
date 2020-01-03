@@ -154,7 +154,7 @@ class DataClassfy extends React.Component {
       let params = {
         type: this.props.type,
         itemId: this.props.pageData.item.itemId,
-        result: {...this.state.submitParam, lifeCycle: this.setLifeCycle()},
+        result: { ...this.state.submitParam, lifeCycle: this.setLifeCycle() },
       };
       this.props.computedIdNew(() => {
         this.props.dispatch({
@@ -179,11 +179,11 @@ class DataClassfy extends React.Component {
     }
     router.push({
       pathname: '/qualityMarking/detail',
-      query: { params: JSON.stringify({ type: params, id}) }
+      query: { params: JSON.stringify({ type: params, id }) }
     });
     this.props.dispatch({
       type: 'AiDetail/edit',
-      payload: { params: {id, type} },
+      payload: { params: { id, type } },
       callback: (submitParam) => {
         this.setState({
           submitParam: { ...submitParam }
@@ -210,7 +210,7 @@ class DataClassfy extends React.Component {
     let orderList = pageData && pageData.result ? pageData.result.ordIdList : [{ ordId: -100, org: '' }];
     const currentId = this.props.idList.indexOf(this.props.id) + 1;
     const percent = currentId / this.props.idList.length * 100;
-    const { visible, action } = this.state;
+    const { visible, action, submitParam } = this.state;
     return (
       <>
         <div className={styles.consultContent}>
@@ -221,7 +221,7 @@ class DataClassfy extends React.Component {
                   <li>
                     <label>选择订单：</label>
                     <div className={styles.selects}>
-                      {orderList instanceof Array && orderList.length > 0 ? <BISelect style={{ width: '100%' }} value={this.state.submitParam.ordId} placeholder="请选择" onChange={(val) => { this.orderChange(val) }}>
+                      {orderList instanceof Array && orderList.length > 0 ? <BISelect style={{ width: '100%' }} value={submitParam.ordId} placeholder="请选择" onChange={(val) => { this.orderChange(val) }}>
                         {orderList.map(item => (
                           <Option key={item.ordId}>{item.ordId}</Option>)
                         )}
@@ -230,7 +230,7 @@ class DataClassfy extends React.Component {
                   </li>
                   <li>
                     <label>后端归属：</label>
-                    <p>{this.setOrg()}</p>
+                    <p>{this.setOrg()}</p>tt
                     {/* <p>{this.state.org}</p> */}
                   </li>
                 </>
@@ -261,24 +261,20 @@ class DataClassfy extends React.Component {
                 : null
             }
 
-            {
-              type == 1 ?
-                <li>
-                  <label>咨询类型：</label>
-                  <div className={styles.selects}>
-                    <BICascader
-                      changeOnSelect
-                      fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
-                      options={consultTypeTree}
-                      value={this.state.submitParam.consultTypeIdList}
-                      onChange={this.onChangeConsult}
-                      placeholder="请选择"
-                      popupClassName={styles.reasontype}
-                    />
-                  </div>
-                </li>
-                : null
-            }
+            <li>
+              <label>咨询类型：</label>
+              <div className={styles.selects}>
+                <BICascader
+                  changeOnSelect
+                  fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
+                  options={consultTypeTree}
+                  value={submitParam.consultTypeIdList}
+                  onChange={this.onChangeConsult}
+                  placeholder="请选择"
+                  popupClassName={styles.reasontype}
+                />
+              </div>
+            </li>
             <li>
               <label>原因分类：</label>
               <div className={`${styles.selects} ${styles.ZJCascader}`}>
@@ -287,7 +283,7 @@ class DataClassfy extends React.Component {
                   fieldNames={{ label: 'name', value: 'id', evaluationNature: 'evaluationNature', children: 'nodeList' }}
                   options={reasonTypeTree}
                   onChange={this.onChangeReson}
-                  value={this.state.submitParam.reasonTypeIdList}
+                  value={submitParam.reasonTypeIdList}
                   placeholder="请选择"
                   popupClassName={styles.reasontype}
                 />
@@ -295,30 +291,30 @@ class DataClassfy extends React.Component {
             </li>
             <li>
               <label>评价性质：</label>
-              <p>{this.state.submitParam.evaluationNature}</p>
+              <p>{submitParam.evaluationNature}</p>
             </li>
             {
               type == 1 ?
                 <li>
                   <label>是否质检：</label>
-                  <BIRadio onChange={this.onChangeRadio} value={this.state.submitParam.evaluationFlag}>
+                  <BIRadio onChange={this.onChangeRadio} value={submitParam.evaluationFlag}>
                     <BIRadio.Radio value={1}>否</BIRadio.Radio>
                     <BIRadio.Radio value={2}>是</BIRadio.Radio>
                   </BIRadio>
-                  {this.state.submitParam.evaluationFlag === 2 && <Link className={styles.routeQuality} to={'/qualityAppeal/qualityNewSheet/create'} target="_blank">
+                  {submitParam.evaluationFlag === 2 && <Link className={styles.routeQuality} to={'/qualityAppeal/qualityNewSheet/create'} target="_blank">
                     <span>创建质检单</span>
-                    <img src={create} alt=""/></Link>}
+                    <img src={create} alt="" /></Link>}
                 </li>
                 : null
             }
             <li className={styles.textarea}>
               <label>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
               <TextArea
-                value={this.state.submitParam.remark}
+                value={submitParam.remark}
                 className={styles.inputTextArea}
-                autosize={{ minRows: 4, maxRows: 4 }}
+                autoSize={{ minRows: 4, maxRows: 4 }}
                 placeholder="请输入"
-                maxLength="100"
+                maxLength={100}
                 onChange={this.handleRemark}
               />
             </li>
@@ -327,7 +323,7 @@ class DataClassfy extends React.Component {
             <BIButton disabled={currentId === 1} onClick={() => this.submit(1)} loading={isLoading && action === 1}>
               上一条
             </BIButton>
-            <BIButton type='primary' style={{margin: '0 8px'}} onClick={() => this.submit(2)} loading={isLoading && action === 2}>
+            <BIButton type='primary' style={{ margin: '0 8px' }} onClick={() => this.submit(2)} loading={isLoading && action === 2}>
               提交，下一条
             </BIButton>
             <BIButton type='warning' onClick={() => this.submit(3)}>

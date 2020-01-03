@@ -24,3 +24,9 @@ export async function exportData(data) {
 export async function getOperatorList(data) {
   return request('/workbench/getOperatorList', { method: 'post', data });
 }
+
+
+// 用户—获得具有权限的组织架构
+export async function getUserOrgList(params) {
+  return request('/deskperfpcapi/organization/userOrgList', { method: 'get', params });
+}

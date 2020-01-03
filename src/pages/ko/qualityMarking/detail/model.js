@@ -45,7 +45,7 @@ export default {
       const result = yield call(getConsultTypeTree, {});
       if (result.code === 20000) {
         const consultTypeTree = result.data || [];
-        yield put({ type: 'save', payload: { consultTypeTree } });
+        yield put({ type: 'saveOrg', payload: { consultTypeTree } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -54,7 +54,7 @@ export default {
       const result = yield call(getReasonTypeTree, {});
       if (result.code === 20000) {
         const reasonTypeTree = result.data || [];
-        yield put({ type: 'save', payload: { reasonTypeTree } });
+        yield put({ type: 'saveResonType', payload: { reasonTypeTree } });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
@@ -122,7 +122,29 @@ export default {
     save(state, action) {
       return { ...state, ...action.payload };
     },
+    saveOrg(state, { payload }) {
+      const consultTypeTree = getNullNodeList(payload.consultTypeTree);
+      return { ...state, consultTypeTree };
+    },
+    saveResonType(state, { payload }) {
+      const reasonTypeTree = getNullNodeList(payload.reasonTypeTree);
+      return { ...state, reasonTypeTree };
+    },
   },
 
   subscriptions: {},
 };
+
+function getNullNodeList(data = []) {
+  data.map(item => {
+    if (item.nodeList instanceof Array) {
+      const l = item.nodeList.length;
+      if (l === 0) {
+        item.nodeList = null;
+      } else if (l > 0) {
+        getNullNodeList(item.nodeList);
+      }
+    }
+  });
+  return data;
+}
