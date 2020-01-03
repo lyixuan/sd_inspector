@@ -145,7 +145,7 @@ class AiForm extends React.Component {
                   )}
                 </Form.Item>
               </div>
-              {(markType === 1 || markType === 4) && <div className={styles.itemCls}>
+              <div className={styles.itemCls}>
                 <Form.Item label='咨询类型：'>
                   {getFieldDecorator('consultType', {
                     initialValue: searchParams.consultType,
@@ -153,7 +153,7 @@ class AiForm extends React.Component {
                     <BICascader placeholder="请选择" changeOnSelect options={consultList} fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }} />
                   )}
                 </Form.Item>
-              </div>}
+              </div>
               <div className={styles.itemCls}>
                 <Form.Item label='原因分类：'>
                   {getFieldDecorator('reasonType', {
@@ -163,24 +163,24 @@ class AiForm extends React.Component {
                   )}
                 </Form.Item>
               </div>
-              {markType == 3 && <div className={styles.itemCls}>
-                  <Form.Item label='自主评价：'>
-                    {getFieldDecorator('evaluateType', {
-                      initialValue: searchParams.evaluateType,
-                    })(
-                      <BISelect
-                        placeholder="请选择"
-                        dropdownClassName={styles.popupClassName}
-                        getPopupContainer={triggerNode => triggerNode.parentNode}
-                        allowClear>
-                        {evaluateList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
-                      </BISelect>,
-                    )}
-                  </Form.Item>
-                </div>
-              }
             </div>
             <div className={styles.rowWrap}>
+              {markType == 3 && <div className={styles.itemCls}>
+                <Form.Item label='自主评价：'>
+                  {getFieldDecorator('evaluateType', {
+                    initialValue: searchParams.evaluateType,
+                  })(
+                    <BISelect
+                      placeholder="请选择"
+                      dropdownClassName={styles.popupClassName}
+                      getPopupContainer={triggerNode => triggerNode.parentNode}
+                      allowClear>
+                      {evaluateList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
+                    </BISelect>,
+                  )}
+                </Form.Item>
+              </div>
+              }
               <div className={styles.itemCls}>
                 <Form.Item label='操作人：'>
                   {getFieldDecorator('operatorId', {
