@@ -98,7 +98,7 @@ class Resubmit extends React.Component {
 
   // 请求参数
   getRequestParams = (params = this.props.paramsQuery) => {
-    const { dateRange, orgId = [], ...others } = params;
+    const { dateRange, reasonType = [], tagId = [], orgId = [], ...others } = params;
     const [collegeId, familyId, groupId] = orgId;
     return {
       ...others,
@@ -106,6 +106,8 @@ class Resubmit extends React.Component {
       collegeId,
       familyId,
       groupId,
+      reasonType: reasonType.length > 0 ? reasonType[reasonType.length - 1] : undefined,
+      tagId: tagId.length > 0 ? tagId[tagId.length - 1] : undefined,
     };
   };
   getTabs = () => {
