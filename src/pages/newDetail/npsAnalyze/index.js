@@ -8,7 +8,7 @@ import { getDateObj } from '@/pages/indexPage/components/utils/utils';
 import styles from './style.less';
 import Cycle from './components/cycle';
 import Score from './components/score';
-// import Tag from './components/tag';
+import Tag from './components/tag';
 
 const traceName = {
   orgId: '后端归属',
@@ -125,8 +125,8 @@ class Resubmit extends React.Component {
             <div className={styles.tab1}>
               <Cycle />
               <Score />
+              <Tag />
             </div>
-            {/* <Tag /> */}
           </>
         ),
         // dataTrace: '{"widgetName":"创收_数据透视","traceName":"2.2/创收_数据透视"}',
