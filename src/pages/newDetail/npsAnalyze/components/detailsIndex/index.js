@@ -42,8 +42,8 @@ class DetailsIndex extends React.Component {
       },
       {
         title: '星级',
-        dataIndex: 'paymentTime',
-        key: 'paymentTime',
+        dataIndex: 'satrt',
+        key: 'satrt',
       },
       {
         title: '原因',

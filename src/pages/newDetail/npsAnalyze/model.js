@@ -50,20 +50,70 @@ export default {
     },
 
     // 获取nps星级数据接口
-    *getNpsAutonomousEvaluation({ payload, callback }, { call, put }) {
-      const result = yield call(getNpsAutonomousEvaluation, payload.params);
-      if (result.code === 20000 && result.data) {
-        yield put({ type: 'save', payload: { getNpsAutonomousEvaluationData: result.data } });
-      } else if (result) {
-        message.error(msgF(result.msg, result.msgDetail));
-      }
-    },
+    // *getNpsAutonomousEvaluation({ payload, callback }, { call, put }) {
+    //   const result = yield call(getNpsAutonomousEvaluation, payload.params);
+    //   if (result.code === 20000 && result.data) {
+    //     yield put({ type: 'save', payload: { getNpsAutonomousEvaluationData: result.data } });
+    //   } else if (result) {
+    //     message.error(msgF(result.msg, result.msgDetail));
+    //   }
+    // },
     // 标签
     *getTagList({ payload, callback }, { call, put }) {
       const result = yield call(getTagList, payload.params);
       if (result.code === 20000 && result.data) {
         yield put({ type: 'save', payload: { getTagListData: result.data } });
       } else if (result) {
+      }
+    },
+    //NPS自主评价所有的接口
+
+    *getNpsAutonomousEvaluation({ payload, callback }, { call, put }) {
+      const {
+        collegeId,
+        familyId,
+        groupId,
+        star,
+        cycle,
+        pageNum,
+        pageSize,
+        npsList: oldLists,
+        change,
+        endTime,
+        startTime,
+      } = payload.params;
+
+      const params = {
+        collegeId,
+        familyId,
+        groupId,
+        star,
+        cycle,
+        pageSize,
+        pageNum,
+        startTime,
+        endTime,
+      };
+      const result = yield call(getNpsAutonomousEvaluation, params);
+      if (result.code === 20000) {
+        const npsParams = result.data || {};
+
+        let npsList = [];
+        if (change) {
+          npsList = [].concat(npsParams.npsStarOpinionDtoListMap.data);
+        } else {
+          if (Number(pageNum) !== 1) {
+            npsList = oldLists.concat(npsParams.npsStarOpinionDtoListMap.data);
+          } else {
+            npsList = [].concat(npsParams.npsStarOpinionDtoListMap.data);
+          }
+        }
+
+        yield put({ type: 'save', payload: { npsParams, npsList } });
+        if (callback && typeof callback === 'function') {
+          callback(result.data, npsList);
+        }
+      } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },

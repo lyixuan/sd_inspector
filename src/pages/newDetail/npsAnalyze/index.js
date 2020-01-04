@@ -39,7 +39,7 @@ class Resubmit extends React.Component {
   getQueryStuDetailPage = params => {
     const query = !params.pageSize ? { ...params, pageSize: 15, page: 1 } : params;
     this.props.dispatch({
-      type: 'npsAnalyzeModel/getQueryStuDetailPage',
+      type: 'npsAnalyzeModel/getNpsAutonomousEvaluation',
       payload: { params: query },
     });
   };
@@ -79,7 +79,6 @@ class Resubmit extends React.Component {
   getInitData = newQuery => {
     const params = this.getRequestParams({ ...this.props.paramsQuery, ...newQuery });
     this.getCycleList(params);
-    this.getNpsAutonomousEvaluation(params);
     this.getTagList(params);
   };
   // 续费学院生命周期
@@ -89,15 +88,6 @@ class Resubmit extends React.Component {
       payload: { params },
     });
   };
-
-  //星级接口
-  getNpsAutonomousEvaluation = params => {
-    this.props.dispatch({
-      type: 'npsAnalyzeModel/getNpsAutonomousEvaluation',
-      payload: { params },
-    });
-  };
-
   // 标签
   getTagList = params => {
     this.props.dispatch({
