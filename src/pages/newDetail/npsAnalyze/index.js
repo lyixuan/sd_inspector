@@ -33,16 +33,12 @@ class Resubmit extends React.Component {
     this.props.dispatch({
       type: 'npsAnalyzeModel/getReasonTypeTree',
     });
+     // 搜索NPS标签展示值
+     this.props.dispatch({
+      type: 'npsAnalyzeModel/getTagSelectList',
+    });
     // handleDataTrace({"widgetName": '创收_透视分析',"traceName": '2.2/创收_透视分析', traceType:200});
   }
-  // 学员明细
-  getQueryStuDetailPage = params => {
-    const query = !params.pageSize ? { ...params, pageSize: 15, page: 1 } : params;
-    this.props.dispatch({
-      type: 'npsAnalyzeModel/getNpsAutonomousEvaluation',
-      payload: { params: query },
-    });
-  };
   // 搜索条件值改变
   onParamsChange = (val, type = 'dateRange') => {
     const payload = { [type]: val };
@@ -80,6 +76,8 @@ class Resubmit extends React.Component {
     const params = this.getRequestParams({ ...this.props.paramsQuery, ...newQuery });
     this.getCycleList(params);
     this.getTagList(params);
+    // 学院明细
+    this.getQueryStuDetailPage(params);
   };
   // 续费学院生命周期
   getCycleList = params => {
@@ -93,6 +91,14 @@ class Resubmit extends React.Component {
     this.props.dispatch({
       type: 'npsAnalyzeModel/getTagList',
       payload: { params },
+    });
+  };
+  // 学员明细
+  getQueryStuDetailPage = params => {
+    const query = !params.pageSize ? { ...params, pageSize: 15, page: 1 } : params;
+    this.props.dispatch({
+      type: 'npsAnalyzeModel/getNpsAutonomousEvaluation',
+      payload: { params: query },
     });
   };
 

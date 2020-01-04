@@ -7,8 +7,9 @@ import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import float3 from '@/assets/resubmit/float3.png';
 import styles from './style.less';
 
-@connect(({ resubmitModal }) => ({
+@connect(({ resubmitModal, loading }) => ({
   stuDetailData: resubmitModal.stuDetailData || {},
+  loading: loading.effects['resubmitModal/getQueryStuDetailPage'],
 }))
 class DetailsIndex extends React.Component {
   constructor(props) {

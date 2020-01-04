@@ -42,15 +42,9 @@ class ParamsTop extends React.Component {
     }
     return orgId;
   }
-  onDateChange = dateRange => {
-    const { onObjChange } = this.props;
-    // if (onObjChange && typeof onObjChange === 'function') {
-    //   this.props.onObjChange({ dateRange, originPackageName: undefined, packageName: undefined})
-    // }
-  }
   render() {
     const { onParamsChange } = this.props;
-    const { paramsQuery = {}, collegeList, reasonList = [], evaluateList = [] } = this.props.npsAnalyzeModel;
+    const { paramsQuery = {}, collegeList, tagQueryData = [], reasonList = [], evaluateList = [] } = this.props.npsAnalyzeModel;
     return (
       <>
         <span>
@@ -92,7 +86,7 @@ class ParamsTop extends React.Component {
           <BICascader
             placeholder="NPS标签"
             changeOnSelect
-            options={collegeList}
+            options={tagQueryData}
             fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
             getPopupContainer={triggerNode => triggerNode.parentNode}
             displayRender={this.renderCascader}
@@ -133,7 +127,7 @@ class ParamsTop extends React.Component {
             value={paramsQuery.dateRange}
             placeholder={['选择起始时间', '选择截止时间']}
             format='YYYY-MM-DD'
-            onChange={this.onDateChange}
+            onChange={val => onParamsChange(val)}
             allowClear={false}
             disabledDate={val => disabledDate(val, this.props.globalkpiDateRange)}
             style={{ width: 224 }}

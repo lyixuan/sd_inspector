@@ -436,6 +436,23 @@ export function changeToThousandsForIncome(num,n) {
   return thousandsFormatDot(number.toFixed(Number(n)));
 }
 
+// +万
 export function companyThousandsIncome(num, n = 1) {
   return changeToThousandsForIncome(num, n) + '万';
+}
+
+/*
+* 多级下拉列表(去除最后一级的空数组)
+* data array
+* return [](tree)
+* */
+export function getNullNodeList(data = []) {
+  data.map(item => {
+    if (item.nodeList && item.nodeList.length === 0) {
+      item.nodeList = null;
+    } else {
+      getNullNodeList(item.nodeList);
+    }
+  });
+  return data;
 }
