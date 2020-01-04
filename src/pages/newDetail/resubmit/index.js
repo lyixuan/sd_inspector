@@ -24,12 +24,6 @@ const traceName = {
   paramsQuery: resubmitModal.paramsQuery,
 }))
 class Resubmit extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      bflag: false,
-    };
-  }
   componentDidMount() {
     // 搜索学院展示值
     this.props.dispatch({
@@ -47,7 +41,7 @@ class Resubmit extends React.Component {
     });
   }
   // 搜索条件值改变
-  onParamsChange = (val, type = 'dateRange', bflag) => {
+  onParamsChange = (val, type = 'dateRange') => {
     const payload = { [type]: val };
     handleDataTrace({
       widgetName: `创收_${traceName[type]}筛选`,
@@ -58,7 +52,6 @@ class Resubmit extends React.Component {
       payload,
     }); // 存值
     this.getInitData(payload); // 请求
-    this.setState({ bflag });
   };
   // 时间切换 --- 清空原产品包、续报产品包
   onObjChange = (payload = {}) => {

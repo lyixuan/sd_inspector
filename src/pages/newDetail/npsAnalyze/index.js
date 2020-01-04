@@ -6,6 +6,9 @@ import DetailsIndex from './components/detailsIndex';
 import { handleDataTrace } from '@/utils/utils';
 import { getDateObj } from '@/pages/indexPage/components/utils/utils';
 import styles from './style.less';
+import Cycle from './components/cycle';
+import Score from './components/score';
+// import Tag from './components/tag';
 
 const traceName = {
   orgId: '后端归属',
@@ -14,8 +17,8 @@ const traceName = {
   evaluateType: '自主评价',
   tagId: 'NPS标签',
   dateRange: '时间',
-  cycle: '生命周期'
-}
+  cycle: '生命周期',
+};
 @connect(({ newDetailModal, npsAnalyzeModel }) => ({
   globalUserInfo: newDetailModal.globalUserInfo,
   paramsQuery: npsAnalyzeModel.paramsQuery,
@@ -34,7 +37,7 @@ class Resubmit extends React.Component {
   }
   // 学员明细
   getQueryStuDetailPage = params => {
-    const query = !params.pageSize ? {...params, pageSize: 15, page: 1} : params
+    const query = !params.pageSize ? { ...params, pageSize: 15, page: 1 } : params;
     this.props.dispatch({
       type: 'npsAnalyzeModel/getQueryStuDetailPage',
       payload: { params: query },
@@ -75,7 +78,32 @@ class Resubmit extends React.Component {
   // 列表数据
   getInitData = newQuery => {
     const params = this.getRequestParams({ ...this.props.paramsQuery, ...newQuery });
-    console.log(params, 'mmmmm')
+    this.getCycleList(params);
+    this.getNpsAutonomousEvaluation(params);
+    this.getTagList(params);
+  };
+  // 续费学院生命周期
+  getCycleList = params => {
+    this.props.dispatch({
+      type: 'npsAnalyzeModel/getCycleList',
+      payload: { params },
+    });
+  };
+
+  //星级接口
+  getNpsAutonomousEvaluation = params => {
+    this.props.dispatch({
+      type: 'npsAnalyzeModel/getNpsAutonomousEvaluation',
+      payload: { params },
+    });
+  };
+
+  // 标签
+  getTagList = params => {
+    this.props.dispatch({
+      type: 'npsAnalyzeModel/getTagList',
+      payload: { params },
+    });
   };
 
   // 请求参数
@@ -87,7 +115,7 @@ class Resubmit extends React.Component {
       ...getDateObj(dateRange),
       collegeId,
       familyId,
-      groupId
+      groupId,
     };
   };
   getTabs = () => {
@@ -96,14 +124,23 @@ class Resubmit extends React.Component {
         title: '数据透视',
         children: (
           <>
-            
+            <div className={styles.tab1}>
+              <Cycle />
+              <Score />
+            </div>
+            {/* <Tag /> */}
           </>
         ),
         // dataTrace: '{"widgetName":"创收_数据透视","traceName":"2.2/创收_数据透视"}',
       },
       {
         title: '学员明细',
-        children: <DetailsIndex getQueryStuDetailPage={this.getQueryStuDetailPage} getRequestParams={this.getRequestParams}/>,
+        children: (
+          <DetailsIndex
+            getQueryStuDetailPage={this.getQueryStuDetailPage}
+            getRequestParams={this.getRequestParams}
+          />
+        ),
         // dataTrace: '{"widgetName":"创收_创收明细","traceName":"2.2/创收_创收明细"}',
       },
     ];
