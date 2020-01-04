@@ -36,7 +36,7 @@ class Resubmit extends React.Component {
   getQueryStuDetailPage = params => {
     const query = !params.pageSize ? {...params, pageSize: 15, page: 1} : params
     this.props.dispatch({
-      type: 'npsAnalyzeModel/getQueryStuDetailPage',
+      type: 'npsAnalyzeModel/getNpsAutonomousEvaluation',
       payload: { params: query },
     });
   };
@@ -76,6 +76,8 @@ class Resubmit extends React.Component {
   getInitData = newQuery => {
     const params = this.getRequestParams({ ...this.props.paramsQuery, ...newQuery });
     console.log(params, 'mmmmm')
+    // 学院明细
+    this.getQueryStuDetailPage(params);
   };
 
   // 请求参数

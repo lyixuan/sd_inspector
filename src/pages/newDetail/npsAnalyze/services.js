@@ -3,3 +3,8 @@ import request from '@/utils/request';
 export async function getReasonTypeTree(params) {
   return request('/workbench/getReasonTypeTree', { method: 'get', params });
 }
+
+//NPS自主评价分析及云图的数据接口
+export async function getNpsAutonomousEvaluation(data) {
+  return request('/nps/getNpsAutonomousEvaluation', { method: 'POST', data: data });
+}
