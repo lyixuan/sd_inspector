@@ -2,13 +2,17 @@ import React from 'react';
 import { connect } from 'dva';
 import { Tooltip } from 'antd';
 import { Link } from 'dva/router';
+import Star from '../star';
+import BIButton from '@/ant_components/BIButton';
 import BIContainer from '@/components/BIContainer';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import float3 from '@/assets/resubmit/float3.png';
+import moment from 'moment';
 import styles from './style.less';
 
-@connect(({ npsAnalyzeModel }) => ({
+@connect(({ npsAnalyzeModel, loading }) => ({
   stuDetailData: npsAnalyzeModel.stuDetailData || {},
+  loading: loading.effects['npsAnalyzeModel/getNpsAutonomousEvaluation'],
 }))
 class DetailsIndex extends React.Component {
   constructor(props) {
@@ -21,9 +25,12 @@ class DetailsIndex extends React.Component {
   columns = () => {
     const columns = [
       {
+        width: '20%',
+        ellipsis: true,
         title: '后端归属',
-        dataIndex: 'stuId',
-        key: 'stuId',
+        dataIndex: 'backend',
+        key: 'backend',
+        render: text => <Tooltip title={text}>{text}</Tooltip>,
       },
       {
         width: '8%',
@@ -37,24 +44,27 @@ class DetailsIndex extends React.Component {
       },
       {
         title: '报名时间',
-        dataIndex: 'paymentTime',
-        key: 'paymentTime',
+        dataIndex: 'createTime',
+        key: 'createTime',
+        render: text => moment(text).format('YY-MM-DD HH:mm:ss')
       },
       {
         title: '星级',
-        dataIndex: 'satrt',
-        key: 'satrt',
+        dataIndex: 'star',
+        key: 'star',
+        render: text => <Star star={text} style={{ display: 'flex', alignItem: 'center' }} />
       },
       {
         title: '原因',
-        dataIndex: 'collegeName',
-        key: 'collegeName',
+        dataIndex: 'reasonTypeDesc',
+        key: 'reasonTypeDesc',
       },
       {
+        width: '30%',
         title: '内容',
-        dataIndex: 'groupName',
-        key: 'groupName',
-        render: text => <Tooltip title={text}>{text}</Tooltip>
+        dataIndex: 'tagList',
+        key: 'tagList',
+        render: text => <>{text.map((item, index) => <span>{index > 0 ? ' | ' : ''}{item.name}</span>)}</>
       }
     ];
     return columns || [];
@@ -65,18 +75,21 @@ class DetailsIndex extends React.Component {
     this.setState({ current });
   }
   render() {
-    const { list = [], total = 0 } = this.props.stuDetailData;
+    const { data = [], total = 0 } = this.props.stuDetailData;
     const { pageSize = 15, current = 1} = this.state;
     return (
       <BIContainer 
       headStyle={{display: 'none'}}
       >
         <div className={styles.detailsIndex}>
+          <span className={styles.download}>
+            <BIButton type="primary" radiused={true} size="small">下载</BIButton>
+          </span>
           <BIScrollbarTable
             columns={this.columns()}
-            dataSource={list}
+            dataSource={data}
             loading={this.props.loading}
-            rowKey={record => record.stuId}
+            rowKey={(record, index) => index}
             pagination={{
               onChange: this.onChangeSize,
               defaultPageSize: pageSize,

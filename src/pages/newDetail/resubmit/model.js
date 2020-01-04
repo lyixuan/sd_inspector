@@ -10,7 +10,7 @@ import {
 } from './services';
 import { getDateArray } from '@/pages/indexPage/components/utils/utils';
 import { message } from 'antd/lib/index';
-import { msgF } from '@/utils/utils';
+import { msgF, getNullNodeList} from '@/utils/utils';
 
 export default {
   namespace: 'resubmitModal',
@@ -133,13 +133,3 @@ export default {
   },
   subscriptions: {},
 };
-function getNullNodeList(data = [], l = 1) {
-  data.map(item => {
-    if (l === 2) {
-      item.nodeList = null;
-    } else {
-      getNullNodeList(item.nodeList, l + 1);
-    }
-  });
-  return data;
-}

@@ -43,7 +43,6 @@ class PackageIndex extends React.Component {
         </div>
       },
       {
-        ellipsis: true,
         title: '浮动指数',
         dataIndex: 'floatingIndex',
         key: 'floatingIndex',
@@ -79,6 +78,11 @@ class PackageIndex extends React.Component {
         dataIndex: 'itemAmount',
         key: 'itemAmount',
         render: text => getProText(text, maxVal)
+      },
+      {
+        title: 'ARPU',
+        dataIndex: 'arpu',
+        key: 'arpu',
       },
     ];
     return columns || [];

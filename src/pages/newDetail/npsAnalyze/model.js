@@ -7,7 +7,7 @@ import {
 } from './services';
 import { getDateArray } from '@/pages/indexPage/components/utils/utils';
 import { message } from 'antd/lib/index';
-import { msgF } from '@/utils/utils';
+import { msgF, getNullNodeList } from '@/utils/utils';
 
 export default {
   namespace: 'npsAnalyzeModel',
@@ -15,6 +15,7 @@ export default {
     evaluateList: [{ id: 0, name: '空' }, { id: 1, name: '非空' }], // 以上都是 搜索框基本信息
     reasonList: [], // 原因分类列表
     collegeList: [], // 后端归属列表
+    tagQueryData: [], // NPS标签
     paramsQuery: {},
     stuDetailData: {}, // 学院明细
     getCycleListData: {},
@@ -27,16 +28,24 @@ export default {
       const collegeResult = yield call(getKOEnumList, { type: 9 });
       if (collegeResult && collegeResult.code && collegeResult.code === 20000) {
         const data = Array.isArray(collegeResult.data) ? collegeResult.data : [];
-        yield put({ type: 'saveCollege', payload: { collegeList: data[0].enumData } });
+        yield put({ type: 'saveNull', payload: { data: data[0].enumData, key: 'collegeList' } });
       }
     },
     // 原因分类
     *getReasonTypeTree(_, { call, put }) {
       const result = yield call(getReasonTypeTree);
       if (result.code === 20000 && result.data) {
-        yield put({ type: 'save', payload: { reasonList: result.data } });
+        yield put({ type: 'saveNull', payload: { data: result.data, key: 'reasonList' } });
       } else if (result) {
         message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // NPS标签
+    *getTagSelectList(_, { call, put }) {
+      const result = yield call(getTagList);
+      if (result.code === 20000 && result.data) {
+        yield put({ type: 'saveNull', payload: { data: result.data, key: 'tagQueryData' } });
+      } else if (result) {
       }
     },
     // 周期
@@ -81,19 +90,9 @@ export default {
       return { ...state, paramsQuery };
     },
     // 学院
-    saveCollege(state, { payload }) {
-      return { ...state, collegeList: getNullNodeList(payload.collegeList) };
+    saveNull(state, { payload }) {
+      return { ...state, [payload.key]: getNullNodeList(payload.data) };
     },
   },
   subscriptions: {},
 };
-function getNullNodeList(data = []) {
-  data.map(item => {
-    if (item.nodeList && item.nodeList.length === 0) {
-      item.nodeList = null;
-    } else {
-      getNullNodeList(item.nodeList);
-    }
-  });
-  return data;
-}
