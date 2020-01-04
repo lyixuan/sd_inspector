@@ -24,15 +24,16 @@ const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
 const dateFormat = 'YYYY-MM-DD';
 const pageSize = 15;
-const admin_user = localStorage.getItem('admin_user');
-const globalUserType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;
 @connect(({ xdCreditModal, loading }) => ({
+  globalUserInfo: xdCreditModal.globalUserInfo,
   kpiDateRange: xdCreditModal.kpiDateRange,
   globalOrgList: xdCreditModal.globalOrgList,
 }))
 class ImPage extends React.Component {
   constructor(props) {
     super(props);
+    const admin_user = localStorage.getItem('admin_user');
+    const globalUserType = JSON.parse(admin_user) ? JSON.parse(admin_user).userType : null;   
     this.state = {
       groupId: [], // 组织
       groupTypes: [],// 组织全部信息数组
@@ -41,7 +42,8 @@ class ImPage extends React.Component {
       loadingStatus: true,
       // reasonTypeId: 0, //  内部组件参数
       loadingStart: true,
-      ...this.getInitState()
+      ...this.getInitState(),
+      globalUserType
     };
   }
   componentDidMount() {
@@ -49,18 +51,26 @@ class ImPage extends React.Component {
     if (dataRange.length === 2) {
       this.getUserOrgList(getDateArray(dataRange), () => this.getReasonListData()); // 初始化 数据
     }
+    // 全局值 
     this.props.dispatch({
-      type: 'xdCreditModal/getKpiDateRange',
-      callback: res => {
-        if (dataRange && dataRange.length !==2) {
-          this.setState({ 
-            dataRange: [moment(res.endDate), moment(res.endDate)],
-            dataRangeInit: [moment(res.endDate), moment(res.endDate)]
+      type: 'xdCreditModal/getUserInfo',
+      callback: info => {
+        if (info.scoreView) {
+          this.props.dispatch({
+            type: 'xdCreditModal/getKpiDateRange',
+            callback: res => {
+              if (dataRange && dataRange.length !==2) {
+                this.setState({ 
+                  dataRange: [moment(res.endDate), moment(res.endDate)],
+                  dataRangeInit: [moment(res.endDate), moment(res.endDate)]
+                });
+                this.getUserOrgList([res.endDate, res.endDate], () => this.getReasonListData()); // 初始化 数据
+              } 
+            },
           });
-          this.getUserOrgList([res.endDate, res.endDate], () => this.getReasonListData()); // 初始化 数据
-        } 
-      },
-    }); 
+        }
+      }
+    });
   }
   // 
   getInitState = () => {
@@ -74,8 +84,6 @@ class ImPage extends React.Component {
     if (dataRange && dataRange instanceof Array) {
       initSate.dataRange = [moment(dataRange[0]), moment(dataRange[1])];
       initSate.dataRangeInit = [moment(dataRange[0]), moment(dataRange[1])];
-    } else {
-
     }
     return initSate
   }
@@ -111,7 +119,7 @@ class ImPage extends React.Component {
     });
   }
   getResetGroupMsg = (orgList = this.props.globalOrgList) => {
-    if (orgList && orgList.length > 0 && globalUserType !== 'boss') {
+    if (orgList && orgList.length > 0 && this.state.globalUserType !== 'boss' && this.state.globalUserType !== 'admin') {
       const item = orgList[0];
       return { groupId: [item.id], groupTypes: [item], familyType: item.familyType.length > 1 ? 0 : Number(item.familyType) };
     } else {
@@ -153,6 +161,9 @@ class ImPage extends React.Component {
     if (groupId && groupId.length > 0) {
       const index = groupId.length - 1;
       return { orgId: groupId[index], groupType: groupTypes[index].groupType };
+    } else if (this.props.globalUserInfo) {
+      const { collegeId, familyId, groupId, userType} = this.props.globalUserInfo;
+      return { orgId: groupId || familyId || collegeId, groupType: userType === 'class' ? 'group': userType }
     } else {
       return { };
     }
@@ -220,7 +231,7 @@ class ImPage extends React.Component {
   };
 
   render() {
-    const { dataRange, groupId, familyType } = this.state;
+    const { dataRange, groupId, familyType, globalUserType } = this.state;
     const { globalOrgList } = this.props;
     return (
         <div className={styles.imPage}>

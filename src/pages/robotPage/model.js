@@ -21,9 +21,16 @@ export default {
       parse2: [],
       parse3: [],
       parse4: []
-    }
+    },
+    initData: {}
   },
   effects: {
+    *updateRouteData({ payload }, { call, put }) {
+      yield put({
+        type: 'save',
+        payload: { initData: payload.params },
+      })
+    },
     // 自考壁垒对应学院
     *getOrgList({ payload, callback }, { call, put }) {
       const result = yield call(getOrgList);

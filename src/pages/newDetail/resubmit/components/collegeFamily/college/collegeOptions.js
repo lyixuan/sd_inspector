@@ -134,12 +134,6 @@ export function getOption(listsrc) {
         type: 'none', // 默认为直线，可选为：'line' | 'shadow'
       },
       animation: false,
-      // formatter: function (params) {
-      //   if(params[0]) {
-      //     return "学分均分：" + (params[1]?params[1].value:params[3].value) +"分"+
-      //       "<br>环比：" +  (params[4]?params[4].value:'--')+"%";
-      //   }
-      // }
       formatter: function(params) {
         var str = params[1].name + '</br>' + '创收流水：' + params[1].value.toFixed(1) + '</br>';
         return str;

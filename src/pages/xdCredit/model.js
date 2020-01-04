@@ -38,6 +38,7 @@ export default {
     globalOrgList: [],
     globalUserMsg: {},
     bottomTaskData: {},
+    globalUserInfo: {} // 全局参数
   },
 
   effects: {
@@ -60,9 +61,10 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    *getUserInfo({ callback }, { call }) {
+    *getUserInfo({ callback }, { call, put }) {
       const result = yield call(getUserInfo);
       if (result.code === 20000 && result.data) {
+        yield put({ type: 'save', payload: { globalUserInfo: result.data } });
         if (callback && typeof callback === 'function') {
           callback(result.data);
         }

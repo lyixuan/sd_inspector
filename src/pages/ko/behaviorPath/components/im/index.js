@@ -15,20 +15,25 @@ import { linkImgRouteBul, linkRoute } from '@/pages/ko/utils/utils';
 // 评价的星星
 function Star(props) {
   const evaluate = props.evaluate;
-  const number = [1, 2, 3];
+  const number = [1, 2, 3, 4];
   const starList = number.map((item, index) => (
     <Icon
       type="star"
       theme="filled"
       key={index}
-      className={index < evaluate ? '' : styles.empty}
+      className={index <= evaluate ? '' : styles.empty}
     />
   ));
   return starList;
 }
 
 function Prise(props) {
-  if (!props.li.evaluate && props.li.evaluate != 0) {
+  console.log(32, props.li)
+  const { evaluate } = props.li
+  // if (!props.li.evaluate && props.li.evaluate != 0) {
+  //   return null;
+  // }
+  if (evaluate < 0 || evaluate === null) {
     return null;
   }
   return (
@@ -44,8 +49,14 @@ function Prise(props) {
         <div className={styles.prise}>
           <span>学员提交评价：</span>
           <div className={styles.stars}>
-            <Star evaluate={props.li.evaluate} />
+            <Star evaluate={evaluate} />
           </div>
+          <p style={{ color: '#59595E', marginLeft: '10px' }}>
+            {evaluate === 0 && '不满意'}
+            {evaluate === 1 && '一般'}
+            {evaluate === 2 && '满意'}
+            {evaluate === 3 && '非常满意'}
+          </p>
         </div>
       </div>
     </li>
