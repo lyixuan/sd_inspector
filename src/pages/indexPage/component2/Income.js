@@ -60,15 +60,17 @@ class Income extends React.Component {
           <div className={style.ScoreLeft}>
             <div className={style.incomeTotal}>
               <div>
+                <div>+ 3.5万</div>
                 <div>{changeToThousandsForIncome(sumAmount,1)} <span style={{fontSize:14}}>万</span></div>
                 <div>总流水</div>
               </div>
               <div>
+                <div>+ 3.5万</div>
                 <div>{sumOrder}</div>
                 <div>总单量</div>
               </div>
             </div>
-            <Echarts options={optionL} style={{ height: 190}}/>
+            <Echarts options={optionL} style={{ height: 150}}/>
           </div>
           <div className={style.incomeRight}>
             {pieData.length>0?<Echarts options={optionR} style={{ height: 250, width:260,float:'left'}}/>:<img src={bingtu} alt="" style={{ height: 150,width:150,display:'block',margin: '60px auto 0'}}/>}

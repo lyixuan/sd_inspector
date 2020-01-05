@@ -95,11 +95,11 @@ class NPS extends React.Component {
           <Echarts
             clickEvent={item => this.clickEvent(item)}
             options={options}
-            style={{ width: '761px', height: '210px' }}
+            style={{ width: '761px', height: '240px' }}
           />
           {/* )} */}
         </div>
-        <div className={styles.dot}>{dot}</div>
+        {/* <div className={styles.dot}>{dot}</div> */}
       </div>
     );
   }

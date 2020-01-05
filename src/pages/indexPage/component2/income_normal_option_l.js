@@ -47,7 +47,7 @@ export function getOptionL2(list) {
       type: 'value',
     },
     grid: {
-      top: 50,
+      top: 10,
       left: 10,
       right: 10,
       bottom: 30,
