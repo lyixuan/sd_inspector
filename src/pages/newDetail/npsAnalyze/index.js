@@ -56,21 +56,8 @@ class Resubmit extends React.Component {
       type: 'npsAnalyzeModel/saveParams',
       payload,
     }); // 存值
-    // this.getSelectData({...getDateObj(payload.dateRange), flag: true}) // 参数值展示
     this.getInitData(payload); // 列表展示
   };
-  // 参数基础数据
-  // getSelectData = (params) => {
-  //   this.props.dispatch({
-  //     type: 'npsAnalyzeModel/getOriginPackageList',
-  //     payload: { params },
-  //   });
-  //   // 续报分析 - 续报热销榜单
-  //   this.props.dispatch({
-  //     type: 'npsAnalyzeModel/getPackageList',
-  //     payload: { params },
-  //   });
-  // };
   // 列表数据
   getInitData = newQuery => {
     const params = this.getRequestParams({ ...this.props.paramsQuery, ...newQuery });
