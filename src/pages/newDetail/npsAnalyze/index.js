@@ -9,6 +9,8 @@ import styles from './style.less';
 import Cycle from './components/cycle';
 import Score from './components/score';
 import Tag from './components/tag';
+import NPS from './components/NPSeCharts';
+import Reson from './components/reson';
 
 const traceName = {
   orgId: '后端归属',
@@ -109,10 +111,14 @@ class Resubmit extends React.Component {
         title: '数据透视',
         children: (
           <>
-            <div className={styles.tab1}>
+            <div className={styles.tabTop}>
               <Cycle />
               <Score />
               <Tag />
+            </div>
+            <div className={styles.tabCenter}>
+              <NPS />
+              <Reson />
             </div>
           </>
         ),
