@@ -96,6 +96,7 @@ class Im extends React.Component {
             <div className={style.imContentLeft}>
               {WorkbenchImNegativeData.badContrasts ? (
                 <div className={style.imItem}>
+                  <p className={style.red}>+3.5万</p>
                   <p
                     className={style.items}
                     onClick={() => this.jump('IM不满意率', '2.0/IM不满意率')}
@@ -120,6 +121,7 @@ class Im extends React.Component {
                   onClick={() => this.jump('IM不满意会话', '2.0/IM不满意会话')}
                   style={{ cursor: 'pointer' }}
                 >
+                  <p className={style.red}>+3.5万</p>
                   <p className={style.items}>{WorkbenchImNegativeData.notSatisfied}</p>
                   <p className={style.small}>不满意会话</p>
                 </div>
@@ -146,6 +148,7 @@ class Im extends React.Component {
               )}
               {WorkbenchImNegativeData.notInTime ? (
                 <div className={style.imItem}>
+                  <p className={style.red}>+3.5万</p>
                   <p className={style.items}>{WorkbenchImNegativeData.notInTime}</p>
                   <p className={style.small}>不及时数</p>
                 </div>
@@ -165,7 +168,7 @@ class Im extends React.Component {
               {total > 0 && (
                 <Echarts
                   options={options}
-                  style={{ width: '275px', height: 235 + 'px', top: '-10px' }}
+                  style={{ width: '275px', height: 235 + 'px', top: '-19px' }}
                   clickEvent={item => this.clickEvent(item)}
                 />
               )}
