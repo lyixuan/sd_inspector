@@ -192,7 +192,7 @@ export function getOptioBossL(list) {
     grid: {
       left: 70,
       right:10,
-      top:50,
+      top:20,
       bottom:60
     },
     // barGap:'-100%',

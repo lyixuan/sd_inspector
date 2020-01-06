@@ -2,6 +2,11 @@ import React from 'react';
 import styles from './style.css';
 import { formatDateToWeek } from '@/utils/utils';
 
+function getMinFormat(num) {
+  const min = Math.round(num/60);
+  const sec = num%60;
+  return `${min}min${sec}s`
+}
 export default class BasicInfoComponent extends React.Component {
   render() {
     const { baseAppealInfo = {}, dimensionType } = this.props;
@@ -19,6 +24,8 @@ export default class BasicInfoComponent extends React.Component {
       upFlag,
       score,
       source,
+      liveValue,
+      replayValue,
     } = baseAppealInfo || {};
 
     const IMName =
@@ -40,10 +47,15 @@ export default class BasicInfoComponent extends React.Component {
               <div>学分维度：{dimensionName}</div>
               <div>学分日期：{creditDate}</div>
             </div>
-            <div className={styles.secRow}>
+            {dimensionName==='开班电话'?<div className={styles.secRow}>
               <div>开班电话完成时间：{completeDate}</div>
               <div>&nbsp;</div>
-            </div>
+            </div>:
+              <div className={styles.secRow}>
+                <div>开学典礼直播时长：{getMinFormat(liveValue)}</div>
+                <div>开学典礼重播时长：{getMinFormat(replayValue)}</div>
+              </div>
+            }
             <div className={styles.secRow}></div>
           </div>
         )}
