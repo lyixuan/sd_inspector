@@ -14,6 +14,9 @@ export async function getOrgMapTree(params) {
 export async function getDimensionList(params) {
   return request('/dimension/rootList', { params });
 }
+export async function getOrgType(data) {
+  return request('/quality/getOrgType',  { method: 'post', data });
+}
 // 分维 违规分类
 export async function queryDimensionTreeList(params) {
   return request('/dimension/queryDimensionTreeList', { params });

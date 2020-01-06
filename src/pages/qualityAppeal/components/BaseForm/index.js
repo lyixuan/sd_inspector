@@ -56,6 +56,16 @@ class FormIndex extends React.Component {
     });
   };
 
+  getOrgType = (date,org,form) => {
+    const params = {qualityReduceDate:moment(date).format('YYYY-MM-DD'),collegeId:org[0]||null,familyId:org[1]||null,groupId:org[2]||null};
+    this.props.dispatch({
+      type: 'qualityAppealHome/getOrgType',
+      payload: { params },
+    }).then((res)=>{
+      res!==null&&form.setFieldsValue({ ...form.getFieldsValue(), ...{familyType:res} });
+    });
+  };
+
   // 根据分维获取违规分类
   getDimensionTreeList = (dimensionId, qualityType) => {
     this.props.dispatch({
@@ -223,7 +233,6 @@ class FormIndex extends React.Component {
     params.dimension = (params.primaryAssortmentId || params.secondAssortmentId || params.thirdAssortmentId) ? [params.primaryAssortmentId, params.secondAssortmentId, params.thirdAssortmentId]:[];
     params.violationDate = params.violationDate && moment(params.violationDate);
     params.reduceScoreDate = params.reduceScoreDate && moment(params.reduceScoreDate);
-
     return (
       <BaseForm backType={backType}
                 orgList={orgList}
@@ -236,6 +245,7 @@ class FormIndex extends React.Component {
                 loadingOrder={loadingOrder}
                 params={params}
                 getOrgMapByMail={this.getOrgMapByMail}
+                getOrgType={this.getOrgType}
                 getSubOrderDetail={this.getSubOrderDetail}
                 getDimensionTreeList={this.getDimensionTreeList}
                 changeDimensionTree={this.changeDimensionTree}

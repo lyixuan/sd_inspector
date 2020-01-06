@@ -62,11 +62,22 @@ const BaseForm = Form.create({ name: 'base_form' })(
       this.props.getSubOrderDetail(this.props.form.getFieldValue('orderNum'));
     };
 
+    getOrgType = (date,org) => {
+      this.props.getOrgType(date?date:this.props.form.getFieldValue('reduceScoreDate'), org?org:this.props.form.getFieldValue('organize'),this.props.form);
+    };
+
     dimensionIdList = () => {
       const { dimensionList1, dimensionList2 } = this.props;
       return dimensionList1.concat(dimensionList2)
       // const qualityType = this.props.form.getFieldValue('qualityType');
       // return qualityType === 1 ? dimensionList1 : qualityType === 2 ? dimensionList2 : [];
+    };
+    orgChange = (org) =>{
+      this.getOrgType(null,org);
+    };
+
+    dateChange = (date) =>{
+      this.getOrgType(date,null);
     };
 
     onChangeDimensionId = (dimensionId) => {
@@ -92,19 +103,6 @@ const BaseForm = Form.create({ name: 'base_form' })(
 
     onChangeViolationLevel = (value) => {
       this.props.changeViolationLevel(value, this.props.form);
-    };
-
-    onChangeOrganize = (val) => {
-      if (val.length > 1) {
-        this.setState({
-          familyType: false
-        })
-      } else {
-        this.setState({
-          familyType: true
-        })
-      }
-
     };
 
     attachedRoleList = () => {
@@ -217,20 +215,18 @@ const BaseForm = Form.create({ name: 'base_form' })(
       const temp = form.getFieldValue('organize');
       const familyTypeShow = [];
       temp && temp.forEach((v) => {
-        if (v) { familyTypeShow.push(v) }
+        if (v) familyTypeShow.push(v)
       });
 
       return (
         <Form className="baseForm" onSubmit={this.handleSubmit}>
 
-          {/*非编辑字段*/}
           <Form.Item style={{ display: 'none' }}>
             {getFieldDecorator('id', {
               initialValue: id,
             })(<Input />)}
           </Form.Item>
 
-          {/*第一部分*/}
           <Box title="质检归属人信息">
             <div className={styles.formRow}>
               <BoxItem label="邮箱" required>
@@ -269,7 +265,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
                   {getFieldDecorator('organize', {
                     initialValue: organize, rules: [{ required: true, message: '请选择归属组织' }],
                   })(<BICascader placeholder='请选择' changeOnSelect options={orgList}
-                    onChange={this.onChangeOrganize}
+                    onChange={(org)=>this.orgChange(org)}
                     fieldNames={{ label: 'name', value: 'id', children: 'nodeList' }}
                   />)}
                 </Form.Item>
@@ -277,7 +273,6 @@ const BaseForm = Form.create({ name: 'base_form' })(
             </div>
           </Box>
 
-          {/*第二部分*/}
           <div className={styles.formRow} style={{ marginBottom: 10, marginLeft: 15 }}>
             <BoxItem label="子订单编号">
               <Form.Item className={styles.formItem}>
@@ -293,7 +288,6 @@ const BaseForm = Form.create({ name: 'base_form' })(
             <SubOrder orderNumData={orderNumData} />
           </Box>}
 
-          {/*第三部分*/}
           <Box title="违规基础信息">
             <div className={styles.formRow}>
               <BoxItem label="违规日期" required>
@@ -309,7 +303,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
                 <Form.Item className={styles.formItem}>
                   {getFieldDecorator('reduceScoreDate', {
                     initialValue: reduceScoreDate, rules: [{ required: true, message: '请选择扣分日期' }],
-                  })(<BIDatePicker style={{ width: 230 }} format="YYYY-MM-DD" />)}
+                  })(<BIDatePicker style={{ width: 230 }} onChange={(date)=>this.dateChange(date)} format="YYYY-MM-DD" />)}
                 </Form.Item>
               </BoxItem>
             </div>
@@ -328,10 +322,10 @@ const BaseForm = Form.create({ name: 'base_form' })(
                 </Form.Item>
               </BoxItem>
               {
-                familyTypeShow.length === 1 && <BoxItem label="学院类型" required>
+                <BoxItem label="组织类型" required>
                   <Form.Item className={styles.formItem}>
                     {getFieldDecorator('familyType', {
-                      initialValue: familyType, rules: [{ required: true, message: '请选择学院类型' }],
+                      initialValue: familyType, rules: [{ required: true, message: '请选择组织类型' }],
                     })(<BISelect allowClear placeholder="请选择">
                       {BiFilter('FAMILY_TYPE').map(item => (
                         <Option value={item.id} key={item.name}>
