@@ -31,7 +31,6 @@
   float: right;
 }
 
-
 .ScoreLeft,
 .ScoreRight {
   width: 50%;
@@ -64,7 +63,7 @@
     color: rgba(40, 40, 40, 1);
   }
 }
-.ScoreLeft>img {
+.ScoreLeft > img {
   display: block;
   margin: 30px 182px;
 }
@@ -74,12 +73,12 @@
   > div {
     float: left;
     text-align: center;
-    > div:nth-child(1) {
+    > div:nth-child(2) {
       font-family: myDINBold, DINCondensed, Haettenschweiler !important;
       font-size: 32px;
       color: rgba(40, 40, 40, 1);
     }
-    > div:nth-child(2) {
+    > div:nth-child(3) {
       color: #7e7d82;
       font-weight: normal;
     }
@@ -89,6 +88,10 @@
   }
   > div:nth-child(2) {
     width: 40%;
+  }
+
+  p {
+    margin-bottom: 0;
   }
 }
 .ScoreTab {
@@ -197,6 +200,7 @@
     width: 210px;
     margin-left: 20px;
     .imItem {
+      height: 105px;
       width: 50%;
       display: inline-block;
 
@@ -212,7 +216,7 @@
 
       .items {
         font-family: myDINBold, DINCondensed, Haettenschweiler !important;
-        margin-top: 43px;
+        margin-top: 13px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -221,6 +225,17 @@
       .small {
         margin-top: 12px;
       }
+      // .green {
+      //   margin-top: 30px;
+      //   // font-size: 14px !important;
+      //   // color: #3dd598 !important;
+      // }
+
+      // .red {
+      //   margin-top: 30px;
+      //   // font-size: 14px !important;
+      //   // color: #fc5a5a !important;
+      // }
     }
     p {
       text-align: center;
@@ -229,6 +244,9 @@
       font-size: 32px;
       margin-bottom: 0px;
       color: #282828;
+    }
+    .imItem p:nth-child(1) {
+      margin-top: 30px;
     }
 
     .imItem .small {
@@ -245,7 +263,7 @@
     justify-content: center;
   }
   .imContentDot {
-    margin-top: -37px;
+    margin-top: -53px;
     width: 100%;
     margin-left: 20px;
     display: flex;
@@ -389,4 +407,14 @@
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 114, 145, 0.1) 100%);
   border-radius: 20px;
   //opacity:0.1;
+}
+
+.green {
+  font-size: 14px !important;
+  color: #3dd598 !important;
+}
+
+.red {
+  font-size: 14px !important;
+  color: #fc5a5a !important;
 }

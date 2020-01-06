@@ -110,12 +110,12 @@ class Appeal extends React.Component {
                 />
               )}
             </div>
-            <div className={style.appealRight} style={{ width: '260px', textAlign: 'center' }}>
+            <div className={style.appealRight} style={{ width: '300px', textAlign: 'center' }}>
               {!maxData && <img src={zhutu} style={{ width: '193px' }} />}
               {maxData > 0 && (
                 <Echarts
                   options={options}
-                  style={{ width: '280px', height: 230 + 'px' }}
+                  style={{ width: '300px', height: 230 + 'px' }}
                   clickEvent={item => this.clickEvent(item)}
                 />
               )}
