@@ -299,7 +299,7 @@ class SessonRecord extends Component {
               <BIInput placeholder="输入学员ID" maxLength={10} value={inputStuId} allowClear onChange={this.onChangeInput} />
             </div>
             <BIButton type="reset" onClick={() => { this.handleSearch('reset') }} data-trace='{"widgetName":"重置","traceName":"机器人/会话记录"}'>重置</BIButton>
-            <BIButton type="primary" onClick={() => { this.handleSearch('search') }} data-trace='{"widgetName":"查询","traceName":"机器人/会话记录"}'>搜索</BIButton>
+            <BIButton type="primary" onClick={() => { this.handleSearch('search') }} data-trace='{"widgetName":"查询","traceName":"机器人/会话记录"}'>查询</BIButton>
           </div>
         </div>
         <div className={styles.tableBox}>
