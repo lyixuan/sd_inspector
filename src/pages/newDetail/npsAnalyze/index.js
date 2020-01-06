@@ -35,8 +35,8 @@ class Resubmit extends React.Component {
     this.props.dispatch({
       type: 'npsAnalyzeModel/getReasonTypeTree',
     });
-     // 搜索NPS标签展示值
-     this.props.dispatch({
+    // 搜索NPS标签展示值
+    this.props.dispatch({
       type: 'npsAnalyzeModel/getTagSelectList',
     });
     // handleDataTrace({"widgetName": '创收_透视分析',"traceName": '2.2/创收_透视分析', traceType:200});
@@ -78,6 +78,8 @@ class Resubmit extends React.Component {
     const params = this.getRequestParams({ ...this.props.paramsQuery, ...newQuery });
     this.getCycleList(params);
     this.getTagList(params);
+    this.getNpsData(params);
+    this.getRestTrend(params);
     // 学院明细
     this.getQueryStuDetailPage(params);
   };
@@ -95,6 +97,23 @@ class Resubmit extends React.Component {
       payload: { params },
     });
   };
+
+  //词云图 柱状图
+  getNpsData = params => {
+    this.props.dispatch({
+      type: 'npsAnalyzeModel/getNpsData',
+      payload: { params },
+    });
+  };
+
+  // 净推荐值
+  getRestTrend = params => {
+    this.props.dispatch({
+      type: 'npsAnalyzeModel/getRestTrend',
+      payload: { params },
+    });
+  };
+
   // 学员明细
   getQueryStuDetailPage = params => {
     const query = !params.pageSize ? { ...params, pageSize: 15, page: 1 } : params;

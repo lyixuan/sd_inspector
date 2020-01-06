@@ -24,12 +24,7 @@ class Cycle extends React.Component {
 
   render() {
     const { getCycleListData } = this.props;
-    let value = 0;
-    if (getCycleListData && getCycleListData.length > 0) {
-      getCycleListData.map(item => {
-        value += item.value;
-      });
-    }
+    let value = getCycleListData.total;
     const options = getOption(getCycleListData);
     return (
       <div className={styles.collegeWrap}>
@@ -45,22 +40,34 @@ class Cycle extends React.Component {
             height: '240px',
           }}
         >
-          {!value && (
-            <img
-              src={bingtu}
-              style={{
-                width: '150px',
-                height: '150px',
-              }}
-            />
-          )}
-          {value > 0 && (
-            <Echarts
-              clickEvent={item => this.clickEvent(item)}
-              options={options}
-              style={{ width: '243px', height: 194 + 'px', marginTop: '24px' }}
-            />
-          )}
+          <div
+            className={styles.total}
+            style={{
+              width: '105px',
+              textAlign: 'center',
+            }}
+          >
+            <p className={styles.count}>{value}</p>
+            <p>总数量</p>
+          </div>
+          <div style={{ width: '243px', textAlign: 'center' }}>
+            {!value && (
+              <img
+                src={bingtu}
+                style={{
+                  width: '150px',
+                  height: '150px',
+                }}
+              />
+            )}
+            {value > 0 && (
+              <Echarts
+                clickEvent={item => this.clickEvent(item)}
+                options={options}
+                style={{ width: '243px', height: 194 + 'px', marginTop: '-29px' }}
+              />
+            )}
+          </div>
         </div>
       </div>
     );

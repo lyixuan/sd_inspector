@@ -1,4 +1,5 @@
-export function getOption(data) {
+export function getOption(cycleListData) {
+  const { detailList: data } = cycleListData;
   const dataAxis = [];
   const seriesData = [];
   if (Array.isArray(data)) {
@@ -66,7 +67,7 @@ export function getOption(data) {
     grid: {
       left: 200,
       // right: 20,
-      // top: 10,
+      top: 0,
       // bottom: 30,
     },
     series: [
