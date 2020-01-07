@@ -107,8 +107,9 @@ class NPSLeft extends React.Component {
     return (
       <div
         style={{
+          paddingTop: '24px',
           width: '226px',
-          height: '213px',
+          height: '210px',
           background: 'rgba(255,255,255,1)',
           boxShadow: '0px 0px 4px 0px rgba(0,0,0,0.14)',
           borderRadius: '20px',
@@ -118,7 +119,7 @@ class NPSLeft extends React.Component {
           <div
             style={{
               width: ' 226px',
-              height: '213px',
+              height: '180px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -142,7 +143,7 @@ class NPSLeft extends React.Component {
           </div>
         )}
         {cloudOptions && cloudOptions.length > 0 && (
-          <Echart options={this.optionsDraw()} style={{ height: '213px', width: '226px' }} />
+          <Echart options={this.optionsDraw()} style={{ height: '180px', width: '226px' }} />
         )}
       </div>
     );
