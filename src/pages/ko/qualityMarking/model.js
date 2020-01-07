@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { getOperatorList, getConsultTypeTree, getReasonTypeTree, getTableList, exportData, getUserOrgList,getFeedBackTypeList } from './services';
+import { getOperatorList, getConsultTypeTree, getReasonTypeTree, getTableList, exportData, getUserOrgList, getFeedBackTypeList } from './services';
 import { downBlob, msgF } from '@/utils/utils';
 import { getKOEnumList } from '@/pages/ko/services';
 import { emptyValue, getArrLastValue } from '@/pages/ko/utils/utils';
@@ -29,7 +29,7 @@ export default {
     pageSize: 15,// 每页条数
     totalCount: 0,// 列表总值
     globalOrgList: [],
-    feedBackTypeList:[]
+    feedBackTypeList: []
   },
   effects: {
     *getBasicData({ payload }, { call, put, select }) {
@@ -41,11 +41,12 @@ export default {
         const data = Array.isArray(collegeResult.data) ? collegeResult.data : [];
         yield put({ type: 'save', payload: { collegeList: data[0].enumData } });
       }
+      console.log(44, consultResult)
       if (consultResult && consultResult.code && consultResult.code === 20000) {
-        yield put({ type: 'save', payload: { consultList: consultResult.data } });
+        yield put({ type: 'saveConsultList', payload: { consultList: consultResult.data } });
       }
       if (reasonResult && reasonResult.code && reasonResult.code === 20000) {
-        yield put({ type: 'save', payload: { reasonList: [{ id: emptyValue, name: '空' }].concat(reasonResult.data) } });
+        yield put({ type: 'saveReasonList', payload: { reasonList: [{ id: emptyValue, name: '空' }].concat(reasonResult.data) } });
       }
     },
     *getTableList({ payload, callback }, { call, put, select }) {
@@ -118,10 +119,10 @@ export default {
     },
     *getFaceBackTypeList({ payload, callback }, { call, put }) {
       const params = payload.params;
-      const result = yield call(getFeedBackTypeList,params);
+      const result = yield call(getFeedBackTypeList, params);
       if (result.code === 20000) {
         const res = result.data;
-        yield put({type:'save',payload:{feedBackTypeList:[{ id: emptyValue, name: '空' }].concat(res)}})
+        yield put({ type: 'saveFeedBackTypeList', payload: { feedBackTypeList: [{ id: emptyValue, name: '空' }].concat(res) } })
         if (callback && typeof callback === 'function') {
           callback(res);
         }
@@ -142,8 +143,35 @@ export default {
         searchParams: { ...state.searchParams, ...payload.searchParams },
       };
     },
+    saveConsultList(state, { payload }) {
+      const consultList = getNullNodeList(payload.consultList);
+      return { ...state, consultList };
+    },
+    saveReasonList(state, { payload }) {
+      const reasonList = getNullNodeList(payload.reasonList)
+      return { ...state, reasonList };
+    },
+    saveFeedBackTypeList(state, { payload }) {
+      const feedBackTypeList = getNullNodeList(payload.feedBackTypeList)
+      return { ...state, feedBackTypeList };
+    },
 
   },
 
   subscriptions: {},
 };
+
+
+function getNullNodeList(data = []) {
+  data.map(item => {
+    if (item.nodeList instanceof Array) {
+      const l = item.nodeList.length;
+      if (l === 0) {
+        item.nodeList = null;
+      } else if (l > 0) {
+        getNullNodeList(item.nodeList);
+      }
+    }
+  });
+  return data;
+}
