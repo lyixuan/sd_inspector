@@ -64,7 +64,7 @@ class Resubmit extends React.Component {
   getInitData = newQuery => {
     const params = this.getRequestParams({ ...this.props.paramsQuery, ...newQuery });
     this.getCycleList(params);
-    this.getTagList(params);
+    // this.getTagList(params);
     this.getNpsData(params);
     this.getRestTrend(params);
     this.statReasonType(params);
@@ -79,12 +79,12 @@ class Resubmit extends React.Component {
     });
   };
   // 标签
-  getTagList = params => {
-    this.props.dispatch({
-      type: 'npsAnalyzeModel/getTagList',
-      payload: { params },
-    });
-  };
+  // getTagList = params => {
+  //   this.props.dispatch({
+  //     type: 'npsAnalyzeModel/getTagList',
+  //     payload: { params },
+  //   });
+  // };
 
   //词云图 柱状图
   getNpsData = params => {

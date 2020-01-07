@@ -14,8 +14,9 @@ import styles from './style.less';
 @connect(({ newDetailModal, npsAnalyzeModel, loading }) => ({
   globalUserInfo: newDetailModal.globalUserInfo,
   stuDetailData: npsAnalyzeModel.stuDetailData || {},
-  downLoding: npsAnalyzeModel.downLoding,
+  paramsQuery: npsAnalyzeModel.paramsQuery,
   loading: loading.effects['npsAnalyzeModel/getNpsAutonomousEvaluation'],
+  downLoding: loading.effects['npsAnalyzeModel/exportExcelData'],
 }))
 class DetailsIndex extends React.Component {
   constructor(props) {
@@ -110,6 +111,29 @@ class DetailsIndex extends React.Component {
       return 'boss'
     }
   }
+  isFlagDownLoad = () => {
+    const { orgId = [] } = this.props.paramsQuery;
+    const [cId, fId, gId] = orgId;
+    const {collegeId, familyId, groupId, userType} = this.props.globalUserInfo;
+    if (userType === 'boss') {
+      return true;
+    } else if (collegeId && familyId && groupId) {
+      if (cId === collegeId && fId === familyId, gId === groupId) {
+        return true;
+      } else {
+        return false;
+      }
+    } else if (collegeId && familyId) {
+      if (cId === collegeId && fId === familyId) {
+        return true;
+      } else {
+        return false;
+      }   
+    } else if (collegeId && cId === collegeId) {
+      return true;
+    }
+    return false;
+  }
 
   render() {
     const { data = [], total = 0 } = this.props.stuDetailData;
@@ -120,10 +144,12 @@ class DetailsIndex extends React.Component {
       >
         <div className={styles.detailsIndex}>
           <span className={styles.download}>
-            <BIButton loading={this.props.downLoding} onClick={this.exportExcelData} type="primary" radiused={true} size="default">
-              <img style={{width: '12px'}} src={downloadImg} alt=""/>
-              下载
-            </BIButton>
+            { 
+              this.isFlagDownLoad() && <BIButton loading={this.props.downLoding} onClick={this.exportExcelData} type="primary" radiused={true} size="default">
+                <img style={{width: '12px'}} src={downloadImg} alt=""/>
+                下载
+              </BIButton>
+            }
           </span>
           <BIScrollbarTable
             columns={this.columns()}

@@ -114,9 +114,9 @@ function TeacherOrStudent(props) {
     let answer = props.item.content;
     if (!answer) { return <></> }
 
-    if (answer && answer.match(/\{\{(.+?)\}\}/g)) {
-      answer = answer.replace(/\{\{(.+?)\}\}/g, 1)
-    }
+    // if (answer && answer.match(/\{\{(.+?)\}\}/g)) {
+    //   answer = answer.replace(/\{\{(.+?)\}\}/g, 1)
+    // }
     if (answer && answer.match(reg)) {
       let media = JSON.parse(answer.match(reg)[0].replace(/##/g, "").replace(/\\"/g, '"'));
       let content = answer.replace(reg, "##placeholder##").split(/##/g)
@@ -142,7 +142,11 @@ function TeacherOrStudent(props) {
         }
       })
     } else if (answer.indexOf('answerType') > -1) {
-      answer = JSON.parse(answer.replace(/\\"/g, "").replace(/“/g, "'").replace(/”/g, "'").replace(/\\/g, "").replace(/\\"/g, "")).answer;
+      try {
+        answer = JSON.parse(answer).answer;
+      } catch (e) {
+        console.log('echarts data error')
+      }
     } else {
       answer = props.item.content
     }

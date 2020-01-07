@@ -24,7 +24,7 @@ export default {
     paramsQuery: {},
     stuDetailData: {}, // 学院明细
     getCycleListData: {},
-    getTagListData: {},
+    // getTagListData: {},
     npsData: {},
     getRestTrendData: {},
     downLoding: false, // 不能多次点击下载按钮
@@ -67,13 +67,13 @@ export default {
       }
     },
     // 标签
-    *getTagList({ payload, callback }, { call, put }) {
-      const result = yield call(getTagList, payload.params);
-      if (result.code === 20000 && result.data) {
-        yield put({ type: 'save', payload: { getTagListData: result.data } });
-      } else if (result) {
-      }
-    },
+    // *getTagList({ payload, callback }, { call, put }) {
+    //   const result = yield call(getTagList, payload.params);
+    //   if (result.code === 20000 && result.data) {
+    //     yield put({ type: 'save', payload: { getTagListData: result.data } });
+    //   } else if (result) {
+    //   }
+    // },
     // NPS自主评价所有的接口
     *getNpsAutonomousEvaluation({ payload }, { call, put }) {
       const result = yield call(getNpsAutonomousEvaluation, payload.params);
@@ -125,7 +125,6 @@ export default {
 
     // 学院明细下载
     *exportExcelData({ payload }, { call, put }) {
-      yield put({ type: 'save', payload: { downLoding: true } });
       const result = yield call(exportData, payload.params);
       if (result.code === 20000) {
         BIConfirm({
@@ -152,7 +151,6 @@ export default {
           content: result.msgDetail,
         });
       }
-      yield put({ type: 'save', payload: { downLoding: false } });
     },
   },
 

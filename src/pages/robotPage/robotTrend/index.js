@@ -3,7 +3,6 @@ import { connect } from 'dva';
 import Echart from '@/components/Echart';
 import examEmpty from '@/assets/examEmpty.png';
 import styles from './style.less';
-import router from 'umi/router';
 
 @connect(({ robotPage }) => ({
   robotPage,
@@ -266,13 +265,14 @@ class RobotTrend extends React.Component {
         }
       },
       legend: {
-        data: ['拦截率', '协同接待率'],
+        data: ['协同接待率', '拦截率'],
         bottom: '-5px',
         itemWidth: 8,
         itemHeight: 8,
 
       },
       xAxis: {
+        type: 'category',
         data: data2,
         boundaryGap: false,
         axisLine: {
@@ -294,14 +294,19 @@ class RobotTrend extends React.Component {
           show: false
         }
       },
+      grid: {
+        top: 20,
+        left: 50,
+        right: 60,
+        bottom: 70,
+      },
       yAxis: {
         type: 'value',
-        max: 1,
+        // max: 1,
         axisLabel: {
           color: '#000000 ',
-          // formatter: '{value}\n',
           formatter: function (value) {
-            const val = value * 100 + '%'
+            const val = parseInt(value * 100) + '%'
             return val;
           }
         },
@@ -318,46 +323,7 @@ class RobotTrend extends React.Component {
           },
         },
       },
-      grid: {
-        top: 20,
-        left: 50,
-        right: 60,
-        bottom: 70,
-      },
       series: [
-
-        {
-          name: '拦截率',
-          type: 'line',
-          smooth: true,
-          symbolSize: 10,
-          itemStyle: {
-            normal: {
-              color: '#3DD598'
-            }
-          },
-          areaStyle: {
-            color: {
-              type: 'linear',
-              x: 0,
-              y: 0,
-              x2: 0,
-              y2: 1,
-              colorStops: [
-                {
-                  offset: 0,
-                  color: '#3DD598', // 0% 处的颜色
-                },
-                {
-                  offset: 1,
-                  color: 'RGBA(26, 232, 206, 0)', // 100% 处的颜色
-                },
-              ],
-              global: false, // 缺省为 false
-            },
-          },
-          data: data1
-        },
         {
           name: '协同接待率',
           type: 'line',
@@ -368,6 +334,7 @@ class RobotTrend extends React.Component {
               color: '#FFC442'
             }
           },
+          stack: '总量',
           areaStyle: {
             color: {
               type: 'linear',
@@ -385,11 +352,42 @@ class RobotTrend extends React.Component {
                   color: 'RGBA(255, 196, 66, 0)', // 100% 处的颜色
                 },
               ],
-              global: false, // 缺省为 false
             },
           },
           data: data3
-        }
+        },
+        {
+          name: '拦截率',
+          type: 'line',
+          smooth: true,
+          symbolSize: 10,
+          itemStyle: {
+            normal: {
+              color: '#3DD598'
+            }
+          },
+          stack: '总量',
+          areaStyle: {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                {
+                  offset: 0,
+                  color: '#3DD598', // 0% 处的颜色
+                },
+                {
+                  offset: 1,
+                  color: 'RGBA(26, 232, 206, 0)', // 100% 处的颜色
+                },
+              ],
+            },
+          },
+          data: data1
+        },
 
       ]
     };

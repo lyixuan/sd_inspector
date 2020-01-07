@@ -22,12 +22,19 @@ class Reson extends React.Component {
   };
 
   changeItem = (item, id, id1, id2, id3) => {
-    debugger;
-    const flag =
-      this.props.paramsQuery.reasonType ===
-      [item.id, item.nodeList.id2, item.nodeList.id3, item.nodeList.id4];
-    this.props.onParamsChange(flag ? [] : [id, id1, id2, id3], 'reasonType');
-    // this.props.onParamsChange([id, id1, id2, id3], 'reasonType');
+    let val = [];
+    if (id && id1) {
+      val = [id, id1];
+      if (id2) {
+        val = [id, id1, id2];
+        if (id3) {
+          val = [id, id1, id2, id3];
+        }
+      }
+    }
+
+    const flag = this.props.paramsQuery.reasonType.toString() == val.toString();
+    this.props.onParamsChange(flag ? [] : val, 'reasonType');
   };
   render() {
     const { tab } = this.state;

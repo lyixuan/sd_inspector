@@ -446,12 +446,12 @@ export function companyThousandsIncome(num, n = 1) {
 * data array
 * return [](tree)
 * */
-export function getNullNodeList(data = []) {
+export function getNullNodeList(data = [], n , l = 1, ) {
   data.map(item => {
-    if (item.nodeList && item.nodeList.length === 0) {
+    if ((item.nodeList instanceof Array && item.nodeList.length === 0) || n && l >= n) {
       item.nodeList = null;
     } else {
-      getNullNodeList(item.nodeList);
+      getNullNodeList(item.nodeList, n, l + 1);
     }
   });
   return data;

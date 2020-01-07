@@ -15,7 +15,9 @@ const ConfirmDialog = (props) => {
   closeTimeout(duration, close);
   return (
     <div className={styles.BIConfirm}>
-      {content}
+        <div>
+          {content}
+        </div>
     </div>
   );
 };
