@@ -26,6 +26,7 @@ export default {
     getTagListData: {},
     npsData: {},
     getRestTrendData: {},
+    downLoding: false, // 不能多次点击下载按钮
   },
 
   effects: {
@@ -108,7 +109,8 @@ export default {
       }
     },
     // 学院明细下载
-    *exportExcelData({ payload }, { call }) {
+    *exportExcelData({ payload }, { call, put }) {
+      yield put({ type: 'save', payload: { downLoding: true } });
       const result = yield call(exportData, payload.params);
       if (result.code === 20000) {
         BIConfirm({
@@ -123,6 +125,7 @@ export default {
           content: result.msgDetail,
         })
       }
+      yield put({ type: 'save', payload: { downLoding: false } });
     },
   },
 

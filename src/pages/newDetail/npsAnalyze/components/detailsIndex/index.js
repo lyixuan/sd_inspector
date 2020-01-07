@@ -14,8 +14,8 @@ import styles from './style.less';
 @connect(({ newDetailModal, npsAnalyzeModel, loading }) => ({
   globalUserInfo: newDetailModal.globalUserInfo,
   stuDetailData: npsAnalyzeModel.stuDetailData || {},
+  downLoding: npsAnalyzeModel.downLoding,
   loading: loading.effects['npsAnalyzeModel/getNpsAutonomousEvaluation'],
-  loadingDownload: loading.effects['npsAnalyzeModel/exportExcelData'],
 }))
 class DetailsIndex extends React.Component {
   constructor(props) {
@@ -120,7 +120,7 @@ class DetailsIndex extends React.Component {
       >
         <div className={styles.detailsIndex}>
           <span className={styles.download}>
-            <BIButton loading={this.props.loadingDownload} onClick={this.exportExcelData} type="primary" radiused={true} size="default">
+            <BIButton loading={this.props.downLoding} onClick={this.exportExcelData} type="primary" radiused={true} size="default">
               <img style={{width: '12px'}} src={downloadImg} alt=""/>
               下载
             </BIButton>
