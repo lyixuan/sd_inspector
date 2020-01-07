@@ -101,10 +101,19 @@ export default {
     // 净推荐值趋势
     *getRestTrend({ payload }, { call, put }) {
       const result = yield call(getRestTrend, payload.params);
+      let newResult = [];
+      if (result) {
+        newResult = result.data.map(item => {
+          item.value = item.value.map(sitem => {
+            return Math.round(sitem * 10000) / 100;
+          });
+          return item;
+        });
+      }
       if (result.code === 20000) {
         yield put({
           type: 'save',
-          payload: { getRestTrendData: result.data },
+          payload: { getRestTrendData: newResult },
         });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
