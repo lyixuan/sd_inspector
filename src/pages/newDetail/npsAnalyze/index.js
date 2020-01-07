@@ -35,8 +35,8 @@ class Resubmit extends React.Component {
     this.props.dispatch({
       type: 'npsAnalyzeModel/getReasonTypeTree',
     });
-     // 搜索NPS标签展示值
-     this.props.dispatch({
+    // 搜索NPS标签展示值
+    this.props.dispatch({
       type: 'npsAnalyzeModel/getTagSelectList',
     });
     // handleDataTrace({"widgetName": '创收_透视分析',"traceName": '2.2/创收_透视分析', traceType:200});
@@ -58,26 +58,15 @@ class Resubmit extends React.Component {
       type: 'npsAnalyzeModel/saveParams',
       payload,
     }); // 存值
-    // this.getSelectData({...getDateObj(payload.dateRange), flag: true}) // 参数值展示
     this.getInitData(payload); // 列表展示
   };
-  // 参数基础数据
-  // getSelectData = (params) => {
-  //   this.props.dispatch({
-  //     type: 'npsAnalyzeModel/getOriginPackageList',
-  //     payload: { params },
-  //   });
-  //   // 续报分析 - 续报热销榜单
-  //   this.props.dispatch({
-  //     type: 'npsAnalyzeModel/getPackageList',
-  //     payload: { params },
-  //   });
-  // };
   // 列表数据
   getInitData = newQuery => {
     const params = this.getRequestParams({ ...this.props.paramsQuery, ...newQuery });
     this.getCycleList(params);
-    this.getTagList(params);
+    // this.getTagList(params);
+    this.getNpsData(params);
+    this.getRestTrend(params);
     // 学院明细
     this.getQueryStuDetailPage(params);
   };
@@ -89,12 +78,29 @@ class Resubmit extends React.Component {
     });
   };
   // 标签
-  getTagList = params => {
+  // getTagList = params => {
+  //   this.props.dispatch({
+  //     type: 'npsAnalyzeModel/getTagList',
+  //     payload: { params },
+  //   });
+  // };
+
+  //词云图 柱状图
+  getNpsData = params => {
     this.props.dispatch({
-      type: 'npsAnalyzeModel/getTagList',
+      type: 'npsAnalyzeModel/getNpsData',
       payload: { params },
     });
   };
+
+  // 净推荐值
+  getRestTrend = params => {
+    this.props.dispatch({
+      type: 'npsAnalyzeModel/getRestTrend',
+      payload: { params },
+    });
+  };
+
   // 学员明细
   getQueryStuDetailPage = params => {
     const query = !params.pageSize ? { ...params, pageSize: 15, page: 1 } : params;

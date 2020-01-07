@@ -61,6 +61,10 @@
     // height: 335px;
 
     :global {
+      .ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+        padding-right: 4px;
+        padding-left: 4px;
+      }
       .ant-table-tbody td {
         border-color: #eff3f6;
         color: #1a1c1f;
@@ -169,4 +173,44 @@
 }
 .marIncome {
   padding-left: 26px !important;
+}
+.rankColumn {
+  width: 20px;
+  text-align: center;
+  >img {
+    width: 100%;
+  }
+}
+// 浮动指数
+.markColumn {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  > img {
+    width: 15px;
+  }
+  > span {
+    align-items: flex-end;
+    margin-bottom: -4px;
+    transform: scale(0.8);
+    margin-left: 10px;
+  }
+  ::before {
+    position: absolute;
+    content: '+';
+    top: 0px;
+    left: -9px;
+  }
+}
+.markColumn0 {
+  color:#3389FF;
+}
+.markColumn1 {
+  color:#00CCC3;
+}
+.markColumn2 {
+  color:#FF5959;
+  ::before {
+    content: '-';
+  }
 }

@@ -5,7 +5,7 @@ import styles from './style.less';
 
 const headObj = {
   '/newDetail/analyze': {
-    title: '创收产品包',
+    title: '好推分析',
     falg: false,
   },
   '/newDetail/incomeRank': {

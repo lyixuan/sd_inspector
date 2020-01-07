@@ -4,9 +4,13 @@ import {
   getCycleList,
   getNpsAutonomousEvaluation,
   getTagList,
+  exportData,
+  getNpsData,
+  getRestTrend,
 } from './services';
 import { getDateArray } from '@/pages/indexPage/components/utils/utils';
 import { message } from 'antd/lib/index';
+import BIConfirm from '@/ant_components/BIConfirm';
 import { msgF, getNullNodeList } from '@/utils/utils';
 
 export default {
@@ -19,7 +23,10 @@ export default {
     paramsQuery: {},
     stuDetailData: {}, // 学院明细
     getCycleListData: {},
-    getTagListData: {},
+    // getTagListData: {},
+    npsData: {},
+    getRestTrendData: {},
+    downLoding: false, // 不能多次点击下载按钮
   },
 
   effects: {
@@ -58,21 +65,67 @@ export default {
       }
     },
     // 标签
-    *getTagList({ payload, callback }, { call, put }) {
-      const result = yield call(getTagList, payload.params);
-      if (result.code === 20000 && result.data) {
-        yield put({ type: 'save', payload: { getTagListData: result.data } });
-      } else if (result) {
-      }
-    },
+    // *getTagList({ payload, callback }, { call, put }) {
+    //   const result = yield call(getTagList, payload.params);
+    //   if (result.code === 20000 && result.data) {
+    //     yield put({ type: 'save', payload: { getTagListData: result.data } });
+    //   } else if (result) {
+    //   }
+    // },
     // NPS自主评价所有的接口
     *getNpsAutonomousEvaluation({ payload }, { call, put }) {
       const result = yield call(getNpsAutonomousEvaluation, payload.params);
       if (result.code === 20000) {
-        yield put({ type: 'save', payload: { stuDetailData: result.data.npsStarOpinionDtoListMap } });
+        yield put({
+          type: 'save',
+          payload: { stuDetailData: result.data.npsStarOpinionDtoListMap },
+        });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
+    },
+    // NPS词云图跟柱状图
+    *getNpsData({ payload }, { call, put }) {
+      const result = yield call(getNpsData, payload.params);
+      if (result.code === 20000) {
+        yield put({
+          type: 'save',
+          payload: { npsData: result.data },
+        });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 净推荐值趋势
+    *getRestTrend({ payload }, { call, put }) {
+      const result = yield call(getRestTrend, payload.params);
+      if (result.code === 20000) {
+        yield put({
+          type: 'save',
+          payload: { getRestTrendData: result.data },
+        });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 学院明细下载
+    *exportExcelData({ payload }, { call, put }) {
+      yield put({ type: 'save', payload: { downLoding: true } });
+      const result = yield call(exportData, payload.params);
+      if (result.code === 20000) {
+        BIConfirm({
+          content: <>任务已创建<br/>请到下载中心下载</>,
+        })
+      } else if (result.code === 20100) {
+        BIConfirm({
+          content: <>5分钟内<br/>请勿提交重复任务</>,
+        })
+      } else {
+        BIConfirm({
+          content: result.msgDetail,
+        })
+      }
+      yield put({ type: 'save', payload: { downLoding: false } });
     },
   },
 

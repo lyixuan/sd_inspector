@@ -133,6 +133,7 @@ class SelfHeader extends PureComponent {
 			payload: roleList.find(item => item.userId === roleSelected) || {},
 		});
 		storage.removeItem('resubmit_query');
+		storage.removeItem('nps_analyze_query');
 		this.setState({ visible: false });
 	};
 	handleMenuList = () => {

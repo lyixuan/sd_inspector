@@ -8,12 +8,12 @@ import zhutu from '@/assets/zhutu@2x.png';
 @connect(({ npsAnalyzeModel }) => ({
   npsAnalyzeModel,
   paramsQuery: npsAnalyzeModel.paramsQuery || {},
-  getCycleListData: npsAnalyzeModel.getCycleListData,
+  getRestTrendData: npsAnalyzeModel.getRestTrendData,
 }))
 class NPS extends React.Component {
   clickEvent = item => {
-    const { getCycleListData } = this.props;
-    if (!getCycleListData[item.dataIndex].value) return;
+    const { getRestTrendData } = this.props;
+    if (!getRestTrendData[item.dataIndex].value) return;
     const cycle = this.props.paramsQuery.lifeCycle;
     let val = item.name.replace('天', '');
     if (cycle && cycle.length && cycle == item.name.replace('天', '')) {
@@ -23,50 +23,14 @@ class NPS extends React.Component {
   };
 
   render() {
-    const colorArr = [
-      '#6665DD',
-      '#FF602F',
-      '#33D195',
-      '#B5E1F9',
-      '#FFC442',
-      '#4A5F75',
-      '#0496FF',
-      '#AEB89F',
-    ];
-    const WorkbenchImPieData = [
-      { name: '图层自变量' },
-      { name: 'π' },
-      { name: '芒格' },
-      { name: '狐逻&泰罗' },
-      { name: '睿博' },
-      { name: '芝士' },
-    ];
-    const dot = WorkbenchImPieData.map((item, idx) => {
-      return (
-        <span key={idx} className={styles.colorArr}>
-          <i
-            style={{
-              backgroundColor: `${colorArr[idx]}`,
-              width: '8px',
-              height: '8px',
-              display: 'inline-block',
-              borderRadius: '50%',
-              marginRight: '3px',
-            }}
-          />
-          {item.name}
-        </span>
-      );
-    });
-
-    const { getCycleListData } = this.props;
+    const { getRestTrendData } = this.props;
     let value = 0;
-    if (getCycleListData && getCycleListData.length > 0) {
-      getCycleListData.map(item => {
+    if (getRestTrendData && getRestTrendData.length > 0) {
+      getRestTrendData.map(item => {
         value += item.value;
       });
     }
-    const options = getOption(getCycleListData);
+    const options = getOption(getRestTrendData);
     return (
       <div className={styles.collegeWrap}>
         <p className={styles.title}>
@@ -99,7 +63,6 @@ class NPS extends React.Component {
           />
           {/* )} */}
         </div>
-        {/* <div className={styles.dot}>{dot}</div> */}
       </div>
     );
   }

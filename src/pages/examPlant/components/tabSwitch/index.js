@@ -43,7 +43,7 @@ class TabSwitch extends React.Component {
       type: 'examPlant/updateDate',
       payload: { params: { startTime, endTime } }
     }).then(() => {
-      this.props.getList();
+      this.props.getList({});
       this.props.getDetailList()
     })
 

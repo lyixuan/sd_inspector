@@ -8,7 +8,7 @@ import zhutu from '@/assets/zhutu@2x.png';
 @connect(({ npsAnalyzeModel }) => ({
   npsAnalyzeModel,
   paramsQuery: npsAnalyzeModel.paramsQuery || {},
-  getTagListData: npsAnalyzeModel.getTagListData,
+  npsData: npsAnalyzeModel.npsData,
 }))
 class Score extends React.Component {
   clickEvent = item => {
@@ -23,14 +23,14 @@ class Score extends React.Component {
   };
 
   render() {
-    const { getNpsAutonomousEvaluation } = this.props;
+    const { npsData } = this.props;
     let value = 0;
-    if (getNpsAutonomousEvaluation && getNpsAutonomousEvaluation.length > 0) {
-      getNpsAutonomousEvaluation.map(item => {
+    if (npsData && npsData.starList && npsData.starList.length > 0) {
+      npsData.starList.map(item => {
         value += item.value;
       });
     }
-    const options = getOption(getNpsAutonomousEvaluation);
+    const options = getOption(npsData);
     return (
       <div className={styles.collegeWrap}>
         <p className={styles.title}>
@@ -50,7 +50,7 @@ class Score extends React.Component {
               src={zhutu}
               style={{
                 width: '150px',
-                height: '150px',
+                // height: '150px',
               }}
             />
           )}
@@ -58,7 +58,7 @@ class Score extends React.Component {
             <Echarts
               clickEvent={item => this.clickEvent(item)}
               options={options}
-              style={{ width: '243px', height: 194 + 'px', marginTop: '24px' }}
+              style={{ width: '243px', height: 194 + 'px' }}
             />
           )}
         </div>

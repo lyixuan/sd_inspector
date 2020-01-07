@@ -125,7 +125,7 @@ export default {
       return { ...state, paramsQuery };
     },
     saveCollege(state, { payload }) {
-      return { ...state, collegeList: getNullNodeList(payload.collegeList)};
+      return { ...state, collegeList: getNullNodeList(payload.collegeList, 2)};
     },
     saveClearParams(state) {
       return { ...state, paramsQuery: {} };

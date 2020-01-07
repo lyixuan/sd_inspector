@@ -138,30 +138,24 @@ class Top extends React.Component {
       },
       {
         ellipsis: true,
-        title: '创收产品包',
+        title: '好推产品包',
         dataIndex: 'packageName',
         key: 'packageName',
-        // width: '40%',
-        render: (packageName, record) => {
-          return (
-            <Tooltip title={packageName}>
-              <span style={{ textAlign: 'left' }}>{packageName}</span>
-            </Tooltip>
-          );
-        },
+        width: '30%',
+        render: (packageName, record) => <Tooltip placement="topLeft" title={packageName}>{packageName}</Tooltip>
       },
       {
-        title: '创收单量',
+        title: '好推单量',
         dataIndex: 'incomeOrder',
         key: 'incomeOrder',
-        width: '25%',
-        className: styles.marIncome,
-        render: (incomeOrder, record) => {
-          return <div style={{ textAlign: 'left', width: '70px' }}>{incomeOrder}</div>;
-        },
+        // width: '25%',
+        // className: styles.marIncome,
+        // render: (incomeOrder, record) => {
+        //   return <div style={{ textAlign: 'left', width: '70px' }}>{incomeOrder}</div>;
+        // },
       },
       {
-        title: '创收流水',
+        title: '好推流水',
         dataIndex: 'incomeFlowKpi',
         key: 'incomeFlowKpi',
         width: '100px',
@@ -169,16 +163,23 @@ class Top extends React.Component {
           const percent = record.incomeFlowKpiRatio * 100 + '%';
           const money = companyThousandsIncome(incomeFlowKpi);
           return (
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            // <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <BIWrapperProgress
                 text={money}
                 percent={percent}
                 propsStyle={{ flex: 'inherit', width: '70px', textAlign: 'right' }}
               />
-            </div>
+            // </div>
           );
         },
       },
+      {
+        width: '100px',
+        align: 'right',
+        title: 'ARPU（元）',
+        dataIndex: 'arpu',
+        key: 'arpu',
+      }
     ];
     return columns || [];
   };
@@ -197,7 +198,7 @@ class Top extends React.Component {
     return (
       <div className={styles.topCon}>
         <div className={styles.title}>
-          <span>热销产品包榜单</span>
+          <span>好推热销产品榜单</span>
           <div>
             <BISelect
               style={{ width: 136, marginLeft: 12 }}
@@ -231,7 +232,7 @@ class Top extends React.Component {
             pagination={false}
             loading={this.props.loading}
             onRow={this.onClickRow}
-            rowKey={record => record.id}
+            rowKey={(record, index) => index}
             // scroll={{ y: 288 }}
             name="hotData"
           />
