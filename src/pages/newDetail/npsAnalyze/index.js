@@ -67,6 +67,7 @@ class Resubmit extends React.Component {
     this.getTagList(params);
     this.getNpsData(params);
     this.getRestTrend(params);
+    this.statReasonType(params);
     // 学院明细
     this.getQueryStuDetailPage(params);
   };
@@ -101,6 +102,14 @@ class Resubmit extends React.Component {
     });
   };
 
+  // 原因分类
+  statReasonType = params => {
+    this.props.dispatch({
+      type: 'npsAnalyzeModel/statReasonType',
+      payload: { params },
+    });
+  };
+
   // 学员明细
   getQueryStuDetailPage = params => {
     const query = !params.pageSize ? { ...params, pageSize: 15, page: 1 } : params;
@@ -131,13 +140,13 @@ class Resubmit extends React.Component {
         children: (
           <>
             <div className={styles.tabTop}>
-              <Cycle />
-              <Score />
-              <Tag />
+              <Cycle onParamsChange={this.onParamsChange} />
+              <Score onParamsChange={this.onParamsChange} />
+              <Tag onParamsChange={this.onParamsChange} />
             </div>
             <div className={styles.tabCenter}>
               <NPS />
-              <Reson />
+              <Reson onParamsChange={this.onParamsChange} />
             </div>
           </>
         ),

@@ -33,3 +33,9 @@ export async function getRestTrend(data) {
   return request('/nps/getRestTrend', { method: 'post', data });
 }
 
+export async function statReasonType(data) {
+  return request('/nps/statReasonType', { method: 'post', data });
+}
+
+
+
