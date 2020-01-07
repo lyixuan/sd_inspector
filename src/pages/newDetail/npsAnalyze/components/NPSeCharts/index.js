@@ -11,16 +11,16 @@ import zhutu from '@/assets/zhutu@2x.png';
   getRestTrendData: npsAnalyzeModel.getRestTrendData,
 }))
 class NPS extends React.Component {
-  clickEvent = item => {
-    const { getRestTrendData } = this.props;
-    if (!getRestTrendData[item.dataIndex].value) return;
-    const cycle = this.props.paramsQuery.lifeCycle;
-    let val = item.name.replace('天', '');
-    if (cycle && cycle.length && cycle == item.name.replace('天', '')) {
-      val = undefined;
-    }
-    this.props.onParamsChange(val, 'lifeCycle');
-  };
+  // clickEvent = item => {
+  //   const { getRestTrendData } = this.props;
+  //   if (!getRestTrendData[item.dataIndex].value) return;
+  //   const cycle = this.props.paramsQuery.lifeCycle;
+  //   let val = item.name.replace('天', '');
+  //   if (cycle && cycle.length && cycle == item.name.replace('天', '')) {
+  //     val = undefined;
+  //   }
+  //   this.props.onParamsChange(val, 'lifeCycle');
+  // };
 
   render() {
     const { getRestTrendData } = this.props;
@@ -57,9 +57,9 @@ class NPS extends React.Component {
           )} */}
           {/* {value > 0 && ( */}
           <Echarts
-            clickEvent={item => this.clickEvent(item)}
+            // clickEvent={item => this.clickEvent(item)}
             options={options}
-            style={{ width: '761px', height: '240px' }}
+            style={{ width: '716px', height: '240px' }}
           />
           {/* )} */}
         </div>
