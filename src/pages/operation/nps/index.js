@@ -268,6 +268,7 @@ class NPSEvaluate extends React.Component {
   };
   // 选择组织
   onChangeSelect = (groupId, groupTypeArr) => {
+    console.log(271,groupId,groupTypeArr)
     //   collegeId:
     //   (userInfo && userInfo.collegeId) ||
     //   (this.state.groupId.length > 0 && this.state.groupId[0]) ||

@@ -324,38 +324,7 @@ class RobotTrend extends React.Component {
         },
       },
       series: [
-        {
-          name: '协同接待率',
-          type: 'line',
-          smooth: true,
-          symbolSize: 10,
-          itemStyle: {
-            normal: {
-              color: '#FFC442'
-            }
-          },
-          stack: '总量',
-          areaStyle: {
-            color: {
-              type: 'linear',
-              x: 0,
-              y: 0,
-              x2: 0,
-              y2: 1,
-              colorStops: [
-                {
-                  offset: 0,
-                  color: '#FFC442', // 0% 处的颜色
-                },
-                {
-                  offset: 1,
-                  color: 'RGBA(255, 196, 66, 0)', // 100% 处的颜色
-                },
-              ],
-            },
-          },
-          data: data3
-        },
+
         {
           name: '拦截率',
           type: 'line',
@@ -387,6 +356,38 @@ class RobotTrend extends React.Component {
             },
           },
           data: data1
+        },
+        {
+          name: '协同接待率',
+          type: 'line',
+          smooth: true,
+          symbolSize: 10,
+          itemStyle: {
+            normal: {
+              color: '#FFC442'
+            }
+          },
+          stack: '总量',
+          areaStyle: {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                {
+                  offset: 0,
+                  color: '#FFC442', // 0% 处的颜色
+                },
+                {
+                  offset: 1,
+                  color: 'RGBA(255, 196, 66, 0)', // 100% 处的颜色
+                },
+              ],
+            },
+          },
+          data: data3
         },
 
       ]

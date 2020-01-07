@@ -1,16 +1,17 @@
 import React from 'react';
 import { Tooltip, Row, Col } from 'antd';
 // import router from 'umi/router';
-import BIDialog from '@/components/BIDialog';
 import { connect } from 'dva/index';
 import {
   handleDefaultPickerValueMark,
+  pathImUrl,
   getSubStringValue,
   jumpMarkingDetails,
-  emptyValue,
-  getArrLastValue
+  linkRoute, linkImgRouteBul,
+  emptyValue, getArrLastValue
 } from '@/pages/ko/utils/utils';
-import BIRouteText from '@/ant_components/BIRouteText';
+import avatarTeacher from '@/assets/avatarTeacher.png';
+import avatarStudent from '@/assets/avatarStudent.png';
 import AuthButton from '@/components/AuthButton';
 import ModalTip from '../components/modalTip';
 import MarkForm from '../components/form';
@@ -18,9 +19,82 @@ import MarkList from '../components/list';
 import styles from '../style.less';
 
 
-const markType = 1; //im bbs nps 对应的额type值为1， 2， 3
+const markType = 4; //im bbs nps app意见反馈 对应的额type值为1， 2， 3，4
+// 悬浮列表
+function Layout(props) {
+  const layout = <section>
+    <ul className={styles.behavior}>
+      {props.dataMark.contentList.map((item, index) => <ListItem item={item} dataMark={props.dataMark} key={index}/>)}
+    </ul>
+  </section>;
+  return layout;
+}
 
+//对话区域行
+function ListItem(props) {
+  if (!props.item) {
+    return null;
+  } else {
+    return <TeacherOrStudent {...props} />;
+  }
+}
 
+// 判断是老师还是学员
+function TeacherOrStudent(props) {
+  if (props.item.type == 1) {
+    return (
+      <li className={styles.step}>
+        <div className={styles.time}>
+          {props.item.time ? props.item.time : ''}
+        </div>
+        <div className={styles.content}>
+          <div className={styles.bigDot}>
+            <span className={styles.dot}/>
+          </div>
+          <div className={styles.chatLeft}>
+            <div className={styles.avatar}>
+              <img src={props.dataMark.stuHeadUrl ? (pathImUrl + props.dataMark.stuHeadUrl) : avatarStudent}/>
+              <p>{getSubStringValue(props.dataMark.stuName, 3)}</p>
+            </div>
+            <div className={linkImgRouteBul(props.item.content) ? styles.chatContentImg : styles.chatContent}>
+              <span className={styles.triangle}>
+                <em/>
+              </span>
+              {/*{props.item.content}*/}
+              <span dangerouslySetInnerHTML={{ __html: linkRoute(props.item.content, styles.linkRoute) }}></span>
+            </div>
+          </div>
+        </div>
+      </li>
+    );
+  } else {
+    return (
+      <li className={styles.step}>
+        <div className={styles.time}>
+          {props.item.time ? props.item.time : ''}
+        </div>
+        <div className={styles.content}>
+          <div className={styles.bigDot}>
+            <span className={styles.dot}/>
+          </div>
+          <div className={styles.chatRight}>
+            <div className={linkImgRouteBul(props.item.content) ? styles.chatContentImg : styles.chatContent}>
+              <span className={styles.triangle}>
+                <em/>
+              </span>
+              {/*{props.item.content}*/}
+              <span dangerouslySetInnerHTML={{ __html: linkRoute(props.item.content, styles.linkRoute) }}></span>
+            </div>
+            <div className={styles.avatar}>
+              <img src={props.dataMark.teacherHeadUrl ? (pathImUrl + props.dataMark.teacherHeadUrl) : avatarTeacher}/>
+              <p>{getSubStringValue(props.dataMark.teacherName, 3)}</p>
+            </div>
+          </div>
+        </div>
+      </li>
+    );
+  }
+}
 @connect(({ workTableModel, koPlan }) => ({
   workTableModel,
   currentPage: workTableModel.pageParams[markType],
@@ -33,7 +107,7 @@ const markType = 1; //im bbs nps 对应的额type值为1， 2， 3
   evaluationList: workTableModel.evaluationList,
   currentServiceTime: koPlan.currentServiceTime
 }))
-class imPage extends React.Component {
+class appFeedback extends React.Component {
   constructor(props) {
     super(props);
     const { currentPage, searchParams, currentServiceTime } = this.props;
@@ -49,22 +123,21 @@ class imPage extends React.Component {
       },
       {
         title: '内容',
-        dataIndex: 'contentList',
-        key: 'contentList',
-        width: 130,
-        className: styles.contentListWith,
-        render: (list, r) => {
-          const content = list.length > 0 ? <BIDialog content={r}></BIDialog> : r.content;
-          const text = list.length > 0 ? list[0].content : '';
+        dataIndex: 'content',
+        key: 'content',
+        render: text => {
+          const content = <div className={styles.behaviorOthers}>{text}</div>;
           return (
-            <Tooltip overlayClassName={styles.listMarkingTooltip} placement="right" title={content}>
+            <>
+            {text ? <Tooltip overlayClassName={styles.listMarkingTooltipOthers} placement="right" title={content}>
               <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>
-            </Tooltip>
+            </Tooltip> : <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>}
+            </>
           );
         },
       },
       {
-        title: '学员姓名',
+        title: '姓名',
         dataIndex: 'stuName',
         key: 'stuName',
         render: (text, record) => <span onClick={() => jumpMarkingDetails(record.stuId, { target: 'im' })} className={`${styles.textEllipsis} ${styles.textname}`}>{text}</span>,
@@ -74,7 +147,7 @@ class imPage extends React.Component {
         dataIndex: 'org',
         key: 'org',
         render: text => <Tooltip overlayClassName={styles.listMarkingTooltipOthers} placement="right"
-          title={text}><span className={`${styles.textEllipsis} ${styles.textorg}`}>{text}</span></Tooltip>,
+                                 title={text}><span className={`${styles.textEllipsis} ${styles.textorg}`}>{text}</span></Tooltip>,
       },
       {
         title: '操作人',
@@ -105,7 +178,7 @@ class imPage extends React.Component {
         key: 'action',
         render: (text, record) => (
           <div>
-            <BIRouteText onClick={() => this.handleEdit(record.id)}>编辑</BIRouteText>
+            <span style={{ color: '#52c9c2', cursor: 'pointer'}} onClick={() => this.handleEdit(record.id)}>编辑</span>
           </div>
         ),
       });
@@ -136,18 +209,16 @@ class imPage extends React.Component {
     const { searchParams, currentPage } = this.state;
     this.props.dispatch({
       type: 'workTableModel/getTableList',
-      payload: {
-        params: {
-          ...searchParams,
-          page: currentPage,
-          type: markType,
-        }
-      },
+      payload: { params: {
+        ...searchParams,
+        page: currentPage,
+        type: markType,
+      } },
     });
   };
   changeOperatorId = (key, v) => {
     this.setState({
-      searchParams: { ...this.state.searchParams, [key]: v }
+      searchParams: {...this.state.searchParams, [key]: v}
     });
   };
 
@@ -158,14 +229,14 @@ class imPage extends React.Component {
     return (
       <div>
         <MarkForm {...this.props} markType={markType} searchParams={searchParams}
-          onSearchChange={this.onSearchChange} changeOperatorId={this.changeOperatorId}></MarkForm>
+                  onSearchChange={this.onSearchChange} changeOperatorId={this.changeOperatorId} />
         <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
-          columnsData={this.columnsData}>
-          <ModalTip markType={markType} othersSearch={others}></ModalTip>
+                  columnsData={this.columnsData}>
+          <ModalTip markType={markType} othersSearch={others} />
         </MarkList>
       </div>
     );
   }
 }
 
-export default imPage;
+export default appFeedback;
