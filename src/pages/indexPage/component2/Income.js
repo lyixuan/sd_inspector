@@ -48,6 +48,9 @@ class Income extends React.Component {
       );
     });
     const dotName = pieData.map((item, i) => {
+      if (item.name == '成考专本套') {
+        item.name = '成考';
+      }
       return (
         <span key={i}>
           <i />
@@ -75,6 +78,14 @@ class Income extends React.Component {
           <div className={style.crossRow}>
             <div className={style.ScoreLeft}>
               <div className={style.incomeTotal}>
+                <div>
+                  <p className={style.red}>+3.5万</p>
+                  <div>
+                    {changeToThousandsForIncome(sumAmount, 1)}{' '}
+                    <span style={{ fontSize: 14 }}>万</span>
+                  </div>
+                  <div>总流水</div>
+                </div>
                 <div>
                   <p className={style.red}>+3.5万</p>
                   <div>
