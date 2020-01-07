@@ -17,7 +17,7 @@ const tabGroup = [{
   tab: 'NPS',
   key: '/qualityMarking/nps',
 },{
-  tab: 'app意见反馈',
+  tab: '意见反馈',
   key: '/qualityMarking/appFeedback',
 }];
 @connect(({ workTableModel }) => ({
