@@ -11,19 +11,8 @@ import zhutu from '@/assets/zhutu@2x.png';
   getRestTrendData: npsAnalyzeModel.getRestTrendData,
 }))
 class NPS extends React.Component {
-  // clickEvent = item => {
-  //   const { getRestTrendData } = this.props;
-  //   if (!getRestTrendData[item.dataIndex].value) return;
-  //   const cycle = this.props.paramsQuery.lifeCycle;
-  //   let val = item.name.replace('天', '');
-  //   if (cycle && cycle.length && cycle == item.name.replace('天', '')) {
-  //     val = undefined;
-  //   }
-  //   this.props.onParamsChange(val, 'lifeCycle');
-  // };
-
   render() {
-    const { getRestTrendData } = this.props;
+    let { getRestTrendData } = this.props;
     let value = 0;
     if (getRestTrendData && getRestTrendData.length > 0) {
       getRestTrendData.map(item => {
@@ -56,11 +45,7 @@ class NPS extends React.Component {
             />
           )} */}
           {/* {value > 0 && ( */}
-          <Echarts
-            // clickEvent={item => this.clickEvent(item)}
-            options={options}
-            style={{ width: '716px', height: '240px' }}
-          />
+          <Echarts options={options} style={{ width: '716px', height: '240px' }} />
           {/* )} */}
         </div>
       </div>
