@@ -71,7 +71,7 @@ class DetailsIndex extends React.Component {
         dataIndex: 'tagList',
         key: 'tagList',
         render: (text, record) => {
-          const content = <span>{text.map((item, index) => <span key={index}>{index > 0 ? ' | ' : ''}<span style={{color: item.value === 1 ? '#3DD598' : '#FC5A5A'}}>{item.name}</span></span>)} {record.opinion}</span>;
+          const content = <span>{text.map((item, index) => <span key={index}>{index > 0 ? ' | ' : ''}<span style={{color: item.type === 31 ? '#DA43FF' : '#6665DD'}}>{item.name}</span></span>)} {record.opinion}</span>;
           return <Tooltip placement="topLeft" title={content}>{content}</Tooltip>
         }
       }
