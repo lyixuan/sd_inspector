@@ -115,16 +115,16 @@ class AiForm extends React.Component {
     if (!this.getChangeTime(value)) return;
     const [beginDate, endDate] = this.checkoutParamsType('choiceTime', value);
     this.getUserOrgList({ startTime: beginDate, endTime: endDate ,flag});
-    // this.props.dispatch({
-    //   type: 'workTableModel/getOperatorList',
-    //   payload: { params: { beginDate, endDate, type: this.props.markType } },
-    //   callback: () => {
-    //     if (this.props.changeOperatorId && flag) {
-    //       this.props.changeOperatorId('operatorId');
-    //       this.props.form.setFieldsValue({ operatorId: undefined });
-    //     }
-    //   }
-    // });
+    this.props.dispatch({
+      type: 'workTableModel/getOperatorList',
+      payload: { params: { beginDate, endDate, type: this.props.markType } },
+      callback: () => {
+        if (this.props.changeOperatorId && flag) {
+          this.props.changeOperatorId('operatorId');
+          this.props.form.setFieldsValue({ operatorId: undefined });
+        }
+      }
+    });
   }
   //获取问题分类列表
   getFaceBackTypeList = (params) =>{
@@ -260,7 +260,7 @@ class AiForm extends React.Component {
               </div>
               {
                 markType === 4 && <div className={styles.itemCls}>
-                  <Form.Item label='问题分类：'>
+                  <Form.Item label='意见分类：'>
                     {getFieldDecorator('typeLevel', {
                       initialValue: searchParams.typeLevel,
                     })(

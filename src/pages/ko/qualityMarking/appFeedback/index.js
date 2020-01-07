@@ -111,7 +111,6 @@ class appFeedback extends React.Component {
   constructor(props) {
     super(props);
     const { currentPage, searchParams, currentServiceTime } = this.props;
-    console.log(114,searchParams)
     this.state = { searchParams: { choiceTime: handleDefaultPickerValueMark(2, currentServiceTime), robot: 0, ...searchParams }, currentPage };
   }
 
@@ -124,17 +123,16 @@ class appFeedback extends React.Component {
       },
       {
         title: '内容',
-        dataIndex: 'contentList',
-        key: 'contentList',
-        width: 130,
-        className: styles.contentListWith,
-        render: (list, r) => {
-          const content = list.length > 0 ? <Layout dataMark={r}></Layout> : r.content;
-          const text = list.length > 0 ? list[0].content : '';
+        dataIndex: 'content',
+        key: 'content',
+        render: text => {
+          const content = <div className={styles.behaviorOthers}>{text}</div>;
           return (
-            <Tooltip overlayClassName={styles.listMarkingTooltip} placement="right" title={content}>
+            <>
+            {text ? <Tooltip overlayClassName={styles.listMarkingTooltipOthers} placement="right" title={content}>
               <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>
-            </Tooltip>
+            </Tooltip> : <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>}
+            </>
           );
         },
       },
@@ -209,7 +207,6 @@ class appFeedback extends React.Component {
   };
   queryData = () => {
     const { searchParams, currentPage } = this.state;
-    console.log(212,searchParams)
     this.props.dispatch({
       type: 'workTableModel/getTableList',
       payload: { params: {
@@ -232,10 +229,10 @@ class appFeedback extends React.Component {
     return (
       <div>
         <MarkForm {...this.props} markType={markType} searchParams={searchParams}
-                  onSearchChange={this.onSearchChange} changeOperatorId={this.changeOperatorId}></MarkForm>
+                  onSearchChange={this.onSearchChange} changeOperatorId={this.changeOperatorId} />
         <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
                   columnsData={this.columnsData}>
-          <ModalTip markType={markType} othersSearch={others}></ModalTip>
+          <ModalTip markType={markType} othersSearch={others} />
         </MarkList>
       </div>
     );

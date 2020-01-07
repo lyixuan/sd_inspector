@@ -28,10 +28,10 @@ class index  extends React.Component {
     this.props.dispatch({
       type: 'workTableModel/exportExcelData',
       payload: {
-        params: { 
-          ...others, 
+        params: {
+          ...others,
           type: this.state.exportType,
-          consultType: getArrLastValue(consultType), 
+          consultType: getArrLastValue(consultType),
           reasonType: getArrLastValue(reasonType),
         },
       },
@@ -62,9 +62,12 @@ class index  extends React.Component {
           <p style={{textAlign: 'center'}}>是否确定导出搜索出的数据？</p>
           <p style={{textAlign: 'center'}}>（如数据较多，可能需要多等待一会儿哦～）</p>
         </Modal>
-        {markType !== 3 && <BIButton type='warning' className={styles.exportBtn} onClick={() => this.handleExport(1)}>
+        {markType !== 3 && markType !== 4 && <BIButton type='warning' className={styles.exportBtn} onClick={() => this.handleExport(1)}>
           <img src={exportimg} /> 导出
         </BIButton>}
+        {
+          markType === 4 && <div className={styles.exportBtn}/>
+        }
         {markType === 3 && <div style={{display: 'flex'}}>
           <BIButton type='warning' onClick={() => this.handleExport(1)} style={{ marginRight: '8px' }}>导出标签</BIButton>
           <BIButton type='primary' onClick={() => this.handleExport(2)} >导出自主评价</BIButton>
