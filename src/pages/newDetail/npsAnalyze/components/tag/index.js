@@ -45,8 +45,7 @@ class Tag extends React.Component {
 
   render() {
     const { tabActive } = this.state;
-    const { npsData } = this.props;
-    debugger
+    const { npsData } = this.props;    
     let tabMenu = [];
     let tabCon = [[], []];
     if (npsData.tagImageDtoList) {
