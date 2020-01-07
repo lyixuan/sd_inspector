@@ -97,7 +97,7 @@ class CSForm extends React.Component {
   render() {
     // dimensionType:  1 优新 2 IM 3 工单 4 底线 5 创收
     const { scoreAppealModel = {}, dimensionType = 11, exportLoading, progress } = this.props;
-    const { appealOrgListTreeData = [], dimensionList = [] } = scoreAppealModel;
+    const { appealOrgListTreeData = [], dimensionList = [], minTime, maxTime } = scoreAppealModel;
     const dimensionList2 = dimensionList.filter(v => v.parentId === dimensionType);
 
     const {
@@ -138,6 +138,10 @@ class CSForm extends React.Component {
                   <span className={styles.gutterForm}>
                     <BIRangePicker
                       allowClear
+                      disabledDate={(current) => {
+                        return current && current > moment(maxTime).endOf('day')
+                          || current && current < moment(minTime).startOf('day');
+                      }}
                       value={creditBeginDate && [moment(creditBeginDate), moment(creditEndDate)]}
                       onChange={(val, valStr) => this.onFormChange(valStr, 'creditDate')}
                     />

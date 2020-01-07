@@ -6,6 +6,7 @@ import {
   getBaseAppealInfo,
   exportExcel,
   getOrgMapTree,
+  getTimeRange
 } from '@/pages/scoreAppeal/services';
 import { msgF, BiFilter, downBlob } from '@/utils/utils';
 
@@ -20,6 +21,8 @@ export default {
     dimensionList: BiFilter('SCORE_APPEAL_DIS'), // 学分维度列表
     appealOrgList: [],
     appealOrgListTreeData: [],
+    minTime: 0,
+    maxTime: 0
   },
 
   effects: {
@@ -99,6 +102,22 @@ export default {
     //     message.error(msgF(result.msg,result.msgDetail));
     //   }
     // },
+    *getTimeRangeData({payload, callback}, {call, put}) {
+      let res = yield call(getTimeRange);
+      if (res && res.code === 2000) {
+        let data = res.data[0];
+        let minTime = data.beginTime;
+        let maxTime = data.endTime;
+        callback(maxTime);
+        yield put({
+          type: 'saveTimeRange',
+          payload: {
+            minTime,
+            maxTime
+          }
+        })
+      }
+    }
   },
 
   reducers: {
@@ -116,6 +135,12 @@ export default {
     clearState(state, { payload }) {
       return { ...state, ...payload };
     },
+    saveTimeRange(state, {payload}) {
+      return {
+        ...state,
+        ...payload
+      }
+    }
   },
 
   subscriptions: {},
