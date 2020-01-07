@@ -110,6 +110,7 @@ class Index extends Component {
       },
       {
         title: '操作',
+        align: 'center',
         dataIndex: 'operate',
         render: (text, record) => {
           return (

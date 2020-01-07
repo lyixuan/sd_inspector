@@ -2,6 +2,8 @@ import { queryNotices } from '@/services/user';
 import { msgF } from '@/utils/utils';
 import { message } from 'antd/lib/index';
 import { getBasicInfo } from '@/pages/ko/behaviorPath/services';
+import {getThemeData} from '@/services/api';
+
 
 export default {
   namespace: 'global',
@@ -21,7 +23,14 @@ export default {
       'family': '家族长',
       'group': '运营长',
       'others': '无绩效岗位',
-    }
+    },
+    tempLogo: null,
+    headerBackgroundColor: null,
+    layoutBackgroundColor: null,
+    headerImage: null,
+    layoutImage: null,
+    pmsdkImage: null,
+    animation: null
   },
 
   effects: {
@@ -101,6 +110,16 @@ export default {
         window.open(`/inspector/ko/behaviorPath?params=${JSON.stringify(params1)}`);
       }
     },
+    *getThemeInfo({payload}, {call, put}) {
+      let res = yield call(getThemeData);
+      if (res && res.code === 20000) {
+        let data = res.data;
+        yield put({
+          type: 'saveThemeData',
+          payload: data
+        })
+      } else {}
+    }
   },
 
   reducers: {
@@ -122,6 +141,12 @@ export default {
         notices: state.notices.filter(item => item.type !== payload),
       };
     },
+    saveThemeData(state, {payload}) {
+      return {
+        ...state,
+        ...payload
+      }
+    }
   },
 
   subscriptions: {

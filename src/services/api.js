@@ -57,3 +57,8 @@ export async function setBrowserInfo(data) {
   });
 }
 
+// 获取主题相关信息
+export function getThemeData() {
+  return request('/globalApi/getThemeInfo');
+}
+
