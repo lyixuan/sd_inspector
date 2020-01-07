@@ -84,7 +84,7 @@ export default {
 
     // 飙升产品包榜单
     *getRisePackageRankList({ payload, callback }, { call, put }) {
-      const result = yield call(risePackageRankList);
+      const result = yield call(risePackageRankList, payload.params);
       if (result.code === 20000) {
         return result.data.splice(0, 10);
       } else if (result) {

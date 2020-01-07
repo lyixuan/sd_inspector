@@ -113,7 +113,7 @@ class ParamsTop extends React.Component {
             format='YYYY-MM-DD'
             onChange={this.onDateChange}
             allowClear={false}
-            disabledDate={val => disabledDate(val, this.props.globalkpiDateRange)}
+            disabledDate={val => disabledDate(val, {...this.props.globalkpiDateRange, startDate: '2019-10-29'})}
             style={{ width: 224 }}
           />
         </span>

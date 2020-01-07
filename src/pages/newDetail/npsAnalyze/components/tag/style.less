@@ -28,17 +28,46 @@
       display: inline-block;
       cursor: pointer;
     }
-    .current {
+    .current0 {
       width: 70px;
       height: 24px;
       background: rgba(255, 227, 0, 1);
       border-radius: 0px 0px 0px 4px;
     }
+    .current1 {
+      width: 70px;
+      height: 24px;
+      background: rgba(255, 227, 0, 1);
+      border-radius: 0px 0px 4px 0px;
+    }
     .normal {
       width: 70px;
       height: 24px;
       background: rgba(239, 238, 238, 1);
+      border-radius: 0px 0px 0px 4px;
+    }
+    .normal1 {
+      width: 70px;
+      height: 24px;
+      background: rgba(239, 238, 238, 1);
       border-radius: 0px 0px 4px 0px;
+    }
+  }
+
+  .tabWrap {
+    position: relative;
+    .none {
+      position: absolute;
+      width: 80px;
+      height: 37px;
+      background: rgba(249, 249, 249, 1);
+      text-align: center;
+      line-height: 37px;
+      color: #999;
+      font-size: 10px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
   }
 }

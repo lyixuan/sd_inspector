@@ -1,5 +1,4 @@
 export function getOption(data) {
-  console.log(data, 'data');
   const colorArr = ['#FC5B5C', '#00B27B', '#F5A623', '#FF57D5', '#4A90E2', '#8B572A', '#4AE2BD'];
   return {
     title: {
@@ -64,7 +63,7 @@ export function getOption(data) {
             // shadowColor: '#333'
           },
         },
-        data: [{value: 42, name: "不够关心我", nodeList: [], sort: null}, {value: 43, name: "不关心我", nodeList: [], sort: null}],
+        data: data,
       },
     ],
   };

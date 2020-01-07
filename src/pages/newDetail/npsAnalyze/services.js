@@ -6,7 +6,7 @@ export async function getReasonTypeTree(params) {
 
 // nps - 南丁格尔玫瑰图
 export async function getCycleList(data) {
-  return request('/nps/getCycleList', { method: 'POST', data });
+  return request('/income/getCycleList', { method: 'POST', data });
 }
 
 // nps - 获取nps星级数据接口
@@ -18,3 +18,18 @@ export async function getNpsAutonomousEvaluation(data) {
 export async function getTagList(params) {
   return request('/nps/getTagList', { method: 'get', params });
 }
+
+// 底表下载
+export async function exportData(data) {
+  return request('/bottomTask/add', { method: 'POST', data, server: 'downloadCenter' });
+}
+// nps - NPS分析
+export async function getNpsData(data) {
+  return request('/income/nps', { method: 'post', data });
+}
+
+// nps - NPS分析
+export async function getRestTrend(data) {
+  return request('/nps/getRestTrend', { method: 'post', data });
+}
+

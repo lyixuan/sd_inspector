@@ -26,6 +26,7 @@ class Income extends React.Component {
     let { sumAmount = 0, sumOrder } = sumData || {};
     sumAmount = sumAmount === null ? 0 : sumAmount;
     const { rankList = [] } = rank || {};
+    const totalCount = [];
 
     const optionL = getOptionL2(rankList);
     const optionR = getOptionR2(pieData);
@@ -33,6 +34,7 @@ class Income extends React.Component {
     const optionBossR = getOptionBossR(pieData, sumAmount);
 
     const dot = pieData.map((item, idx) => {
+      totalCount.push(item.dayCount);
       return (
         <span key={idx}>
           {' '}
@@ -48,6 +50,9 @@ class Income extends React.Component {
       );
     });
     const dotName = pieData.map((item, i) => {
+      if (item.name == '成考专本套') {
+        item.name = '成考';
+      }
       return (
         <span key={i}>
           <i />
@@ -65,35 +70,43 @@ class Income extends React.Component {
 
         {userType === 'boss' && (
           <div className={style.crossRow}>
-            <Echarts options={optionBossL} style={{ height: 250, width: 265, float: 'left' }} />
-            <Echarts options={optionBossR} style={{ height: 250, width: 260, float: 'left' }} />
+            <Echarts options={optionBossL} style={{ height: 250, width: 320, float: 'left' }} />
+            <Echarts options={optionBossR} style={{ height: 250, width: 200, float: 'left' }} />
             <div className={style.footer}>{dot}</div>
             <div className={style.footer2}>{dotName}</div>
           </div>
         )}
         {userType !== 'boss' && (
           <div className={style.crossRow}>
-            <div className={style.ScoreLeft}>
-              <div className={style.incomeTotal}>
-                <div>
-                  <p className={style.red}>+3.5万</p>
-                  <div>
-                    {changeToThousandsForIncome(sumAmount, 1)}{' '}
-                    <span style={{ fontSize: 14 }}>万</span>
-                  </div>
-                  <div>总流水</div>
-                </div>
-                <div>
-                  <p className={style.green}>+3.5万</p>
-                  <div>{sumOrder}</div>
-                  <div>总单量</div>
-                </div>
+            <div className={style.ScoreLeftIncome}>
+              <div className={style.incomeTotalIncome}>
+                {pieData.length > 0 &&
+                  pieData.map(item => {
+                    return (
+                      <div>
+                        {item.dayCount > 0 && (
+                          <p className={style.green}>
+                            +{changeToThousandsForIncome(item.dayCount)}万
+                          </p>
+                        )}
+                        {item.dayCount < 0 && (
+                          <p className={style.red}>{changeToThousandsForIncome(item.dayCount)}万</p>
+                        )}
+                        {item.dayCount === 0 && <p className={style.gray}>--</p>}
+                        <div>
+                          {changeToThousandsForIncome(item.value, 1)}{' '}
+                          <span style={{ fontSize: 14 }}>万</span>
+                        </div>
+                        <div>好推</div>
+                      </div>
+                    );
+                  })}
               </div>
               <Echarts options={optionL} style={{ height: 150 }} />
             </div>
-            <div className={style.incomeRight}>
+            <div className={style.incomeRightImcome}>
               {pieData.length > 0 ? (
-                <Echarts options={optionR} style={{ height: 250, width: 260, float: 'left' }} />
+                <Echarts options={optionR} style={{ height: 250, width: 200, float: 'left' }} />
               ) : (
                 <img
                   src={bingtu}
