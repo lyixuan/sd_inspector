@@ -26,6 +26,7 @@ class Income extends React.Component {
     let { sumAmount = 0, sumOrder } = sumData || {};
     sumAmount = sumAmount === null ? 0 : sumAmount;
     const { rankList = [] } = rank || {};
+    const totalCount = [];
 
     const optionL = getOptionL2(rankList);
     const optionR = getOptionR2(pieData);
@@ -33,6 +34,7 @@ class Income extends React.Component {
     const optionBossR = getOptionBossR(pieData, sumAmount);
 
     const dot = pieData.map((item, idx) => {
+      totalCount.push(item.dayCount);
       return (
         <span key={idx}>
           {' '}
@@ -78,27 +80,27 @@ class Income extends React.Component {
           <div className={style.crossRow}>
             <div className={style.ScoreLeftIncome}>
               <div className={style.incomeTotalIncome}>
-                <div>
-                  <p className={style.red}>+3.5万</p>
-                  <div>
-                    {changeToThousandsForIncome(sumAmount, 1)}{' '}
-                    <span style={{ fontSize: 14 }}>万</span>
-                  </div>
-                  <div>总流水</div>
-                </div>
-                <div>
-                  <p className={style.red}>+3.5万</p>
-                  <div>
-                    {changeToThousandsForIncome(sumAmount, 1)}{' '}
-                    <span style={{ fontSize: 14 }}>万</span>
-                  </div>
-                  <div>总流水</div>
-                </div>
-                <div>
-                  <p className={style.green}>+3.5万</p>
-                  <div>{sumOrder}</div>
-                  <div>总单量</div>
-                </div>
+                {pieData.length > 0 &&
+                  pieData.map(item => {
+                    return (
+                      <div>
+                        {item.dayCount > 0 && (
+                          <p className={style.green}>
+                            +{changeToThousandsForIncome(item.dayCount)}万
+                          </p>
+                        )}
+                        {item.dayCount < 0 && (
+                          <p className={style.red}>{changeToThousandsForIncome(item.dayCount)}万</p>
+                        )}
+                        {item.dayCount === 0 && <p className={style.gray}>--</p>}
+                        <div>
+                          {changeToThousandsForIncome(item.value, 1)}{' '}
+                          <span style={{ fontSize: 14 }}>万</span>
+                        </div>
+                        <div>好推</div>
+                      </div>
+                    );
+                  })}
               </div>
               <Echarts options={optionL} style={{ height: 150 }} />
             </div>

@@ -1,5 +1,4 @@
 export function getOptionR2(list) {
-  console.log(list, 'list');
   list.forEach(item => {
     if (item.name === '好推') {
       item['itemStyle'] = {
