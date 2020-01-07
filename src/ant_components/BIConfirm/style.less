@@ -1,16 +1,23 @@
 .BIConfirm {
   position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
   z-index: 9999999;
-  width: 150px;
-  min-height: 70px;
-  border-radius: 5px;
-  background: rgba(0, 0, 0, 0.7);
-  left: 50%;
-  top: 50%;
-  color: #fff;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  >div {
+    width: 150px;
+    min-height: 70px;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.7);
+    left: 50%;
+    top: 50%;
+    color: #fff;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: absolute;
+  }
 }

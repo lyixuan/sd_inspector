@@ -15,8 +15,8 @@ import styles from './style.less';
   globalUserInfo: newDetailModal.globalUserInfo,
   stuDetailData: npsAnalyzeModel.stuDetailData || {},
   paramsQuery: npsAnalyzeModel.paramsQuery,
-  downLoding: npsAnalyzeModel.downLoding,
   loading: loading.effects['npsAnalyzeModel/getNpsAutonomousEvaluation'],
+  downLoding: loading.effects['npsAnalyzeModel/exportExcelData'],
 }))
 class DetailsIndex extends React.Component {
   constructor(props) {
@@ -115,7 +115,6 @@ class DetailsIndex extends React.Component {
     const { orgId = [] } = this.props.paramsQuery;
     const [cId, fId, gId] = orgId;
     const {collegeId, familyId, groupId, userType} = this.props.globalUserInfo;
-    console.log(cId, fId, gId, collegeId, familyId, groupId);
     if (userType === 'boss') {
       return true;
     } else if (collegeId && familyId && groupId) {
