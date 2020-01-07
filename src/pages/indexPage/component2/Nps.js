@@ -18,6 +18,19 @@ import zhutu from '@/assets/zhutu@2x.png';
   loadingTime: loading.effects['xdWorkModal/getNpsData'],
 }))
 class Nps extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tabActive: 0,
+    };
+  }
+
+  clickTab = tabActive => {
+    this.setState({
+      tabActive,
+    });
+  };
+
   jump = () => {
     handleDataTrace({ widgetName: 'NPS_进入详情', traceName: '2.0/NPS_进入详情' });
     const { getCurrentDateRangeData } = this.props;
@@ -36,6 +49,7 @@ class Nps extends React.Component {
 
   render() {
     const { WorkbenchNpsData, loadingTime } = this.props;
+    const { tabActive } = this.state;
     const options = getOption(WorkbenchNpsData);
     const { starList = [] } = WorkbenchNpsData;
     let total = 0;
@@ -44,6 +58,14 @@ class Nps extends React.Component {
         total += item.value;
       });
     }
+
+    let tabMenu = [];
+    let tabCon = [[], []];
+    if (WorkbenchNpsData.tagImageDtoList) {
+      tabMenu = ['班主任', '授课'];
+      tabCon = [WorkbenchNpsData.tagImageDtoList, WorkbenchNpsData.tagImageDtoList2];
+    }
+
     return (
       <div className={stylefather.boxRight}>
         <div className={stylefather.boxHeader}>
@@ -54,14 +76,38 @@ class Nps extends React.Component {
         <Spin spinning={loadingTime}>
           <div className={style.npsContent}>
             <div className={style.npsLeft}>
-              <NpsLeft cloudOptions={WorkbenchNpsData.tagImageDtoList} />
+              <div className={style.tab} style={{ paddingTop: '24px' }}>
+                <span
+                  className={tabActive === 0 ? style[`current${tabActive}`] : style.normal}
+                  onClick={() => this.clickTab(0)}
+                >
+                  班主任
+                </span>
+                <span
+                  className={tabActive === 1 ? style[`current${tabActive}`] : style.normal1}
+                  onClick={() => this.clickTab(1)}
+                >
+                  授课
+                </span>
+              </div>
+              <NpsLeft cloudOptions={tabCon[tabActive]} />
             </div>
-            <div className={style.npsRight} style={{ width: '243px', height: 223 + 'px' }}>
+
+            {/* {tabCon[tabActive].length > 0 && (
+            <Echart
+              options={options}
+              style={{ width: '310px', height: '189px' }}
+              clickEvent={item => this.clickEvent(item)}
+            />
+          )}
+          {tabCon[tabActive].length === 0 && <div className={style.none}>暂无数据</div>} */}
+
+            <div className={style.npsRight} style={{ width: '243px', height: 200 + 'px' }}>
               {!total && <img src={zhutu} style={{ width: '193px' }} />}
               {total > 0 && (
                 <Echarts
                   options={options}
-                  style={{ width: '243px', height: 223 + 'px' }}
+                  style={{ width: '243px', height: 200 + 'px' }}
                   clickEvent={item => this.clickEvent(item)}
                 />
               )}
