@@ -70,7 +70,7 @@ export default {
       const params = payload.params;
       const result = yield call(getOrgType, params);
       if (result && result.code === 20000) {
-        return result.data||0;
+        return result.data;
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }

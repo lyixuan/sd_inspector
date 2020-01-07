@@ -62,7 +62,8 @@ class FormIndex extends React.Component {
       type: 'qualityAppealHome/getOrgType',
       payload: { params },
     }).then((res)=>{
-      form.setFieldsValue({ ...form.getFieldsValue(), ...{familyType:res} });
+      console.log(res,'res')
+      form.setFieldsValue({ ...form.getFieldsValue(), ...{familyType:res===null?undefined:res} });
     });
   };
 
