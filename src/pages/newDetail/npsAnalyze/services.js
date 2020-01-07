@@ -18,3 +18,8 @@ export async function getNpsAutonomousEvaluation(data) {
 export async function getTagList(params) {
   return request('/nps/getTagList', { method: 'get', params });
 }
+
+// 底表下载
+export async function exportData(data) {
+  return request('/bottomTask/add', { method: 'POST', data, server: 'downloadCenter' });
+}
