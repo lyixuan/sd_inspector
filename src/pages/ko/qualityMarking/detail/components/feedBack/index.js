@@ -46,8 +46,7 @@ class DetailFeedBack extends React.Component {
     };
   }
   handleNameClick = (id) => {
-    console.log(49, id)
-    jumpMarkingDetails(id, { target: 'feedBack' })
+    jumpMarkingDetails(id, { target: 'hx' })
   }
 
   render() {
@@ -72,7 +71,7 @@ class DetailFeedBack extends React.Component {
             </div>
             <div className={styles.row}>
               <span className={styles.label}>后端归属：</span>
-              <span className={styles.name}>{item.itemId}</span>
+              <span className={styles.name}>{item.org}</span>
             </div>
           </li>
           <li className={styles.flex}>
@@ -85,7 +84,7 @@ class DetailFeedBack extends React.Component {
             <div className={styles.row}>
               <span className={styles.label}>意见分类：</span>
               <span className={styles.name + " " + styles.labels}>
-                dfdf
+                {item.feedbackTypeName}
                 {/* <Keywords list={item.keywordList}></Keywords> */}
               </span>
             </div>
@@ -94,7 +93,7 @@ class DetailFeedBack extends React.Component {
             <div className={styles.row}>
               <span className={styles.label}>意见内容：</span>
               <span className={styles.name}>
-                {/* <Content content={item.content} keyWord={item.keywords}></Content> */}
+                {item.content}
               </span>
             </div>
           </li>

@@ -10,13 +10,13 @@ export async function getReasonTypeTree() {
 }
 // 编辑
 export async function edit(data) {
-  return request('/workbench/edit', { method: 'post', data });
+  return request('/test/workbench/edit', { method: 'post', data });
 }
 // 提交
 export async function submit(data) {
-  return request('/workbench/submit', { method: 'post', data });
+  return request('/test/workbench/submit', { method: 'post', data });
 }
 // table 列表数据
 export async function getIdList(data) {
-  return request('/workbench/getIdList', { method: 'post', data });
+  return request('/test/workbench/getIdList', { method: 'post', data });
 }

@@ -142,6 +142,7 @@ class DataClassfy extends React.Component {
         itemId: this.props.pageData.item.itemId,
         result: { ...this.state.submitParam, lifeCycle: this.setLifeCycle() },
       };
+      console.log(144, params)
       this.props.computedIdNew(() => {
         this.props.dispatch({
           type: 'AiDetail/submit',
@@ -223,7 +224,7 @@ class DataClassfy extends React.Component {
                   </li>
                   <li>
                     <label>后端归属：</label>
-                    <p>{this.setOrg()}</p>tt
+                    <p>{this.setOrg()}</p>
                     {/* <p>{this.state.org}</p> */}
                   </li>
                 </>
