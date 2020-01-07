@@ -80,9 +80,10 @@ class PackageIndex extends React.Component {
         render: text => getProText(text, maxVal)
       },
       {
-        title: 'ARPU',
+        title: 'ARPU(元)',
         dataIndex: 'arpu',
         key: 'arpu',
+        render: text => text.toFixed(1),
       },
     ];
     return columns || [];
