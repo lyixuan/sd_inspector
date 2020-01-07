@@ -17,7 +17,7 @@ class Score extends React.Component {
     } = this.props;
     if (!starList[item.dataIndex].value) return;
     const starVal = this.props.paramsQuery.star;
-    let val = Number(item.dataIndex) + 1;
+    let val = String(Number(item.dataIndex) + 1);
     if (starVal && starVal == val) {
       val = undefined;
     }

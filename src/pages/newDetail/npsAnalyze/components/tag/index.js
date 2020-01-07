@@ -28,15 +28,19 @@ class Tag extends React.Component {
     const {
       npsData: { starList },
     } = this.props;
-    console.log(this.props.paramsQuery.tagId, 'this.props.paramsQuery.tagId');
-
     if (!item.data.value) return;
-    const tagIdVal = this.props.paramsQuery.tagId;
-    let val = Number(item.dataIndex) + 1;
-    if (tagIdVal == val) {
-      val = undefined;
+
+    let val = [];
+    if (this.state.tabActive == 0) {
+      // 30
+      val = [30, item.data.id];
+    } else {
+      //31
+      val = [31, item.data.id];
     }
-    this.props.onParamsChange(val, 'tagId');
+    const flag =
+      this.props.paramsQuery.tagId && this.props.paramsQuery.tagId.toString() == val.toString();
+    this.props.onParamsChange(flag ? [] : val, 'tagId');
   };
 
   render() {
