@@ -14,8 +14,8 @@ export async function getHotList() {
 }
 
 // 飙升产品包榜单
-export async function risePackageRankList() {
-  return request('/classWorkbench/risePackageRankList', { method: 'get' });
+export async function risePackageRankList(data) {
+  return request('/classWorkbench/risePackageRankList', { method: 'POST', data });
 }
 // 热销产品包列表
 export async function packageRankList(data) {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import starColor from '@/assets/starColor.png';
-import starNone from '@/assets/starNone.png';
+import starColor from '@/assets/npsAnalyze/shape.png';
+import starNone from '@/assets/npsAnalyze/shapenull.png';
 
 class Star extends Component {
   getStar() {
