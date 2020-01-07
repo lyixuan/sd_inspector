@@ -27,11 +27,12 @@ class BICascader extends React.Component {
 
 
     onChange = (val, ops) => {
-        const { label, value } = this.returnFieldNames();
+        const { label, value,level} = this.returnFieldNames();
         if (this.props.onChange) {
             const newValue = ops ? ops.map(item => ({
                 value: item[value],
                 name: item[label],
+                level:item[level],
             })) : ops;
             this.onSaveValue(val)
             this.props.onChange(newValue)

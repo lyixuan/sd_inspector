@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { getOperatorList, getConsultTypeTree, getReasonTypeTree, getTableList, exportData, getUserOrgList } from './services';
+import { getOperatorList, getConsultTypeTree, getReasonTypeTree, getTableList, exportData, getUserOrgList,getFeedBackTypeList } from './services';
 import { downBlob, msgF } from '@/utils/utils';
 import { getKOEnumList } from '@/pages/ko/services';
 import { emptyValue, getArrLastValue } from '@/pages/ko/utils/utils';
@@ -28,13 +28,15 @@ export default {
     idList: [],//idList
     pageSize: 15,// 每页条数
     totalCount: 0,// 列表总值
-    globalOrgList: []
+    globalOrgList: [],
+    feedBackTypeList:[]
   },
   effects: {
     *getBasicData({ payload }, { call, put, select }) {
       const collegeResult = yield call(getKOEnumList, { type: 9 });
       const consultResult = yield call(getConsultTypeTree);
       const reasonResult = yield call(getReasonTypeTree);
+
       if (collegeResult && collegeResult.code && collegeResult.code === 20000) {
         const data = Array.isArray(collegeResult.data) ? collegeResult.data : [];
         yield put({ type: 'save', payload: { collegeList: data[0].enumData } });
@@ -107,6 +109,19 @@ export default {
       if (result.code === 20000) {
         const res = result.data;
         yield put({ type: 'save', payload: { globalOrgList: res } });
+        if (callback && typeof callback === 'function') {
+          callback(res);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getFaceBackTypeList({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getFeedBackTypeList,params);
+      if (result.code === 20000) {
+        const res = result.data;
+        yield put({type:'save',payload:{feedBackTypeList:[{ id: emptyValue, name: '空' }].concat(res)}})
         if (callback && typeof callback === 'function') {
           callback(res);
         }

@@ -111,6 +111,7 @@ class appFeedback extends React.Component {
   constructor(props) {
     super(props);
     const { currentPage, searchParams, currentServiceTime } = this.props;
+    console.log(114,searchParams)
     this.state = { searchParams: { choiceTime: handleDefaultPickerValueMark(2, currentServiceTime), robot: 0, ...searchParams }, currentPage };
   }
 
@@ -208,6 +209,7 @@ class appFeedback extends React.Component {
   };
   queryData = () => {
     const { searchParams, currentPage } = this.state;
+    console.log(212,searchParams)
     this.props.dispatch({
       type: 'workTableModel/getTableList',
       payload: { params: {

@@ -22,6 +22,7 @@ const robotData = [
   currentServiceTime: koPlan.currentServiceTime,
   globalOrgList: workTableModel.globalOrgList,
   loading: loading.effects['workTableModel/getBasicData'] || loading.effects['koPlan/getCurrentTime'],
+  feedBackTypeList:workTableModel.feedBackTypeList
 }))
 class AiForm extends React.Component {
   componentDidMount() {
@@ -37,6 +38,9 @@ class AiForm extends React.Component {
     } else {
       this.handleSearch();
       this.onChangeTime(this.props.searchParams.choiceTime)
+    }
+    if(this.props.markType === 4){
+      this.getFaceBackTypeList()
     }
 
   }
@@ -61,6 +65,23 @@ class AiForm extends React.Component {
     }
     return returnItem;
   };
+  // 处理查询后端组织
+  checkoutParamsOrg = (key, item) => {
+    if(Array.isArray(item) && item.length > 0){
+      const collegeId = item[0] && item[0].value
+      const familyId = item[1] && item[1].value
+      const groupId = item[2] && item[2].value
+      return [collegeId,familyId,groupId]
+    }
+    return []
+  };
+  //处理问题分类数据
+  checkLastLevel = (key, item) =>{
+    if(Array.isArray(item) && item.length > 0){
+      return [item[item.length-1].level,item[item.length-1].value]
+    }
+    return []
+  }
   // 查询事件
   handleSearch = (e) => {
     e && e.preventDefault();
@@ -69,7 +90,9 @@ class AiForm extends React.Component {
       if (!this.getChangeTime(values.choiceTime)) return;
       if (onSearchChange) {
         const [beginDate, endDate] = this.checkoutParamsType('choiceTime', values.choiceTime);
-        onSearchChange({ ...values, beginDate, endDate });
+        const [collegeId,familyId,groupId] = this.checkoutParamsOrg('orgIds',values.collegeId);
+        const [typeLevel,typeId] = this.checkLastLevel('typeLevel',values.typeLevel)
+        onSearchChange({ ...values, beginDate, endDate,collegeId,familyId,groupId,typeLevel,typeId});
       }
     });
   };
@@ -85,38 +108,47 @@ class AiForm extends React.Component {
     }
     const [beginDate, endDate] = this.checkoutParamsType('choiceTime', searchParams.choiceTime);
     this.props.form.resetFields();
-    this.props.onSearchChange({ ...searchParams, beginDate, endDate });
+    this.props.onSearchChange({ ...searchParams, beginDate, endDate ,});
   };
   //操作ID
   onChangeTime = (value, flag) => {
     if (!this.getChangeTime(value)) return;
     const [beginDate, endDate] = this.checkoutParamsType('choiceTime', value);
-    if (this.props.markType === 4) {
-      this.getUserOrgList({ startTime: beginDate, endTime: endDate });
-    }
+    this.getUserOrgList({ startTime: beginDate, endTime: endDate ,flag});
+    // this.props.dispatch({
+    //   type: 'workTableModel/getOperatorList',
+    //   payload: { params: { beginDate, endDate, type: this.props.markType } },
+    //   callback: () => {
+    //     if (this.props.changeOperatorId && flag) {
+    //       this.props.changeOperatorId('operatorId');
+    //       this.props.form.setFieldsValue({ operatorId: undefined });
+    //     }
+    //   }
+    // });
+  }
+  //获取问题分类列表
+  getFaceBackTypeList = (params) =>{
     this.props.dispatch({
-      type: 'workTableModel/getOperatorList',
-      payload: { params: { beginDate, endDate, type: this.props.markType } },
-      callback: () => {
-
-        if (this.props.changeOperatorId && flag) {
-          this.props.changeOperatorId('operatorId');
-          this.props.form.setFieldsValue({ operatorId: undefined });
-        }
-      }
-    });
+      type:'workTableModel/getFaceBackTypeList',
+      payload:{params}
+    })
   }
   getUserOrgList = (params) => {
     this.props.dispatch({
       type: 'workTableModel/getUserOrgList',
       payload: { params },
+      callback: () => {
+          if (this.props.changeOperatorId && params.flag) {
+            this.props.changeOperatorId('operatorId');
+            this.props.form.setFieldsValue({ operatorId: undefined });
+          }
+        }
     });
   }
 
   render() {
-    console.log(117, this.props)
     const { getFieldDecorator } = this.props.form;
-    const { markType, searchParams, collegeList, consultList, reasonList, evaluateList, operatorList, evaluationList = [], globalOrgList = [] } = this.props;
+    const { markType, searchParams, collegeList, consultList, reasonList, evaluateList, operatorList, evaluationList = [], globalOrgList = [] ,feedBackTypeList = []} = this.props;
     const { loading } = this.props;
     return (
       <div className={`${formStyles.formStyle} ${styles.formCotainer}`}>
@@ -141,25 +173,25 @@ class AiForm extends React.Component {
                   )}
                 </Form.Item>
               </div>
-              {
-                markType !== 4 && <div className={styles.itemCls}>
-                  <Form.Item label='后端归属：'>
-                    {getFieldDecorator('collegeId', {
-                      initialValue: searchParams.collegeId,
-                    })(
-                      <BISelect
-                        placeholder="请选择"
-                        dropdownClassName={styles.popupClassName}
-                        getPopupContainer={triggerNode => triggerNode.parentNode}
-                        allowClear>
-                        {collegeList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
-                      </BISelect>,
-                    )}
-                  </Form.Item>
-                </div>
-              }
-              {
-                markType === 4 && <div className={styles.itemCls}>
+              {/*{*/}
+                {/*markType !== 4 && <div className={styles.itemCls}>*/}
+                  {/*<Form.Item label='后端归属：'>*/}
+                    {/*{getFieldDecorator('collegeId', {*/}
+                      {/*initialValue: searchParams.collegeId,*/}
+                    {/*})(*/}
+                      {/*<BISelect*/}
+                        {/*placeholder="请选择"*/}
+                        {/*dropdownClassName={styles.popupClassName}*/}
+                        {/*getPopupContainer={triggerNode => triggerNode.parentNode}*/}
+                        {/*allowClear>*/}
+                        {/*{collegeList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}*/}
+                      {/*</BISelect>,*/}
+                    {/*)}*/}
+                  {/*</Form.Item>*/}
+                {/*</div>*/}
+              {/*}*/}
+
+                <div className={styles.itemCls}>
                   <Form.Item label='后端归属：'>
                     {getFieldDecorator('collegeId', {
                       initialValue: searchParams.collegeId,
@@ -174,7 +206,6 @@ class AiForm extends React.Component {
                     )}
                   </Form.Item>
                 </div>
-              }
               <div className={styles.itemCls}>
                 <Form.Item label='咨询类型：'>
                   {getFieldDecorator('consultType', {
@@ -230,16 +261,10 @@ class AiForm extends React.Component {
               {
                 markType === 4 && <div className={styles.itemCls}>
                   <Form.Item label='问题分类：'>
-                    {getFieldDecorator('operatorId', {
-                      initialValue: searchParams.operatorId,
+                    {getFieldDecorator('typeLevel', {
+                      initialValue: searchParams.typeLevel,
                     })(
-                      <BISelect
-                        placeholder="请选择"
-                        dropdownClassName={styles.popupClassName}
-                        getPopupContainer={triggerNode => triggerNode.parentNode}
-                        allowClear>
-                        {operatorList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)}
-                      </BISelect>,
+                      <BICascader placeholder="请选择" changeOnSelect options={feedBackTypeList} fieldNames={{ label: 'name', value: 'id', level:'level',children: 'nodeList' }} />
                     )}
                   </Form.Item>
                 </div>
