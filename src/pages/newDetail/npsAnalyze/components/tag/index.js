@@ -24,9 +24,28 @@ class Tag extends React.Component {
     });
   };
 
+  clickEvent = item => {
+    const {
+      npsData: { starList },
+    } = this.props;
+    if (!item.data.value) return;
+
+    let val = [];
+    if (this.state.tabActive == 0) {
+      // 30
+      val = [30, item.data.id];
+    } else {
+      //31
+      val = [31, item.data.id];
+    }
+    const flag =
+      this.props.paramsQuery.tagId && this.props.paramsQuery.tagId.toString() == val.toString();
+    this.props.onParamsChange(flag ? [] : val, 'tagId');
+  };
+
   render() {
     const { tabActive } = this.state;
-    const { npsData, loadingTime } = this.props;
+    const { npsData } = this.props;    
     let tabMenu = [];
     let tabCon = [[], []];
     if (npsData.tagImageDtoList) {
@@ -67,7 +86,11 @@ class Tag extends React.Component {
             </span>
           </div>
           {tabCon[tabActive].length > 0 && (
-            <Echart options={options} style={{ width: '310px', height: '189px' }} />
+            <Echart
+              options={options}
+              style={{ width: '310px', height: '189px' }}
+              clickEvent={item => this.clickEvent(item)}
+            />
           )}
           {tabCon[tabActive].length === 0 && <div className={styles.none}>暂无数据</div>}
         </div>

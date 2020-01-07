@@ -294,18 +294,18 @@ class BehaviorPath1 extends React.Component {
                   {/*<UserInfo info={userInfoParams}></UserInfo> : null*/}
               {/*}*/}
             {/*</div>*/}
-            <div className={styles.inputBox}>
-              <Search
-                allowClear
-                placeholder="输入学员ID"
-                maxLength={10}
-                width={260}
-                value={this.state.inputStuId}
-                onChange={value => this.onChange(value)}
-                onSearch={value => this.onSearchUser(value)}
-              />
-              {/* <Input placeholder="输入学员ID" allowClear onChange={this.changeUserId} /> */}
-            </div>
+            {/*<div className={styles.inputBox}>*/}
+            {/*  <Search*/}
+            {/*    allowClear*/}
+            {/*    placeholder="输入学员ID"*/}
+            {/*    maxLength={10}*/}
+            {/*    width={260}*/}
+            {/*    value={this.state.inputStuId}*/}
+            {/*    onChange={value => this.onChange(value)}*/}
+            {/*    onSearch={value => this.onSearchUser(value)}*/}
+            {/*  />*/}
+               {/*<Input placeholder="输入学员ID" allowClear onChange={this.changeUserId} /> */}
+            {/*</div>*/}
           </div>
         </div>
         {

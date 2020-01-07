@@ -26,7 +26,7 @@ export function getOption(data) {
       seriesData.push({
         name: item.title,
         type: 'line',
-        stack: '总量',
+        // stack: '总量',
         smooth: true,
         data: item.value,
         itemStyle: {
@@ -37,8 +37,8 @@ export function getOption(data) {
       });
     });
     xAxisData = data[0].name;
-    max = Math.max.apply(null, maxArr);
-    min = Math.min.apply(null, maxArr);
+    // max = Math.max.apply(null, maxArr);
+    // min = Math.min.apply(null, maxArr);
   }
 
   return {
@@ -73,7 +73,7 @@ export function getOption(data) {
             item.marker +
             item.seriesName +
             '   ' +
-            Number(item.value * 100).toFixed(2) +
+            item.value +
             '%' +
             '</span>' +
             '</br>';
@@ -84,7 +84,7 @@ export function getOption(data) {
     },
     grid: {
       left: '10%',
-      top: 20,
+      top: 10,
       right: 50,
       bottom: legendData.length > 7 ? '34%' : '24%',
       // containLabel: true,
@@ -95,9 +95,6 @@ export function getOption(data) {
       align: 'auto',
       bottom: '1',
       width: 710,
-      // padding: 50,
-      // top: 10,
-      // padding: 100,
       itemHeight: 30,
       // right: 0,
       left: 'center',
@@ -130,6 +127,7 @@ export function getOption(data) {
       data: xAxisData,
     },
     yAxis: {
+      // name: '(百分比)',
       type: 'value',
       splitLine: {
         // 网格线
@@ -141,7 +139,7 @@ export function getOption(data) {
       },
       // max: max,
       // min: min,
-      // splitNumber: 5,
+      splitNumber: 5,
       axisLine: { show: false },
       axisLabel: {
         // y轴文字颜色
@@ -149,6 +147,7 @@ export function getOption(data) {
         textStyle: {
           color: '#7D90AA',
         },
+        formatter: '{value}%'  
       },
       axisTick: {
         show: false,

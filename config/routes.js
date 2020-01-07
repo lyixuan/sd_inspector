@@ -300,8 +300,13 @@ export const routes = [
             path: '/qualityMarking/nps',
             component: './ko/qualityMarking/nps',
             commonPath: true, // 继承父页面
-            name: '质检标注',
-          },
+            name: 'NPS标注',
+          }, {
+            path: '/qualityMarking/appFeedback',
+            component: './ko/qualityMarking/appFeedback',
+            commonPath: true, // 继承父页面
+            name: 'app意见反馈',
+          }
         ],
       },
       {

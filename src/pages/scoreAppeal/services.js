@@ -33,3 +33,8 @@ export async function exportExcel(data) {
     getResponse: true,
   });
 }
+
+// 获取可选择的日期范围
+export function getTimeRange() {
+  return request('/apis/time/getRange');
+}

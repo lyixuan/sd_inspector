@@ -12,14 +12,16 @@ import zhutu from '@/assets/zhutu@2x.png';
 }))
 class Score extends React.Component {
   clickEvent = item => {
-    const { getNpsAutonomousEvaluation } = this.props;
-    if (!getNpsAutonomousEvaluation[item.dataIndex].value) return;
-    const cycle = this.props.paramsQuery.lifeCycle;
-    let val = item.name.replace('天', '');
-    if (cycle && cycle.length && cycle == item.name.replace('天', '')) {
+    const {
+      npsData: { starList },
+    } = this.props;
+    if (!starList[item.dataIndex].value) return;
+    const starVal = this.props.paramsQuery.star;
+    let val = String(Number(item.dataIndex) + 1);
+    if (starVal && starVal == val) {
       val = undefined;
     }
-    this.props.onParamsChange(val, 'lifeCycle');
+    this.props.onParamsChange(val, 'star');
   };
 
   render() {

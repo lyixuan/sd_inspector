@@ -7,7 +7,6 @@ import BISelect from '@/ant_components/BISelect';
 import BICascader from '@/ant_components/BICascader';
 import BIDatePicker from '@/ant_components/BIDatePicker';
 import { disabledDate } from '@/pages/indexPage/components/utils/utils';
-import styles from './style.less';
 
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;

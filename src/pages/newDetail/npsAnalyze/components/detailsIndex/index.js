@@ -7,6 +7,7 @@ import BIButton from '@/ant_components/BIButton';
 import BIContainer from '@/components/BIContainer';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import downloadImg from '@/assets/npsAnalyze/download.png';
+import { handleDataTrace } from '@/utils/utils';
 import float3 from '@/assets/resubmit/float3.png';
 import moment from 'moment';
 import styles from './style.less';
@@ -70,7 +71,7 @@ class DetailsIndex extends React.Component {
         dataIndex: 'tagList',
         key: 'tagList',
         render: (text, record) => {
-          const content = <span>{text.map((item, index) => <span key={index}>{index > 0 ? ' | ' : ''}<span style={{color: item.value === 1 ? '#3DD598' : '#FC5A5A'}}>{item.name}</span></span>)} {record.opinion}</span>;
+          const content = <span>{text.map((item, index) => <span key={index}>{index > 0 ? ' | ' : ''}<span style={{color: item.type === 31 ? '#DA43FF' : '#6665DD'}}>{item.name}</span></span>)} {record.opinion}</span>;
           return <Tooltip placement="topLeft" title={content}>{content}</Tooltip>
         }
       }
@@ -99,6 +100,7 @@ class DetailsIndex extends React.Component {
         },
       },
     });
+    handleDataTrace({ widgetName: `NPS_下载`, traceName: `2.3/NPS_下载` })
   }
   getOrgType = (groupId, familyId, collegeId) => {
     if (groupId) {
