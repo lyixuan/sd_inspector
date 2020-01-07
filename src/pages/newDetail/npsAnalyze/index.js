@@ -41,6 +41,11 @@ class Resubmit extends React.Component {
     });
     handleDataTrace({"widgetName": '好推分析',"traceName": '2.3/好推分析', traceType:200});
   }
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: 'npsAnalyzeModel/saveClearParams',
+    });
+  }
   // 搜索条件值改变
   onParamsChange = (val, type = 'dateRange') => {
     const payload = { [type]: val };
@@ -171,7 +176,7 @@ class Resubmit extends React.Component {
         {globalUserInfo && globalUserInfo.userType && (
           <>
             <div className={styles.paramsQuery}>
-              <ParamsTop onParamsChange={this.onParamsChange} onObjChange={this.onObjChange} />
+              <ParamsTop onParamsChange={this.onParamsChange} onObjChange={this.onObjChange} {...this.props}/>
             </div>
             <PageTab tabs={this.getTabs()} />
           </>

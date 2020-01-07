@@ -70,6 +70,7 @@ class Top extends React.Component {
   columns = () => {
     const columns = [
       {
+        width: '60px',
         title: '排名',
         dataIndex: 'id',
         key: 'id',
@@ -78,6 +79,7 @@ class Top extends React.Component {
         </div>
       },
       {
+        width: '80px',
         title: '浮动指数',
         dataIndex: 'riseIndex',
         key: 'riseIndex',
@@ -96,19 +98,20 @@ class Top extends React.Component {
         title: '好推产品包',
         dataIndex: 'packageName',
         key: 'packageName',
-        width: '18%',
         render: (packageName, record) => <Tooltip placement="topLeft" title={packageName}>{packageName}</Tooltip>
       },
       {
         title: '好推单量',
         dataIndex: 'incomeOrder',
         key: 'incomeOrder',
+        align: 'center',
+        width: '80px',
       },
       {
         title: '好推流水',
         dataIndex: 'incomeFlowKpi',
         key: 'incomeFlowKpi',
-        width: '100px',
+        width: '80px',
         render: (incomeFlowKpi, record) => {
           const percent = record.incomeFlowKpiRatio * 100 + '%';
           const money = companyThousandsIncome(incomeFlowKpi);
@@ -117,18 +120,19 @@ class Top extends React.Component {
               <BIWrapperProgress
                 text={money}
                 percent={percent}
-                propsStyle={{ flex: 'inherit', width: '70px', textAlign: 'right' }}
+                propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'right' }}
               />
             // </div>
           );
         },
       },
       {
-        width: '100px',
-        align: 'right',
-        title: 'ARPU（元）',
+        width: '86px',
+        align: 'center',
+        title: 'ARPU(元)',
         dataIndex: 'arpu',
         key: 'arpu',
+        render: text => text.toFixed(1),
       }
     ];
     return columns || [];
@@ -140,7 +144,6 @@ class Top extends React.Component {
       <div className={styles.topCon}>
         <div className={styles.title}>
           <span>好推飙升产品榜单</span>
-          <div style={{ fontSize: '13px' }}>最近一周</div>
         </div>
         <div className={styles.tableContainer}>
           <BIWrapperTable
