@@ -24,6 +24,19 @@ class Tag extends React.Component {
     });
   };
 
+  clickEvent = item => {
+    const {
+      npsData: { starList },
+    } = this.props;
+    if (!starList[item.dataIndex].value) return;
+    const starVal = this.props.paramsQuery.star;
+    let val = Number(item.dataIndex) + 1;
+    if (starVal && starVal == val) {
+      val = undefined;
+    }
+    this.props.onParamsChange(val, 'tagId');
+  };
+
   render() {
     const { tabActive } = this.state;
     const { npsData, loadingTime } = this.props;
@@ -67,7 +80,11 @@ class Tag extends React.Component {
             </span>
           </div>
           {tabCon[tabActive].length > 0 && (
-            <Echart options={options} style={{ width: '310px', height: '189px' }} />
+            <Echart
+              options={options}
+              style={{ width: '310px', height: '189px' }}
+              clickEvent={item => this.clickEvent(item)}
+            />
           )}
           {tabCon[tabActive].length === 0 && <div className={styles.none}>暂无数据</div>}
         </div>

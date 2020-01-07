@@ -12,14 +12,16 @@ import bingtu from '@/assets/bingtu@2x.png';
 }))
 class Cycle extends React.Component {
   clickEvent = item => {
-    const { getCycleListData } = this.props;
-    if (!getCycleListData[item.dataIndex].value) return;
-    const cycle = this.props.paramsQuery.lifeCycle;
+    const {
+      getCycleListData: { detailList },
+    } = this.props;
+    if (!detailList[item.dataIndex].value) return;
+    const cycle = this.props.paramsQuery.cycle;
     let val = item.name.replace('天', '');
     if (cycle && cycle.length && cycle == item.name.replace('天', '')) {
       val = undefined;
     }
-    this.props.onParamsChange(val, 'lifeCycle');
+    this.props.onParamsChange(val, 'cycle');
   };
 
   render() {
