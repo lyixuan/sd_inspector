@@ -32,8 +32,9 @@ class Reson extends React.Component {
         }
       }
     }
-
-    const flag = this.props.paramsQuery.reasonType.toString() == val.toString();
+    const flag =
+      this.props.paramsQuery.reasonType &&
+      this.props.paramsQuery.reasonType.toString() == val.toString();
     this.props.onParamsChange(flag ? [] : val, 'reasonType');
   };
   render() {
