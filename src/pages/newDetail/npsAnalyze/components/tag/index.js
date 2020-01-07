@@ -5,11 +5,10 @@ import { getOption } from './tagOptions.js';
 import styles from './style.less';
 import { Spin } from 'antd';
 
-@connect(({ npsAnalyzeModel, loading }) => ({
+@connect(({ npsAnalyzeModel }) => ({
   npsAnalyzeModel,
   paramsQuery: npsAnalyzeModel.paramsQuery || {},
-  getTagListData: npsAnalyzeModel.getTagListData,
-  loadingTime: loading.effects['npsAnalyzeModel/getTagList'],
+  npsData: npsAnalyzeModel.npsData,
 }))
 class Tag extends React.Component {
   constructor(props) {
@@ -27,13 +26,12 @@ class Tag extends React.Component {
 
   render() {
     const { tabActive } = this.state;
-    const { getTagListData, loadingTime } = this.props;
-    const tabMenu = [];
-    const tabCon = [];
-    // let options;s
-    if (getTagListData.length) {
-      tabMenu.push(getTagListData[tabActive].name.replace('服务', ''));
-      tabCon.push(getTagListData[tabActive].nodeList);
+    const { npsData, loadingTime } = this.props;
+    let tabMenu = [];
+    let tabCon = [[], []];
+    if (npsData.tagImageDtoList) {
+      tabMenu = ['班主任', '授课'];
+      tabCon = [npsData.tagImageDtoList, npsData.tagImageDtoList2];
     }
     const options = getOption(tabCon[tabActive]);
     return (
@@ -44,6 +42,7 @@ class Tag extends React.Component {
         </p>
         {/* <Spin spinning={loadingTime}> */}
         <div
+          className={styles.tabWrap}
           style={{
             width: '345px',
             height: '213px',
@@ -55,21 +54,22 @@ class Tag extends React.Component {
         >
           <div className={styles.tab}>
             <span
-              className={tabActive === 0 ? styles.current : styles.normal}
+              className={tabActive === 0 ? styles[`current${tabActive}`] : styles.normal}
               onClick={() => this.clickTab(0)}
             >
               班主任
             </span>
             <span
-              className={tabActive === 1 ? styles.current : styles.normal}
+              className={tabActive === 1 ? styles[`current${tabActive}`] : styles.normal1}
               onClick={() => this.clickTab(1)}
             >
               授课
             </span>
           </div>
-          {tabCon.length > 0 && (
+          {tabCon[tabActive].length > 0 && (
             <Echart options={options} style={{ width: '310px', height: '189px' }} />
           )}
+          {tabCon[tabActive].length === 0 && <div className={styles.none}>暂无数据</div>}
         </div>
         {/* </Spin> */}
       </div>

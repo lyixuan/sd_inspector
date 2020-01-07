@@ -4,7 +4,9 @@ import {
   getCycleList,
   getNpsAutonomousEvaluation,
   getTagList,
-  exportData
+  exportData,
+  getNpsData,
+  getRestTrend,
 } from './services';
 import { getDateArray } from '@/pages/indexPage/components/utils/utils';
 import { message } from 'antd/lib/index';
@@ -22,6 +24,8 @@ export default {
     stuDetailData: {}, // 学院明细
     getCycleListData: {},
     getTagListData: {},
+    npsData: {},
+    getRestTrendData: {},
   },
 
   effects: {
@@ -71,7 +75,34 @@ export default {
     *getNpsAutonomousEvaluation({ payload }, { call, put }) {
       const result = yield call(getNpsAutonomousEvaluation, payload.params);
       if (result.code === 20000) {
-        yield put({ type: 'save', payload: { stuDetailData: result.data.npsStarOpinionDtoListMap } });
+        yield put({
+          type: 'save',
+          payload: { stuDetailData: result.data.npsStarOpinionDtoListMap },
+        });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // NPS词云图跟柱状图
+    *getNpsData({ payload }, { call, put }) {
+      const result = yield call(getNpsData, payload.params);
+      if (result.code === 20000) {
+        yield put({
+          type: 'save',
+          payload: { npsData: result.data },
+        });
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    // 净推荐值趋势
+    *getRestTrend({ payload }, { call, put }) {
+      const result = yield call(getRestTrend, payload.params);
+      if (result.code === 20000) {
+        yield put({
+          type: 'save',
+          payload: { getRestTrendData: result.data },
+        });
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }

@@ -96,7 +96,6 @@ class Im extends React.Component {
             <div className={style.imContentLeft}>
               {WorkbenchImNegativeData.badContrasts ? (
                 <div className={style.imItem}>
-                  <p className={style.red}>+3.5万</p>
                   <p
                     className={style.items}
                     onClick={() => this.jump('IM不满意率', '2.0/IM不满意率')}
@@ -121,7 +120,13 @@ class Im extends React.Component {
                   onClick={() => this.jump('IM不满意会话', '2.0/IM不满意会话')}
                   style={{ cursor: 'pointer' }}
                 >
-                  <p className={style.red}>+3.5万</p>
+                  {WorkbenchImNegativeData.dayNotSatisfied > 0 && (
+                    <p className={style.red}>+{WorkbenchImNegativeData.dayNotSatisfied}</p>
+                  )}
+                  {WorkbenchImNegativeData.dayNotSatisfied < 0 && (
+                    <p className={style.green}>{WorkbenchImNegativeData.dayNotSatisfied}</p>
+                  )}
+                  {WorkbenchImNegativeData.dayNotSatisfied == 0 && <p className={style.gray}>--</p>}
                   <p className={style.items}>{WorkbenchImNegativeData.notSatisfied}</p>
                   <p className={style.small}>不满意会话</p>
                 </div>
@@ -135,6 +140,13 @@ class Im extends React.Component {
               )}
               {WorkbenchImNegativeData.notReply ? (
                 <div className={style.imItem}>
+                  {WorkbenchImNegativeData.dayNotReply > 0 && (
+                    <p className={style.red}>+{WorkbenchImNegativeData.dayNotReply}</p>
+                  )}
+                  {WorkbenchImNegativeData.dayNotReply < 0 && (
+                    <p className={style.green}>{WorkbenchImNegativeData.dayNotReply}</p>
+                  )}
+                  {WorkbenchImNegativeData.dayNotReply == 0 && <p className={style.gray}>--</p>}
                   <p className={style.items}>{WorkbenchImNegativeData.notReply}</p>
                   <p className={style.small}>未回复数</p>
                 </div>
@@ -148,7 +160,13 @@ class Im extends React.Component {
               )}
               {WorkbenchImNegativeData.notInTime ? (
                 <div className={style.imItem}>
-                  <p className={style.red}>+3.5万</p>
+                  {WorkbenchImNegativeData.dayNotInTime > 0 && (
+                    <p className={style.red}>+{WorkbenchImNegativeData.dayNotInTime}</p>
+                  )}
+                  {WorkbenchImNegativeData.dayNotInTime < 0 && (
+                    <p className={style.green}>{WorkbenchImNegativeData.dayNotInTime}</p>
+                  )}
+                  {WorkbenchImNegativeData.dayNotInTime == 0 && <p className={style.gray}>--</p>}
                   <p className={style.items}>{WorkbenchImNegativeData.notInTime}</p>
                   <p className={style.small}>不及时数</p>
                 </div>
