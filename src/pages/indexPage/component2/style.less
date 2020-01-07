@@ -44,6 +44,51 @@
   background: rgba(249, 249, 249, 1);
   border-radius: 20px;
 }
+
+.ScoreLeftIncome {
+  width: 320px;
+  height: 228px;
+  float: left;
+  margin-top: 15px;
+}
+.incomeRightImcome {
+  width: 200px;
+  height: 228px;
+  float: left;
+  // margin-top: 15px;
+}
+
+.incomeTotalIncome {
+  width: 100%;
+  overflow: hidden;
+  > div {
+    float: left;
+    text-align: center;
+    > div:nth-child(2) {
+      font-family: myDINBold, DINCondensed, Haettenschweiler !important;
+      font-size: 32px;
+      color: rgba(40, 40, 40, 1);
+    }
+    > div:nth-child(3) {
+      color: #7e7d82;
+      font-weight: normal;
+    }
+  }
+  > div:nth-child(1) {
+    width: 33%;
+  }
+  > div:nth-child(2) {
+    width: 33%;
+  }
+  > div:nth-child(3) {
+    width: 33%;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
 .incomeRight {
   height: 228px;
   margin-top: 15px;
@@ -62,6 +107,10 @@
     font-size: 20px;
     color: rgba(40, 40, 40, 1);
   }
+}
+.ScoreLeftIncome > img {
+  display: block;
+  margin: 30px 182px;
 }
 .ScoreLeft > img {
   display: block;
@@ -153,7 +202,7 @@
   position: absolute;
   bottom: 40px;
   right: 0px;
-  width: 260px;
+  width: 200px;
   display: flex;
   align-items: center;
   justify-content: center;

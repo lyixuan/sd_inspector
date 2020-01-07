@@ -68,16 +68,16 @@ class Income extends React.Component {
 
         {userType === 'boss' && (
           <div className={style.crossRow}>
-            <Echarts options={optionBossL} style={{ height: 250, width: 265, float: 'left' }} />
-            <Echarts options={optionBossR} style={{ height: 250, width: 260, float: 'left' }} />
+            <Echarts options={optionBossL} style={{ height: 250, width: 320, float: 'left' }} />
+            <Echarts options={optionBossR} style={{ height: 250, width: 200, float: 'left' }} />
             <div className={style.footer}>{dot}</div>
             <div className={style.footer2}>{dotName}</div>
           </div>
         )}
         {userType !== 'boss' && (
           <div className={style.crossRow}>
-            <div className={style.ScoreLeft}>
-              <div className={style.incomeTotal}>
+            <div className={style.ScoreLeftIncome}>
+              <div className={style.incomeTotalIncome}>
                 <div>
                   <p className={style.red}>+3.5万</p>
                   <div>
@@ -102,9 +102,9 @@ class Income extends React.Component {
               </div>
               <Echarts options={optionL} style={{ height: 150 }} />
             </div>
-            <div className={style.incomeRight}>
+            <div className={style.incomeRightImcome}>
               {pieData.length > 0 ? (
-                <Echarts options={optionR} style={{ height: 250, width: 260, float: 'left' }} />
+                <Echarts options={optionR} style={{ height: 250, width: 200, float: 'left' }} />
               ) : (
                 <img
                   src={bingtu}
