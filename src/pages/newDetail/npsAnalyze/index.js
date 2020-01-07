@@ -39,12 +39,12 @@ class Resubmit extends React.Component {
     this.props.dispatch({
       type: 'npsAnalyzeModel/getTagSelectList',
     });
-    // handleDataTrace({"widgetName": '创收_透视分析',"traceName": '2.2/创收_透视分析', traceType:200});
+    handleDataTrace({"widgetName": '好推分析',"traceName": '2.3/好推分析', traceType:200});
   }
   // 搜索条件值改变
   onParamsChange = (val, type = 'dateRange') => {
     const payload = { [type]: val };
-    // handleDataTrace({ widgetName: `创收_${traceName[type]}筛选`, traceName: `2.2/创收_${traceName[type]}筛选` })
+    handleDataTrace({ widgetName: `NPS_${traceName[type]}`, traceName: `2.3/NPS_${traceName[type]}` })
     this.props.dispatch({
       type: 'npsAnalyzeModel/saveParams',
       payload,
@@ -150,7 +150,7 @@ class Resubmit extends React.Component {
             </div>
           </>
         ),
-        // dataTrace: '{"widgetName":"创收_数据透视","traceName":"2.2/创收_数据透视"}',
+        dataTrace: '{"widgetName":"NPS_数据透视","traceName":"2.3/NPS_数据透视"}',
       },
       {
         title: '学员明细',
@@ -160,7 +160,7 @@ class Resubmit extends React.Component {
             getRequestParams={this.getRequestParams}
           />
         ),
-        // dataTrace: '{"widgetName":"创收_创收明细","traceName":"2.2/创收_创收明细"}',
+        dataTrace: '{"widgetName":"NPS_学员明细","traceName":"2.3/NPS_学员明细"}',
       },
     ];
   };

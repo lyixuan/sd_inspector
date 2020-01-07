@@ -7,6 +7,7 @@ import BIButton from '@/ant_components/BIButton';
 import BIContainer from '@/components/BIContainer';
 import BIScrollbarTable from '@/ant_components/BIScrollbarTable';
 import downloadImg from '@/assets/npsAnalyze/download.png';
+import { handleDataTrace } from '@/utils/utils';
 import float3 from '@/assets/resubmit/float3.png';
 import moment from 'moment';
 import styles from './style.less';
@@ -99,6 +100,7 @@ class DetailsIndex extends React.Component {
         },
       },
     });
+    handleDataTrace({ widgetName: `NPS_下载`, traceName: `2.3/NPS_下载` })
   }
   getOrgType = (groupId, familyId, collegeId) => {
     if (groupId) {
