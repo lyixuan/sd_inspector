@@ -10,10 +10,13 @@ import { disabledDate } from '@/pages/indexPage/components/utils/utils';
 
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
+const hasSubtractTime = (n, cTime) => {
+  return moment(cTime).subtract(n, 'days');
+}
 @connect(({ newDetailModal, npsAnalyzeModel }) => ({
   npsAnalyzeModel,
   globalUserInfo: newDetailModal.globalUserInfo,
-  globalDateMoment: newDetailModal.globalDateMoment,
+  globalDateRange: newDetailModal.globalDateRange,
   globalkpiDateRange: newDetailModal.globalkpiDateRange,
 }))
 class ParamsTop extends React.Component {
@@ -30,8 +33,8 @@ class ParamsTop extends React.Component {
       query.dateRange = [moment(query.dateRange[0]), moment(query.dateRange[1])];
       this.props.onObjChange(query);
     } else {
-      console.log(this.props.globalDateMoment, 'llllll')
-      this.props.onObjChange({ orgId: this.getInitOrg(), dateRange: [this.props.globalDateMoment[1], this.props.globalDateMoment[1]]})
+      const cTime = this.props.globalDateRange.endTime;
+      this.props.onObjChange({ orgId: this.getInitOrg(), dateRange: [hasSubtractTime(6, cTime), moment(cTime)]})
     }
   }
   // 组织初始化---角色属于什么组织默认什么组织---默认到学院家族

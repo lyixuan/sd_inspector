@@ -36,7 +36,7 @@ class DetailsIndex extends React.Component {
           text ? (
             <Tooltip title={text}>
               <Link
-                to={`/ko/behaviorPath?params=${encodeURIComponent(
+                to={`/inspector/ko/behaviorPath?params=${encodeURIComponent(
                   JSON.stringify({ userId: record.stuId, target: 'draw' })
                 )}`}
                 target="_black"
