@@ -68,7 +68,6 @@ class Score extends React.Component {
             )}
           </div>
         </Spin>
-        ƒ
       </div>
     );
   }
