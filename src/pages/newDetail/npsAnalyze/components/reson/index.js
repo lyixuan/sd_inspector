@@ -80,14 +80,6 @@ class Reson extends React.Component {
                 );
               })}
           </BITabs>
-
-          {/* <TabPane tab={tab} key={1}>
-              <div keye={1}>{1111}</div>
-            </TabPane>
-            <TabPane tab={tab} key={2}>
-              <div keye={1}>{22222222}</div>
-            </TabPane>
-          </BITabs> */}
         </div>
       </div>
     );
