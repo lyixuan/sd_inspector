@@ -43,7 +43,7 @@ class DetailsIndex extends React.Component {
         dataIndex: 'stuName',
         key: 'stuName',
         render: (text, record) => text ? 
-        <Tooltip title={text}><a href={`/ko/behaviorPath?params=${encodeURIComponent(JSON.stringify({ userId: record.stuId, target: 'draw' }))}`} target='_black'>{text}</a></Tooltip>
+        <Tooltip title={text}><a href={`/inspector/ko/behaviorPath?params=${encodeURIComponent(JSON.stringify({ userId: record.stuId, target: 'draw' }))}`} target='_black'>{text}</a></Tooltip>
         : <img style={{width: '15px'}} src={float3} alt=""/>
       },
       {
