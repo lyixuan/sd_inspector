@@ -58,7 +58,8 @@ class ThingsFall {
       }, this.continueTime);
     }
 
-    this.everyFrame();
+    window.requestAnimationFrame(this.everyFrame);
+    // this.everyFrame();
   };
 
   everyFrame = () => {
@@ -95,7 +96,7 @@ class ThingsFall {
       }
     });
 
-    requestAnimationFrame(this.everyFrame);
+    window.requestAnimationFrame(this.everyFrame);
   };
 
   stop = () => {
