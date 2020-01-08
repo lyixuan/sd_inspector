@@ -224,7 +224,13 @@ body > a {
 
 /* 统一修改tooltip 透明度，与echart的tooltip统一*/
 :global .ant-tooltip-content {
-  opacity: 0.8;
+  /* opacity: 0.8; */
+  box-shadow:0px 3px 23px 0px rgba(75,85,110,0.2);
+  border-radius: 10px;
+}
+:global .ant-tooltip-inner {
+  padding: 8px;
+  border-radius: 10px;
 }
 
 

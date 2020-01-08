@@ -58,7 +58,7 @@ class PackageIndex extends React.Component {
       },
       {
         ellipsis: true,
-        width: '30%',
+        width: '26%',
         title: '产品包名称',
         dataIndex: 'packageName',
         key: 'packageName',
@@ -80,6 +80,7 @@ class PackageIndex extends React.Component {
         render: text => getProText(text, maxVal)
       },
       {
+        width: '80px',
         title: 'ARPU(元)',
         dataIndex: 'arpu',
         key: 'arpu',

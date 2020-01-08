@@ -124,7 +124,7 @@ class DetailsIndex extends React.Component {
     const { list = [], total = 0 } = this.props.stuDetailData;
     const { pageSize = 15, current = 1 } = this.state;
     return (
-      <BIContainer headStyle={{ display: 'none' }}>
+      <BIContainer headStyle={{ display: 'none' }} style={{ borderRadius: '20px'}}>
         <div className={styles.detailsIndex}>
           <BIScrollbarTable
             columns={this.columns()}

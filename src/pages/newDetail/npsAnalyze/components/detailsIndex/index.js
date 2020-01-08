@@ -143,6 +143,7 @@ class DetailsIndex extends React.Component {
     return (
       <BIContainer 
       headStyle={{display: 'none'}}
+      style={{ borderRadius: '20px'}}
       >
         <div className={styles.detailsIndex}>
           <span className={styles.download}>

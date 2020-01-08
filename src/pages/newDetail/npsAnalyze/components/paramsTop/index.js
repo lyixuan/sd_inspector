@@ -37,12 +37,12 @@ class ParamsTop extends React.Component {
       paramsAllQuery = { orgId: this.getInitOrg(), dateRange: [hasSubtractTime(6, cTime), moment(cTime)]};
     }
     // 默认值
-    if (!paramsAllQuery.reasonType) {
-      paramsAllQuery.reasonType = [1];
-    }
-    if (!paramsAllQuery.tagId) {
-      paramsAllQuery.tagId = [30];
-    }
+    // if (!paramsAllQuery.reasonType) {
+    //   paramsAllQuery.reasonType = [1];
+    // }
+    // if (!paramsAllQuery.tagId) {
+    //   paramsAllQuery.tagId = [30];
+    // }
     this.props.onObjChange(paramsAllQuery);
   }
   // 组织初始化---角色属于什么组织默认什么组织---默认到学院家族
@@ -94,7 +94,7 @@ class ParamsTop extends React.Component {
             displayRender={this.renderCascader}
             value={paramsQuery.reasonType}
             onChange={val => onParamsChange(val, 'reasonType')}
-            allowClear={false}
+            allowClear
             style={{ width: 90 }}
           />
         </span>
@@ -108,7 +108,7 @@ class ParamsTop extends React.Component {
             displayRender={this.renderCascader}
             value={paramsQuery.tagId}
             onChange={val => onParamsChange(val, 'tagId')}
-            allowClear={false}
+            allowClear
             style={{ width: 90 }}
           />
         </span>
