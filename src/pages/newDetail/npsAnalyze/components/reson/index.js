@@ -14,10 +14,7 @@ const TabPane = BITabs.TabPane;
 }))
 class Reson extends React.Component {
   onTabChange = tab => {
-    console.log(tab, 'tab');
-    // const { statReasonTypeData } = this.props;
-    // const val = statReasonTypeData[Number(tab)].id;
-    this.props.onParamsChange([tab], 'reasonType');
+    this.props.onParamsChange([Number(tab)], 'reasonType');
   };
 
   changeItem = (id, id1, id2, id3) => {
@@ -31,7 +28,6 @@ class Reson extends React.Component {
         }
       }
     }
-    console.log(id, 'id');
     const flag =
       this.props.paramsQuery.reasonType &&
       this.props.paramsQuery.reasonType.toString() == val.toString();
