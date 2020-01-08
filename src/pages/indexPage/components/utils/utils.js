@@ -21,7 +21,7 @@ const getContentLink = function (linkdata, text, record, index) {
         BI.traceV &&  BI.traceV({ "widgetName": record.dimensionName, "traceName": datatrace + record.dimensionName})
       },
       className: styles.mineHover,
-      textContent: <Link target='_black' to={`/xdCredit/index?params=${JSON.stringify({ startTime, endTime, "dementionId": record.id })}`} >
+      textContent: <Link target='_black' rel="noopener noreferrer" to={`/xdCredit/index?params=${JSON.stringify({ startTime, endTime, "dementionId": record.id })}`} >
       {text} <span style={{ marginLeft: '2px' }}>{'>'}</span>
     </Link>,
     }        
