@@ -44,7 +44,7 @@ class DetailsIndex extends React.Component {
         dataIndex: 'stuName',
         key: 'stuName',
         render: (text, record) => text ? 
-        <Tooltip title={text}><Link to={`/ko/behaviorPath?params=${encodeURIComponent(JSON.stringify({ userId: record.stuId, target: 'draw' }))}`} target='_black'>{text}</Link></Tooltip>
+        <Tooltip title={text}><Link to={`/ko/behaviorPath?params=${encodeURIComponent(JSON.stringify({ userId: record.stuId, target: 'draw' }))}`} target='_black' rel="noopener noreferrer">{text}</Link></Tooltip>
         : <img style={{width: '15px'}} src={float3} alt=""/>
       },
       {
@@ -79,7 +79,7 @@ class DetailsIndex extends React.Component {
     return columns || [];
   };
   onChangeSize = current => {
-    const params = {...this.props.getRequestParams(), page: current, pageSize: this.state.pageSize}
+    const params = {...this.props.getRequestParams(), pageNum: current, pageSize: this.state.pageSize}
     this.props.getQueryStuDetailPage(params);
     this.setState({ current });
   }

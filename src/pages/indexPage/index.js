@@ -100,15 +100,15 @@ class IndexPage extends Component {
   };
 
   getData = date => {
-    this.props.dispatch({
-      type: 'xdWorkModal/getWorkbenchScore',
-      payload: {
-        params: {
-          startTime: moment(new Date(date.startDate)).format('YYYY-MM-DD'),
-          endTime: moment(new Date(date.endDate)).format('YYYY-MM-DD'),
-        },
-      },
-    });
+    // this.props.dispatch({
+    //   type: 'xdWorkModal/getWorkbenchScore',
+    //   payload: {
+    //     params: {
+    //       startTime: moment(new Date(date.startDate)).format('YYYY-MM-DD'),
+    //       endTime: moment(new Date(date.endDate)).format('YYYY-MM-DD'),
+    //     },
+    //   },
+    // });
     this.props.dispatch({
       type: 'xdWorkModal/getWorkbenchIncome',
       payload: {

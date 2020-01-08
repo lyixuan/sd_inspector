@@ -141,24 +141,20 @@ class Top extends React.Component {
         title: '好推产品包',
         dataIndex: 'packageName',
         key: 'packageName',
-        width: '30%',
         render: (packageName, record) => <Tooltip placement="topLeft" title={packageName}>{packageName}</Tooltip>
       },
       {
         title: '好推单量',
         dataIndex: 'incomeOrder',
         key: 'incomeOrder',
-        // width: '25%',
-        // className: styles.marIncome,
-        // render: (incomeOrder, record) => {
-        //   return <div style={{ textAlign: 'left', width: '70px' }}>{incomeOrder}</div>;
-        // },
+        align: 'center',
+        width: '80px',
       },
       {
         title: '好推流水',
         dataIndex: 'incomeFlowKpi',
         key: 'incomeFlowKpi',
-        width: '100px',
+        width: '80px',
         render: (incomeFlowKpi, record) => {
           const percent = record.incomeFlowKpiRatio * 100 + '%';
           const money = companyThousandsIncome(incomeFlowKpi);
@@ -167,18 +163,19 @@ class Top extends React.Component {
               <BIWrapperProgress
                 text={money}
                 percent={percent}
-                propsStyle={{ flex: 'inherit', width: '70px', textAlign: 'right' }}
+                propsStyle={{ flex: 'inherit', width: '60px', textAlign: 'right' }}
               />
             // </div>
           );
         },
       },
       {
-        width: '100px',
-        align: 'right',
-        title: 'ARPU（元）',
+        width: '86px',
+        align: 'center',
+        title: 'ARPU(元)',
         dataIndex: 'arpu',
         key: 'arpu',
+        render: text => text.toFixed(1),
       }
     ];
     return columns || [];

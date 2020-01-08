@@ -10,22 +10,31 @@ import { disabledDate } from '@/pages/indexPage/components/utils/utils';
 
 const { Option } = BISelect;
 const { BIRangePicker } = BIDatePicker;
+const hasSubtractTime = (n, cTime) => {
+  return moment(cTime).subtract(n, 'days');
+}
 @connect(({ newDetailModal, npsAnalyzeModel }) => ({
   npsAnalyzeModel,
   globalUserInfo: newDetailModal.globalUserInfo,
-  globalDateMoment: newDetailModal.globalDateMoment,
+  globalDateRange: newDetailModal.globalDateRange,
   globalkpiDateRange: newDetailModal.globalkpiDateRange,
 }))
 class ParamsTop extends React.Component {
   componentDidMount() {
     // 初始化参数
+    const params = this.props.location.query.params;
+    const paramsQuery = params ? JSON.parse(params) : undefined;
     const nps_analyze_query = localStorage.getItem('nps_analyze_query');
-    if (nps_analyze_query) {
+    if (paramsQuery) {
+      const { dateRange, ...others} = paramsQuery;
+      this.props.onObjChange({ ...others, dateRange: dateRange ? [moment(dateRange[0]), moment(dateRange[1])] : []})
+    } else if (nps_analyze_query) {
       const query = JSON.parse(nps_analyze_query) || {};
       query.dateRange = [moment(query.dateRange[0]), moment(query.dateRange[1])];
       this.props.onObjChange(query);
     } else {
-      this.props.onObjChange({ orgId: this.getInitOrg(), dateRange: this.props.globalDateMoment})
+      const cTime = this.props.globalDateRange.endTime;
+      this.props.onObjChange({ orgId: this.getInitOrg(), dateRange: [hasSubtractTime(6, cTime), moment(cTime)]})
     }
   }
   // 组织初始化---角色属于什么组织默认什么组织---默认到学院家族

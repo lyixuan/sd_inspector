@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import { message } from 'antd';
 import PageTab from './components/pageTab';
 import ParamsTop from './components/paramsTop';
 import DetailsIndex from './components/detailsIndex';
@@ -41,15 +42,24 @@ class Resubmit extends React.Component {
     });
     handleDataTrace({"widgetName": '好推分析',"traceName": '2.3/好推分析', traceType:200});
   }
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: 'npsAnalyzeModel/saveClearParams',
+    });
+  }
   // 搜索条件值改变
   onParamsChange = (val, type = 'dateRange') => {
+    if (type === 'dateRange' && val.length === 2 && val[1].diff(val[0], 'day') > 30) {
+      message.error('请选择 ≤ 31 天的时间范围');
+      return false;
+    }
     const payload = { [type]: val };
-    handleDataTrace({ widgetName: `NPS_${traceName[type]}`, traceName: `2.3/NPS_${traceName[type]}` })
     this.props.dispatch({
       type: 'npsAnalyzeModel/saveParams',
       payload,
     }); // 存值
     this.getInitData(payload); // 请求
+    handleDataTrace({ widgetName: `NPS_${traceName[type]}`, traceName: `2.3/NPS_${traceName[type]}` })
   };
   // 时间切换 --- 清空原产品包、续报产品包
   onObjChange = (payload = {}) => {
@@ -112,7 +122,7 @@ class Resubmit extends React.Component {
 
   // 学员明细
   getQueryStuDetailPage = params => {
-    const query = !params.pageSize ? { ...params, pageSize: 15, page: 1 } : params;
+    const query = !params.pageSize ? { ...params, pageSize: 15, pageNum: 1 } : params;
     this.props.dispatch({
       type: 'npsAnalyzeModel/getNpsAutonomousEvaluation',
       payload: { params: query },
@@ -171,7 +181,7 @@ class Resubmit extends React.Component {
         {globalUserInfo && globalUserInfo.userType && (
           <>
             <div className={styles.paramsQuery}>
-              <ParamsTop onParamsChange={this.onParamsChange} onObjChange={this.onObjChange} />
+              <ParamsTop onParamsChange={this.onParamsChange} onObjChange={this.onObjChange} {...this.props}/>
             </div>
             <PageTab tabs={this.getTabs()} />
           </>

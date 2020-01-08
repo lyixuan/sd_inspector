@@ -180,6 +180,9 @@ export default {
     saveNull(state, { payload }) {
       return { ...state, [payload.key]: getNullNodeList(payload.data) };
     },
+    saveClearParams(state) {
+      return { ...state, paramsQuery: {} };
+    }
   },
   subscriptions: {},
 };

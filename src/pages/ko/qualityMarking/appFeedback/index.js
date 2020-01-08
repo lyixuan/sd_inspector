@@ -140,7 +140,7 @@ class appFeedback extends React.Component {
         title: '姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        render: (text, record) => <span onClick={() => jumpMarkingDetails(record.stuId, { target: 'im' })} className={`${styles.textEllipsis} ${styles.textname}`}>{text}</span>,
+        render: (text, record) => <span onClick={() => jumpMarkingDetails(record.stuId, { target: 'hx' })} className={`${styles.textEllipsis} ${styles.textname}`}>{text}</span>,
       },
       {
         title: '后端归属',
