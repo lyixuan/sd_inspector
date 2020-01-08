@@ -78,7 +78,7 @@ class DetailsIndex extends React.Component {
     return columns || [];
   };
   onChangeSize = current => {
-    const params = {...this.props.getRequestParams(), page: current, pageSize: this.state.pageSize}
+    const params = {...this.props.getRequestParams(), pageNum: current, pageSize: this.state.pageSize}
     this.props.getQueryStuDetailPage(params);
     this.setState({ current });
   }
