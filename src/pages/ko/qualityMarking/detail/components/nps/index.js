@@ -1,7 +1,7 @@
 import React from 'react';
 import copy from 'copy-to-clipboard';
 import styles from '../../style.less';
-import { jumpMarkingDetails } from '@/pages/ko/utils/utils';
+import { Link } from 'dva/router';
 
 function TagList(props) {
   if (props.list && props.list instanceof Array && props.list.length < 1) {
@@ -38,9 +38,6 @@ class DetailNps extends React.Component {
     copy(e.target.value)
     alert('复制成功', 1)
   }
-  handleNameClick = (id) => {
-    jumpMarkingDetails(id, { target: 'study' })
-  }
 
   render() {
     const { item } = this.props.pageData
@@ -50,7 +47,14 @@ class DetailNps extends React.Component {
           <li className={styles.flex}>
             <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>学员姓名：</span>
-              <span className={styles.name + " " + styles.nameCurrent} onClick={() => this.handleNameClick(item.stuId)}>{item.stuName}</span>
+              <Link
+                className={styles.name + " " + styles.nameCurrent}
+                rel="noopener noreferer"
+                to={`/ko/behaviorPath?params=${JSON.stringify({ userId: item.stuId, target: 'study' })}`}
+                target='_blank'>
+                {item.stuName}
+              </Link>
+              {/* <span className={styles.name + " " + styles.nameCurrent} onClick={() => this.handleNameClick(item.stuId)}>{item.stuName}</span> */}
             </div>
             <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>学员id：</span>
@@ -63,12 +67,6 @@ class DetailNps extends React.Component {
               <span className={styles.name}>{item.date}</span>
             </div>
           </li>
-          {/* <li className={styles.flex}>
-            <div className={styles.row}>
-              <span className={styles.label}>订&nbsp;&nbsp;单&nbsp;&nbsp;id：</span>
-              <span className={styles.name}>{item.ordId}</span>
-            </div>
-          </li> */}
           <li className={styles.flex}>
             <div className={styles.row}>
               <span className={styles.label}>星&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;级：</span>
@@ -76,16 +74,6 @@ class DetailNps extends React.Component {
             </div>
           </li>
           <TagList list={item.tagList}></TagList>
-          {/* <li className={styles.flex}>
-            <div className={styles.row}>
-              <span className={styles.label}>班主任服务：</span>
-              <span className={styles.name + " " + styles.labels}>
-                <em>吐槽客服态度吐槽客服态度</em>
-                <em>吐槽客服态度</em>
-                <em>吐槽客服态度</em>
-              </span>
-            </div>
-          </li> */}
           <li className={styles.flex}>
             <div className={styles.row}>
               <span className={styles.label}>自主评价：</span>
