@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tooltip } from 'antd';
 import { connect } from 'dva/index';
+import { Link } from 'dva/router';
 import {
   handleDefaultPickerValueMark,
   getArrLastValue,
@@ -50,9 +51,9 @@ class bbsPage extends React.Component {
           const content = <div className={styles.behaviorOthers}>{text}</div>;
           return (
             <>
-            {text ? <Tooltip overlayClassName={styles.listMarkingTooltipOthers} placement="right" title={content}>
-              <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>
-            </Tooltip> : <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>}
+              {text ? <Tooltip overlayClassName={styles.listMarkingTooltipOthers} placement="right" title={content}>
+                <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>
+              </Tooltip> : <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>}
             </>
           );
         },
@@ -61,14 +62,23 @@ class bbsPage extends React.Component {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        render: (text, record) => <span onClick={() => jumpMarkingDetails(record.stuId, { target: 'bbs' })} className={`${styles.textEllipsis} ${styles.textname}`}>{text}</span>
+        render: (text, record) => {
+          return <Link
+            className={`${styles.textEllipsis} ${styles.textname}`}
+            rel="noopener noreferer"
+            to={`/ko/behaviorPath?params=${JSON.stringify({ userId: record.stuId, target: 'bbs' })}`}
+            target='_blank'>
+            {text}
+          </Link>
+        }
+        // render: (text, record) => <span onClick={() => jumpMarkingDetails(record.stuId, { target: 'bbs' })} className={`${styles.textEllipsis} ${styles.textname}`}>{text}</span>
       },
       {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
         render: text => <Tooltip overlayClassName={styles.listMarkingTooltipOthers} placement="right"
-                                 title={text}><span className={`${styles.textEllipsis} ${styles.textorg}`}>{text}</span></Tooltip>,
+          title={text}><span className={`${styles.textEllipsis} ${styles.textorg}`}>{text}</span></Tooltip>,
       },
       {
         title: '操作人',
@@ -97,11 +107,23 @@ class bbsPage extends React.Component {
       columns.push({
         title: '操作',
         key: 'action',
-        render: (text, record) => (
-          <div>
-            <span className={styles.textname} onClick={() => this.handleEdit(record.id)}>编辑</span>
+        render: (text, record) => {
+          const params = this.handleParams(record.id)
+          return <div>
+            <Link
+              className={styles.textname}
+              rel="noopener noreferer"
+              to={`/qualityMarking/detail?params=${JSON.stringify(params)}`}
+              target='_blank'>
+              编辑
+              </Link>
           </div>
-        ),
+        }
+        // render: (text, record) => (
+        //   <div>
+        //     <span className={styles.textname} onClick={() => this.handleEdit(record.id)}>编辑</span>
+        //   </div>
+        // ),
       });
     }
     return columns || [];
@@ -114,6 +136,17 @@ class bbsPage extends React.Component {
       ...others
     });
   };
+  handleParams = (id) => {
+    const { choiceTime, reasonType = [], ...others } = this.state.searchParams;
+    return {
+      id,
+      type: {
+        type: markType,
+        reasonType: getArrLastValue(reasonType),
+        ...others
+      }
+    }
+  }
   onSearchChange = (searchParams) => {
     this.setState({
       searchParams,
@@ -129,16 +162,18 @@ class bbsPage extends React.Component {
     const { searchParams, currentPage } = this.state;
     this.props.dispatch({
       type: 'workTableModel/getTableList',
-      payload: { params: {
-        ...searchParams,
-        page: currentPage,
-        type: markType,
-       } },
+      payload: {
+        params: {
+          ...searchParams,
+          page: currentPage,
+          type: markType,
+        }
+      },
     });
   };
   changeOperatorId = (key, v) => {
     this.setState({
-      searchParams: {...this.state.searchParams, [key]: v}
+      searchParams: { ...this.state.searchParams, [key]: v }
     });
   };
 
@@ -149,9 +184,9 @@ class bbsPage extends React.Component {
     return (
       <div>
         <MarkForm {...this.props} markType={markType} searchParams={searchParams}
-                  onSearchChange={this.onSearchChange} changeOperatorId={this.changeOperatorId}></MarkForm>
+          onSearchChange={this.onSearchChange} changeOperatorId={this.changeOperatorId}></MarkForm>
         <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
-                  columnsData={this.columnsData}>
+          columnsData={this.columnsData}>
           <ModalTip markType={markType} othersSearch={others}></ModalTip>
         </MarkList>
       </div>

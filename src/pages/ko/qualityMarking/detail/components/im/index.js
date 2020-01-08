@@ -2,12 +2,13 @@ import React from 'react';
 import copy from 'copy-to-clipboard';
 import { Icon, message } from 'antd';
 import styles from '../../style.less';
-import { pathImUrl, jumpMarkingDetails, linkRoute, linkImgRouteBul } from '../../../../utils/utils';
+import { pathImUrl, linkRoute, linkImgRouteBul } from '../../../../utils/utils';
 import moment from 'moment'
+import { Link } from 'dva/router';
 import avatarTeacher from '@/assets/avatarTeacher.png';
 import avatarStudent from '@/assets/avatarStudent.png';
 
-const robotConfig = {0: '班主任会话', 1: '机器人会话', 2: '客诉会话'};
+const robotConfig = { 0: '班主任会话', 1: '机器人会话', 2: '客诉会话' };
 //对话区域
 function SessionContent(props) {
   const li = props.li.map((item, index) => <ListItem {...props} li={item} key={index} />);
@@ -60,7 +61,7 @@ function TeacherOrStudent(props) {
             <span className={styles.dot} />
           </div>
           <div className={`${styles.chat} ${styles.chatRight}`}>
-            <div className={linkImgRouteBul(props.item.content) ? styles.chatContentImg: styles.chatContent}>
+            <div className={linkImgRouteBul(props.item.content) ? styles.chatContentImg : styles.chatContent}>
               <span className={styles.triangle}>
                 <em />
               </span>
@@ -103,10 +104,6 @@ class DetailIm extends React.Component {
     copy(val)
     message.success('复制成功');
   }
-  handleNameClick = (id) => {
-    jumpMarkingDetails(id, { target: 'im' })
-  }
-
   render() {
     const { item } = this.props.pageData;
     return (
@@ -115,7 +112,14 @@ class DetailIm extends React.Component {
           <li className={styles.flex}>
             <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>学员姓名：</span>
-              <span className={styles.name + " " + styles.nameCurrent} onClick={() => this.handleNameClick(item.stuId)}>{item.stuName}</span>
+              <Link
+                className={styles.name + " " + styles.nameCurrent}
+                rel="noopener noreferer"
+                to={`/ko/behaviorPath?params=${JSON.stringify({ userId: item.stuId, target: 'im' })}`}
+                target='_blank'>
+                {item.stuName}
+              </Link>
+              {/* <span className={styles.name + " " + styles.nameCurrent} onClick={() => this.handleNameClick(item.stuId)}>{item.stuName}</span> */}
             </div>
             <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>学员id：</span>
