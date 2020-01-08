@@ -34,18 +34,15 @@ class Nps extends React.Component {
   jump = () => {
     handleDataTrace({ widgetName: 'NPS_进入详情', traceName: '2.0/NPS_进入详情' });
     const { getCurrentDateRangeData } = this.props;
-    jumpGobalRouter(
-      'newDetail/npsAnalyze'
-      //  {
-      //   dataRange: [getCurrentDateRangeData.startTime, getCurrentDateRangeData.endTime],
-      // }
-    );
+    jumpGobalRouter('newDetail/npsAnalyze', {
+      dateRange: [getCurrentDateRangeData.startTime, getCurrentDateRangeData.endTime],
+    });
   };
 
   clickEvent = item => {
     const { getCurrentDateRangeData } = this.props;
-    jumpGobalRouter('nps', {
-      dataRange: [getCurrentDateRangeData.startTime, getCurrentDateRangeData.endTime],
+    jumpGobalRouter('newDetail/npsAnalyze', {
+      dateRange: [getCurrentDateRangeData.startTime, getCurrentDateRangeData.endTime],
       star: item.name.replace('星', ''),
     });
   };

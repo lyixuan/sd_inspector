@@ -447,8 +447,8 @@ export function companyThousandsIncome(num, n = 1) {
 * return [](tree)
 * */
 export function getNullNodeList(data = [], n , l = 1, ) {
-  data.nodeList instanceof Array && data.map(item => {
-    if ((item.nodeList instanceof Array && item.nodeList.length === 0) || n && l >= n) {
+  data instanceof Array && data.map(item => {
+    if ((item.nodeList instanceof Array && item.nodeList.length === 0) || (n && l >= n)) {
       item.nodeList = null;
     } else {
       getNullNodeList(item.nodeList, n, l + 1);

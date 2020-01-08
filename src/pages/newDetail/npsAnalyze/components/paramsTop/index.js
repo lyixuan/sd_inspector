@@ -19,8 +19,13 @@ const { BIRangePicker } = BIDatePicker;
 class ParamsTop extends React.Component {
   componentDidMount() {
     // 初始化参数
+    const params = this.props.location.query.params;
+    const paramsQuery = params ? JSON.parse(params) : undefined;
     const nps_analyze_query = localStorage.getItem('nps_analyze_query');
-    if (nps_analyze_query) {
+    if (paramsQuery) {
+      const { dateRange, ...others} = paramsQuery;
+      this.props.onObjChange({ ...others, dateRange: dateRange ? [moment(dateRange[0]), moment(dateRange[1])] : []})
+    } else if (nps_analyze_query) {
       const query = JSON.parse(nps_analyze_query) || {};
       query.dateRange = [moment(query.dateRange[0]), moment(query.dateRange[1])];
       this.props.onObjChange(query);
