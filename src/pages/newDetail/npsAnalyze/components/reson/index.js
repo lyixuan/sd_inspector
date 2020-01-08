@@ -50,7 +50,6 @@ class Reson extends React.Component {
           <BITabs
             onChange={this.onTabChange}
             defaultActiveKey={String(this.state.tab)}
-            animated="false"
           >
             {statReasonTypeData.length > 0 &&
               statReasonTypeData.map((item, index) => {
