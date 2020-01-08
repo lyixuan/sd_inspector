@@ -117,7 +117,7 @@ class Resubmit extends React.Component {
 
   // 学员明细
   getQueryStuDetailPage = params => {
-    const query = !params.pageSize ? { ...params, pageSize: 15, pageNum: 1 } : params;
+    const query = !params.pageSize ? { ...params, pageSize: 15, page: 1 } : params;
     this.props.dispatch({
       type: 'npsAnalyzeModel/getNpsAutonomousEvaluation',
       payload: { params: query },
