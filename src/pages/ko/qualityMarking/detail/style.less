@@ -43,8 +43,7 @@ li{
   display:flex;
 }
 .userInfo{
-  padding:24px;
-  padding-bottom: 0px;
+  padding:24px 24px 0;
   .flex{
     display:flex;
     font-size:13px;
@@ -69,11 +68,11 @@ li{
       content: '';
       height: 0;
     }
-    
+
   }
   .name{
     flex:1;
-    color:rgb(189, 204, 223);
+    //color:rgb(189, 204, 223);
     flex-wrap: wrap;
     > span {
       display: inline-block;
@@ -98,7 +97,8 @@ li{
     flex-wrap:wrap;
     em{
       font-style:normal;
-      background:#F5F8FA;
+      background:#FFF4F2;
+      color:#FC5A5A;
       height:32px;
       line-height:32px;
       border-radius:6px;
@@ -285,25 +285,25 @@ li{
   }
 }
 .behavior .chatLeft .triangle{
-    display:block; 
-    width:0; 
-    height:0; 
-    border-width:5px 5px 5px 0; 
-    border-style:solid; 
-    border-color:transparent #E8E8E8 transparent transparent; 
-    position:absolute; 
-    top:10px; 
+    display:block;
+    width:0;
+    height:0;
+    border-width:5px 5px 5px 0;
+    border-style:solid;
+    border-color:transparent #E8E8E8 transparent transparent;
+    position:absolute;
+    top:10px;
     left:-5px;
 }
 .behavior .chatLeft .triangle em{
-    display:block; 
-    width:0; 
-    height:0; 
-    border-width:5px 5px 5px 0; 
-    border-style:solid; 
-    border-color:transparent #f6f7fa transparent transparent; 
-    position:absolute; 
-    top:-5px; 
+    display:block;
+    width:0;
+    height:0;
+    border-width:5px 5px 5px 0;
+    border-style:solid;
+    border-color:transparent #f6f7fa transparent transparent;
+    position:absolute;
+    top:-5px;
     left:2px;
 }
 
@@ -350,25 +350,25 @@ li{
   }
 }
 .behavior .chatRight .triangle{
-    display:block; 
-    width:0; 
-    height:0; 
-    border-width:5px 0 5px 5px; 
-    border-style:solid; 
-    border-color:transparent transparent transparent #48c2ba; 
-    position:absolute; 
-    top:10px; 
+    display:block;
+    width:0;
+    height:0;
+    border-width:5px 0 5px 5px;
+    border-style:solid;
+    border-color:transparent transparent transparent #48c2ba;
+    position:absolute;
+    top:10px;
     right:-5px;
 }
 .behavior .chatRight .triangle em{
-    display:block; 
-    width:0; 
-    height:0; 
-    border-width:5px 0 5px 5px; 
-    border-style:solid; 
-    border-color:transparent transparent transparent #48c2ba; 
-    position:absolute; 
-    top:-5px; 
+    display:block;
+    width:0;
+    height:0;
+    border-width:5px 0 5px 5px;
+    border-style:solid;
+    border-color:transparent transparent transparent #48c2ba;
+    position:absolute;
+    top:-5px;
     right:2px;
 }
 .step .prise{
@@ -391,7 +391,7 @@ li{
     li{
       &.textarea{
         align-items:flex-start;
-        
+
       }
       :global .ant-input{
         font-size:13px;

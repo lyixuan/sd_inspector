@@ -10,6 +10,7 @@ import {
   queryDimensionTreeList,
   checkRepeatQualityInspection,
   getPunishInfoList,
+  getOrgType,
 } from '@/pages/qualityAppeal/services';
 import { msgF } from '@/utils/utils';
 import { updateQuality } from '@/pages/qualityAppeal/qualityNewSheet/services';
@@ -64,6 +65,16 @@ export default {
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
+    },
+    *getOrgType({ payload }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getOrgType, params);
+      if (result && result.code === 20000) {
+        return result.data;
+      } else {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+      return null
     },
     // 质检申诉管理内归属组织修改
     *getOrgMapTree({ payload }, { call, put }) {

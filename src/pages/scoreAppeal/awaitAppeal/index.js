@@ -29,19 +29,25 @@ class AwaitAppeal extends React.Component {
   }
 
   componentDidMount() {
-    const { dimensionType } = this.state;
-    let { params = null } =this.props.location.query;
-    if (params === null) {
-      storage.removeSessonItem('score_tab');
-    }
-    const pNew = JSON.parse(params);
-    if(pNew && pNew.creditBeginDate && pNew.creditEndDate){
-      this.initTime = {creditBeginDate:pNew.creditBeginDate,creditEndDate:pNew.creditEndDate};
-    } else {
-      this.initTime = {creditBeginDate:moment().subtract(6,'days').format('YYYY-MM-DD'),creditEndDate:moment().format('YYYY-MM-DD')};
-    }
-    params=JSON.stringify({...JSON.parse(params),...this.initTime});
-    this.queryData(dimensionType, JSON.parse(params),null,1);
+    this.props.dispatch({
+      type: 'scoreAppealModel/getTimeRangeData',
+      callback: (maxTime) => {
+        const { dimensionType } = this.state;
+        let { params = null } =this.props.location.query;
+        if (params === null) {
+          storage.removeSessonItem('score_tab');
+        }
+        const pNew = JSON.parse(params);
+        if(pNew && pNew.creditBeginDate && pNew.creditEndDate){
+          this.initTime = {creditBeginDate:pNew.creditBeginDate,creditEndDate:pNew.creditEndDate};
+        } else {
+          this.initTime = {creditBeginDate:moment(maxTime).subtract(6,'days').format('YYYY-MM-DD'),creditEndDate:moment(maxTime).format('YYYY-MM-DD')};
+        }
+        params=JSON.stringify({...JSON.parse(params),...this.initTime});
+        this.queryData(dimensionType, JSON.parse(params),null,1);
+      }
+    });
+
   }
 
   onFormChange = (value, vname) => {
@@ -96,9 +102,7 @@ class AwaitAppeal extends React.Component {
         page: pg.page,
       });
     }
-    console.log(333,dimensionType)
     if (dimensionType) {
-      console.log(111,dimensionType)
       paramsUrl = { ...paramsUrl, ...{ dimensionType } };
       params = { ...params, ...{ dimensionType } };
       this.setState({

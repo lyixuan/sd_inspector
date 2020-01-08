@@ -23,6 +23,8 @@ import { checkoutLogin } from '@/utils/checkoutUserAuthInfo';
 import { redirectUrlParams, redirectToLogin, checkPathname } from '../utils/routeUtils';
 import Authorized from '../utils/Authorized';
 import style from './styles/basic.less';
+import ThingsFall from '@/utils/thingsFall';
+import cookie from '@/utils/cookie';
 
 // import router from 'umi/router';
 const { Content, Header } = Layout;
@@ -120,6 +122,9 @@ class BasicLayout extends React.PureComponent {
     });
     this.MenuData();
     this.setRedirectData(this.props.menuData);
+    this.props.dispatch({
+      type: 'global/getThemeInfo'
+    });
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -144,33 +149,6 @@ class BasicLayout extends React.PureComponent {
     unenquireScreen(this.enquireHandler);
   }
 
-  // checkoutHasAuth = () => {
-  //   // debugger环境下使用url跳转传参
-  //   if (process.env.LOGIN_TYPE === 'localhost') {
-  //     this.getAuthToken();
-  //   }
-  //   const userInfo = storage.getUserInfo();
-  //   // 判断是有有用户信息;
-  //   if (!userInfo) {
-  //     redirectUrlParams();
-  //   } else {
-  //     this.loginInSysItem();
-  //   }
-  // }
-  // getAuthToken = () => {
-  //   const { location: { query = {} } } = this.props;
-  //   const paramsId = query.paramsId || '';
-  //   let paramsObj = {}
-  //
-  //   if (paramsId) {
-  //     try {
-  //       paramsObj = paramsId ? JSON.parse(Base64.decode(paramsId)) : {};
-  //       storage.setUserInfo(paramsObj);
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   }
-  // }
   setRedirectData = menuData => {
     menuData.forEach(getRedirect);
   };
@@ -272,18 +250,51 @@ class BasicLayout extends React.PureComponent {
   }
 
   render() {
-    let color = '#F4F4F4';
-    const { collapsed, fetchingNotices, notices, location, children, isLoginIng } = this.props;
-    const { menuData } = this.props;
 
-    if (this.props.location.pathname === '/cubePlan/list') {
-      color = '#fff';
+    const {
+      collapsed,
+      fetchingNotices,
+      notices,
+      location,
+      children,
+      menuData,
+      isLoginIng,
+      layoutBackgroundColor,
+      layoutImage,
+      pmsdkImage,
+      animation } = this.props;
+
+    // 动态设置全屏动效
+    if (animation && animation.image) {
+      if (!this.thingsFall) {
+        this.thingsFall = new ThingsFall({
+          image: animation.image,
+          continueTime: animation.continueTime,
+          minRadius: animation.minRadius,
+          maxRadius: animation.maxRadius
+        });
+      } else {}
     }
+
+    // 动态设置layout的背景色和背景图
+    let wrapStyle = {
+      backgroundColor: layoutBackgroundColor,
+    };
+    if (layoutImage !== '') {
+      wrapStyle.backgroundImage = `url("${layoutImage}")`
+    }
+
+    // 动态设置小德反馈入口的图片
+    if (pmsdkImage) {
+      let pmDom = document.getElementsByClassName('seven_entry_mini')[0];
+      pmDom.src = pmsdkImage;
+    }
+
     const currentUser = this.handleUserInfo();
     currentUser.avatar = biIcon;
     const layout = (
       <>
-        <Layout>
+        <Layout className={style.outerLayout} style={wrapStyle}>
 
           <HeaderLayout
             {...this.props}
@@ -298,6 +309,7 @@ class BasicLayout extends React.PureComponent {
           />
 
           <Layout className={style.contentLayout}>
+
             <SiderMenu
               logo={logo}
               menuData={menuData}
@@ -306,10 +318,8 @@ class BasicLayout extends React.PureComponent {
               isMobile={this.state.isMobile}
               onCollapse={this.handleMenuCollapse}
               onClick={({ item, key, keyPath }) => {
-                console.log(item, key);
                 window.location.href = 'www.baidu.com';
-              }}
-            />
+              }} />
 
             <Content className={`${this.gobalMarkClass()} ${style.content}`}>
               <ContentLayout {...this.props} routesData={routesData}>
@@ -342,4 +352,8 @@ export default connect(({ global, menu, login }) => ({
   login: login,
   menuData: menu.menuData,
   collapsed: global.collapsed,
+  layoutBackgroundColor: global.layoutBackgroundColor,
+  layoutImage: global.layoutImage,
+  pmsdkImage: global.pmsdkImage,
+  animation: global.animation
 }))(BasicLayout);

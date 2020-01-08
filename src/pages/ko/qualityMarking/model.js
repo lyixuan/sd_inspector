@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { getOperatorList, getConsultTypeTree, getReasonTypeTree, getTableList, exportData } from './services';
+import { getOperatorList, getConsultTypeTree, getReasonTypeTree, getTableList, exportData, getUserOrgList, getFeedBackTypeList } from './services';
 import { downBlob, msgF } from '@/utils/utils';
 import { getKOEnumList } from '@/pages/ko/services';
 import { emptyValue, getArrLastValue } from '@/pages/ko/utils/utils';
@@ -14,11 +14,11 @@ export default {
     evaluateList: [{ id: 0, name: '空' }, { id: 1, name: '非空' }],// 以上都是 搜索框基本信息
     // evaluationList: ['空', '正面', '负面', '中性', '全部'],
     evaluationList: [
-      { id: 2, name: '负面' }, 
-      { id: 3, name: '中性' }, 
-      { id: 1, name: '正面' }, 
-      { id: 0, name: '空' }, 
-      { id: 4, name: '全部' }, 
+      { id: 2, name: '负面' },
+      { id: 3, name: '中性' },
+      { id: 1, name: '正面' },
+      { id: 0, name: '空' },
+      { id: 4, name: '全部' },
     ],
     pageParams: {// 各列表当前页
     },
@@ -28,21 +28,25 @@ export default {
     idList: [],//idList
     pageSize: 15,// 每页条数
     totalCount: 0,// 列表总值
+    globalOrgList: [],
+    feedBackTypeList: []
   },
   effects: {
     *getBasicData({ payload }, { call, put, select }) {
-      const collegeResult = yield call(getKOEnumList, {type: 9});
+      const collegeResult = yield call(getKOEnumList, { type: 9 });
       const consultResult = yield call(getConsultTypeTree);
       const reasonResult = yield call(getReasonTypeTree);
+
       if (collegeResult && collegeResult.code && collegeResult.code === 20000) {
         const data = Array.isArray(collegeResult.data) ? collegeResult.data : [];
         yield put({ type: 'save', payload: { collegeList: data[0].enumData } });
       }
+      console.log(44, consultResult)
       if (consultResult && consultResult.code && consultResult.code === 20000) {
-        yield put({ type: 'save', payload: { consultList: consultResult.data } });
+        yield put({ type: 'saveConsultList', payload: { consultList: consultResult.data } });
       }
       if (reasonResult && reasonResult.code && reasonResult.code === 20000) {
-        yield put({ type: 'save', payload: { reasonList: [{ id: emptyValue, name: '空' }].concat(reasonResult.data) } });
+        yield put({ type: 'saveReasonList', payload: { reasonList: [{ id: emptyValue, name: '空' }].concat(reasonResult.data) } });
       }
     },
     *getTableList({ payload, callback }, { call, put, select }) {
@@ -50,9 +54,9 @@ export default {
       const params = payload.params;
       const { choiceTime, ...otherParams } = params;
       const pageSize = yield select(state => state.workTableModel.pageSize);
-      const result = yield call(getTableList, { 
-        ...otherParams, 
-        pageSize, 
+      const result = yield call(getTableList, {
+        ...otherParams,
+        pageSize,
         consultType: getArrLastValue(otherParams.consultType),
         reasonType: getArrLastValue(otherParams.reasonType),
       });
@@ -99,7 +103,33 @@ export default {
       } else {
         message.error(msgF(result.msg, result.msgDetail));
       }
-    }
+    },
+    *getUserOrgList({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getUserOrgList, params);
+      if (result.code === 20000) {
+        const res = result.data;
+        yield put({ type: 'save', payload: { globalOrgList: res } });
+        if (callback && typeof callback === 'function') {
+          callback(res);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
+    *getFaceBackTypeList({ payload, callback }, { call, put }) {
+      const params = payload.params;
+      const result = yield call(getFeedBackTypeList, params);
+      if (result.code === 20000) {
+        const res = result.data;
+        yield put({ type: 'saveFeedBackTypeList', payload: { feedBackTypeList: [{ id: emptyValue, name: '空' }].concat(res) } })
+        if (callback && typeof callback === 'function') {
+          callback(res);
+        }
+      } else if (result) {
+        message.error(msgF(result.msg, result.msgDetail));
+      }
+    },
   },
 
   reducers: {
@@ -113,8 +143,35 @@ export default {
         searchParams: { ...state.searchParams, ...payload.searchParams },
       };
     },
+    saveConsultList(state, { payload }) {
+      const consultList = getNullNodeList(payload.consultList);
+      return { ...state, consultList };
+    },
+    saveReasonList(state, { payload }) {
+      const reasonList = getNullNodeList(payload.reasonList)
+      return { ...state, reasonList };
+    },
+    saveFeedBackTypeList(state, { payload }) {
+      const feedBackTypeList = getNullNodeList(payload.feedBackTypeList)
+      return { ...state, feedBackTypeList };
+    },
 
   },
 
   subscriptions: {},
 };
+
+
+function getNullNodeList(data = []) {
+  data.map(item => {
+    if (item.nodeList instanceof Array) {
+      const l = item.nodeList.length;
+      if (l === 0) {
+        item.nodeList = null;
+      } else if (l > 0) {
+        getNullNodeList(item.nodeList);
+      }
+    }
+  });
+  return data;
+}

@@ -93,7 +93,7 @@ class CSForm extends React.Component {
     const { collegeIdList, familyIdList, groupIdList } = this.state;
     // dimensionType:  11 优新 14 IM 19 工单 23 底线 42 创收
     const { scoreAppealModel = {}, dimensionType = 11, loading } = this.props;
-    const { appealOrgListTreeData = [], dimensionList = [] } = scoreAppealModel;
+    const { appealOrgListTreeData = [], dimensionList = [], minTime, maxTime } = scoreAppealModel;
 
     const dimensionList2 = dimensionList.filter(v => v.parentId === dimensionType && v.id !== 47);
     const { creditBeginDate, creditEndDate, stuId, stuName, creditType } = this.state;
@@ -110,6 +110,10 @@ class CSForm extends React.Component {
                   <span className={styles.gutterForm}>
                     <BIRangePicker
                       allowClear
+                      disabledDate={(current) => {
+                        return current && current > moment(maxTime).endOf('day')
+                          || current && current < moment(minTime).startOf('day');
+                      }}
                       value={creditBeginDate && [moment(creditBeginDate), moment(creditEndDate)]}
                       onChange={(val, valStr) => this.onFormChange(valStr, 'creditDate')}
                     />
@@ -129,7 +133,25 @@ class CSForm extends React.Component {
                   </span>
                 </div>
               </Col>
-              <Col className={styles.gutterCol} span={8}></Col>
+              <Col className={styles.gutterCol} span={8}>
+                { (
+                  <div className={styles.gutterBox2}>
+                    <span className={styles.gutterLabel}>学分维度</span>：
+                    <span className={styles.gutterForm}>
+                      <BISelect
+                        style={{ width: 230 }}
+                        placeholder="请选择"
+                        value={creditType}
+                        onChange={val => this.onFormChange(val, 'creditType')}
+                      >
+                        {dimensionList2.map(item => (
+                          <Option key={item.id}>{item.name}</Option>
+                        ))}
+                      </BISelect>
+                    </span>
+                  </div>
+                )}
+              </Col>
             </Row>
             {/*第二行*/}
             <Row className={styles.gutterRow}>
@@ -167,25 +189,7 @@ class CSForm extends React.Component {
                   </span>
                 </div>
               </Col>
-              <Col className={styles.gutterCol} span={8}>
-                {dimensionType !== 11 && (
-                  <div className={styles.gutterBox2}>
-                    <span className={styles.gutterLabel}>学分维度</span>：
-                    <span className={styles.gutterForm}>
-                      <BISelect
-                        style={{ width: 230 }}
-                        placeholder="请选择"
-                        value={creditType}
-                        onChange={val => this.onFormChange(val, 'creditType')}
-                      >
-                        {dimensionList2.map(item => (
-                          <Option key={item.id}>{item.name}</Option>
-                        ))}
-                      </BISelect>
-                    </span>
-                  </div>
-                )}
-              </Col>
+              <Col className={styles.gutterCol} span={8}></Col>
             </Row>
           </div>
           {/*第三行*/}

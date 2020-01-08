@@ -387,7 +387,12 @@ export const FRONT_ROLE_TYPE_LIST = [
   { id: 'csofficer', name: '客诉专员', level: '1', isPerformance: 0 },
 ];
 // 学院类型
-export const FAMILY_TYPE = [{ id: 0, name: '自考' }, { id: 1, name: '壁垒' }];
+export const FAMILY_TYPE = [
+  { id: 0, name: '自考' },
+  { id: 1, name: '壁垒' },
+  { id: 2, name: '研究生' },
+  { id: 3, name: '泛学历' }
+  ];
 // 学院类型
 export const APPEAL_RESULT_TYPE = [
   { id: 1, name: '通过' },
@@ -477,6 +482,7 @@ export const DIMENSION_TYPE = [
 // 申诉维度
 export const SCORE_APPEAL_DIS = [
   { id: 12, name: '开班电话', parentId: 11 },
+  { id: 60, name: '开学典礼', parentId: 11 },
   { id: 17, name: '不及时消息', parentId: 14 },
   { id: 15, name: '未回复会话', parentId: 14 },
   { id: 16, name: '不满意会话', parentId: 14 },

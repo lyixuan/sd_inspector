@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Tooltip } from 'antd';
+import { Link } from 'dva/router';
 import Star from '../star';
 import BIButton from '@/ant_components/BIButton';
 import BIContainer from '@/components/BIContainer';
@@ -43,7 +44,7 @@ class DetailsIndex extends React.Component {
         dataIndex: 'stuName',
         key: 'stuName',
         render: (text, record) => text ? 
-        <Tooltip title={text}><a href={`/inspector/ko/behaviorPath?params=${encodeURIComponent(JSON.stringify({ userId: record.stuId, target: 'draw' }))}`} target='_black'>{text}</a></Tooltip>
+        <Tooltip title={text}><Link to={`/ko/behaviorPath?params=${encodeURIComponent(JSON.stringify({ userId: record.stuId, target: 'draw' }))}`} target='_black' rel="noopener noreferrer">{text}</Link></Tooltip>
         : <img style={{width: '15px'}} src={float3} alt=""/>
       },
       {

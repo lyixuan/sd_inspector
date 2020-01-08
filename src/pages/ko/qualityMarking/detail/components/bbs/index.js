@@ -1,7 +1,4 @@
 import React from 'react';
-import copy from 'copy-to-clipboard';
-import { Icon } from 'antd';
-import { connect } from 'dva';
 import { jumpMarkingDetails } from '../../../../utils/utils';
 import styles from '../../style.less';
 
