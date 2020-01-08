@@ -12,17 +12,8 @@ import { Spin } from 'antd';
   loadingTime: loading.effects['npsAnalyzeModel/getNpsData'],
 }))
 class Tag extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tabActive: 0,
-    };
-  }
-
   clickTab = tabActive => {
-    this.setState({
-      tabActive,
-    });
+    this.props.onParamsChange(tabActive === 0 ? [30] : [31], 'tagId');
   };
 
   clickEvent = item => {
@@ -32,7 +23,7 @@ class Tag extends React.Component {
     if (!item.data.value) return;
 
     let val = [];
-    if (this.state.tabActive == 0) {
+    if (this.props.paramsQuery.tagId && this.props.paramsQuery.tagId[0] == 30) {
       // 30
       val = [30, item.data.id];
     } else {
@@ -45,7 +36,7 @@ class Tag extends React.Component {
   };
 
   render() {
-    const { tabActive } = this.state;
+    const tabActive =  this.props.paramsQuery.tagId && this.props.paramsQuery.tagId[0] == 30 ? 0 : 1;
     const { npsData, loadingTime } = this.props;
     let tabMenu = [];
     let tabCon = [[], []];
