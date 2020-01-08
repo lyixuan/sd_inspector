@@ -5,10 +5,11 @@ import { getOption } from './tagOptions.js';
 import styles from './style.less';
 import { Spin } from 'antd';
 
-@connect(({ npsAnalyzeModel }) => ({
+@connect(({ npsAnalyzeModel, loading }) => ({
   npsAnalyzeModel,
   paramsQuery: npsAnalyzeModel.paramsQuery || {},
   npsData: npsAnalyzeModel.npsData,
+  loadingTime: loading.effects['npsAnalyzeModel/getNpsData'],
 }))
 class Tag extends React.Component {
   constructor(props) {
@@ -45,7 +46,7 @@ class Tag extends React.Component {
 
   render() {
     const { tabActive } = this.state;
-    const { npsData } = this.props;    
+    const { npsData, loadingTime } = this.props;
     let tabMenu = [];
     let tabCon = [[], []];
     if (npsData.tagImageDtoList) {
@@ -59,42 +60,42 @@ class Tag extends React.Component {
           <span></span>
           NPS标签
         </p>
-        {/* <Spin spinning={loadingTime}> */}
-        <div
-          className={styles.tabWrap}
-          style={{
-            width: '345px',
-            height: '213px',
-            margin: '0 auto',
-            background: 'rgba(255,255,255,1)',
-            boxShadow: '0px 0px 4px 0px rgba(0,0,0,0.14)',
-            borderRadius: '20px',
-          }}
-        >
-          <div className={styles.tab}>
-            <span
-              className={tabActive === 0 ? styles[`current${tabActive}`] : styles.normal}
-              onClick={() => this.clickTab(0)}
-            >
-              班主任
-            </span>
-            <span
-              className={tabActive === 1 ? styles[`current${tabActive}`] : styles.normal1}
-              onClick={() => this.clickTab(1)}
-            >
-              授课
-            </span>
+        <Spin spinning={loadingTime}>
+          <div
+            className={styles.tabWrap}
+            style={{
+              width: '345px',
+              height: '213px',
+              margin: '0 auto',
+              background: 'rgba(255,255,255,1)',
+              boxShadow: '0px 0px 4px 0px rgba(0,0,0,0.14)',
+              borderRadius: '20px',
+            }}
+          >
+            <div className={styles.tab}>
+              <span
+                className={tabActive === 0 ? styles[`current${tabActive}`] : styles.normal}
+                onClick={() => this.clickTab(0)}
+              >
+                班主任
+              </span>
+              <span
+                className={tabActive === 1 ? styles[`current${tabActive}`] : styles.normal1}
+                onClick={() => this.clickTab(1)}
+              >
+                授课
+              </span>
+            </div>
+            {tabCon[tabActive].length > 0 && (
+              <Echart
+                options={options}
+                style={{ width: '310px', height: '189px' }}
+                clickEvent={item => this.clickEvent(item)}
+              />
+            )}
+            {tabCon[tabActive].length === 0 && <div className={styles.none}>暂无数据</div>}
           </div>
-          {tabCon[tabActive].length > 0 && (
-            <Echart
-              options={options}
-              style={{ width: '310px', height: '189px' }}
-              clickEvent={item => this.clickEvent(item)}
-            />
-          )}
-          {tabCon[tabActive].length === 0 && <div className={styles.none}>暂无数据</div>}
-        </div>
-        {/* </Spin> */}
+        </Spin>
       </div>
     );
   }

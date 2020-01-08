@@ -28,7 +28,6 @@ class Cycle extends React.Component {
 
   render() {
     const { getCycleListData, loadingTime } = this.props;
-    console.log(loadingTime, 'loadingTime');
     let value = getCycleListData.total;
     const options = getOption(getCycleListData);
     return (
