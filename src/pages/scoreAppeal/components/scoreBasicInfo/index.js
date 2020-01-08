@@ -3,7 +3,7 @@ import styles from './style.css';
 import { formatDateToWeek } from '@/utils/utils';
 
 function getMinFormat(num) {
-  const min = Math.round(num/60);
+  const min = Math.floor(num/60);
   const sec = num%60;
   return `${min}min${sec}s`
 }
