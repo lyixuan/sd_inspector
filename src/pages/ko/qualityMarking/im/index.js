@@ -27,7 +27,7 @@ const markType = 1; //im bbs nps 对应的额type值为1， 2， 3
   currentPage: workTableModel.pageParams[markType],
   searchParams: workTableModel.searchParams[markType] || {},
   collegeList: workTableModel.collegeList,// bbs nps
-  consultList: [{ id: emptyValue, name: '空', nodeList: [] }].concat(workTableModel.consultList),// im
+  consultList: [{ id: emptyValue, name: '空', nodeList: null }].concat(workTableModel.consultList),// im
   reasonList: workTableModel.reasonList,// im
   operatorList: workTableModel.operatorList,// im bbs nps
   idList: workTableModel.idList,

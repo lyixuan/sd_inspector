@@ -22,7 +22,7 @@ const markType = 2; //im bbs nps 对应的type值为1， 2， 3
   searchParams: workTableModel.searchParams[markType] || {},
   collegeList: [{ id: 0, name: '空' }].concat(workTableModel.collegeList),
   // consultList: workTableModel.consultList,
-  consultList: [{ id: emptyValue, name: '空', nodeList: [] }].concat(workTableModel.consultList),// BBS
+  consultList: [{ id: emptyValue, name: '空', nodeList: null }].concat(workTableModel.consultList),// BBS
   reasonList: workTableModel.reasonList,
   idList: workTableModel.idList,
   operatorList: workTableModel.operatorList,// im bbs nps
