@@ -35,9 +35,10 @@ class Reson extends React.Component {
   };
   render() {
     // const { tab } = this.state;
-    const tab = this.props.paramsQuery.reasonType
-      ? String(this.props.paramsQuery.reasonType[0])
-      : '0';
+    const tab =
+      this.props.paramsQuery.reasonType && this.props.paramsQuery.reasonType.length > 0
+        ? String(this.props.paramsQuery.reasonType[0])
+        : '1';
     const { statReasonTypeData, loadingTime } = this.props;
     return (
       <div className={styles.collegeWrap}>

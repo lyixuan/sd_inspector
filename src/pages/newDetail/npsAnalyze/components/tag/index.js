@@ -12,7 +12,16 @@ import { Spin } from 'antd';
   loadingTime: loading.effects['npsAnalyzeModel/getNpsData'],
 }))
 class Tag extends React.Component {
+  constructor(props) {
+    super(props);
+    // this.state = {
+    //   tabActive: this.props.paramsQuery.tagId && this.props.paramsQuery.tagId[0] == 30 ? 0 : 1,
+    // };
+  }
+
   clickTab = tabActive => {
+    // const flag =
+    //   this.props.paramsQuery.tagId && this.props.paramsQuery.tagId.toString() == val.toString();
     this.props.onParamsChange(tabActive === 0 ? [30] : [31], 'tagId');
   };
 
@@ -36,7 +45,7 @@ class Tag extends React.Component {
   };
 
   render() {
-    const tabActive =  this.props.paramsQuery.tagId && this.props.paramsQuery.tagId[0] == 30 ? 0 : 1;
+    const tabActive =  this.props.paramsQuery.tagId && this.props.paramsQuery.tagId[0] == 31 ? 1 : 0;
     const { npsData, loadingTime } = this.props;
     let tabMenu = [];
     let tabCon = [[], []];
