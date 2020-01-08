@@ -40,6 +40,7 @@ class DetailsIndex extends React.Component {
                   JSON.stringify({ userId: record.stuId, target: 'draw' })
                 )}`}
                 target="_black"
+                rel="noopener noreferrer"
               >
                 {text}
               </Link>

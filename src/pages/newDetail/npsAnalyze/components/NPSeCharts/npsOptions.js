@@ -78,7 +78,7 @@ export function getOption(data) {
             '</span>' +
             '</br>';
         });
-        var str = params[1].axisValue + '</br>' + arrFor;
+        var str = params[0].axisValue + '</br>' + arrFor;
         return str;
       },
     },

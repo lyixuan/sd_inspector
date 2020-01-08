@@ -4,11 +4,13 @@ import styles from './style.less';
 import { getOption } from './scoreOptions.js';
 import { connect } from 'dva';
 import zhutu from '@/assets/zhutu@2x.png';
+import { Spin } from 'antd';
 
-@connect(({ npsAnalyzeModel }) => ({
+@connect(({ npsAnalyzeModel, loading }) => ({
   npsAnalyzeModel,
   paramsQuery: npsAnalyzeModel.paramsQuery || {},
   npsData: npsAnalyzeModel.npsData,
+  loadingTime: loading.effects['npsAnalyzeModel/getNpsData'],
 }))
 class Score extends React.Component {
   clickEvent = item => {
@@ -25,7 +27,7 @@ class Score extends React.Component {
   };
 
   render() {
-    const { npsData } = this.props;
+    const { npsData, loadingTime } = this.props;
     let value = 0;
     if (npsData && npsData.starList && npsData.starList.length > 0) {
       npsData.starList.map(item => {
@@ -39,31 +41,33 @@ class Score extends React.Component {
           <span></span>
           NPS评分
         </p>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '240px',
-          }}
-        >
-          {!value && (
-            <img
-              src={zhutu}
-              style={{
-                width: '150px',
-                // height: '150px',
-              }}
-            />
-          )}
-          {value > 0 && (
-            <Echarts
-              clickEvent={item => this.clickEvent(item)}
-              options={options}
-              style={{ width: '243px', height: 194 + 'px' }}
-            />
-          )}
-        </div>
+        <Spin spinning={loadingTime}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '240px',
+            }}
+          >
+            {!value && (
+              <img
+                src={zhutu}
+                style={{
+                  width: '150px',
+                  // height: '150px',
+                }}
+              />
+            )}
+            {value > 0 && (
+              <Echarts
+                clickEvent={item => this.clickEvent(item)}
+                options={options}
+                style={{ width: '243px', height: 194 + 'px' }}
+              />
+            )}
+          </div>
+        </Spin>
       </div>
     );
   }
