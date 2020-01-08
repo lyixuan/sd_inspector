@@ -106,7 +106,10 @@ class Income extends React.Component {
             </div>
             <div className={style.incomeRightImcome}>
               {pieData.length > 0 ? (
-                <Echarts options={optionR} style={{ height: 250, width: 200, float: 'left' }} />
+                <Echarts
+                  options={optionR}
+                  style={{ height: 225, width: 200, paddingTop: '40px', float: 'left' }}
+                />
               ) : (
                 <img
                   src={bingtu}
@@ -115,8 +118,8 @@ class Income extends React.Component {
                 />
               )}
             </div>
-            <div className={style.footer}>{dot}</div>
-            <div className={style.footer2}>{dotName}</div>
+            {/* <div className={style.footer}>{dot}</div>
+            <div className={style.footer2}>{dotName}</div> */}
           </div>
         )}
       </div>
