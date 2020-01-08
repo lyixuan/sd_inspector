@@ -34,7 +34,7 @@ class Cycle extends React.Component {
       <div className={styles.collegeWrap}>
         <p className={styles.title}>
           <span></span>
-          续报学员生命周期分布
+          生命周期分布
         </p>
         <div
           style={{
