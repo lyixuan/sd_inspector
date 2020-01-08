@@ -25,17 +25,25 @@ class ParamsTop extends React.Component {
     const params = this.props.location.query.params;
     const paramsQuery = params ? JSON.parse(params) : undefined;
     const nps_analyze_query = localStorage.getItem('nps_analyze_query');
+    let paramsAllQuery =  {};
     if (paramsQuery) {
       const { dateRange, ...others} = paramsQuery;
-      this.props.onObjChange({ ...others, dateRange: dateRange ? [moment(dateRange[0]), moment(dateRange[1])] : []})
+      paramsAllQuery = { ...others, dateRange: dateRange ? [moment(dateRange[0]), moment(dateRange[1])] : []}
     } else if (nps_analyze_query) {
-      const query = JSON.parse(nps_analyze_query) || {};
-      query.dateRange = [moment(query.dateRange[0]), moment(query.dateRange[1])];
-      this.props.onObjChange(query);
+      paramsAllQuery = JSON.parse(nps_analyze_query) || {};
+      paramsAllQuery.dateRange = [moment(paramsAllQuery.dateRange[0]), moment(paramsAllQuery.dateRange[1])];
     } else {
       const cTime = this.props.globalDateRange.endTime;
-      this.props.onObjChange({ orgId: this.getInitOrg(), dateRange: [hasSubtractTime(6, cTime), moment(cTime)]})
+      paramsAllQuery = { orgId: this.getInitOrg(), dateRange: [hasSubtractTime(6, cTime), moment(cTime)]};
     }
+    // 默认值
+    if (!paramsAllQuery.reasonType) {
+      paramsAllQuery.reasonType = [1];
+    }
+    if (!paramsAllQuery.tagId) {
+      paramsAllQuery.tagId = [30];
+    }
+    this.props.onObjChange(paramsAllQuery);
   }
   // 组织初始化---角色属于什么组织默认什么组织---默认到学院家族
   getInitOrg = () => {
@@ -86,7 +94,7 @@ class ParamsTop extends React.Component {
             displayRender={this.renderCascader}
             value={paramsQuery.reasonType}
             onChange={val => onParamsChange(val, 'reasonType')}
-            allowClear
+            allowClear={false}
             style={{ width: 90 }}
           />
         </span>
@@ -100,7 +108,7 @@ class ParamsTop extends React.Component {
             displayRender={this.renderCascader}
             value={paramsQuery.tagId}
             onChange={val => onParamsChange(val, 'tagId')}
-            allowClear
+            allowClear={false}
             style={{ width: 90 }}
           />
         </span>
