@@ -53,7 +53,11 @@ class Resubmit extends React.Component {
       message.error('请选择 ≤ 31 天的时间范围');
       return false;
     }
+     
     const payload = { [type]: val };
+    if (type === 'reasonType' && val instanceof Array && val.length > 0) {
+      payload.evaluateType = 1;
+    }
     this.props.dispatch({
       type: 'npsAnalyzeModel/saveParams',
       payload,
@@ -73,7 +77,6 @@ class Resubmit extends React.Component {
   getInitData = newQuery => {
     const params = this.getRequestParams({ ...this.props.paramsQuery, ...newQuery });
     this.getCycleList(params);
-    // this.getTagList(params);
     this.getNpsData(params);
     this.getRestTrend(params);
     this.statReasonType(params);
