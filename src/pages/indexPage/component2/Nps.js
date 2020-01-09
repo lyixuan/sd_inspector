@@ -26,7 +26,12 @@ class Nps extends React.Component {
   }
 
   clickTab = tabActive => {
-    handleDataTrace({ widgetName: '首页NPS_切换', traceName: '2.3/首页NPS_切换' });
+    if (tabActive == 0) {
+      handleDataTrace({ widgetName: '首页NPS_班主任切换', traceName: '2.3/首页NPS_班主任切换' });
+    } else {
+      handleDataTrace({ widgetName: '首页NPS_授课切换', traceName: '2.3/首页NPS_授课切换' });
+    }
+
     this.setState({
       tabActive,
     });
