@@ -14,6 +14,7 @@ const TabPane = BITabs.TabPane;
 }))
 class Reson extends React.Component {
   onTabChange = tab => {
+    // evaluateType
     this.props.onParamsChange([Number(tab)], 'reasonType');
   };
 

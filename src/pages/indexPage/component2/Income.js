@@ -60,6 +60,24 @@ class Income extends React.Component {
         </span>
       );
     });
+
+    const dotName1 = pieData.map((item, i) => {
+      if (item.name == '成考专本套') {
+        item.name = '成考';
+      }
+      return (
+        <span key={i}>
+          <i
+            style={{
+              backgroundColor: `${
+                item.name === '好推' ? '#45D199' : item.name === '续报' ? '#FEC350' : '#6769DA'
+              }`,
+            }}
+          />
+          {item.name}
+        </span>
+      );
+    });
     return (
       <div className={stylefather.boxRight}>
         <div className={stylefather.boxHeader}>
@@ -118,8 +136,8 @@ class Income extends React.Component {
                 />
               )}
             </div>
-            {/* <div className={style.footer}>{dot}</div>
-            <div className={style.footer2}>{dotName}</div> */}
+            {/* <div className={style.footer}>{dot}</div> */}
+            <div className={style.footer2}>{dotName1}</div>
           </div>
         )}
       </div>
