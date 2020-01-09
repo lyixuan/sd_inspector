@@ -25,16 +25,17 @@ class ParamsTop extends React.Component {
     const params = this.props.location.query.params;
     const paramsQuery = params ? JSON.parse(params) : undefined;
     const nps_analyze_query = localStorage.getItem('nps_analyze_query');
-    let paramsAllQuery =  {};
+    const cTime = this.props.globalDateRange.endTime;
+    let paramsAllQuery = { orgId: this.getInitOrg(), dateRange: [hasSubtractTime(6, cTime), moment(cTime)]};
     if (paramsQuery) {
       const { dateRange, ...others} = paramsQuery;
-      paramsAllQuery = { ...others, dateRange: dateRange ? [moment(dateRange[0]), moment(dateRange[1])] : []}
+      paramsAllQuery = {...paramsAllQuery, ...others};
+      if (dateRange && dateRange instanceof Array && dateRange.length === 2) {
+        paramsAllQuery.dateRange = [moment(dateRange[0]), moment(dateRange[1])];
+      }
     } else if (nps_analyze_query) {
       paramsAllQuery = JSON.parse(nps_analyze_query) || {};
       paramsAllQuery.dateRange = [moment(paramsAllQuery.dateRange[0]), moment(paramsAllQuery.dateRange[1])];
-    } else {
-      const cTime = this.props.globalDateRange.endTime;
-      paramsAllQuery = { orgId: this.getInitOrg(), dateRange: [hasSubtractTime(6, cTime), moment(cTime)]};
     }
     // 默认值
     // if (!paramsAllQuery.reasonType) {

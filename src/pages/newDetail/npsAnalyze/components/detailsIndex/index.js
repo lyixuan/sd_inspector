@@ -16,17 +16,11 @@ import styles from './style.less';
   globalUserInfo: newDetailModal.globalUserInfo,
   stuDetailData: npsAnalyzeModel.stuDetailData || {},
   paramsQuery: npsAnalyzeModel.paramsQuery,
+  paramsQueryPage:npsAnalyzeModel.paramsQueryPage,
   loading: loading.effects['npsAnalyzeModel/getNpsAutonomousEvaluation'],
   downLoding: loading.effects['npsAnalyzeModel/exportExcelData'],
 }))
 class DetailsIndex extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      pageSize: 15,
-      current: 1,
-    };
-  }
   columns = () => {
     const columns = [
       {
@@ -43,22 +37,10 @@ class DetailsIndex extends React.Component {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        render: (text, record) =>
-          text ? (
-            <Tooltip title={text}>
-              <Link
-                to={`/ko/behaviorPath?params=${encodeURIComponent(
-                  JSON.stringify({ userId: record.stuId, target: 'draw' })
-                )}`}
-                target="_black"
-                rel="noopener noreferrer"
-              >
-                {text}
-              </Link>
-            </Tooltip>
-          ) : (
-            <img style={{ width: '15px' }} src={float3} alt="" />
-          ),
+        render: (text, record) => text ? 
+        <Tooltip title={text}><Link to={`/ko/behaviorPath?params=${encodeURIComponent(JSON.stringify({ userId: record.stuId, target: 'draw' }))}`} target='_black' rel="noopener noreferrer">
+          <span data-trace={`{"widgetName":"NPS_学员姓名","traceName":"2.3/NPS_学员姓名"}`}>{text}</span></Link></Tooltip>
+        : <img style={{width: '15px'}} src={float3} alt=""/>
       },
       {
         title: '报名时间',
@@ -108,14 +90,9 @@ class DetailsIndex extends React.Component {
     return columns || [];
   };
   onChangeSize = current => {
-    const params = {
-      ...this.props.getRequestParams(),
-      pageNum: current,
-      pageSize: this.state.pageSize,
-    };
+    const params = {...this.props.getRequestParams(), pageNum: current, pageSize: 15};
     this.props.getQueryStuDetailPage(params);
-    this.setState({ current });
-  };
+  }
   exportExcelData = () => {
     const params = this.props.getRequestParams();
     const { startTime, endTime, collegeId, familyId, groupId } = params;
@@ -172,23 +149,18 @@ class DetailsIndex extends React.Component {
 
   render() {
     const { data = [], total = 0 } = this.props.stuDetailData;
-    const { pageSize = 15, current = 1 } = this.state;
+    const { pageNum = 1, pageSize = 15 } = this.props.paramsQueryPage;
     return (
       <BIContainer headStyle={{ display: 'none' }} style={{ borderRadius: '20px' }}>
         <div className={styles.detailsIndex}>
           <span className={styles.download}>
-            {this.isFlagDownLoad() && (
-              <BIButton
-                loading={this.props.downLoding}
-                onClick={this.exportExcelData}
-                type="primary"
-                radiused={true}
-                size="default"
-              >
-                <img style={{ width: '12px' }} src={downloadImg} alt="" />
+            <span className={styles.colorShow}>（ <span>班主任 </span><span></span>授课）</span>
+            { 
+              this.isFlagDownLoad() && <BIButton loading={this.props.downLoding} onClick={this.exportExcelData} type="primary" radiused={true} size="default">
+                <img style={{width: '12px'}} src={downloadImg} alt=""/>
                 下载
               </BIButton>
-            )}
+            }
           </span>
           <BIScrollbarTable
             columns={this.columns()}
@@ -198,7 +170,7 @@ class DetailsIndex extends React.Component {
             pagination={{
               onChange: this.onChangeSize,
               defaultPageSize: pageSize,
-              current,
+              current: pageNum,
               total,
               hideOnSinglePage: true,
               showQuickJumper: true,

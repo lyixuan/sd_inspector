@@ -23,8 +23,8 @@ const shapeArr = Array.from(Array(5), (v, k) => k);
   workTableModel,
   currentPage: workTableModel.pageParams[markType] || 1,
   searchParams: workTableModel.searchParams[markType] || {},
-  collegeList: [{ id: 0, name: '空', nodeList: [] }].concat(workTableModel.collegeList),
-  consultList: [{ id: emptyValue, name: '空', nodeList: [] }].concat(workTableModel.consultList),// NPS
+  collegeList: [{ id: 0, name: '空', nodeList: null }].concat(workTableModel.collegeList),
+  consultList: [{ id: emptyValue, name: '空', nodeList: null }].concat(workTableModel.consultList),// NPS
   reasonList: workTableModel.reasonList,
   evaluateList: workTableModel.evaluateList,
   idList: workTableModel.idList,

@@ -22,12 +22,14 @@ export default {
     collegeList: [], // 后端归属列表
     tagQueryData: [], // NPS标签
     paramsQuery: {},
+    paramsQueryPage: {
+      pageSize: 15,
+      pageNum: 1,
+    }, // 学院明细分页参数
     stuDetailData: {}, // 学院明细
     getCycleListData: {},
-    // getTagListData: {},
     npsData: {},
     getRestTrendData: {},
-    downLoding: false, // 不能多次点击下载按钮
     statReasonTypeData: {},
   },
 
@@ -66,14 +68,6 @@ export default {
         message.error(msgF(result.msg, result.msgDetail));
       }
     },
-    // 标签
-    // *getTagList({ payload, callback }, { call, put }) {
-    //   const result = yield call(getTagList, payload.params);
-    //   if (result.code === 20000 && result.data) {
-    //     yield put({ type: 'save', payload: { getTagListData: result.data } });
-    //   } else if (result) {
-    //   }
-    // },
     // NPS自主评价所有的接口
     *getNpsAutonomousEvaluation({ payload }, { call, put }) {
       const result = yield call(getNpsAutonomousEvaluation, payload.params);
@@ -176,12 +170,16 @@ export default {
       );
       return { ...state, paramsQuery };
     },
+    saveParamsQueryPage(state, { payload }) {
+      state.paramsQueryPage.pageNum = payload.pageNum;
+      return { ...state };
+    },
     // 学院
     saveNull(state, { payload }) {
       return { ...state, [payload.key]: getNullNodeList(payload.data) };
     },
     saveClearParams(state) {
-      return { ...state, paramsQuery: {} };
+      return { ...state, paramsQuery: {}, paramsQueryPage: { pageSize: 15, pageNum: 1} };
     }
   },
   subscriptions: {},

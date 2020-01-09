@@ -17,6 +17,10 @@ export default {
   state: {
     collegeList: [],
     paramsQuery: {},
+    paramsQueryPage: {
+      pageSize: 15,
+      page: 1,
+    }, // 明细分页参数
     getCollegeAnalyzeData: {},
     getFamilyAnalyzeData: {},
     getCycleListData: {},
@@ -124,11 +128,15 @@ export default {
       localStorage.setItem('resubmit_query', JSON.stringify({...paramsQuery, dateRange: getDateArray(paramsQuery.dateRange) }));
       return { ...state, paramsQuery };
     },
+    saveParamsQueryPage(state, { payload }) {
+      state.paramsQueryPage.page = payload.page;
+      return { ...state };
+    },
     saveCollege(state, { payload }) {
       return { ...state, collegeList: getNullNodeList(payload.collegeList, 2)};
     },
     saveClearParams(state) {
-      return { ...state, paramsQuery: {} };
+      return { ...state, paramsQuery: {}, paramsQueryPage: { pageSize: 15, page: 1} };
     }
   },
   subscriptions: {},
