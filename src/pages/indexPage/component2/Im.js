@@ -32,6 +32,13 @@ class Im extends React.Component {
       reasonTypeId: 0,
     });
   };
+  jump1 = () => {
+    const { getCurrentDateRangeData } = this.props;
+    jumpGobalRouter('xdCredit/im', {
+      dataRange: [getCurrentDateRangeData.endTime, getCurrentDateRangeData.endTime],
+      reasonTypeId: 0,
+    });
+  };
 
   clickEvent = item => {
     const { getCurrentDateRangeData } = this.props;
@@ -117,17 +124,23 @@ class Im extends React.Component {
               {WorkbenchImNegativeData.notSatisfied ? (
                 <div
                   className={style.imItem}
-                  onClick={() => this.jump('IM不满意会话', '2.0/IM不满意会话')}
-                  style={{ cursor: 'pointer' }}
+                  // onClick={() => this.jump('IM不满意会话', '2.0/IM不满意会话')}
+                  // style={{ cursor: 'pointer' }}
                 >
                   {WorkbenchImNegativeData.dayNotSatisfied > 0 && (
-                    <p className={style.red}>+{WorkbenchImNegativeData.dayNotSatisfied}</p>
+                    <p  onClick={() => this.jump1()} style={{ cursor: 'pointer' }} className={style.red}>+{WorkbenchImNegativeData.dayNotSatisfied}</p>
                   )}
                   {WorkbenchImNegativeData.dayNotSatisfied < 0 && (
-                    <p className={style.green}>{WorkbenchImNegativeData.dayNotSatisfied}</p>
+                    <p  onClick={() => this.jump1()} style={{ cursor: 'pointer' }} className={style.green}>{WorkbenchImNegativeData.dayNotSatisfied}</p>
                   )}
                   {WorkbenchImNegativeData.dayNotSatisfied == 0 && <p className={style.gray}>--</p>}
-                  <p className={style.items}>{WorkbenchImNegativeData.notSatisfied}</p>
+                  <p
+                    className={style.items}
+                    onClick={() => this.jump('IM不满意会话', '2.0/IM不满意会话')}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {WorkbenchImNegativeData.notSatisfied}
+                  </p>
                   <p className={style.small}>不满意会话</p>
                 </div>
               ) : (
