@@ -152,7 +152,7 @@ class Resubmit extends React.Component {
             </div>
             <div className={styles.tabCenter}>
               <NPS />
-              <Reson onParamsChange={this.onParamsChange} />
+              <Reson onObjChange={this.onObjChange} />
             </div>
           </>
         ),
