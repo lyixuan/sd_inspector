@@ -32,7 +32,7 @@ class IncomeOrder extends React.Component {
   // componentWillMount() {}
   componentDidMount() {
     const { globalDateMoment } = this.props;
-    this.getOverviewData(globalDateMoment);
+
     // 家族-学院列表
     this.props.dispatch({
       type: 'incomeOrderModal/getIncomeCollegeList',
@@ -40,16 +40,19 @@ class IncomeOrder extends React.Component {
     this.onFormChange(globalDateMoment);
 
     // wen 接收url参数
-    const val = this.props.location.query.params
-      ? [
-          moment(JSON.parse(this.props.location.query.params).dateRange[0]),
-          moment(JSON.parse(this.props.location.query.params).dateRange[1]),
-        ]
-      : this.props.incomeDateRange;
-    this.props.dispatch({
-      type: 'incomeOrderModal/getIncomeDate',
-      payload: { date: val },
-    });
+    if (this.props.location.query.params) {
+      const val = [
+        moment(JSON.parse(this.props.location.query.params).dateRange[0]),
+        moment(JSON.parse(this.props.location.query.params).dateRange[1]),
+      ];
+      this.props.dispatch({
+        type: 'incomeOrderModal/getIncomeDate',
+        payload: { date: val },
+      });
+    } else {
+      this.getOverviewData(globalDateMoment);
+    }
+
     // end
 
     handleDataTrace({
