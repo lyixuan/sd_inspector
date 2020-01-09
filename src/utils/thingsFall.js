@@ -1,6 +1,11 @@
 let myCanvas = document.createElement('canvas');
 let ctx = myCanvas.getContext('2d');
 
+let offCanvas = document.createElement('canvas');
+let offCtx = offCanvas.getContext('2d');
+
+let things = [];
+
 let myImage = new Image();
 let fps = 60;
 let MAX_SPEED_X, MAX_SPEED_Y, G;
@@ -19,21 +24,21 @@ let MAX_SPEED_X, MAX_SPEED_Y, G;
 * */
 class ThingsFall {
   constructor(props) {
-    this.things = [];
     this.canvasWidth = props.width || window.innerWidth;
     this.canvasHeight = props.height || window.innerHeight;
-    this.addThingsInterval = props.interval || 500;
+    this.addThingsInterval = props.interval || 1000;
     this.recordTime = 0;
     this.startTime = Date.now();
     this.timing = 0;
     this.stopAnimation = false;
+    this.suspendAnimation = false;
     this.continueTime = props.continueTime || 0;
     this.maxRadius = props.maxRadius || 10;
     this.minRadius = props.minRadius || 5;
     myImage.src = props.image;
     MAX_SPEED_X = props.maxSpeedX || 1;
     MAX_SPEED_Y = props.maxSpeedY || 1;
-    G = props.G || 0.01;
+    G = props.G || 0.1;
     this.init();
   }
 
@@ -49,6 +54,8 @@ class ThingsFall {
 
     myCanvas.width = this.canvasWidth;
     myCanvas.height = this.canvasHeight;
+    offCanvas.width = this.canvasWidth;
+    offCanvas.height = this.canvasHeight;
     myCanvas.style.cssText = 'position: fixed; z-index: 11; top: 0; left: 0; pointer-events: none;';
     document.body.appendChild(myCanvas);
 
@@ -58,12 +65,14 @@ class ThingsFall {
       }, this.continueTime);
     }
 
-    window.requestAnimationFrame(this.everyFrame);
-    // this.everyFrame();
+    // window.requestAnimationFrame(this.everyFrame);
+    this.everyFrame();
   };
 
   everyFrame = () => {
     ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+    offCtx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+
     let newTime = Date.now();
     this.recordTime = newTime - this.startTime;
     this.startTime = newTime;
@@ -71,7 +80,7 @@ class ThingsFall {
 
     if (this.timing > this.addThingsInterval) {
       if (!this.stopAnimation) {
-        this.things.push(new Something(
+        things.push(new Something(
         {
             x: Math.random() * this.canvasWidth,
             y: 0,
@@ -80,28 +89,45 @@ class ThingsFall {
         ));
         this.timing %= this.addThingsInterval;
         //
-        if (this.things.length < 1) {
+        if (things.length < 1) {
           ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
           return
         }
       }
     }
 
-    this.things.forEach((item, index) => {
+    things.forEach((item, index) => {
       item.updateStatus();
       item.draw();
       if (item.y > this.canvasHeight) {
         item = null;
-        this.things.splice(index, 1);
+        things.splice(index, 1);
       }
     });
 
-    window.requestAnimationFrame(this.everyFrame);
+    ctx.drawImage(offCanvas, 0 ,0, this.canvasWidth, this.canvasHeight);
+    // window.requestAnimationFrame(this.everyFrame);
+    if (!this.suspendAnimation) {
+      setTimeout(() => {
+        this.everyFrame();
+      }, 50);
+    }
   };
 
   stop = () => {
-    this.stopAnimation = true
-  }
+    this.stopAnimation = true;
+    things = [];
+    document.body.removeChild(myCanvas);
+  };
+
+  suspend = () => {
+    this.suspendAnimation = true;
+  };
+
+  startAgain = () => {
+    this.suspendAnimation = false;
+    this.everyFrame();
+  };
 }
 
 class Something {
@@ -116,7 +142,7 @@ class Something {
   }
 
   updateStatus = () => {
-    let rotateDeg = Math.random() * 0.6 + 0.2;
+    // let rotateDeg = Math.random() * 0.6 + 0.2;
     this.speedX += this.initSpeedX;
     if (this.speedX >= MAX_SPEED_X || this.speedX <= -MAX_SPEED_X) {
       this.initSpeedX *= -1;
@@ -124,19 +150,19 @@ class Something {
     if (this.speedY < MAX_SPEED_Y) {
       this.speedY += G;
     }
-    this.deg += rotateDeg;
+    // this.deg += rotateDeg;
     this.x += this.speedX;
     this.y += this.speedY;
   };
 
   draw = () => {
     const radius = this.radius;
-    ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.rotate(this.deg * Math.PI / 180);
-    ctx.drawImage(myImage, -radius, -radius, radius * 2, radius * 2);
-    ctx.restore();
-  }
+    offCtx.save();
+    offCtx.translate(this.x, this.y);
+    // offCtx.rotate(this.deg * Math.PI / 180);
+    offCtx.drawImage(myImage, -radius, -radius, radius * 2, radius * 2);
+    offCtx.restore();
+  };
 }
 
 export default ThingsFall;

@@ -84,6 +84,7 @@ class BasicLayout extends React.PureComponent {
   };
   state = {
     isMobile,
+    hasOpener: false
   };
 
   routerFlat = routes => {
@@ -125,6 +126,20 @@ class BasicLayout extends React.PureComponent {
     this.props.dispatch({
       type: 'global/getThemeInfo'
     });
+    if (window.opener) {
+      this.setState({
+        hasOpener: true
+      })
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      let hidden = document.hidden;
+      if (hidden) {
+        window.thingsFall && window.thingsFall.suspend()
+      } else {
+        window.thingsFall && window.thingsFall.startAgain();
+      }
+    })
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -264,19 +279,23 @@ class BasicLayout extends React.PureComponent {
       pmsdkImage,
       animation } = this.props;
 
+    const {hasOpener} = this.state;
+
     // 动态设置全屏动效
-    if (animation && animation.image) {
-      if (!this.thingsFall) {
-        window.addEventListener('load', () => {
-          this.thingsFall = new ThingsFall({
-            image: animation.image,
-            continueTime: animation.continueTime,
-            minRadius: animation.minRadius,
-            maxRadius: animation.maxRadius
-          });
-        });
-      } else {}
-    }
+    // if (!hasOpener) {
+    //   if (animation && animation.image) {
+    //     if (!window.thingsFall) {
+    //       window.addEventListener('load', () => {
+    //         window.thingsFall = new ThingsFall({
+    //           image: animation.image,
+    //           continueTime: animation.continueTime,
+    //           minRadius: animation.minRadius,
+    //           maxRadius: animation.maxRadius
+    //         });
+    //       });
+    //     } else {}
+    //   }
+    // }
 
     // 动态设置layout的背景色和背景图
     let wrapStyle = {

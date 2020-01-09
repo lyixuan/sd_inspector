@@ -55,7 +55,7 @@ const BaseForm = Form.create({ name: 'base_form' })(
     }
 
     getOrgMapByMail = () => {
-      this.props.getOrgMapByMail(this.props.form.getFieldValue('mail'), this.props.form);
+      this.props.getOrgMapByMail(this.props.form.getFieldsValue(['mail', 'reduceScoreDate', 'organize']), this.props.form);
     };
 
     getSubOrderDetail = () => {

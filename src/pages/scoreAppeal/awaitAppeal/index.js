@@ -38,7 +38,8 @@ class AwaitAppeal extends React.Component {
           storage.removeSessonItem('score_tab');
         }
         const pNew = JSON.parse(params);
-        if(pNew && pNew.creditBeginDate && pNew.creditEndDate){
+        // if(pNew && pNew.creditBeginDate && pNew.creditEndDate){
+        if(pNew){
           this.initTime = {creditBeginDate:pNew.creditBeginDate,creditEndDate:pNew.creditEndDate};
         } else {
           this.initTime = {creditBeginDate:moment(maxTime).subtract(6,'days').format('YYYY-MM-DD'),creditEndDate:moment(maxTime).format('YYYY-MM-DD')};

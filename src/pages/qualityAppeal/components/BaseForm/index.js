@@ -30,7 +30,7 @@ class FormIndex extends React.Component {
   }
 
   // 根据邮箱获取基本信息
-  getOrgMapByMail = (mail, form) => {
+  getOrgMapByMail = ({mail, reduceScoreDate, organize}, form) => {
     this.props.dispatch({
       type: 'qualityAppealHome/getOrgMapByMail',
       payload: { mail },
@@ -45,6 +45,9 @@ class FormIndex extends React.Component {
 
       }
       form.setFieldsValue({ ...form.getFieldsValue(), ...obj });
+      if (reduceScoreDate) {
+        this.getOrgType(reduceScoreDate.format('YYYY-MM-DD'), obj.organize || [], form)
+      }
     });
   };
 
