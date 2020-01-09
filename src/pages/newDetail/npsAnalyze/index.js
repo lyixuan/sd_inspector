@@ -18,9 +18,9 @@ const traceName = {
   star: '星级',
   reasonType: '原因分类',
   evaluateType: '自主评价',
-  tagId: 'NPS标签',
+  tagId: '标签',
   dateRange: '时间',
-  cycle: '生命周期',
+  cycle: '周期',
 };
 @connect(({ newDetailModal, npsAnalyzeModel }) => ({
   globalUserInfo: newDetailModal.globalUserInfo,
@@ -59,11 +59,10 @@ class Resubmit extends React.Component {
       payload,
     }); // 存值
     this.getInitData(payload); // 请求
-    handleDataTrace({ widgetName: `NPS_${traceName[type]}`, traceName: `2.3/NPS_${traceName[type]}` })
+    handleDataTrace({ widgetName: `NPS_${traceName[type]}筛选`, traceName: `2.3/NPS_${traceName[type]}筛选` })
   };
   // 时间切换 --- 清空原产品包、续报产品包
   onObjChange = (payload = {}) => {
-    // handleDataTrace({ widgetName: '创收_时间筛选', traceName: '2.2/创收_时间筛选' })
     this.props.dispatch({
       type: 'npsAnalyzeModel/saveParams',
       payload,
@@ -88,13 +87,6 @@ class Resubmit extends React.Component {
       payload: { params },
     });
   };
-  // 标签
-  // getTagList = params => {
-  //   this.props.dispatch({
-  //     type: 'npsAnalyzeModel/getTagList',
-  //     payload: { params },
-  //   });
-  // };
 
   //词云图 柱状图
   getNpsData = params => {
@@ -122,7 +114,11 @@ class Resubmit extends React.Component {
 
   // 学员明细
   getQueryStuDetailPage = params => {
-    const query = !params.pageSize ? { ...params, pageSize: 15, page: 1 } : params;
+    const query = !params.pageSize ? { ...params, pageSize: 15, pageNum: 1 } : params;
+    this.props.dispatch({
+      type: 'npsAnalyzeModel/saveParamsQueryPage',
+      payload: {pageNum: query.pageNum},
+    }); // 分页存值
     this.props.dispatch({
       type: 'npsAnalyzeModel/getNpsAutonomousEvaluation',
       payload: { params: query },
@@ -156,7 +152,7 @@ class Resubmit extends React.Component {
             </div>
             <div className={styles.tabCenter}>
               <NPS />
-              <Reson onParamsChange={this.onParamsChange} />
+              <Reson onObjChange={this.onObjChange} />
             </div>
           </>
         ),

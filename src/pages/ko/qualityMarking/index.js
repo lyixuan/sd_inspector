@@ -16,7 +16,7 @@ const tabGroup = [{
 }, {
   tab: 'NPS',
   key: '/qualityMarking/nps',
-},{
+}, {
   tab: '意见反馈',
   key: '/qualityMarking/appFeedback',
 }];
@@ -58,7 +58,7 @@ class aiWorktable extends React.Component {
     return defaultKey
   }
   onChangeTab = (key) => {
-    console.log(61,key)
+    console.log(61, key)
     this.setState({
       defaultKey: key,
     }, () => this.jumpTo(key));
@@ -74,7 +74,7 @@ class aiWorktable extends React.Component {
     return (
       <BIContent
         head={
-          <Tabs className={style.tabGroupContainer} defaultActiveKey={defaultKey} onChange={this.onChangeTab}>
+          <Tabs className={style.tabGroupContainer} animated={false} defaultActiveKey={defaultKey} onChange={this.onChangeTab}>
             {content}
           </Tabs>
         }>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { jumpMarkingDetails } from '../../../../utils/utils';
+import { Link } from 'dva/router';
 import styles from '../../style.less';
 
 class DetailFeedBack extends React.Component {
@@ -10,11 +10,9 @@ class DetailFeedBack extends React.Component {
 
     };
   }
-  handleNameClick = (id) => {
-    jumpMarkingDetails(id, { target: 'hx' })
-  }
 
   render() {
+
     const { item = {} } = this.props.pageData;
     return (
       <>
@@ -22,7 +20,13 @@ class DetailFeedBack extends React.Component {
           <li className={styles.flex}>
             <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>学员姓名：</span>
-              <span className={styles.name + " " + styles.nameCurrent} onClick={() => jumpMarkingDetails(item.stuId, { target: 'hx' })}>{item.stuName}</span>
+              <Link
+                className={styles.name + " " + styles.nameCurrent}
+                rel="noopener noreferer"
+                to={`/ko/behaviorPath?params=${JSON.stringify({ userId: item.stuId, target: 'hx' })}`}
+                target='_blank'>
+                {item.stuName}
+              </Link>
             </div>
             <div className={`${styles.row} ${styles.width50}`}>
               <span className={styles.label}>学员id：</span>

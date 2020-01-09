@@ -60,6 +60,24 @@ class Income extends React.Component {
         </span>
       );
     });
+
+    const dotName1 = pieData.map((item, i) => {
+      if (item.name == '成考专本套') {
+        item.name = '成考';
+      }
+      return (
+        <span key={i}>
+          <i
+            style={{
+              backgroundColor: `${
+                item.name === '好推' ? '#45D199' : item.name === '续报' ? '#FEC350' : '#6769DA'
+              }`,
+            }}
+          />
+          {item.name}
+        </span>
+      );
+    });
     return (
       <div className={stylefather.boxRight}>
         <div className={stylefather.boxHeader}>
@@ -97,7 +115,7 @@ class Income extends React.Component {
                           {changeToThousandsForIncome(item.value, 1)}{' '}
                           <span style={{ fontSize: 14 }}>万</span>
                         </div>
-                        <div>好推</div>
+                        <div>{item.name == '成考专本套' ? '成考' : item.name}</div>
                       </div>
                     );
                   })}
@@ -106,7 +124,10 @@ class Income extends React.Component {
             </div>
             <div className={style.incomeRightImcome}>
               {pieData.length > 0 ? (
-                <Echarts options={optionR} style={{ height: 250, width: 200, float: 'left' }} />
+                <Echarts
+                  options={optionR}
+                  style={{ height: 225, width: 200, paddingTop: '40px', float: 'left' }}
+                />
               ) : (
                 <img
                   src={bingtu}
@@ -115,8 +136,8 @@ class Income extends React.Component {
                 />
               )}
             </div>
-            <div className={style.footer}>{dot}</div>
-            <div className={style.footer2}>{dotName}</div>
+            {/* <div className={style.footer}>{dot}</div> */}
+            <div className={style.footer2}>{dotName1}</div>
           </div>
         )}
       </div>

@@ -3,6 +3,7 @@ import { Tooltip, Row, Col } from 'antd';
 // import router from 'umi/router';
 import BIDialog from '@/components/BIDialog';
 import { connect } from 'dva/index';
+import { Link } from 'dva/router';
 import {
   handleDefaultPickerValueMark,
   getSubStringValue,
@@ -26,7 +27,7 @@ const markType = 1; //im bbs nps 对应的额type值为1， 2， 3
   currentPage: workTableModel.pageParams[markType],
   searchParams: workTableModel.searchParams[markType] || {},
   collegeList: workTableModel.collegeList,// bbs nps
-  consultList: [{ id: emptyValue, name: '空', nodeList: [] }].concat(workTableModel.consultList),// im
+  consultList: [{ id: emptyValue, name: '空', nodeList: null }].concat(workTableModel.consultList),// im
   reasonList: workTableModel.reasonList,// im
   operatorList: workTableModel.operatorList,// im bbs nps
   idList: workTableModel.idList,
@@ -67,7 +68,16 @@ class imPage extends React.Component {
         title: '学员姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        render: (text, record) => <span onClick={() => jumpMarkingDetails(record.stuId, { target: 'im' })} className={`${styles.textEllipsis} ${styles.textname}`}>{text}</span>,
+        render: (text, record) => {
+          return <Link
+            className={`${styles.textEllipsis} ${styles.textname}`}
+            rel="noopener noreferer"
+            to={`/ko/behaviorPath?params=${JSON.stringify({ userId: record.stuId, target: 'im' })}`}
+            target='_blank'>
+            {text}
+          </Link>
+        }
+        // render: (text, record) => <span onClick={() => jumpMarkingDetails(record.stuId, { target: 'im' })} className={`${styles.textEllipsis} ${styles.textname}`}>{text}</span>,
       },
       {
         title: '后端归属',
@@ -103,11 +113,23 @@ class imPage extends React.Component {
       columns.push({
         title: '操作',
         key: 'action',
-        render: (text, record) => (
-          <div>
-            <BIRouteText onClick={() => this.handleEdit(record.id)}>编辑</BIRouteText>
+        render: (text, record) => {
+          const params = this.handleParams(record.id)
+          return <div>
+            <Link
+              className={styles.textname}
+              rel="noopener noreferer"
+              to={`/qualityMarking/detail?params=${JSON.stringify(params)}`}
+              target='_blank'>
+              <BIRouteText>编辑</BIRouteText>
+            </Link>
           </div>
-        ),
+        }
+        // render: (text, record) => (
+        //   <div>
+        //     <BIRouteText onClick={() => this.handleEdit(record.id)}>编辑</BIRouteText>
+        //   </div>
+        // ),
       });
     }
     return columns || [];
@@ -121,6 +143,18 @@ class imPage extends React.Component {
       ...others
     });
   };
+  handleParams = (id) => {
+    const { choiceTime, consultType = [], reasonType = [], ...others } = this.state.searchParams;
+    return {
+      id,
+      type: {
+        type: markType,
+        consultType: getArrLastValue(consultType),
+        reasonType: getArrLastValue(reasonType),
+        ...others
+      }
+    }
+  }
   onSearchChange = (searchParams) => {
     this.setState({
       searchParams,

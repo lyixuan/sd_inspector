@@ -2,6 +2,7 @@ import React from 'react';
 import { Tooltip, Row, Col } from 'antd';
 // import router from 'umi/router';
 import { connect } from 'dva/index';
+import { Link } from 'dva/router';
 import {
   handleDefaultPickerValueMark,
   pathImUrl,
@@ -24,7 +25,7 @@ const markType = 4; //im bbs nps app意见反馈 对应的额type值为1， 2，
 function Layout(props) {
   const layout = <section>
     <ul className={styles.behavior}>
-      {props.dataMark.contentList.map((item, index) => <ListItem item={item} dataMark={props.dataMark} key={index}/>)}
+      {props.dataMark.contentList.map((item, index) => <ListItem item={item} dataMark={props.dataMark} key={index} />)}
     </ul>
   </section>;
   return layout;
@@ -49,16 +50,16 @@ function TeacherOrStudent(props) {
         </div>
         <div className={styles.content}>
           <div className={styles.bigDot}>
-            <span className={styles.dot}/>
+            <span className={styles.dot} />
           </div>
           <div className={styles.chatLeft}>
             <div className={styles.avatar}>
-              <img src={props.dataMark.stuHeadUrl ? (pathImUrl + props.dataMark.stuHeadUrl) : avatarStudent}/>
+              <img src={props.dataMark.stuHeadUrl ? (pathImUrl + props.dataMark.stuHeadUrl) : avatarStudent} />
               <p>{getSubStringValue(props.dataMark.stuName, 3)}</p>
             </div>
             <div className={linkImgRouteBul(props.item.content) ? styles.chatContentImg : styles.chatContent}>
               <span className={styles.triangle}>
-                <em/>
+                <em />
               </span>
               {/*{props.item.content}*/}
               <span dangerouslySetInnerHTML={{ __html: linkRoute(props.item.content, styles.linkRoute) }}></span>
@@ -75,18 +76,18 @@ function TeacherOrStudent(props) {
         </div>
         <div className={styles.content}>
           <div className={styles.bigDot}>
-            <span className={styles.dot}/>
+            <span className={styles.dot} />
           </div>
           <div className={styles.chatRight}>
             <div className={linkImgRouteBul(props.item.content) ? styles.chatContentImg : styles.chatContent}>
               <span className={styles.triangle}>
-                <em/>
+                <em />
               </span>
               {/*{props.item.content}*/}
               <span dangerouslySetInnerHTML={{ __html: linkRoute(props.item.content, styles.linkRoute) }}></span>
             </div>
             <div className={styles.avatar}>
-              <img src={props.dataMark.teacherHeadUrl ? (pathImUrl + props.dataMark.teacherHeadUrl) : avatarTeacher}/>
+              <img src={props.dataMark.teacherHeadUrl ? (pathImUrl + props.dataMark.teacherHeadUrl) : avatarTeacher} />
               <p>{getSubStringValue(props.dataMark.teacherName, 3)}</p>
             </div>
           </div>
@@ -100,7 +101,7 @@ function TeacherOrStudent(props) {
   currentPage: workTableModel.pageParams[markType],
   searchParams: workTableModel.searchParams[markType] || {},
   collegeList: workTableModel.collegeList,// bbs nps
-  consultList: [{ id: emptyValue, name: '空', nodeList: [] }].concat(workTableModel.consultList),// im
+  consultList: [{ id: emptyValue, name: '空', nodeList: null }].concat(workTableModel.consultList),// im
   reasonList: workTableModel.reasonList,// im
   operatorList: workTableModel.operatorList,// im bbs nps
   idList: workTableModel.idList,
@@ -129,9 +130,9 @@ class appFeedback extends React.Component {
           const content = <div className={styles.behaviorOthers}>{text}</div>;
           return (
             <>
-            {text ? <Tooltip overlayClassName={styles.listMarkingTooltipOthers} placement="right" title={content}>
-              <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>
-            </Tooltip> : <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>}
+              {text ? <Tooltip overlayClassName={styles.listMarkingTooltipOthers} placement="right" title={content}>
+                <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>
+              </Tooltip> : <span className={`${styles.textEllipsis} ${styles.textEllipsisContent}`}>{text}</span>}
             </>
           );
         },
@@ -140,14 +141,23 @@ class appFeedback extends React.Component {
         title: '姓名',
         dataIndex: 'stuName',
         key: 'stuName',
-        render: (text, record) => <span onClick={() => jumpMarkingDetails(record.stuId, { target: 'hx' })} className={`${styles.textEllipsis} ${styles.textname}`}>{text}</span>,
+        render: (text, record) => {
+          return <Link
+            className={`${styles.textEllipsis} ${styles.textname}`}
+            rel="noopener noreferer"
+            to={`/ko/behaviorPath?params=${JSON.stringify({ userId: record.stuId, target: 'hx' })}`}
+            target='_blank'>
+            {text}
+          </Link>
+        }
+        // render: (text, record) => <span onClick={() => jumpMarkingDetails(record.stuId, { target: 'hx' })} className={`${styles.textEllipsis} ${styles.textname}`}>{text}</span>,
       },
       {
         title: '后端归属',
         dataIndex: 'org',
         key: 'org',
         render: text => <Tooltip overlayClassName={styles.listMarkingTooltipOthers} placement="right"
-                                 title={text}><span className={`${styles.textEllipsis} ${styles.textorg}`}>{text}</span></Tooltip>,
+          title={text}><span className={`${styles.textEllipsis} ${styles.textorg}`}>{text}</span></Tooltip>,
       },
       {
         title: '操作人',
@@ -176,11 +186,19 @@ class appFeedback extends React.Component {
       columns.push({
         title: '操作',
         key: 'action',
-        render: (text, record) => (
-          <div>
-            <span style={{ color: '#52c9c2', cursor: 'pointer'}} onClick={() => this.handleEdit(record.id)}>编辑</span>
+        render: (text, record) => {
+          const params = this.handleParams(record.id)
+          return <div>
+            <Link
+              style={{ color: '#52c9c2', cursor: 'pointer' }}
+              rel="noopener noreferer"
+              to={`/qualityMarking/detail?params=${JSON.stringify(params)}`}
+              target='_blank'>
+              编辑
+              </Link>
+            {/* <span style={{ color: '#52c9c2', cursor: 'pointer' }} onClick={() => this.handleEdit(record.id)}>编辑</span> */}
           </div>
-        ),
+        }
       });
     }
     return columns || [];
@@ -194,6 +212,18 @@ class appFeedback extends React.Component {
       ...others
     });
   };
+  handleParams = (id) => {
+    const { choiceTime, consultType = [], reasonType = [], ...others } = this.state.searchParams;
+    return {
+      id,
+      type: {
+        type: markType,
+        consultType: getArrLastValue(consultType),
+        reasonType: getArrLastValue(reasonType),
+        ...others
+      }
+    }
+  }
   onSearchChange = (searchParams) => {
     this.setState({
       searchParams,
@@ -209,16 +239,18 @@ class appFeedback extends React.Component {
     const { searchParams, currentPage } = this.state;
     this.props.dispatch({
       type: 'workTableModel/getTableList',
-      payload: { params: {
-        ...searchParams,
-        page: currentPage,
-        type: markType,
-      } },
+      payload: {
+        params: {
+          ...searchParams,
+          page: currentPage,
+          type: markType,
+        }
+      },
     });
   };
   changeOperatorId = (key, v) => {
     this.setState({
-      searchParams: {...this.state.searchParams, [key]: v}
+      searchParams: { ...this.state.searchParams, [key]: v }
     });
   };
 
@@ -229,9 +261,9 @@ class appFeedback extends React.Component {
     return (
       <div>
         <MarkForm {...this.props} markType={markType} searchParams={searchParams}
-                  onSearchChange={this.onSearchChange} changeOperatorId={this.changeOperatorId} />
+          onSearchChange={this.onSearchChange} changeOperatorId={this.changeOperatorId} />
         <MarkList {...this.props} currentPage={currentPage} onPageChange={this.onPageChange}
-                  columnsData={this.columnsData}>
+          columnsData={this.columnsData}>
           <ModalTip markType={markType} othersSearch={others} />
         </MarkList>
       </div>

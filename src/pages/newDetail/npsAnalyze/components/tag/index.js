@@ -14,15 +14,15 @@ import { Spin } from 'antd';
 class Tag extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      tabActive: 0,
-    };
+    // this.state = {
+    //   tabActive: this.props.paramsQuery.tagId && this.props.paramsQuery.tagId[0] == 30 ? 0 : 1,
+    // };
   }
 
   clickTab = tabActive => {
-    this.setState({
-      tabActive,
-    });
+    // const flag =
+    //   this.props.paramsQuery.tagId && this.props.paramsQuery.tagId.toString() == val.toString();
+    this.props.onParamsChange(tabActive === 0 ? [30] : [31], 'tagId');
   };
 
   clickEvent = item => {
@@ -32,12 +32,11 @@ class Tag extends React.Component {
     if (!item.data.value) return;
 
     let val = [];
-    if (this.state.tabActive == 0) {
-      // 30
-      val = [30, item.data.id];
-    } else {
+    if (this.props.paramsQuery.tagId && this.props.paramsQuery.tagId[0] == 31) {
       //31
       val = [31, item.data.id];
+    } else {
+      val = [30, item.data.id];
     }
     const flag =
       this.props.paramsQuery.tagId && this.props.paramsQuery.tagId.toString() == val.toString();
@@ -45,7 +44,7 @@ class Tag extends React.Component {
   };
 
   render() {
-    const { tabActive } = this.state;
+    const tabActive = this.props.paramsQuery.tagId && this.props.paramsQuery.tagId[0] == 31 ? 1 : 0;
     const { npsData, loadingTime } = this.props;
     let tabMenu = [];
     let tabCon = [[], []];

@@ -26,6 +26,7 @@ class Nps extends React.Component {
   }
 
   clickTab = tabActive => {
+    handleDataTrace({ widgetName: '首页NPS_切换', traceName: '2.3/首页NPS_切换' });
     this.setState({
       tabActive,
     });

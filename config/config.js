@@ -46,6 +46,8 @@ export default {
     'btn-font-size-lg': '14px',
     'tabs-ink-bar-color': '#282828', // 选中线颜色
     'tabs-hover-color': '#999999',
-    'tabs-highlight-color': '#282828' // 选中颜色
+    'tabs-highlight-color': '#282828', // 选中颜色
+    '@tooltip-bg': 'rgba(255, 255, 255, 1)', // tooltip
+    '@tooltip-color': '#414D55' // tooltip
   },
 }
