@@ -97,7 +97,7 @@ class Income extends React.Component {
                           {changeToThousandsForIncome(item.value, 1)}{' '}
                           <span style={{ fontSize: 14 }}>万</span>
                         </div>
-                        <div>好推</div>
+                        <div>{item.name == '成考专本套' ? '成考' : item.name}</div>
                       </div>
                     );
                   })}
