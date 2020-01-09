@@ -9,16 +9,10 @@ import styles from './style.less';
 
 @connect(({ resubmitModal, loading }) => ({
   stuDetailData: resubmitModal.stuDetailData || {},
+  paramsQueryPage:resubmitModal.paramsQueryPage,
   loading: loading.effects['resubmitModal/getQueryStuDetailPage'],
 }))
 class DetailsIndex extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      pageSize: 15,
-      current: 1,
-    };
-  }
   columns = () => {
     const columns = [
       {
@@ -115,14 +109,13 @@ class DetailsIndex extends React.Component {
     const params = {
       ...this.props.getRequestParams(),
       page: current,
-      pageSize: this.state.pageSize,
+      pageSize: 15,
     };
     this.props.getQueryStuDetailPage(params);
-    this.setState({ current });
   };
   render() {
     const { list = [], total = 0 } = this.props.stuDetailData;
-    const { pageSize = 15, current = 1 } = this.state;
+    const { page = 1, pageSize } = this.props.paramsQueryPage;
     return (
       <BIContainer headStyle={{ display: 'none' }} style={{ borderRadius: '20px'}}>
         <div className={styles.detailsIndex}>
@@ -134,7 +127,7 @@ class DetailsIndex extends React.Component {
             pagination={{
               onChange: this.onChangeSize,
               defaultPageSize: pageSize,
-              current,
+              current: page,
               total,
               hideOnSinglePage: true,
               showQuickJumper: true,

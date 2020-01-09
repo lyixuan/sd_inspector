@@ -180,13 +180,16 @@ class ImPage extends React.Component {
   // 获取参数
   getAllParams = () => {
     const [ startTime, endTime ] = this.state.dataRange;
-    return {
+    const params = {
       ...this.getGroupMsg(),
       startTime: moment(startTime).format(dateFormat),
       endTime: moment(endTime).format(dateFormat),
-      familyType: this.state.familyType,
       reasonTypeId: this.state.reasonTypeId
     }
+    if (params.orgId) {
+      params.familyType = this.state.familyType;
+    }
+    return params
   }
   // 查询
   handleClick = () => {

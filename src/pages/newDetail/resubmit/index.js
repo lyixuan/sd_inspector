@@ -127,6 +127,10 @@ class Resubmit extends React.Component {
   getQueryStuDetailPage = params => {
     const query = !params.pageSize ? { ...params, pageSize: 15, page: 1 } : params;
     this.props.dispatch({
+      type: 'resubmitModal/saveParamsQueryPage',
+      payload: { page: query.page },
+    }); // 分页存值
+    this.props.dispatch({
       type: 'resubmitModal/getQueryStuDetailPage',
       payload: { params: query },
     });
