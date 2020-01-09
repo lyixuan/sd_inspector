@@ -38,7 +38,8 @@ class DetailsIndex extends React.Component {
         dataIndex: 'stuName',
         key: 'stuName',
         render: (text, record) => text ? 
-        <Tooltip title={text}><Link to={`/ko/behaviorPath?params=${encodeURIComponent(JSON.stringify({ userId: record.stuId, target: 'draw' }))}`} target='_black' rel="noopener noreferrer">{text}</Link></Tooltip>
+        <Tooltip title={text}><Link to={`/ko/behaviorPath?params=${encodeURIComponent(JSON.stringify({ userId: record.stuId, target: 'draw' }))}`} target='_black' rel="noopener noreferrer">
+          <span data-trace={`{"widgetName":"NPS_学员姓名","traceName":"2.3/NPS_学员姓名"}`}>{text}</span></Link></Tooltip>
         : <img style={{width: '15px'}} src={float3} alt=""/>
       },
       {
@@ -140,6 +141,7 @@ class DetailsIndex extends React.Component {
       >
         <div className={styles.detailsIndex}>
           <span className={styles.download}>
+            <span className={styles.colorShow}>（ <span>班主任 </span><span></span>授课）</span>
             { 
               this.isFlagDownLoad() && <BIButton loading={this.props.downLoding} onClick={this.exportExcelData} type="primary" radiused={true} size="default">
                 <img style={{width: '12px'}} src={downloadImg} alt=""/>
