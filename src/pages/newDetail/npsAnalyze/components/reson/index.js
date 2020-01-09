@@ -68,18 +68,11 @@ class Reson extends React.Component {
         </div>
         <div className={styles.resonWrap}>
           <Spin spinning={loadingTime}>
-            <BITabs onChange={this.onTabChange} activeKey={tab}>
+            <BITabs onChange={this.onTabChange} activeKey={tab} animated={false}>
               {statReasonTypeData.length > 0 &&
                 statReasonTypeData.map((item, index) => {
                   return (
                     <TabPane tab={item.name.replace('方向', '')} key={item.id}>
-                      {item.nodeList.length === 0 && (
-                        <div className={styles.hasnone}>
-                          <p className={styles.none}>
-                            <span>暂无数据</span>
-                          </p>
-                        </div>
-                      )}
                       {item.nodeList.length > 0 && (
                         <div style={{ height: '199px', overflow: 'hidden' }}>
                           <p className={styles.tabTitle}>
@@ -100,6 +93,13 @@ class Reson extends React.Component {
                               </p>
                             );
                           })}
+                        </div>
+                      )}
+                      {item.nodeList.length == 0 && !loadingTime && (
+                        <div className={styles.hasnone}>
+                          <p className={styles.none}>
+                            <span>暂无数据</span>
+                          </p>
                         </div>
                       )}
                     </TabPane>
