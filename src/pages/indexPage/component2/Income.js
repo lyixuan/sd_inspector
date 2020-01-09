@@ -12,12 +12,23 @@ import { getOptionR2 } from './income_normal_option';
 import { getOptionL2 } from './income_normal_option_l';
 import style from './style.less';
 import { jumpGobalRouter } from '@/pages/ko/utils/utils';
+import { connect } from 'dva';
 
+@connect(({ xdWorkModal }) => ({
+  getCurrentDateRangeData: xdWorkModal.getCurrentDateRangeData,
+}))
 class Income extends React.Component {
   jump = () => {
     handleDataTrace({ widgetName: `创收_进入详情`, traceName: `2.0/创收_进入详情` });
     // jumpGobalRouter('newDetail/incomeRank' );
     jumpGobalRouter('newDetail/incomeOrder');
+  };
+
+  jump1 = () => {
+    const { getCurrentDateRangeData } = this.props;
+    jumpGobalRouter('newDetail/incomeOrder', {
+      dateRange: [getCurrentDateRangeData.endTime, getCurrentDateRangeData.endTime],
+    });
   };
 
   render() {
@@ -37,7 +48,6 @@ class Income extends React.Component {
       totalCount.push(item.dayCount);
       return (
         <span key={idx}>
-          {' '}
           <i
             style={{
               backgroundColor: `${
@@ -99,20 +109,30 @@ class Income extends React.Component {
             <div className={style.ScoreLeftIncome}>
               <div className={style.incomeTotalIncome}>
                 {pieData.length > 0 &&
-                  pieData.map(item => {
+                  pieData.map((item, idx) => {
                     return (
-                      <div>
+                      <div key={idx}>
                         {item.dayCount > 0 && (
-                          <p className={style.green}>
-                            +{changeToThousandsForIncome(item.dayCount)}万
+                          <p
+                            className={style.green}
+                            onClick={() => this.jump1()}
+                            style={{ cursor: 'pointer' }}
+                          >
+                            +{changeToThousandsForIncome(item.dayCount, 1)}万
                           </p>
                         )}
                         {item.dayCount < 0 && (
-                          <p className={style.red}>{changeToThousandsForIncome(item.dayCount)}万</p>
+                          <p
+                            className={style.red}
+                            onClick={() => this.jump1()}
+                            style={{ cursor: 'pointer' }}
+                          >
+                            {changeToThousandsForIncome(item.dayCount, 1)}万
+                          </p>
                         )}
                         {item.dayCount === 0 && <p className={style.gray}>--</p>}
                         <div>
-                          {changeToThousandsForIncome(item.value, 1)}{' '}
+                          {changeToThousandsForIncome(item.value, 1)}
                           <span style={{ fontSize: 14 }}>万</span>
                         </div>
                         <div>{item.name == '成考专本套' ? '成考' : item.name}</div>
