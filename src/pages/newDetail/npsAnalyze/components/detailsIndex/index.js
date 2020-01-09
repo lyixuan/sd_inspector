@@ -16,17 +16,11 @@ import styles from './style.less';
   globalUserInfo: newDetailModal.globalUserInfo,
   stuDetailData: npsAnalyzeModel.stuDetailData || {},
   paramsQuery: npsAnalyzeModel.paramsQuery,
+  paramsQueryPage:npsAnalyzeModel.paramsQueryPage,
   loading: loading.effects['npsAnalyzeModel/getNpsAutonomousEvaluation'],
   downLoding: loading.effects['npsAnalyzeModel/exportExcelData'],
 }))
 class DetailsIndex extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      pageSize: 15,
-      current: 1,
-    }
-  }
   columns = () => {
     const columns = [
       {
@@ -79,9 +73,8 @@ class DetailsIndex extends React.Component {
     return columns || [];
   };
   onChangeSize = current => {
-    const params = {...this.props.getRequestParams(), pageNum: current, pageSize: this.state.pageSize}
+    const params = {...this.props.getRequestParams(), pageNum: current, pageSize: 15};
     this.props.getQueryStuDetailPage(params);
-    this.setState({ current });
   }
   exportExcelData = () => {
     const params = this.props.getRequestParams();
@@ -139,7 +132,7 @@ class DetailsIndex extends React.Component {
 
   render() {
     const { data = [], total = 0 } = this.props.stuDetailData;
-    const { pageSize = 15, current = 1} = this.state;
+    const { pageNum = 1, pageSize = 15 } = this.props.paramsQueryPage;
     return (
       <BIContainer 
       headStyle={{display: 'none'}}
@@ -162,7 +155,7 @@ class DetailsIndex extends React.Component {
             pagination={{
               onChange: this.onChangeSize,
               defaultPageSize: pageSize,
-              current,
+              current: pageNum,
               total,
               hideOnSinglePage: true,
               showQuickJumper: true,
