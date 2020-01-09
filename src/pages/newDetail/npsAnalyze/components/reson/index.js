@@ -95,7 +95,7 @@ class Reson extends React.Component {
                           })}
                         </div>
                       )}
-                      {item.nodeList.length == 0 && !loadingTime && (
+                      {!loadingTime && item.nodeList.length == 0 && (
                         <div className={styles.hasnone}>
                           <p className={styles.none}>
                             <span>暂无数据</span>
