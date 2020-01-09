@@ -42,6 +42,13 @@ class aiWorktable extends React.Component {
       type: 'workTableModel/getBasicData',
     });
   }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.location.pathname !== nextProps.location.pathname) {
+      this.setState({
+        defaultKey: nextProps.location.pathname === '/qualityMarking' ? nextProps.route.pageRedirect : nextProps.location.pathname
+      })
+    }
+  }
 
   initRoute(pathname) {
     const tabs = tabGroup.find(item => AuthButton.checkPathname(item.key));
@@ -58,7 +65,6 @@ class aiWorktable extends React.Component {
     return defaultKey
   }
   onChangeTab = (key) => {
-    console.log(61, key)
     this.setState({
       defaultKey: key,
     }, () => this.jumpTo(key));
@@ -74,7 +80,7 @@ class aiWorktable extends React.Component {
     return (
       <BIContent
         head={
-          <Tabs className={style.tabGroupContainer} animated={false} defaultActiveKey={defaultKey} onChange={this.onChangeTab}>
+          <Tabs className={style.tabGroupContainer} animated={false} activeKey={defaultKey} onChange={this.onChangeTab}>
             {content}
           </Tabs>
         }>

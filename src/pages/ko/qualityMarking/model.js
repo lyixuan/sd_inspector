@@ -41,7 +41,6 @@ export default {
         const data = Array.isArray(collegeResult.data) ? collegeResult.data : [];
         yield put({ type: 'save', payload: { collegeList: data[0].enumData } });
       }
-      console.log(44, consultResult)
       if (consultResult && consultResult.code && consultResult.code === 20000) {
         yield put({ type: 'saveConsultList', payload: { consultList: consultResult.data } });
       }
