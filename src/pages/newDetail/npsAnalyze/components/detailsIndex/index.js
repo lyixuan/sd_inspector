@@ -137,11 +137,12 @@ class DetailsIndex extends React.Component {
     return (
       <BIContainer 
       headStyle={{display: 'none'}}
+      propStyle={{ paddingTop: '24px' }}
       style={{ borderRadius: '20px'}}
       >
         <div className={styles.detailsIndex}>
           <span className={styles.download}>
-            <span className={styles.colorShow}>（ <span>班主任 </span><span></span>授课）</span>
+            <span className={styles.colorShow}><span>班主任 </span><span></span>授课</span>
             { 
               this.isFlagDownLoad() && <BIButton loading={this.props.downLoding} onClick={this.exportExcelData} type="primary" radiused={true} size="default">
                 <img style={{width: '12px'}} src={downloadImg} alt=""/>
