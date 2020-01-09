@@ -76,8 +76,13 @@ class createAppeal extends React.Component {
               uploadImg={(fileList) => this.uploadImg(fileList)}
               fileList={newAttUrlList}>
             </UploadImg>
-            <a className={styles.inspect} style={{ width: 100 }}
-              onClick={this.showExampleImg}>查看证据样例</a>
+            {
+              creditTypePre === 60
+                ? null
+                : <a className={styles.inspect}
+                  style={{ width: 100 }}
+                  onClick={this.showExampleImg}>查看证据样例</a>
+            }
           </div>
           <div style={{ marginTop: '15px' }} />
           {creditTypePre === 26 && (

@@ -149,23 +149,21 @@ class CSForm extends React.Component {
                 </div>
               </Col>
               <Col className={styles.gutterCol} span={8}>
-                {dimensionType !== 11 && (
-                  <div className={styles.gutterBox3}>
-                    <span className={styles.gutterLabel}>学分维度</span>：
-                    <span className={styles.gutterForm}>
-                      <BISelect
-                        style={{ width: 230 }}
-                        placeholder="请选择"
-                        value={creditType}
-                        onChange={val => this.onFormChange(val, 'creditType')}
-                      >
-                        {dimensionList2.map(item => (
-                          <Option key={item.id}>{item.name}</Option>
-                        ))}
-                      </BISelect>
-                    </span>
-                  </div>
-                )}
+                <div className={styles.gutterBox3}>
+                  <span className={styles.gutterLabel}>学分维度</span>：
+                  <span className={styles.gutterForm}>
+                    <BISelect
+                      style={{ width: 230 }}
+                      placeholder="请选择"
+                      value={creditType}
+                      onChange={val => this.onFormChange(val, 'creditType')}
+                    >
+                      {dimensionList2.map(item => (
+                        <Option key={item.id}>{item.name}</Option>
+                      ))}
+                    </BISelect>
+                  </span>
+                </div>
               </Col>
             </Row>
             {/*第二行*/}

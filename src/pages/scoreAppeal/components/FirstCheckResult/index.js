@@ -18,7 +18,7 @@ export default class SOPCheckResultComponent extends React.Component {
     const content = sopAppealCheck.map((v,i)=>(
       <div key={i}>
         <Row className={styles.container}>
-          <Col span={12}>
+          <Col span={11}>
             <div>审核结果：<span className={v.checkResult===1?styles.resultDotColor1:styles.resultDotColor2}>{v.checkResult===1?'通过':'驳回'}</span></div>
           </Col>
           <Col span={3}>
@@ -27,7 +27,7 @@ export default class SOPCheckResultComponent extends React.Component {
           <Col span={4}>
             <span>执行人角色：{v.operateRole}</span>
           </Col>
-          <Col span={5}>
+          <Col span={6}>
             <span>操作时间：{moment(new Date(v.operateDate)).format('YYYY-MM-DD HH:mm:ss')}</span>
           </Col>
         </Row>
