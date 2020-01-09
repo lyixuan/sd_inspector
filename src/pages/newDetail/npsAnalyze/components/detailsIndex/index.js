@@ -43,24 +43,27 @@ class DetailsIndex extends React.Component {
         : <img style={{width: '15px'}} src={float3} alt=""/>
       },
       {
+        width: '160px',
         title: '报名时间',
         dataIndex: 'createTime',
         key: 'createTime',
-        render: text => moment(text).format('YY-MM-DD HH:mm:ss'),
+        render: text => moment(text).format('YYYY-MM-DD HH:mm:ss'),
       },
       {
+        width: '100px',
         title: '星级',
         dataIndex: 'star',
         key: 'star',
         render: text => <Star star={text} style={{ display: 'flex', alignItem: 'center' }} />,
       },
       {
+        width: '140px',
+        ellipsis: true,
         title: '原因',
         dataIndex: 'reasonTypeDesc',
         key: 'reasonTypeDesc',
       },
       {
-        width: '30%',
         ellipsis: true,
         title: '内容',
         dataIndex: 'tagList',

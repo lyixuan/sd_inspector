@@ -84,6 +84,7 @@ class PackageIndex extends React.Component {
         title: 'ARPU(元)',
         dataIndex: 'arpu',
         key: 'arpu',
+        align: 'center',
         render: text => text.toFixed(1),
       },
     ];
