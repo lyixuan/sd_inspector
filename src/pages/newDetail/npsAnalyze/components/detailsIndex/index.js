@@ -46,13 +46,13 @@ class DetailsIndex extends React.Component {
         title: '报名时间',
         dataIndex: 'createTime',
         key: 'createTime',
-        render: text => moment(text).format('YY-MM-DD HH:mm:ss')
+        render: text => moment(text).format('YY-MM-DD HH:mm:ss'),
       },
       {
         title: '星级',
         dataIndex: 'star',
         key: 'star',
-        render: text => <Star star={text} style={{ display: 'flex', alignItem: 'center' }} />
+        render: text => <Star star={text} style={{ display: 'flex', alignItem: 'center' }} />,
       },
       {
         title: '原因',
@@ -66,10 +66,26 @@ class DetailsIndex extends React.Component {
         dataIndex: 'tagList',
         key: 'tagList',
         render: (text, record) => {
-          const content = <span>{text.map((item, index) => <span key={index}>{index > 0 ? ' | ' : ''}<span style={{color: item.type === 31 ? '#DA43FF' : '#6665DD'}}>{item.name}</span></span>)} {record.opinion}</span>;
-          return <Tooltip placement="topLeft" title={content}>{content}</Tooltip>
-        }
-      }
+          const content = (
+            <span>
+              {text.map((item, index) => (
+                <span key={index}>
+                  {index > 0 ? ' | ' : ''}
+                  <span style={{ color: item.type === 31 ? '#DA43FF' : '#6665DD' }}>
+                    {item.name}
+                  </span>
+                </span>
+              ))}{' '}
+              {record.opinion}
+            </span>
+          );
+          return (
+            <Tooltip placement="topLeft" title={content}>
+              {content}
+            </Tooltip>
+          );
+        },
+      },
     ];
     return columns || [];
   };
@@ -83,19 +99,19 @@ class DetailsIndex extends React.Component {
     this.props.dispatch({
       type: 'npsAnalyzeModel/exportExcelData',
       payload: {
-        params: { 
+        params: {
           bottomStartDate: startTime,
           bottomEndDate: endTime,
           type: 3,
           orgId: groupId || familyId || collegeId,
           orgType: this.getOrgType(groupId, familyId, collegeId),
           userId: this.props.globalUserInfo.id,
-          extraParam: params
+          extraParam: params,
         },
       },
     });
-    handleDataTrace({ widgetName: `NPS_下载`, traceName: `2.3/NPS_下载` })
-  }
+    handleDataTrace({ widgetName: `NPS_下载`, traceName: `2.3/NPS_下载` });
+  };
   getOrgType = (groupId, familyId, collegeId) => {
     if (groupId) {
       return 'group';
@@ -104,17 +120,17 @@ class DetailsIndex extends React.Component {
     } else if (collegeId) {
       return 'college';
     } else {
-      return 'boss'
+      return 'boss';
     }
-  }
+  };
   isFlagDownLoad = () => {
     const { orgId = [] } = this.props.paramsQuery;
     const [cId, fId, gId] = orgId;
-    const {collegeId, familyId, groupId, userType} = this.props.globalUserInfo;
+    const { collegeId, familyId, groupId, userType } = this.props.globalUserInfo;
     if (userType === 'boss') {
       return true;
     } else if (collegeId && familyId && groupId) {
-      if (cId === collegeId && fId === familyId, gId === groupId) {
+      if ((cId === collegeId && fId === familyId, gId === groupId)) {
         return true;
       } else {
         return false;
@@ -124,12 +140,12 @@ class DetailsIndex extends React.Component {
         return true;
       } else {
         return false;
-      }   
+      }
     } else if (collegeId && cId === collegeId) {
       return true;
     }
     return false;
-  }
+  };
 
   render() {
     const { data = [], total = 0 } = this.props.stuDetailData;
@@ -137,11 +153,12 @@ class DetailsIndex extends React.Component {
     return (
       <BIContainer 
       headStyle={{display: 'none'}}
+      propStyle={{ paddingTop: '24px' }}
       style={{ borderRadius: '20px'}}
       >
         <div className={styles.detailsIndex}>
           <span className={styles.download}>
-            <span className={styles.colorShow}>（ <span>班主任 </span><span></span>授课）</span>
+            <span className={styles.colorShow}><span>班主任 </span><span></span>授课</span>
             { 
               this.isFlagDownLoad() && <BIButton loading={this.props.downLoding} onClick={this.exportExcelData} type="primary" radiused={true} size="default">
                 <img style={{width: '12px'}} src={downloadImg} alt=""/>
