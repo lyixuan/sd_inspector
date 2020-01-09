@@ -3,6 +3,7 @@ import styles from './style.less';
 import { connect } from 'dva';
 import BITabs from './Tab';
 import { Spin } from 'antd';
+import { handleDataTrace } from '@/utils/utils';
 
 const TabPane = BITabs.TabPane;
 
@@ -15,6 +16,14 @@ const TabPane = BITabs.TabPane;
 class Reson extends React.Component {
   onTabChange = tab => {
     // evaluateType
+    handleDataTrace({
+      widgetName: `NPS_原因分类`,
+      traceName: `2.3/NPS_原因分类`,
+    });
+    handleDataTrace({
+      widgetName: `NPS_自主评价`,
+      traceName: `2.3/NPS_自主评价`,
+    });
     this.props.onObjChange({ reasonType: [Number(tab)], evaluateType: 1 });
   };
 
@@ -32,6 +41,15 @@ class Reson extends React.Component {
     const flag =
       this.props.paramsQuery.reasonType &&
       this.props.paramsQuery.reasonType.toString() == val.toString();
+
+    handleDataTrace({
+      widgetName: `NPS_原因分类`,
+      traceName: `2.3/NPS_原因分类`,
+    });
+    handleDataTrace({
+      widgetName: `NPS_自主评价`,
+      traceName: `2.3/NPS_自主评价`,
+    });
     this.props.onObjChange({ reasonType: flag ? [] : val, evaluateType: 1 });
     // this.props.onParamsChange(flag ? [] : val, 'reasonType');
   };
