@@ -131,7 +131,7 @@ class Income extends React.Component {
                           </p>
                         )}
                         {item.dayCount === 0 && <p className={style.gray}>--</p>}
-                        <div>
+                        <div onClick={() => this.jump()} style={{ cursor: 'pointer' }}>
                           {changeToThousandsForIncome(item.value, 1)}
                           <span style={{ fontSize: 14 }}>万</span>
                         </div>
