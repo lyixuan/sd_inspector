@@ -27,6 +27,7 @@ class Quality extends React.Component {
   };
 
   clickEvent = item => {
+    handleDataTrace({ widgetName: '质检_点击进入质检申诉管理', traceName: '2.3/质检_点击进入质检申诉管理' });
     const userInfo = localStorage.getItem('admin_user');
     if (
       (userInfo && JSON.parse(userInfo).userType === 'boss') ||
